@@ -1,0 +1,32 @@
+body {
+  font-size: 16px;
+}
+
+h1, h2, h3 {
+  margin-top: 30px;
+}
+
+.title {
+  margin-top: 40px;
+  letter-spacing: -1px;
+}
+
+.btn {
+  margin-bottom: 3px;
+}
+
+.container {
+  width: auto;
+  max-width: 980px;
+  margin-bottom: 40px;
+}
+
+table {
+  width: 100%;
+}
+
+table th,
+table td {
+  padding: 4px 10px 4px 0px;
+  width: 33.33%;
+}
