@@ -30,3 +30,31 @@ table td {
   padding: 4px 10px 4px 0px;
   width: 33.33%;
 }
+
+.flash.asm {
+  margin-bottom: 10px;
+}
+
+.placeholder {
+  margin-bottom: 10px;
+}
+
+.demo-features {
+  display: block;
+  width: 100%;
+  min-height: .01%;
+  overflow-x: auto;
+}
+
+.demo-features .yes {
+  color: green;
+  font-weight: bold;
+}
+
+.demo-features th {
+  font-weight: normal;
+}
+
+.demo-features .no {
+  color: red;
+}
