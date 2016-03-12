@@ -25,7 +25,7 @@
     <div class="columns">
       <div class="three-fourths column centered">
         <h2>Demo</h2>
-        <div class="asm flash flash-error">
+        <div class="asm flash flash-error" id="wasm-fail" style="visibility:hidden">
           <p>WebAssembly isn't enabled on your browser! It's still experimental, but if you're brave and want to try out this demo:
             <ul>
               <li>On Chrome use <a href="chrome://flags/#enable-webassembly">chrome://flags/#enable-webassembly</a>.</li>
@@ -63,5 +63,8 @@
     </div>
   </div>
 </body>
-
+<script>
+  document.getElementById('wasm-fail').setAttribute('style',
+    'visibility:' + (typeof Wasm !== 'object' ? 'visible' : 'hidden'));
+</script>
 </html>
