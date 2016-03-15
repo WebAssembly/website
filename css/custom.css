@@ -37,6 +37,7 @@ table td, table th {
 
 table tbody th {
   text-align: left;
+  font-weight: normal;
   width: 33%;
 }
 
@@ -55,4 +56,8 @@ table tbody th {
 
 img {
   max-width: 100%;
+}
+
+img.hero {
+  margin-bottom: 20px;
 }
