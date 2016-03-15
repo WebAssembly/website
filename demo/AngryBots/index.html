@@ -86,10 +86,11 @@ window.addEventListener('resize', softFullscreenResizeWebGLRenderTarget);
 </script>
 
 <script type='text/javascript'>
+  var canvas = document.getElementById("canvas");
   var Module = {
     TOTAL_MEMORY: 268435456,
     errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
-    compatibilitycheck: null,
+    canvas: canvas,
     dataUrl: "Release/AngryBots.data",
     codeUrl: "Release/AngryBots.js",
     memUrl: "Release/AngryBots.mem",
@@ -97,6 +98,7 @@ window.addEventListener('resize', softFullscreenResizeWebGLRenderTarget);
       if (typeof Wasm !== 'object') (alert("You need a browser which supports WebAssembly to run this content. See the WebAssembly demo page for instructions."), window.history.back());
       hasWebGL ? mobile ? confirm("Please note that Unity WebGL is not currently supported on mobiles. Press Ok if you wish to continue anyway.") || window.history.back() : -1 == browser.indexOf("Firefox") && -1 == browser.indexOf("Chrome") && -1 == browser.indexOf("Safari") && (confirm("Please note that your browser is not currently supported for this Unity WebGL content. Try installing Firefox, or press Ok if you wish to continue anyway.") || window.history.back()) : (alert("You need a browser which supports WebGL to run this content. Try installing Firefox."), window.history.back())
     },
+    progress: (new UnityProgress(canvas)),
   };
 
   var xhr = new XMLHttpRequest();
