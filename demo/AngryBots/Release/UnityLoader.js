@@ -128,7 +128,7 @@ var didShowErrorMessage = !1;
     }
 }(), Module.printErr = function(e) {
     console.error(e)
-}, Module.canvas = document.getElementById("canvas"), Module.progress = null, Module.setStatus = function(e) {
+}, Module.setStatus = function(e) {
     if (null == this.progress) {
         if ("function" != typeof UnityProgress) return;
         this.progress = new UnityProgress(canvas)
