@@ -90,13 +90,13 @@ window.addEventListener('resize', softFullscreenResizeWebGLRenderTarget);
     TOTAL_MEMORY: 268435456,
     errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
     compatibilitycheck: null,
-    dataUrl: "Release/release_binaryen.data",
-    codeUrl: "Release/release_binaryen.js",
-    memUrl: "Release/release_binaryen.mem",
+    dataUrl: "Release/AngryBots.data",
+    codeUrl: "Release/AngryBots.js",
+    memUrl: "Release/AngryBots.mem",
   };
 
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'release_binaryen.wasm', true);
+  xhr.open('GET', 'AngryBots.wasm', true);
   xhr.responseType = 'arraybuffer';
   xhr.onload = function() {
     Module.wasmBinary = xhr.response;

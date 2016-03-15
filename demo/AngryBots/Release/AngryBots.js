@@ -1,5 +1,5 @@
 function integrateWasmJS(Module) {
- var wasmCodeFile = Module["wasmCodeFile"] || "release_binaryen.wasm";
+ var wasmCodeFile = Module["wasmCodeFile"] || "AngryBots.wasm";
  var asm2wasmImports = {
   "f64-rem": (function(x, y) {
    return x % y;
@@ -1578,7 +1578,7 @@ __ATINIT__.push({
   __GLOBAL__sub_I_Error_cpp();
  })
 });
-memoryInitializer = "release_binaryen.js.mem";
+memoryInitializer = "AngryBots.js.mem";
 var STATIC_BUMP = 1498976;
 var tempDoublePtr = STATICTOP;
 STATICTOP += 16;
