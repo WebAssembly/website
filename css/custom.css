@@ -45,6 +45,14 @@ table tbody th {
   margin-left: 30px;
 }
 
+.flash-hide {
+  display: none;
+}
+
+.noclick {
+  pointer-events: none;
+}
+
 .yes {
   color: green;
   font-weight: bold;

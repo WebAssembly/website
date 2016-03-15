@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
   <link href="../css/primer.css" rel="stylesheet">
   <link href="../css/custom.css" rel="stylesheet">
-  <title>WebAssembly</title>
 </head>
 
 <body>
@@ -25,7 +25,7 @@
     <div class="columns">
       <div class="three-fourths column centered">
         <h2>Angry Bots Demo</h2>
-        <div class="flash flash-error flash-messages" id="wasm-fail" style="visibility:hidden">
+        <div class="flash flash-error flash-messages flash-hide" id="wasm-fail">
           Uh-oh! WebAssembly isn't enabled in this browser. To get an early preview of this experimental technology, at your own risk:
           <ul>
             <li>on <a href="https://www.google.com/chrome/browser/canary.html">Chrome Canary</a>, open <code>chrome://flags/#enable-webassembly</code> and enable the switch.</li>
@@ -34,9 +34,9 @@
           See a <a href="http://blogs.windows.com/msedgedev/2016/03/15/previewing-webassembly-experiments">preview</a> of <a href="https://www.microsoft.com/en-us/windows/microsoft-edge">Microsoft Edge</a> support and follow <a href="http://www.apple.com/safari/">Safari</a> support on WebKit's <a href="https://webkit.org/status/#specification-webassembly">feature status</a> page.
         </div>
 
-        <a href="AngryBots/"><img class="hero" src="screenshot.jpg"></a>
+        <a id="pic-link" href="AngryBots/"><img class="hero" src="screenshot.jpg"></a>
         <div class="buttons">
-          <a class="btn btn-primary" href="AngryBots/" role="button">Play WebAssembly</a>
+          <a class="btn btn-primary" id="play-wasm" href="AngryBots/" role="button">Play WebAssembly</a>
           <a class="btn" href="http://beta.unity3d.com/jonas/AngryBots/" role="button">Play asm.js fallback</a>
         </div>
         <p>This is an experimental demo of Angry Bots, a Unity game which has been ported to WebAssembly. Fight robots and explore a 3D space station with realistic environmental effects in this top-down shooter. Movement is controlled by W, A, S, D or the arrow keys and aiming &amp; firing is controlled by the mouse.</p>
@@ -78,9 +78,21 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript" >
+    (function() {
+      var support = (typeof Wasm === 'object');
+      if (!support) {
+        var flash = document.getElementById('wasm-fail');
+        flash.className = flash.className.replace( /(?:^|\s)flash-hide(?!\S)/ , '' );
+        var button = document.getElementById('play-wasm');
+        button.className += ' disabled';
+        button.href = 'javascript:;';
+        var link = document.getElementById('pic-link');
+        link.className += ' noclick';
+        link.href = 'javascript:;';
+      }
+    })();
+  </script>
 </body>
-<script>
-  document.getElementById('wasm-fail').setAttribute('style',
-    'visibility:' + (typeof Wasm !== 'object' ? 'visible' : 'hidden'));
-</script>
+
 </html>
