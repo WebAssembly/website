@@ -32,11 +32,11 @@ table td {
 }
 
 .flash.asm {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-.placeholder {
-  margin-bottom: 10px;
+.flash ul {
+  margin-left: 30px;
 }
 
 .demo-features {
@@ -57,4 +57,8 @@ table td {
 
 .demo-features .no {
   color: red;
+}
+
+img {
+  max-width: 100%;
 }
