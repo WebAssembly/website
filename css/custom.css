@@ -23,39 +23,33 @@ h1, h2, h3 {
 
 table {
   width: 100%;
+  display: block;
+  min-height: .01%;
+  overflow-x: auto;
 }
 
-table th,
-table td {
-  padding: 4px 10px 4px 0px;
-  width: 33.33%;
+table td, table th {
+  padding: 5px;
+  line-height: 1.5;
+  vertical-align: top;
+  border-top: 1px solid #eceeef;
 }
 
-.flash.asm {
-  margin-bottom: 15px;
+table tbody th {
+  text-align: left;
+  width: 33%;
 }
 
 .flash ul {
   margin-left: 30px;
 }
 
-.demo-features {
-  display: block;
-  width: 100%;
-  min-height: .01%;
-  overflow-x: auto;
-}
-
-.demo-features .yes {
+.yes {
   color: green;
   font-weight: bold;
 }
 
-.demo-features th {
-  font-weight: normal;
-}
-
-.demo-features .no {
+.no {
   color: red;
 }
 

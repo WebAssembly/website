@@ -25,34 +25,52 @@
     <div class="columns">
       <div class="three-fourths column centered">
         <h2>AngryBots Tech Demo</h2>
-        <div class="asm flash flash-error" id="wasm-fail" style="visibility:hidden">
+        <div class="flash flash-error flash-messages" id="wasm-fail" style="visibility:hidden">
           Uh-oh! WebAssembly isn't enabled in this browser. To get an early preview of this experimental technology, at your own risk:
           <ul>
-            <li>On <a target="_blank" href="https://www.google.com/chrome/browser/canary.html">Chrome Canary</a> open <code>chrome://flags/#enable-webassembly</code> and enable the switch.</li>
-            <li>On <a target="_blank" href="https://nightly.mozilla.org/">Firefox Nightly</a>, open <code>about:config</code> and set <code>javascript.options.wasm</code> to <code>true</code>.</li>
+            <li>on <a href="https://www.google.com/chrome/browser/canary.html">Chrome Canary</a>, open <code>chrome://flags/#enable-webassembly</code> and enable the switch.</li>
+            <li>on <a href="https://nightly.mozilla.org/">Firefox Nightly</a>, open <code>about:config</code> and set <code>javascript.options.wasm</code> to <code>true</code>.</li>
           </ul>
-          See a <a target="_blank" href="http://blogs.windows.com/msedgedev/2016/03/15/previewing-webassembly-experiments">preview</a> of <a target="_blank" href="https://www.microsoft.com/en-us/windows/microsoft-edge">Microsoft Edge</a> support and follow <a target="_blank" href="http://www.apple.com/safari/">Safari</a> support on WebKit's <a target="_blank" href="https://webkit.org/status/#specification-webassembly">feature status</a> page.
+          See a <a href="http://blogs.windows.com/msedgedev/2016/03/15/previewing-webassembly-experiments">preview</a> of <a href="https://www.microsoft.com/en-us/windows/microsoft-edge">Microsoft Edge</a> support and follow <a href="http://www.apple.com/safari/">Safari</a> support on WebKit's <a href="https://webkit.org/status/#specification-webassembly">feature status</a> page.
         </div>
         <a href="AngryBots/"><img src="screenshot.jpg"></a>
+        <div class="buttons">
+          <a class="btn btn-primary" href="AngryBots/" role="button">Play (WebAssembly)</a>
+          <a class="btn" href="http://beta.unity3d.com/jonas/AngryBots/" role="button">Play (asm.js fallback)</a>
+        </div>
         <table class="demo-features">
-          <tr>
-            <th>x-Browser Compatibility</th>
-            <th>Demo Execution</th>
-            <th>Stable Binary Format</th>
-            <th>Textual Encoding</th>
-            <th>Stable Tooling</th>
-            <th>Stable JS&nbsp;API</th>
-            <th>Multi-threading</th>
-          </tr>
-          <tr>
-            <td class="text-center"><span class="tooltipped tooltipped-e yes" aria-label="Runs in experimental builds of Chromium, Firefox, and Edge.">✓</span></td>
-            <td class="text-center"><span class="tooltipped tooltipped-n yes" aria-label="Full execution semantics implemented.">✓</span></td>
-            <td class="text-center"><span class="tooltipped tooltipped-n no" aria-label="Binary format will change until MVP is shipped, at which point encoding will be frozen.">✘</span></td>
-            <td class="text-center"><span class="tooltipped tooltipped-n no" aria-label="Textual encoding will be standardized before MVP is shipped.">✘</span></td>
-            <td class="text-center"><span class="tooltipped tooltipped-w no" aria-label="Tooling will be released for a developer preview before MVP is shipped.">✘</span></td>
-            <td class="text-center"><span class="tooltipped tooltipped-w no" aria-label="The JS API will be changed to allow additional behavior before MVP is shipped.">✘</span></td>
-            <td class="text-center"><span class="tooltipped tooltipped-w no" aria-label="Multi-threading will come soon after the MVP.">✘</span></td>
-          </tr>
+          <tbody>
+            <tr>
+              <th>Early cross-browser support</th>
+              <td class="yes">✓</th>
+              <td>Runs in experimental builds of Chromium, Firefox, and Edge.</th>
+            </tr>
+            <tr>
+              <th>Demo execution</th>
+              <td class="yes">✓</td>
+              <td>Full execution semantics implemented.</td>
+            </tr>
+            <tr>
+              <th>Stable binary format</th>
+              <td class="no">✘</td>
+              <td>Binary format will be updated to match design iterations, until it is frozen for stable release.</td>
+            </tr>
+            <tr>
+              <th>Standard textual encoding</th>
+              <td class="no">✘</td>
+              <td>Textual encoding will be standardized before stable release.</td>
+            </tr>
+            <tr>
+              <th>Stable tooling</th>
+              <td class="no">✘</td>
+              <td>A mature toolchain for compiling and debugging WebAssembly will be available before stable release.</td>
+            </tr>
+            <tr>
+              <th>Stable JS API</th>
+              <td class="no">✘</td>
+              <td>The Wasm object will be updated to allow additional behavior and introspection before stable release</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
