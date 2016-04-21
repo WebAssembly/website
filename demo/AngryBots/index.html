@@ -102,8 +102,9 @@ window.addEventListener('resize', softFullscreenResizeWebGLRenderTarget);
   };
 
   var version = "";
-  if (Wasm && Wasm.experimentalVersion)
+  if (Wasm && Wasm.experimentalVersion) {
     version = String(Wasm.experimentalVersion);
+  }
 
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'AngryBots' + version + '.wasm', true);
