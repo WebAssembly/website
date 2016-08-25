@@ -75,14 +75,16 @@ $ PATH=`pwd`/cmake-3.6.0-Darwin-x86_64/CMake.app/Contents/bin:$PATH
           There is one change we need to make, however: when calling cmake, we need to add
           the following flag: <code>-DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly</code>
         </p>
+        <p>
+          (Also, while the getting started page uses the LLVM svn repositories,
+          here we will use the <a href="https://github.com/llvm-mirror">GitHub LLVM mirror</a>.)
+        </p>
         <pre>
-$ svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm
+$ git clone https://github.com/llvm-mirror/llvm.git llvm
 $ cd llvm/tools
-$ svn co http://llvm.org/svn/llvm-project/cfe/trunk clang
-$ cd clang/tools
-$ svn co http://llvm.org/svn/llvm-project/clang-tools-extra/trunk extra
-$ cd ../../../projects
-$ svn co http://llvm.org/svn/llvm-project/compiler-rt/trunk compiler-rt
+$ git clone https://github.com/llvm-mirror/clang.git clang
+$ cd ../projects
+$ git clone https://github.com/llvm-mirror/compiler-rt.git compiler-rt
 $ cd ../..
 $ mkdir llvm-build
 $ cd llvm-build
