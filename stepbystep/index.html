@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link href="../css/primer.css" rel="stylesheet">
+  <link href="../css/custom.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container">
+    <div class="columns">
+      <div class="two-thirds column centered">
+        <section class="header text-center">
+          <h1 class="title">WebAssembly</h1>
+          <a class="btn btn-outline" href="../">Overview</a>
+          <a class="btn btn-outline" href="../demo/">Demo</a>
+          <a class="btn btn-outline" href="https://github.com/WebAssembly/design">Design</a>
+          <a class="btn btn-outline" href="https://github.com/WebAssembly/spec">Specification</a>
+          <a class="btn btn-outline" href="https://www.w3.org/community/webassembly/">Community Group</a>
+          <a class="btn btn-outline" href="./">Step by Step</a>
+        </section>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="three-fourths column centered">
+        <h2>Step by Step Setup</h2>
+        <p>
+          This page aims to provide complete, working step-by-step instructions
+          to compile a simple program directly to WebAssembly.
+        </p>
+        <p>
+          The instructions on this page are applicable to Linux and Mac OS X
+          systems. Similar instructions for Windows systems are forthcoming.
+        </p>
+        <h3>Install the correct version of cmake</h3>
+        <p>
+          To compile the rest of the tools, cmake is required. Specifically,
+          LLVM requires cmake 3.4.3 or higher. If you already have cmake 3.4.3
+          or higher, or are able to install or upgrade cmake through your
+          package manager, you can skip this section.
+        </p>
+        <p>
+          The latest version of cmake comes precompiled and can be downloaded
+          with the following commands on Linux:
+        </p>
+        <pre>
+$ curl https://cmake.org/files/v3.6/cmake-3.6.0-Linux-x86_64.tar.gz \
+       -o cmake-3.6.0-Linux-x86_64.tar.gz
+$ gunzip cmake-3.6.0-Linux-x86_64.tar.gz
+$ tar -xf cmake-3.6.0-Linux-x86_64.tar
+$ PATH=`pwd`/cmake-3.6.0-Linux-x86_64/bin:$PATH
+        </pre>
+        <p>
+          Or the following commands on Mac OS X:
+        </p>
+        <pre>
+$ curl https://cmake.org/files/v3.6/cmake-3.6.0-Darwin-x86_64.tar.gz \
+       -o cmake-3.6.0-Darwin-x86_64.tar.gz
+$ gunzip cmake-3.6.0-Darwin-x86_64.tar.gz
+$ tar -xf cmake-3.6.0-Darwin-x86_64.tar
+$ PATH=`pwd`/cmake-3.6.0-Darwin-x86_64/CMake.app/Contents/bin:$PATH
+        </pre>
+        <h3>Install the correct version of LLVM</h3>
+        <p>
+          To compile to WebAssembly, emscripten requires a "vanilla" build of LLVM
+          with WebAssembly support, which is only available through a build flag.
+          LLVM also needs to be integrated with clang, which is easiest to do at
+          compile time.
+        </p>
+        <p>
+          The <a href="http://clang.llvm.org/get_started.html">clang getting started page</a>
+          provides an excellent step-by-step guide to checking out and compiling LLVM with clang.
+          There is one change we need to make, however: when calling cmake, we need to add
+          the following flag: <code>-DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly</code>
+        </p>
+        <p>
+          (Also, while the getting started page uses the LLVM svn repositories,
+          here we will use the <a href="https://github.com/llvm-mirror">GitHub LLVM mirror</a>.)
+        </p>
+        <pre>
+$ git clone https://github.com/llvm-mirror/llvm.git llvm
+$ cd llvm/tools
+$ git clone https://github.com/llvm-mirror/clang.git clang
+$ cd ../projects
+$ git clone https://github.com/llvm-mirror/compiler-rt.git compiler-rt
+$ cd ../..
+$ mkdir llvm-build
+$ cd llvm-build
+$ cmake -G "Unix Makefiles" -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly ../llvm
+$ make
+$ cd ..
+        </pre>
+        <h3>Install the correct version of emscripten</h3>
+        <p>
+          To compile to WebAssembly, we need the incoming branch of emscripten. We can install this through the
+          <a href="https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">emscripten SDK</a>;
+          however, we need to switch the branch the SDK downloads and installs from. We also need to change
+          emscripten's configuration to use the version of LLVM we compiled in the previous section.
+        </p>
+        <pre>
+$ curl https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz \
+       -o emsdk-portable.tar.gz
+$ gunzip emsdk-portable.tar.gz
+$ tar -xf emsdk-portable.tar
+$ cd emsdk_portable
+$ ./emsdk update
+$ ./emsdk install clang-incoming-64bit emscripten-incoming-64bit sdk-incoming-64bit
+$ ./emsdk activate clang-incoming-64bit emscripten-incoming-64bit sdk-incoming-64bit
+$ source ./emsdk_env.sh
+$ cd ..
+$ echo "LLVM_ROOT='`pwd`/llvm-build/bin'" >> ~/.emscripten
+        </pre>
+        <h3>Compile and run a simple program</h3>
+        <p>
+          We now have a full toolchain we can use to compile a simple program to WebAssembly.
+          There are a few remaining caveats, however:
+        </p>
+        <ul>
+          <li>
+            We have to set the environment variable <code>EMCC_WASM_BACKEND=1</code>.
+          </li>
+          <li>
+            We have to pass the flag <code>-s BINARYEN=1</code> to <code>emcc</code>.
+          </li>
+          <li>
+            If we want emscripten to generate an HTML page that runs our program,
+            in addition to the wasm binary and JavaScript wrapper, we have to specify
+            an output filename with a <code>.html</code> extension.
+          </li>
+          <li>
+            Finally, to actually run the program, we cannot simply open the HTML file
+            in a web browser because cross-origin requests are not supported for the
+            <code>file</code> protocol scheme. We have to actually serve the output
+            files over HTTP.
+          </li>
+        </ul>
+        <p>
+          The commands below will create a simple "hello world" program and compile it.
+          The compilation step is highlighted in bold.
+        </p>
+        <pre>
+$ mkdir hello
+$ cd hello
+$ echo '#include &lt;stdio.h&gt;' &gt; hello.c
+$ echo 'int main(int argc, char ** argv) {' &gt;&gt; hello.c
+$ echo 'printf("Hello, world!\n");' &gt;&gt; hello.c
+$ echo '}' &gt;&gt; hello.c
+$ <b>EMCC_WASM_BACKEND=1 emcc hello.c -s BINARYEN=1 -o hello.html</b>
+        </pre>
+        <p>
+          To serve the compiled files over HTTP, we can use the HTTP server built in to Python:
+        </p>
+        <pre>
+$ python -m SimpleHTTPServer 8080 &gt; /dev/null 2&gt;&amp;1 &amp;
+        </pre>
+        <p>
+          Once the HTTP server is running, you can
+          <a href="http://localhost:8080/hello.html" target="_blank">open it in your browser</a>.
+          If you see "Hello, world!" printed to the emscripten console, then
+          congratulations! You've successfully compiled to WebAssembly!
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
