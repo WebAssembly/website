@@ -34,70 +34,11 @@
           The instructions on this page are applicable to Linux and Mac OS X
           systems. Similar instructions for Windows systems are forthcoming.
         </p>
-        <h3>Install the correct version of cmake</h3>
-        <p>
-          To compile the rest of the tools, cmake is required. Specifically,
-          LLVM requires cmake 3.4.3 or higher. If you already have cmake 3.4.3
-          or higher, or are able to install or upgrade cmake through your
-          package manager, you can skip this section.
-        </p>
-        <p>
-          The latest version of cmake comes precompiled and can be downloaded
-          with the following commands on Linux:
-        </p>
-        <pre>
-$ curl https://cmake.org/files/v3.6/cmake-3.6.0-Linux-x86_64.tar.gz \
-       -o cmake-3.6.0-Linux-x86_64.tar.gz
-$ gunzip cmake-3.6.0-Linux-x86_64.tar.gz
-$ tar -xf cmake-3.6.0-Linux-x86_64.tar
-$ PATH=`pwd`/cmake-3.6.0-Linux-x86_64/bin:$PATH
-        </pre>
-        <p>
-          Or the following commands on Mac OS X:
-        </p>
-        <pre>
-$ curl https://cmake.org/files/v3.6/cmake-3.6.0-Darwin-x86_64.tar.gz \
-       -o cmake-3.6.0-Darwin-x86_64.tar.gz
-$ gunzip cmake-3.6.0-Darwin-x86_64.tar.gz
-$ tar -xf cmake-3.6.0-Darwin-x86_64.tar
-$ PATH=`pwd`/cmake-3.6.0-Darwin-x86_64/CMake.app/Contents/bin:$PATH
-        </pre>
-        <h3>Install the correct version of LLVM</h3>
-        <p>
-          To compile to WebAssembly, emscripten requires a "vanilla" build of LLVM
-          with WebAssembly support, which is only available through a build flag.
-          LLVM also needs to be integrated with clang, which is easiest to do at
-          compile time.
-        </p>
-        <p>
-          The <a href="http://clang.llvm.org/get_started.html">clang getting started page</a>
-          provides an excellent step-by-step guide to checking out and compiling LLVM with clang.
-          There is one change we need to make, however: when calling cmake, we need to add
-          the following flag: <code>-DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly</code>
-        </p>
-        <p>
-          (Also, while the getting started page uses the LLVM svn repositories,
-          here we will use the <a href="https://github.com/llvm-mirror">GitHub LLVM mirror</a>.)
-        </p>
-        <pre>
-$ git clone https://github.com/llvm-mirror/llvm.git llvm
-$ cd llvm/tools
-$ git clone https://github.com/llvm-mirror/clang.git clang
-$ cd ../projects
-$ git clone https://github.com/llvm-mirror/compiler-rt.git compiler-rt
-$ cd ../..
-$ mkdir llvm-build
-$ cd llvm-build
-$ cmake -G "Unix Makefiles" -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD=WebAssembly ../llvm
-$ make
-$ cd ..
-        </pre>
         <h3>Install the correct version of emscripten</h3>
         <p>
           To compile to WebAssembly, we need the incoming branch of emscripten. We can install this through the
           <a href="https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html">emscripten SDK</a>;
-          however, we need to switch the branch the SDK downloads and installs from. We also need to change
-          emscripten's configuration to use the version of LLVM we compiled in the previous section.
+          however, we need to switch the branch the SDK downloads and installs from.
         </p>
         <pre>
 $ curl https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz \
@@ -110,7 +51,6 @@ $ ./emsdk install clang-incoming-64bit emscripten-incoming-64bit sdk-incoming-64
 $ ./emsdk activate clang-incoming-64bit emscripten-incoming-64bit sdk-incoming-64bit
 $ source ./emsdk_env.sh
 $ cd ..
-$ echo "LLVM_ROOT='`pwd`/llvm-build/bin'" >> ~/.emscripten
         </pre>
         <h3>Compile and run a simple program</h3>
         <p>
@@ -119,10 +59,8 @@ $ echo "LLVM_ROOT='`pwd`/llvm-build/bin'" >> ~/.emscripten
         </p>
         <ul>
           <li>
-            We have to set the environment variable <code>EMCC_WASM_BACKEND=1</code>.
-          </li>
-          <li>
-            We have to pass the flag <code>-s BINARYEN=1</code> to <code>emcc</code>.
+            We have to pass the flag <code>-s BINARYEN=1</code> to <code>emcc</code>
+            (otherwise by default <code>emcc</code> will emit asm.js).
           </li>
           <li>
             If we want emscripten to generate an HTML page that runs our program,
@@ -147,7 +85,7 @@ $ echo '#include &lt;stdio.h&gt;' &gt; hello.c
 $ echo 'int main(int argc, char ** argv) {' &gt;&gt; hello.c
 $ echo 'printf("Hello, world!\n");' &gt;&gt; hello.c
 $ echo '}' &gt;&gt; hello.c
-$ <b>EMCC_WASM_BACKEND=1 emcc hello.c -s BINARYEN=1 -o hello.html</b>
+$ <b>emcc hello.c -s BINARYEN=1 -o hello.html</b>
         </pre>
         <p>
           To serve the compiled files over HTTP, we can use the HTTP server built in to Python:
