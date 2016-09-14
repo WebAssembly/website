@@ -97,7 +97,7 @@ function integrateWasmJS(Module) {
   };
   info["global.Math"] = global.Math;
   info["env"] = env;
-  if (Wasm.experimentalVersion < 0xc) {
+  if (Wasm.experimentalVersion < 0xc || typeof WebAssembly == "undefined") {
     var instance;
     instance = Wasm.instantiateModule(binary, info).exports;
     mergeMemory(instance.memory);
