@@ -97,16 +97,11 @@ function integrateWasmJS(Module) {
   };
   info["global.Math"] = global.Math;
   info["env"] = env;
-  if (Wasm.experimentalVersion < 0xc || typeof WebAssembly == "undefined") {
-    var exports = Wasm.instantiateModule(binary, info).exports;
-    mergeMemory(exports.memory);
-    applyMappedGlobals();
-    return exports;
-  }
-  var exports = new WebAssembly.Instance(new WebAssembly.Module(binary), info).exports;
-  mergeMemory(exports.memory.buffer);
+  var instance;
+  instance = Wasm.instantiateModule(binary, info).exports;
+  mergeMemory(instance.memory);
   applyMappedGlobals();
-  return exports;
+  return instance;
  });
 }
 Module["preRun"].push((function() {
