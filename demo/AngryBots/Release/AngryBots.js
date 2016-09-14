@@ -98,14 +98,12 @@ function integrateWasmJS(Module) {
   info["global.Math"] = global.Math;
   info["env"] = env;
   if (Wasm.experimentalVersion < 0xc || typeof WebAssembly == "undefined") {
-    var instance;
-    instance = Wasm.instantiateModule(binary, info).exports;
-    mergeMemory(instance.memory);
+    var exports = Wasm.instantiateModule(binary, info).exports;
+    mergeMemory(exports.memory);
     applyMappedGlobals();
-    return instance;
+    return exports;
   }
-  var exports;
-  exports = new WebAssembly.Instance(new WebAssembly.Module(binary), info).exports;
+  var exports = new WebAssembly.Instance(new WebAssembly.Module(binary), info).exports;
   mergeMemory(exports.memory.buffer);
   applyMappedGlobals();
   return exports;
