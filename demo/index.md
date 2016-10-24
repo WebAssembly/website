@@ -31,7 +31,7 @@ This is an experimental demo of Angry Bots, a Unity game which has been ported t
 
 <script type="text/javascript" >
 (function() {
-  var support = (typeof Wasm === 'object');
+  var support = (typeof Wasm === 'object') || (typeof WebAssembly === 'object');
   if (!support) {
     var flash = document.getElementById('wasm-fail');
     flash.className = flash.className.replace(/(?:^|\s)flash-hide(?!\S)/, '');
