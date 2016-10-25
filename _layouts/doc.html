@@ -1,0 +1,16 @@
+{% include header.html %}
+<div class="columns main">
+  <div class="one-fourth column">
+    <nav class="menu">
+      {% for page in site.pages %}
+        {% if page.type == "doc" %}
+        <a class="menu-item" href="{{ page.url }}">{{ page.title }}</a>
+        {% endif %}
+      {% endfor %}
+    </nav>
+  </div>
+  <div class="three-fourths column">
+    {{content}}
+  </div>
+</div>
+{% include footer.html %}

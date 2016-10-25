@@ -19,4 +19,5 @@ defaults:
     scope:
       path: "docs"
     values:
-      layout: "default"
+      layout: "doc"
+      type: "doc"

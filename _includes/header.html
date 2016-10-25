@@ -11,13 +11,14 @@
 <body>
   <div class="container">
     <div class="columns">
-      <div class="two-thirds column centered">
+      <div class="three-fourths column centered">
         <section class="header text-center">
           <h1 class="title">WebAssembly</h1>
           <a class="btn btn-outline" href="/">Overview</a>
           <a class="btn btn-outline" href="/demo/">Demo</a>
           <a class="btn btn-outline" href="/getting-started/">Getting Started</a>
-          <a class="btn btn-outline" href="/docs/">Docs</a>
+          {% assign first_doc = site.pages | where:"type","doc" | first %}
+          <a class="btn btn-outline" href="{{ first_doc.url }}">Docs</a>
           <a class="btn btn-outline" href="/community/">Community</a>
           <a class="btn btn-outline" href="/roadmap/">Roadmap</a>
           <a class="btn btn-outline" href="/docs/faq/">FAQ</a>
@@ -25,5 +26,3 @@
         </section>
       </div>
     </div>
-    <div class="columns">
-      <div class="three-fourths column centered">
