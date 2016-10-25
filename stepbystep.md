@@ -1,5 +1,7 @@
 ---
 layout: default
+title: Step by Step
+nav: true
 ---
 ## Step by Step Setup
 This page aims to provide complete, working step-by-step instructions to compile a simple program directly to WebAssembly.

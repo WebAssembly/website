@@ -1,0 +1,22 @@
+name: WebAssembly
+
+exclude: [
+  README.md,
+  LICENSE,
+  google66d80fe1bc71482a.html,
+  Gemfile,
+  Gemfile.lock,
+  CNAME,
+  docs/LICENSE,
+  docs/README.md,
+  docs/tools
+]
+
+permalink: pretty
+
+defaults:
+  -
+    scope:
+      path: "docs"
+    values:
+      layout: "default"

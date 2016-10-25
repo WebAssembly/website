@@ -1,6 +1,7 @@
 ---
 layout: default
 markdown: kramdown
+permalink: demo/
 ---
 ## Angry Bots Demo
 <div markdown="1" id="wasm-fail" class="flash flash-error flash-messages flash-hide">
