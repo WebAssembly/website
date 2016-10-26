@@ -82,6 +82,12 @@ function LoadCompressedJS(e, t) {
     })
 }
 
+function LoadUncompressedJS(e, t) {
+    var script = document.createElement('script');
+    script.src = e;
+    document.body.append(script);
+}
+
 function fetchRemotePackageWrapper(e, t, n, o) {
     LoadCompressedFile(e, n, function(n) {
         var o = e,
@@ -158,6 +164,29 @@ var CompressionState = {
         }
     }
 };
+
+// For simplicity, .wasm files are not currently compressed but in a production
+// build, they would be (and use LoadCompressedFile).
+(function() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', Module.wasmUrl, true);
+    xhr.responseType = 'arraybuffer';
+    xhr.onload = function() {
+        if (typeof Wasm == 'undefined' && WebAssembly.compile) {
+            WebAssembly.compile(xhr.response).then(function(module) {
+                Module.wasmModule = module;
+                LoadUncompressedJS(Module.wasmWrapperUrl);
+            });
+        } else {
+            // Temporarily support older experimental browsers versions without the full
+            // WebAssembly JS API by saving the bytes for later synchronous compilation.
+            Module.wasmBinary = xhr.response;
+            LoadUncompressedJS(Module.wasmWrapperUrl);
+        }
+    };
+    xhr.send(null);
+})();
+
 Module.memoryInitializerRequest = {
     response: null,
     callback: null,
@@ -165,18 +194,19 @@ Module.memoryInitializerRequest = {
         if ("load" != e) throw "Unexpected type " + e;
         this.callback = t
     }
-}, LoadCompressedJS(Module.codeUrl),
+};
 LoadCompressedFile(Module.memUrl, function(e) {
     Module.memoryInitializerRequest.response = e, Module.memoryInitializerRequest.status = 200, Module.memoryInitializerRequest.callback && Module.memoryInitializerRequest.callback()
-}),
-function(e) {
+});
+
+(function(e) {
     if ("object" == typeof exports && "undefined" != typeof module) module.exports = e();
     else if ("function" == typeof define && define.amd) define([], e);
     else {
         var t;
         t = "undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : this, t.pako = e()
     }
-}(function() {
+})(function() {
     return function e(t, n, o) {
         function i(r, s) {
             if (!n[r]) {
