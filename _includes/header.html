@@ -4,25 +4,41 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>WebAssembly</title>
-  <link href="/css/primer.css" rel="stylesheet">
-  <link href="/css/custom.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/custom2.css">
 </head>
 
+
 <body>
-  <div class="container">
-    <div class="columns">
-      <div class="three-fourths column centered">
-        <section class="header text-center">
-          <h1 class="title">WebAssembly</h1>
-          <a class="btn btn-outline" href="/">Overview</a>
-          <a class="btn btn-outline" href="/demo/">Demo</a>
-          <a class="btn btn-outline" href="/getting-started/">Getting Started</a>
-          {% assign first_doc = site.pages | where:"type","doc" | first %}
-          <a class="btn btn-outline" href="{{ first_doc.url }}">Docs</a>
-          <a class="btn btn-outline" href="/community/">Community</a>
-          <a class="btn btn-outline" href="/roadmap/">Roadmap</a>
-          <a class="btn btn-outline" href="/docs/faq/">FAQ</a>
-          {% if page.lead %}<p class="lead">{{page.lead}}</p>{% endif %}
-        </section>
-      </div>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
     </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/">Getting Started</a>
+      {% assign first_doc = site.pages | where:"type","doc" | first %}
+      <a class="site-nav-item btn" href="{{ first_doc.url }}">Docs</a>
+      <a class="site-nav-item btn" href="/community/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  {% if page.lead %}
+    <section class="pull">
+      <div class="container-narrow">
+        <p class="lead">{{page.lead}}</p>
+      </div>
+    </section>
+  {% endif %}
+  <section>
+    <div class="container-narrow">  
