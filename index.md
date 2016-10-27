@@ -2,7 +2,7 @@
 layout: default
 lead: WebAssembly or <i>wasm</i> is a new portable, size- and load-time-efficient format suitable for compilation to the web.
 ---
-<div class="flash flash-warn flash-messages">
+<div class="flash flash-warn">
   WebAssembly is currently being designed as an open standard by a <a href="https://www.w3.org/community/webassembly/">W3C Community Group</a> that includes representatives from all major browsers. Expect the contents of this website and its associated design repositories to be in flux: everything is still under discussion and subject to change.
 </div>
 <h2>Overview</h2>

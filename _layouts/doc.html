@@ -1,16 +1,21 @@
 {% include header.html %}
-<div class="columns main">
-  <div class="one-fourth column">
-    <nav class="menu">
-      {% for page in site.pages %}
-        {% if page.type == "doc" %}
-        <a class="menu-item" href="{{ page.url }}">{{ page.title }}</a>
-        {% endif %}
-      {% endfor %}
-    </nav>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        {{content}}
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        {% for page in site.pages %}
+          {% if page.type == "doc" %}
+          <a class="side-nav-item" href="{{ page.url }}">{{ page.title }}</a>
+          {% endif %}
+        {% endfor %}
+        </nav>
+      </div>
+    </div>
   </div>
-  <div class="three-fourths column">
-    {{content}}
-  </div>
-</div>
+</section>
 {% include footer.html %}
