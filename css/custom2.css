@@ -1510,6 +1510,10 @@ header {
     border: none;
 }
 
+.noclick {
+  pointer-events: none;
+}
+
 .side-nav {
 
 }

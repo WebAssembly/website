@@ -21,3 +21,17 @@ defaults:
     values:
       layout: "doc"
       type: "doc"
+  -
+    scope:
+      path: "docs/CodeOfConduct.md"
+    values:
+      layout: "community"
+      type: "community"
+      permalink: "/community/code-of-conduct/"
+  -
+    scope:
+      path: "docs/Events.md"
+    values:
+      layout: "community"
+      type: "community"
+      permalink: "/community/events/"

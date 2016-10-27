@@ -1,11 +1,8 @@
 ---
-layout: default
+layout: getting-started
 ---
-## Getting Started
 
-### Intro
-
-### Developers Guide
+# Developers' Guide
 
 This page aims to provide complete, working step-by-step instructions to compile a simple program directly to WebAssembly.
 
@@ -50,5 +47,3 @@ To serve the compiled files over HTTP, we can use the HTTP server built in to Py
     $ python -m SimpleHTTPServer 8080 > /dev/null 2>&1 &;
 
 Once the HTTP server is running, you can <a href="http://localhost:8080/hello.html" target="_blank">open it in your browser</a>. If you see "Hello, world!" printed to the emscripten console, then congratulations! You've successfully compiled to WebAssembly!
-
-### Advanced Usage

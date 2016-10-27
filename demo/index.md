@@ -3,7 +3,7 @@ layout: default
 markdown: kramdown
 permalink: demo/
 ---
-## Angry Bots Demo
+# Angry Bots Demo
 <div markdown="1" id="wasm-fail" class="flash flash-error">
   Uh-oh! WebAssembly isn't enabled in this browser. To get an early preview of this experimental technology, at your own risk:
 
@@ -14,10 +14,8 @@ permalink: demo/
 </div>
 
 [![](screenshot.jpg)](AngryBots/)
-<div class="buttons">
-  <a class="btn btn-primary" id="play-wasm" href="AngryBots/" role="button">Play WebAssembly</a>
-  <a class="btn" href="http://beta.unity3d.com/jonas/AngryBots/" role="button">Play asm.js fallback</a>
-</div>
+<a class="btn btn-primary" id="play-wasm" href="AngryBots/" role="button">Play WebAssembly</a>
+<a class="btn" href="http://beta.unity3d.com/jonas/AngryBots/" role="button">Play asm.js fallback</a>
 
 This is an experimental demo of Angry Bots, a Unity game which has been ported to WebAssembly. Fight robots and explore a 3D space station with realistic environmental effects in this top-down shooter. Movement is controlled by W, A, S, D or the arrow keys and aiming &amp; firing is controlled by the mouse.
 
