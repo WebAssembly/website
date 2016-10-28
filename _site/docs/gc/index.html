@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom2.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/intro/">Getting Started</a>
+      
+      <a class="site-nav-item btn" href="/docs/binary-encoding/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="gc--dom--web-api-integration-unicornfuture-general">GC / DOM / Web API Integration <a href="../PostMVP/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+</h1>
+
+<h2 id="note-this-is-a-future-unicornfuture-general-feature">NOTE: This is a <a href="../PostMVP/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> feature!</h2>
+
+<p>After the <a href="../MVP/">MVP</a>, to realize the <a href="../HighLevelGoals/">high-level goals</a>
+of (1) integrating well with the existing Web platform and (2) supporting
+languages other than C++, WebAssembly needs to be able to:</p>
+
+<ul>
+  <li>reference DOM and other Web API objects directly from WebAssembly code;</li>
+  <li>call Web APIs (passing primitives or DOM/GC/Web API objects) directly from
+WebAssembly without calling through JavaScript; and</li>
+  <li>efficiently allocate and manipulate GC objects directly from WebAssembly
+code.</li>
+</ul>
+
+<p>The following document is a high-level sketch of one approach for implementing
+the above goals. <em>Consider the contents incomplete and expect change over
+time.</em></p>
+
+<p>An important constraint is that, while WebAssembly should allow tight
+integration with the <a href="../Web/">Web</a>, it should not bake in details
+or Web standards dependencies that prevent execution in a 
+<a href="../NonWeb/">non-Web embedding</a>. This suggests a design (called
+<a href="../GC/#opaque-reference-types">opaque reference types</a> below) that hides the
+details of JavaScript and WebIDL behind Web-embedding-specific builtin modules.
+On the other hand, WebAssembly can define a set of <a href="../GC/#native-gc">native GC</a>
+primitives that allowed portable GC code to be written regardless of the
+host environment.</p>
+
+<h2 id="opaque-reference-types">Opaque reference types</h2>
+
+<p>The first feature is to extend <a href="../Modules/#imports-and-exports">module imports</a>
+to allow modules to import <em>opaque reference types</em>. “Opaque” means that the
+reference type itself has no structural content and does not, e.g., define any
+methods or fields. Once imported, an opaque reference type can be used in the
+signature of other imported functions. Thus, the point of an opaque reference
+type is to be passed to and returned from exported functions.</p>
+
+<p>Reference types are allowed to be used as the types of locals, parameters
+and return types. Additionally, references would be allowed as operands to
+operators that treat their values as black boxes (<code class="highlighter-rouge">br</code>, <code class="highlighter-rouge">block</code>, etc.).
+A new <code class="highlighter-rouge">dynamic_cast</code> operator would be added to allow checked
+casting from any opaque reference type to any other opaque reference type.
+Whether the cast succeeds is up to the host environment; WebAssembly itself
+will define no a priori subtyping relationship.</p>
+
+<p>For reasons of safety and limiting nondeterminism, imported opaque reference
+types would not be able to be loaded from or stored to linear memory where they
+could otherwise be arbitrarily aliased as integers. Instead, a new set of
+operators would be added for allocating, deallocating, loading and storing
+from integer-indexed cells that could hold references and were not aliasable by
+linear memory.</p>
+
+<p>With opaque reference types expressed as imports, host environments can provide
+access to various kinds of reference-counted or garbage-collected host-defined
+objects via builtin modules. While this design does not mandate a JavaScript VM
+or browser, it does allow natural integration with both
+<a href="../GC/#js-integration">JavaScript</a> and <a href="../GC/#webidl-integration">WebIDL</a>
+in a Web environment.</p>
+
+<h3 id="javascript-integration">JavaScript integration</h3>
+
+<p>Using <a href="../GC/#opaque-reference-types">opaque reference types</a>,
+JavaScript values could be made accessible to WebAssembly code through a builtin
+<code class="highlighter-rouge">js</code> module providing:</p>
+
+<ul>
+  <li>an exported <code class="highlighter-rouge">string</code> opaque reference type and exported functions
+to allocate, query length, and index <code class="highlighter-rouge">string</code> values;</li>
+  <li>an exported <code class="highlighter-rouge">object</code> opaque reference type and exported functions
+that correspond with the ES5 meta-object protocol including the 
+ability to <code class="highlighter-rouge">[[Call]]</code> function objects;</li>
+  <li>further exported opaque reference types for symbols and value 
+types (including SIMD);</li>
+  <li>an exported <code class="highlighter-rouge">value</code> opaque reference type with exported functions for
+constructing <code class="highlighter-rouge">value</code>s from integers, floats, <code class="highlighter-rouge">object</code>s, <code class="highlighter-rouge">string</code>s, etc and
+with exported functions for querying the type of a <code class="highlighter-rouge">value</code> and extracting the
+abovementioned payload types.</li>
+</ul>
+
+<p>Since a browser’s WebAssembly engine would have full knowledge of the <code class="highlighter-rouge">js</code>
+builtin module, it should be able to optimize string/object accesses as well as
+a normal JavaScript JIT compiler (perhaps even using the same JIT compiler).</p>
+
+<h3 id="webidl-integration">WebIDL integration</h3>
+
+<p>Using <a href="../GC/#opaque-reference-types">opaque reference types</a>, it would be
+possible to allow direct access to DOM and Web APIs by mapping their
+<a href="http://www.w3.org/TR/WebIDL">WebIDL</a> interfaces to WebAssembly builtin module 
+signatures. In particular:</p>
+
+<ul>
+  <li>WebIDL interfaces (like 
+<a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14">WebGLRenderingContextBase</a>
+or <a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.9">WebGLTexture</a>)
+would map to exported <a href="../GC/#opaque-reference-types">opaque reference types</a>;</li>
+  <li>methods of WebIDL interfaces would map to exported functions where the
+receiver was translated into an explicit argument and WebIDL value
+types were mapped to appropriate <a href="../Semantics/#types">value types</a>
+(e.g., <a href="https://www.khronos.org/registry/webgl/specs/latest/1.0/#5.14">bindTexture</a>
+would translate to <code class="highlighter-rouge">void (WebGLRenderingContextBase, int32, WebGLTexture?)</code>).</li>
+</ul>
+
+<p>This high-level description glosses over many important details about WebIDL:</p>
+
+<p>First, the WebIDL spec contains many JavaScript-specific details that are
+unnecessary in a WebAssembly context. In particular, there are basically three
+components specified by a WebIDL interface:</p>
+
+<ol>
+  <li>a signature declaration composed of language-independent data types (like
+IEEE754 doubles and floats);</li>
+  <li>a set of basic wellformedness checks that are executed on the arguments of
+the signature declared in (1); and</li>
+  <li>a JavaScript-specific algorithm that maps the arbitrary set of JavaScript
+values passed to a WebIDL invocation to the signature declared by (1) and
+checked by (2).</li>
+</ol>
+
+<p>(1) and (2) of the WebIDL spec are meaningful to WebAssembly, but (3)
+would effectively be skipped.</p>
+
+<p>Another important issue is mapping WebIDL values types that aren’t simple
+<a href="http://www.w3.org/TR/WebIDL/#dfn-primitive-type">primitive types</a>:</p>
+
+<ul>
+  <li>
+<a href="http://www.w3.org/TR/WebIDL/#idl-dictionary">Dictionary types</a>
+would <a href="http://www.w3.org/TR/WebIDL/#es-dictionary">appear</a> to require
+JavaScript objects but are actually defined as values such that they can
+be (and are, in various browser implementations) flattened to C structs.
+Thus, a natural WebAssembly binding would be to map dictionaries to structs
+in linear memory passed by reference (integer offset).</li>
+  <li>The same goes for <a href="http://www.w3.org/TR/WebIDL/#idl-sequence">sequence types</a>.</li>
+  <li>
+<a href="http://www.w3.org/TR/WebIDL/#es-enumeration">Enumeration types</a> could be
+mapped to canonical integers.</li>
+  <li>
+<a href="http://www.w3.org/TR/WebIDL/#idl-union">Union types</a> could be handled in
+multiple ways. One option is to treat the union type itself as an importable
+opaque reference type (when all the elements are themselves reference types).
+Another option is to introduce an overload of each signature for each element
+of the union type such that all calls passed a single element type and the
+full Union Type was never explicitly represented in WebAssembly.</li>
+  <li>
+<a href="http://www.w3.org/TR/WebIDL/#es-callback-function">Callback function types</a>
+could map to a <code class="highlighter-rouge">(function pointer, environment pointer)</code> closure pair.</li>
+</ul>
+
+<p>Overall, the goal of mapping WebIDL to WebAssembly builtin modules is to avoid
+the need to define a duplicate WebAssembly interface for all Web APIs.  In
+practice, some WebIDL patterns may have an unnatural or inefficient mapping
+into WebAssembly such that new overloads and best practices would need to be
+adopted. Over time, though, these rough edges would be ironed out leaving the
+long term benefit of defining Web APIs with a single interface and ensuring
+that JavaScript and WebAssembly always had access to the same raw functionality.</p>
+
+<h2 id="native-gc">Native GC</h2>
+
+<p>In contrast to <em>opaque</em> reference types, a second feature would be to allow
+direct GC allocation and field access from WebAssembly code through
+<em>non-opaque</em> reference types.</p>
+
+<p>There is a lot of the design left to
+consider for this feature, but a few points of tentative agreement are:</p>
+
+<ul>
+  <li>To avoid baking in a single language’s object model, define low-level GC
+primitives (viz., structs and arrays) and allow the source language compiler
+to build up features like virtual dispatch and access control.</li>
+  <li>GC struct and array types would have associated <em>struct/array reference
+types</em> that were similar to and symmetric with 
+<a href="../GC/#opaque-reference-types">opaque reference types</a>
+(just not opaque).</li>
+  <li>The GC heap would be semantically distinct from linear memory and thus
+the fields of GC objects could safely hold reference types (unlike linear
+memory).</li>
+  <li>The GC struct and array types could be passed to and from JavaScript
+by reflecting the WebAssembly GC objects in JavaScript using the 
+<a href="https://github.com/nikomatsakis/typed-objects-explainer/">Typed Objects</a>
+proposal.</li>
+</ul>
+
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/binary-encoding/">Binary Encoding
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/c-and-c++/">Guide for C/C++ developers
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/dynamic-linking/">Dynamic linking
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/faq/">FAQ
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/feature-test/">Feature Test
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/future-features/">Features to add after the MVP
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration [<img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][future general]
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/high-level-goals/">WebAssembly High-Level Goals
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/js/">JavaScript API
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/mvp/">Minimum Viable Product
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/modules/">Modules
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/non-web/">Non-Web Embeddings
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/nondeterminism/">Nondeterminism in WebAssembly
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/portability/">Portability
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/rationale/">Design Rationale
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/security/">Security
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/semantics/">Semantics
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/text-format/">Text Format
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/tooling/">Tooling support
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/use-cases/">Use Cases
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/web/">Web Embedding
+</a>
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

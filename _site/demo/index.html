@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom2.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/intro/">Getting Started</a>
+      
+      <a class="site-nav-item btn" href="/docs/binary-encoding/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container-narrow">  
+  <h1 id="angry-bots-demo">Angry Bots Demo</h1>
+<div id="wasm-fail" class="flash flash-error">
+  <p>Uh-oh! WebAssembly isn’t enabled in this browser. To get an early preview of this experimental technology, at your own risk:</p>
+
+  <ul>
+    <li>on <a href="https://www.google.com/chrome/browser/canary.html">Chrome Canary</a>, open <code class="highlighter-rouge">chrome://flags/#enable-webassembly</code> and enable the switch.</li>
+    <li>on <a href="https://nightly.mozilla.org/">Firefox Nightly</a>, open <code class="highlighter-rouge">about:config</code> and set <code class="highlighter-rouge">javascript.options.wasm</code> to <code class="highlighter-rouge">true</code>.</li>
+  </ul>
+
+  <p>See a <a href="http://blogs.windows.com/msedgedev/2016/03/15/previewing-webassembly-experiments">preview</a> of <a href="https://www.microsoft.com/en-us/windows/microsoft-edge">Microsoft Edge</a> support and follow <a href="http://www.apple.com/safari/">Safari</a> support on WebKit’s <a href="https://webkit.org/status/#specification-webassembly">feature status</a> page.</p>
+</div>
+
+<p><a href="AngryBots/"><img src="screenshot.jpg" alt="" /></a>
+<a class="btn btn-primary" id="play-wasm" href="AngryBots/" role="button">Play WebAssembly</a>
+<a class="btn" href="http://beta.unity3d.com/jonas/AngryBots/" role="button">Play asm.js fallback</a></p>
+
+<p>This is an experimental demo of Angry Bots, a Unity game which has been ported to WebAssembly. Fight robots and explore a 3D space station with realistic environmental effects in this top-down shooter. Movement is controlled by W, A, S, D or the arrow keys and aiming &amp; firing is controlled by the mouse.</p>
+
+<h3 id="webassembly-demo-status">WebAssembly Demo Status</h3>
+
+<table>
+  <tbody>
+    <tr>
+      <td>Early multi-browser support</td>
+      <td><span class="yes">✓</span></td>
+      <td>Runs in experimental builds of Chromium, Firefox, and Edge.</td>
+    </tr>
+    <tr>
+      <td>Demo execution</td>
+      <td><span class="yes">✓</span></td>
+      <td>Full execution semantics implemented.</td>
+    </tr>
+    <tr>
+      <td>Stable binary format</td>
+      <td><span class="no">✘</span></td>
+      <td>Binary format will be updated to match design iterations, until it is frozen for stable release.</td>
+    </tr>
+    <tr>
+      <td>Standard textual encoding</td>
+      <td><span class="no">✘</span></td>
+      <td>Textual encoding will be standardized before stable release.</td>
+    </tr>
+    <tr>
+      <td>Stable tooling</td>
+      <td><span class="no">✘</span></td>
+      <td>A mature toolchain for compiling and debugging WebAssembly will be available before stable release.</td>
+    </tr>
+    <tr>
+      <td>Stable JS API</td>
+      <td><span class="no">✘</span></td>
+      <td>The Wasm object will be updated to allow additional behavior and introspection before stable release</td>
+    </tr>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+(function() {
+  var support = (typeof Wasm === 'object') || (typeof WebAssembly === 'object');
+  if (!support) {
+    var flash = document.getElementById('wasm-fail');
+    flash.className = flash.className.replace(/(?:^|\s)flash-hide(?!\S)/, '');
+    var button = document.getElementById('play-wasm');
+    button.className += ' disabled';
+    button.href = 'javascript:;';
+    var link = document.getElementById('pic-link');
+    link.className += ' noclick';
+    link.href = 'javascript:;';
+  }
+})();
+</script>
+
+
+  </div>
+</section>
+</body>
+</html>
+

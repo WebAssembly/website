@@ -1,0 +1,2675 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom2.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/intro/">Getting Started</a>
+      
+      <a class="site-nav-item btn" href="/docs/binary-encoding/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="binary-encoding">Binary Encoding</h1>
+
+<p>This document describes the <a href="../Portability/">portable</a> binary encoding of the WebAssembly modules.</p>
+
+<p>The binary encoding is a dense representation of module information that enables 
+small files, fast decoding, and reduced memory usage.
+See the <a href="../Rationale/#why-a-binary-encoding">rationale document</a> for more detail.</p>
+
+<p><a href="../PostMVP/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> = Planned <a href="../PostMVP/">future</a> feature</p>
+
+<p>The encoding is split into three layers:</p>
+
+<ul>
+  <li>
+<strong>Layer 0</strong> is a simple binary encoding of the bytecode instructions and related data structures.
+The encoding is dense and trivial to interact with, making it suitable for
+scenarios like JIT, instrumentation tools, and debugging.</li>
+  <li>
+<strong>Layer 1</strong> <a href="https://github.com/WebAssembly/decompressor-prototype/blob/master/CompressionLayer1.md"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> provides structural compression on top of layer 0, exploiting
+specific knowledge about the nature of the syntax tree and its nodes.
+The structural compression introduces more efficient encoding of values, 
+rearranges values within the module, and prunes structurally identical
+tree nodes.</li>
+  <li>
+<strong>Layer 2</strong> <a href="https://github.com/WebAssembly/decompressor-prototype/blob/master/CompressionLayer1.md"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> Layer 2 applies generic compression algorithms, like <a href="http://www.gzip.org/">gzip</a> and <a href="https://datatracker.ietf.org/doc/draft-alakuijala-brotli/">Brotli</a>, that are already available in browsers and other tooling.</li>
+</ul>
+
+<p>Most importantly, the layering approach allows development and standardization to
+occur incrementally. For example, Layer 1 and Layer 2 encoding techniques can be
+experimented with by application-level decompressing to the layer below. As 
+compression techniques  stabilize, they can be standardized and moved into native 
+implementations.</p>
+
+<p>See
+<a href="https://github.com/WebAssembly/decompressor-prototype/blob/master/CompressionLayer1.md">proposed layer 1 compression <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+for a proposal for layer 1 structural compression.</p>
+
+<h1 id="data-types">Data types</h1>
+
+<h2 id="numbers">Numbers</h2>
+
+<h3 id="uintn"><code class="highlighter-rouge">uintN</code></h3>
+<p>An unsigned integer of <em>N</em> bits,
+represented in <em>N</em>/8 bytes in <a href="https://en.wikipedia.org/wiki/Endianness#Little-endian">little endian</a> order.
+<em>N</em> is either 8, 16, or 32.</p>
+
+<h3 id="varuintn"><code class="highlighter-rouge">varuintN</code></h3>
+<p>A <a href="https://en.wikipedia.org/wiki/LEB128">LEB128</a> variable-length integer, limited to <em>N</em> bits (i.e., the values [0, 2^<em>N</em>-1]),
+represented by <em>at most</em> ceil(<em>N</em>/7) bytes that may contain padding <code class="highlighter-rouge">0x80</code> bytes.</p>
+
+<p>Note: Currently, the only sizes used are <code class="highlighter-rouge">varuint1</code>, <code class="highlighter-rouge">varuint7</code>, and <code class="highlighter-rouge">varuint32</code>,
+where the former two are used for compatibility with potential future extensions.</p>
+
+<h3 id="varintn"><code class="highlighter-rouge">varintN</code></h3>
+<p>A <a href="https://en.wikipedia.org/wiki/LEB128#Signed_LEB128">Signed LEB128</a> variable-length integer, limited to <em>N</em> bits (i.e., the values [-2^(<em>N</em>-1), +2^(<em>N</em>-1)-1]),
+represented by <em>at most</em> ceil(<em>N</em>/7) bytes that may contain padding <code class="highlighter-rouge">0x80</code> or <code class="highlighter-rouge">0xFF</code> bytes.</p>
+
+<p>Note: Currently, the only sizes used are <code class="highlighter-rouge">varint7</code>, <code class="highlighter-rouge">varint32</code> and <code class="highlighter-rouge">varint64</code>.</p>
+
+<h2 id="language-types">Language Types</h2>
+
+<p>All types are distinguished by a negative <code class="highlighter-rouge">varint7</code> values that is the first byte of their encoding (representing a type constructor):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Opcode</th>
+      <th>Type constructor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+<code class="highlighter-rouge">-0x01</code> (i.e., the byte <code class="highlighter-rouge">0x7f</code>)</td>
+      <td><code class="highlighter-rouge">i32</code></td>
+    </tr>
+    <tr>
+      <td>
+<code class="highlighter-rouge">-0x02</code> (i.e., the byte <code class="highlighter-rouge">0x7e</code>)</td>
+      <td><code class="highlighter-rouge">i32</code></td>
+    </tr>
+    <tr>
+      <td>
+<code class="highlighter-rouge">-0x03</code> (i.e., the byte <code class="highlighter-rouge">0x7d</code>)</td>
+      <td><code class="highlighter-rouge">f32</code></td>
+    </tr>
+    <tr>
+      <td>
+<code class="highlighter-rouge">-0x04</code> (i.e., the byte <code class="highlighter-rouge">0x7c</code>)</td>
+      <td><code class="highlighter-rouge">f64</code></td>
+    </tr>
+    <tr>
+      <td>
+<code class="highlighter-rouge">-0x10</code> (i.e., the byte <code class="highlighter-rouge">0x70</code>)</td>
+      <td><code class="highlighter-rouge">anyfunc</code></td>
+    </tr>
+    <tr>
+      <td>
+<code class="highlighter-rouge">-0x20</code> (i.e., the byte <code class="highlighter-rouge">0x60</code>)</td>
+      <td><code class="highlighter-rouge">func</code></td>
+    </tr>
+    <tr>
+      <td>
+<code class="highlighter-rouge">-0x40</code> (i.e., the byte <code class="highlighter-rouge">0x40</code>)</td>
+      <td>pseudo type for representing an empty <code class="highlighter-rouge">block_type</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Some of these will be followed by additional fields, see below.</p>
+
+<p>Note: Gaps are reserved for <a href="../PostMVP/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> extensions. The use of a signed scheme is so that types can coexist in a single space with (positive) indices into the type section, which may be relevant for future extensions of the type system.</p>
+
+<h3 id="valuetype"><code class="highlighter-rouge">value_type</code></h3>
+<p>A <code class="highlighter-rouge">varint7</code> indicating a <a href="../Semantics/#types">value type</a>. One of:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">i32</code></li>
+  <li><code class="highlighter-rouge">i64</code></li>
+  <li><code class="highlighter-rouge">f32</code></li>
+  <li><code class="highlighter-rouge">f64</code></li>
+</ul>
+
+<p>as encoded above.</p>
+
+<h3 id="blocktype"><code class="highlighter-rouge">block_type</code></h3>
+<p>A <code class="highlighter-rouge">varint7</code> indicating a block signature. These types are encoded as:</p>
+
+<ul>
+  <li>either a <a href="#value_type"><code class="highlighter-rouge">value_type</code></a> indicating a signature with a single result</li>
+  <li>or <code class="highlighter-rouge">-0x40</code> (i.e., the byte <code class="highlighter-rouge">0x40</code>) indicating a signature with 0 results.</li>
+</ul>
+
+<h3 id="elemtype"><code class="highlighter-rouge">elem_type</code></h3>
+
+<p>A <code class="highlighter-rouge">varint7</code> indicating the types of elements in a <a href="../AstSemantics/#table">table</a>.
+In the MVP, only one type is available:</p>
+
+<ul>
+  <li><a href="../AstSemantics/#table"><code class="highlighter-rouge">anyfunc</code></a></li>
+</ul>
+
+<p>Note: In the <a href="../PostMVP/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, other element types may be allowed.</p>
+
+<h3 id="functype"><code class="highlighter-rouge">func_type</code></h3>
+<p>The description of a function signature. Its type constructor is followed by an additional description:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>form</td>
+      <td><code class="highlighter-rouge">varint7</code></td>
+      <td>the value for the <code class="highlighter-rouge">func</code> type constructor as defined above</td>
+    </tr>
+    <tr>
+      <td>param_count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>the number of parameters to the function</td>
+    </tr>
+    <tr>
+      <td>param_types</td>
+      <td><code class="highlighter-rouge">value_type*</code></td>
+      <td>the parameter types of the function</td>
+    </tr>
+    <tr>
+      <td>return_count</td>
+      <td><code class="highlighter-rouge">varuint1</code></td>
+      <td>the number of results from the function</td>
+    </tr>
+    <tr>
+      <td>return_type</td>
+      <td><code class="highlighter-rouge">value_type?</code></td>
+      <td>the result type of the function (if return_count is 1)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note: In the <a href="../PostMVP/#multiple-return">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, <code class="highlighter-rouge">return_count</code> and <code class="highlighter-rouge">return_type</code> might be generalised to allow multiple values.</p>
+
+<h2 id="other-types">Other Types</h2>
+
+<h3 id="globaltype"><code class="highlighter-rouge">global_type</code></h3>
+<p>The description of a global variable.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>content_type</td>
+      <td><code class="highlighter-rouge">value_type</code></td>
+      <td>type of the value</td>
+    </tr>
+    <tr>
+      <td>mutability</td>
+      <td><code class="highlighter-rouge">varuint1</code></td>
+      <td>
+<code class="highlighter-rouge">0</code> if immutable, <code class="highlighter-rouge">1</code> if mutable</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="tabletype"><code class="highlighter-rouge">table_type</code></h3>
+<p>The description of a table.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>element_type</td>
+      <td><code class="highlighter-rouge">elem_type</code></td>
+      <td>the type of elements</td>
+    </tr>
+    <tr>
+      <td>limits</td>
+      <td><code class="highlighter-rouge">resizable_limits</code></td>
+      <td>see <a href="#resizable_limits">below</a>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="memorytype"><code class="highlighter-rouge">memory_type</code></h3>
+<p>The description of a memory.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>limits</td>
+      <td><code class="highlighter-rouge">resizable_limits</code></td>
+      <td>see <a href="#resizable_limits">below</a>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="externalkind"><code class="highlighter-rouge">external_kind</code></h3>
+<p>A single-byte unsigned integer indicating the kind of definition being imported or defined:</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">0</code> indicating a <code class="highlighter-rouge">Function</code> <a href="../Modules/#imports">import</a> or <a href="../Modules/#function-and-code-sections">definition</a>
+</li>
+  <li>
+<code class="highlighter-rouge">1</code> indicating a <code class="highlighter-rouge">Table</code> <a href="../Modules/#imports">import</a> or <a href="../Modules/#table-section">definition</a>
+</li>
+  <li>
+<code class="highlighter-rouge">2</code> indicating a <code class="highlighter-rouge">Memory</code> <a href="../Modules/#imports">import</a> or <a href="../Modules/#linear-memory-section">definition</a>
+</li>
+  <li>
+<code class="highlighter-rouge">3</code> indicating a <code class="highlighter-rouge">Global</code> <a href="../Modules/#imports">import</a> or <a href="../Modules/#global-section">definition</a>
+</li>
+</ul>
+
+<h3 id="resizablelimits"><code class="highlighter-rouge">resizable_limits</code></h3>
+<p>A packed tuple that describes the limits of a
+<a href="../Semantics/#table">table</a> or <a href="../Semantics/#resizing">memory</a>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>flags</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>bit <code class="highlighter-rouge">0x1</code> is set if the maximum field is present</td>
+    </tr>
+    <tr>
+      <td>initial</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>initial length (in units of table elements or wasm pages)</td>
+    </tr>
+    <tr>
+      <td>maximum</td>
+      <td>
+<code class="highlighter-rouge">varuint32</code>?</td>
+      <td>only present if specified by <code class="highlighter-rouge">flags</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note: In the <a href="PostMVP.md#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, the “flags” field may be extended, e.g., to include a flag for sharing between threads.</p>
+
+<h3 id="initexpr"><code class="highlighter-rouge">init_expr</code></h3>
+<p>The encoding of an <a href="../Modules/#initializer-expression">initializer expression</a>
+is the normal encoding of the expression followed by the <code class="highlighter-rouge">end</code> opcode as a
+delimiter.</p>
+
+<p>Note that <code class="highlighter-rouge">get_global</code> in an initializer expression can only refer to immutable
+imported globals and all uses of <code class="highlighter-rouge">init_expr</code> can only appear after the Imports
+section.</p>
+
+<h1 id="module-structure">Module structure</h1>
+
+<p>The following documents the current prototype format. This format is based on and supersedes the v8-native prototype format, originally in a <a href="https://docs.google.com/document/d/1-G11CnMA0My20KI9D7dBR6ZCPOBCRD0oCH6SHCPFGx0/edit?usp=sharing">public design doc</a>.</p>
+
+<h2 id="high-level-structure">High-level structure</h2>
+
+<p>The module starts with a preamble of two fields:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>magic number</td>
+      <td><code class="highlighter-rouge">uint32</code></td>
+      <td>Magic number <code class="highlighter-rouge">0x6d736100</code> (i.e., ‘\0asm’)</td>
+    </tr>
+    <tr>
+      <td>version</td>
+      <td><code class="highlighter-rouge">uint32</code></td>
+      <td>Version number, currently 0xd. The version for MVP will be reset to 1.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The module preamble is followed by a sequence of sections.
+Each section is identified by a 1-byte <em>section code</em> that encodes either a known section or a user-defined section.
+The section length and payload data then follow.
+Known sections have non-zero ids, while unknown sections have a <code class="highlighter-rouge">0</code> id followed by an identifying string as
+part of the payload.
+Unknown sections are ignored by the WebAssembly implementation, and thus validation errors within them do not
+invalidate a module.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>id</td>
+      <td><code class="highlighter-rouge">varuint7</code></td>
+      <td>section code</td>
+    </tr>
+    <tr>
+      <td>payload_len</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>size of this section in bytes</td>
+    </tr>
+    <tr>
+      <td>name_len</td>
+      <td>
+<code class="highlighter-rouge">varuint32</code> ?</td>
+      <td>length of the section name in bytes, present if <code class="highlighter-rouge">id == 0</code>
+</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>
+<code class="highlighter-rouge">bytes</code> ?</td>
+      <td>section name string, present if <code class="highlighter-rouge">id == 0</code>
+</td>
+    </tr>
+    <tr>
+      <td>payload_data</td>
+      <td><code class="highlighter-rouge">bytes</code></td>
+      <td>content of this section, of length <code class="highlighter-rouge">payload_len - sizeof(name) - sizeof(name_len)</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Each section is optional and may appear at most once.
+Known sections from this list may not appear out of order.
+The content of each section is encoded in its <code class="highlighter-rouge">payload_data</code>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Section Name</th>
+      <th>Code</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="#type-section">Type</a></td>
+      <td><code class="highlighter-rouge">1</code></td>
+      <td>Function signature declarations</td>
+    </tr>
+    <tr>
+      <td><a href="#import-section">Import</a></td>
+      <td><code class="highlighter-rouge">2</code></td>
+      <td>Import declarations</td>
+    </tr>
+    <tr>
+      <td><a href="#function-section">Function</a></td>
+      <td><code class="highlighter-rouge">3</code></td>
+      <td>Function declarations</td>
+    </tr>
+    <tr>
+      <td><a href="#table-section">Table</a></td>
+      <td><code class="highlighter-rouge">4</code></td>
+      <td>Indirect function table and other tables</td>
+    </tr>
+    <tr>
+      <td><a href="#memory-section">Memory</a></td>
+      <td><code class="highlighter-rouge">5</code></td>
+      <td>Memory attributes</td>
+    </tr>
+    <tr>
+      <td><a href="#global-section">Global</a></td>
+      <td><code class="highlighter-rouge">6</code></td>
+      <td>Global declarations</td>
+    </tr>
+    <tr>
+      <td><a href="#export-section">Export</a></td>
+      <td><code class="highlighter-rouge">7</code></td>
+      <td>Exports</td>
+    </tr>
+    <tr>
+      <td><a href="#start-section">Start</a></td>
+      <td><code class="highlighter-rouge">8</code></td>
+      <td>Start function declaration</td>
+    </tr>
+    <tr>
+      <td><a href="#element-section">Element</a></td>
+      <td><code class="highlighter-rouge">9</code></td>
+      <td>Elements section</td>
+    </tr>
+    <tr>
+      <td><a href="#code-section">Code</a></td>
+      <td><code class="highlighter-rouge">10</code></td>
+      <td>Function bodies (code)</td>
+    </tr>
+    <tr>
+      <td><a href="#data-section">Data</a></td>
+      <td><code class="highlighter-rouge">11</code></td>
+      <td>Data segments</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The end of the last present section must coincide with the last byte of the
+module. The shortest valid module is 8 bytes (<code class="highlighter-rouge">magic number</code>, <code class="highlighter-rouge">version</code>,
+followed by zero sections).</p>
+
+<h3 id="type-section">Type section</h3>
+
+<p>The type section declares all function signatures that will be used in the module.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>count of type entries to follow</td>
+    </tr>
+    <tr>
+      <td>entries</td>
+      <td><code class="highlighter-rouge">func_type*</code></td>
+      <td>repeated type entries as described below</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note: In the <a href="FutureFeatures.md#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
+this section may contain other forms of type entries as well, which can be distinguished by the <code class="highlighter-rouge">form</code> field of the type encoding.</p>
+
+<h3 id="import-section">Import section</h3>
+
+<p>The import section declares all imports that will be used in the module.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>count of import entries to follow</td>
+    </tr>
+    <tr>
+      <td>entries</td>
+      <td><code class="highlighter-rouge">import_entry*</code></td>
+      <td>repeated import entries as described below</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="import-entry">Import entry</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>module_len</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>module string length</td>
+    </tr>
+    <tr>
+      <td>module_str</td>
+      <td><code class="highlighter-rouge">bytes</code></td>
+      <td>module string of <code class="highlighter-rouge">module_len</code> bytes</td>
+    </tr>
+    <tr>
+      <td>field_len</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>field name length</td>
+    </tr>
+    <tr>
+      <td>field_str</td>
+      <td><code class="highlighter-rouge">bytes</code></td>
+      <td>field name string of <code class="highlighter-rouge">field_len</code> bytes</td>
+    </tr>
+    <tr>
+      <td>kind</td>
+      <td><code class="highlighter-rouge">external_kind</code></td>
+      <td>the kind of definition being imported</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Followed by, if the <code class="highlighter-rouge">kind</code> is <code class="highlighter-rouge">Function</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>type index of the function signature</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>or, if the <code class="highlighter-rouge">kind</code> is <code class="highlighter-rouge">Table</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code class="highlighter-rouge">table_type</code></td>
+      <td>type of the imported table</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>or, if the <code class="highlighter-rouge">kind</code> is <code class="highlighter-rouge">Memory</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code class="highlighter-rouge">memory_type</code></td>
+      <td>type of the imported memory</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>or, if the <code class="highlighter-rouge">kind</code> is <code class="highlighter-rouge">Global</code>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code class="highlighter-rouge">global_type</code></td>
+      <td>type of the imported global</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note that, in the MVP, only immutable global variables can be imported.</p>
+
+<h3 id="function-section">Function section</h3>
+
+<p>The function section <em>declares</em> the signatures of all functions in the
+module (their definitions appear in the <a href="#code-section">code section</a>).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>count of signature indices to follow</td>
+    </tr>
+    <tr>
+      <td>types</td>
+      <td><code class="highlighter-rouge">varuint32*</code></td>
+      <td>sequence of indices into the type section</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="table-section">Table section</h3>
+
+<p>The encoding of a <a href="../Modules/#table-section">Table section</a>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>indicating the number of tables defined by the module</td>
+    </tr>
+    <tr>
+      <td>entries</td>
+      <td><code class="highlighter-rouge">table_type*</code></td>
+      <td>repeated <code class="highlighter-rouge">table_type</code> entries as described below</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In the MVP, the number of tables must be no more than 1.</p>
+
+<h3 id="memory-section">Memory section</h3>
+
+<p>ID: <code class="highlighter-rouge">memory</code></p>
+
+<p>The encoding of a <a href="../Modules/#linear-memory-section">Memory section</a>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>indicating the number of memories defined by the module</td>
+    </tr>
+    <tr>
+      <td>entries</td>
+      <td><code class="highlighter-rouge">memory_type*</code></td>
+      <td>repeated <code class="highlighter-rouge">memory_type</code> entries as described below</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note that the initial/maximum fields are specified in units of 
+<a href="../Semantics/#linear-memory">WebAssembly pages</a>.</p>
+
+<p>In the MVP, the number of memories must be no more than 1.</p>
+
+<h3 id="global-section">Global section</h3>
+
+<p>The encoding of the <a href="../Modules/#global-section">Global section</a>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>count of global variable entries</td>
+    </tr>
+    <tr>
+      <td>globals</td>
+      <td><code class="highlighter-rouge">global_variable*</code></td>
+      <td>global variables, as described below</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="global-entry">Global Entry</h4>
+
+<p>Each <code class="highlighter-rouge">global_variable</code> declares a single global variable of a given type, mutability
+and with the given initializer.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td><code class="highlighter-rouge">global_type</code></td>
+      <td>type of the variables</td>
+    </tr>
+    <tr>
+      <td>init</td>
+      <td><code class="highlighter-rouge">init_expr</code></td>
+      <td>the initial value of the global</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Note that, in the MVP, only immutable global variables can be exported.</p>
+
+<h3 id="export-section">Export section</h3>
+
+<p>The encoding of the <a href="../Modules/#exports">Export section</a>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>count of export entries to follow</td>
+    </tr>
+    <tr>
+      <td>entries</td>
+      <td><code class="highlighter-rouge">export_entry*</code></td>
+      <td>repeated export entries as described below</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="export-entry">Export entry</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>field_len</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>field name string length</td>
+    </tr>
+    <tr>
+      <td>field_str</td>
+      <td><code class="highlighter-rouge">bytes</code></td>
+      <td>field name string of <code class="highlighter-rouge">field_len</code> bytes</td>
+    </tr>
+    <tr>
+      <td>kind</td>
+      <td><code class="highlighter-rouge">external_kind</code></td>
+      <td>the kind of definition being exported</td>
+    </tr>
+    <tr>
+      <td>index</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>the index into the corresponding <a href="../Modules/">index space</a>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For example, if the “kind” is <code class="highlighter-rouge">Function</code>, then “index” is a 
+<a href="../Modules/#function-index-space">function index</a>. Note that, in the MVP, the
+only valid index value for a memory or table export is 0.</p>
+
+<h3 id="start-section">Start section</h3>
+
+<p>The start section declares the <a href="../Modules/#module-start-function">start function</a>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>index</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>start function index</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="element-section">Element section</h3>
+
+<p>The encoding of the <a href="../Modules/#elements-section">Elements section</a>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>count of element segments to follow</td>
+    </tr>
+    <tr>
+      <td>entries</td>
+      <td><code class="highlighter-rouge">elem_segment*</code></td>
+      <td>repeated element segments as described below</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>a <code class="highlighter-rouge">elem_segment</code> is:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>index</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>the <a href="../Modules/#table-index-space">table index</a> (0 in the MVP)</td>
+    </tr>
+    <tr>
+      <td>offset</td>
+      <td><code class="highlighter-rouge">init_expr</code></td>
+      <td>an <code class="highlighter-rouge">i32</code> initializer expression that computes the offset at which to place the elements</td>
+    </tr>
+    <tr>
+      <td>num_elem</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>number of elements to follow</td>
+    </tr>
+    <tr>
+      <td>elems</td>
+      <td><code class="highlighter-rouge">varuint32*</code></td>
+      <td>sequence of <a href="../Modules/#function-index-space">function indices</a>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="code-section">Code section</h3>
+
+<p>ID: <code class="highlighter-rouge">code</code></p>
+
+<p>The code section contains a body for every function in the module.
+The count of function declared in the <a href="#function-section">function section</a>
+and function bodies defined in this section must be the same and the <code class="highlighter-rouge">i</code>th
+declaration corresponds to the <code class="highlighter-rouge">i</code>th function body.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>count of function bodies to follow</td>
+    </tr>
+    <tr>
+      <td>bodies</td>
+      <td><code class="highlighter-rouge">function_body*</code></td>
+      <td>sequence of <a href="#function-bodies">Function Bodies</a>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="data-section">Data section</h3>
+
+<p>The data section declares the initialized data that is loaded
+into the linear memory.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>count of data segments to follow</td>
+    </tr>
+    <tr>
+      <td>entries</td>
+      <td><code class="highlighter-rouge">data_segment*</code></td>
+      <td>repeated data segments as described below</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>a <code class="highlighter-rouge">data_segment</code> is:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>index</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>the <a href="../Modules/#linear-memory-index-space">linear memory index</a> (0 in the MVP)</td>
+    </tr>
+    <tr>
+      <td>offset</td>
+      <td><code class="highlighter-rouge">init_expr</code></td>
+      <td>an <code class="highlighter-rouge">i32</code> initializer expression that computes the offset at which to place the data</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>size of <code class="highlighter-rouge">data</code> (in bytes)</td>
+    </tr>
+    <tr>
+      <td>data</td>
+      <td><code class="highlighter-rouge">bytes</code></td>
+      <td>sequence of <code class="highlighter-rouge">size</code> bytes</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="name-section">Name section</h3>
+
+<p>User-defined section string: <code class="highlighter-rouge">"name"</code></p>
+
+<p>The names section does not change execution semantics, and thus is not allocated a section code.
+It is encoded as an unknown section (id <code class="highlighter-rouge">0</code>) followed by the identification string <code class="highlighter-rouge">"name"</code>.
+Like all unknown sections, a validation error in this section does not cause validation of the module to fail.
+The expectation is that, when a binary WebAssembly module is viewed in a browser or other development
+environment, the names in this section will be used as the names of functions
+and locals in the <a href="../TextFormat/">text format</a>.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>count of entries to follow</td>
+    </tr>
+    <tr>
+      <td>entries</td>
+      <td><code class="highlighter-rouge">function_names*</code></td>
+      <td>sequence of names</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The sequence of <code class="highlighter-rouge">function_names</code> assigns names to the corresponding
+function index. The count may be greater or less than the actual number of
+functions.</p>
+
+<h4 id="function-names">Function names</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>fun_name_len</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>string length, in bytes</td>
+    </tr>
+    <tr>
+      <td>fun_name_str</td>
+      <td><code class="highlighter-rouge">bytes</code></td>
+      <td>valid utf8 encoding</td>
+    </tr>
+    <tr>
+      <td>local_count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>count of local names to follow</td>
+    </tr>
+    <tr>
+      <td>local_names</td>
+      <td><code class="highlighter-rouge">local_name*</code></td>
+      <td>sequence of local names</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The sequence of <code class="highlighter-rouge">local_name</code> assigns names to the corresponding local index. The
+count may be greater or less than the actual number of locals.</p>
+
+<h4 id="local-name">Local name</h4>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>local_name_len</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>string length, in bytes</td>
+    </tr>
+    <tr>
+      <td>local_name_str</td>
+      <td><code class="highlighter-rouge">bytes</code></td>
+      <td>valid utf8 encoding</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="function-bodies">Function Bodies</h1>
+
+<p>Function bodies consist of a sequence of local variable declarations followed by 
+<a href="../Semantics/">bytecode instructions</a>. Each function body must end with the <code class="highlighter-rouge">end</code> opcode.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>body_size</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>size of function body to follow, in bytes</td>
+    </tr>
+    <tr>
+      <td>local_count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>number of local entries</td>
+    </tr>
+    <tr>
+      <td>locals</td>
+      <td><code class="highlighter-rouge">local_entry*</code></td>
+      <td>local variables</td>
+    </tr>
+    <tr>
+      <td>code</td>
+      <td><code class="highlighter-rouge">byte*</code></td>
+      <td>bytecode of the function</td>
+    </tr>
+    <tr>
+      <td>end</td>
+      <td><code class="highlighter-rouge">byte</code></td>
+      <td>
+<code class="highlighter-rouge">0x0f</code>, indicating the end of the body</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="local-entry">Local Entry</h4>
+
+<p>Each local entry declares a number of local variables of a given type.
+It is legal to have several entries with the same type.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>number of local variables of the following type</td>
+    </tr>
+    <tr>
+      <td>type</td>
+      <td><code class="highlighter-rouge">value_type</code></td>
+      <td>type of the variables</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="control-flow-operators-described-heresemanticscontrol-flow-structures">Control flow operators (<a href="../Semantics/#control-flow-structures">described here</a>)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Opcode</th>
+      <th>Immediates</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">unreachable</code></td>
+      <td><code class="highlighter-rouge">0x00</code></td>
+      <td> </td>
+      <td>trap immediately</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">nop</code></td>
+      <td><code class="highlighter-rouge">0x01</code></td>
+      <td> </td>
+      <td>no operation</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">block</code></td>
+      <td><code class="highlighter-rouge">0x02</code></td>
+      <td>sig : <code class="highlighter-rouge">inline_signature_type</code>
+</td>
+      <td>begin a sequence of expressions, yielding 0 or 1 values</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">loop</code></td>
+      <td><code class="highlighter-rouge">0x03</code></td>
+      <td>sig : <code class="highlighter-rouge">inline_signature_type</code>
+</td>
+      <td>begin a block which can also form control flow loops</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">if</code></td>
+      <td><code class="highlighter-rouge">0x04</code></td>
+      <td>sig : <code class="highlighter-rouge">inline_signature_type</code>
+</td>
+      <td>begin if expression</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">else</code></td>
+      <td><code class="highlighter-rouge">0x05</code></td>
+      <td> </td>
+      <td>begin else expression of if</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">end</code></td>
+      <td><code class="highlighter-rouge">0x0b</code></td>
+      <td> </td>
+      <td>end a block, loop, or if</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">br</code></td>
+      <td><code class="highlighter-rouge">0x0c</code></td>
+      <td>relative_depth : <code class="highlighter-rouge">varuint32</code>
+</td>
+      <td>break that targets an outer nested block</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">br_if</code></td>
+      <td><code class="highlighter-rouge">0x0d</code></td>
+      <td>relative_depth : <code class="highlighter-rouge">varuint32</code>
+</td>
+      <td>conditional break that targets an outer nested block</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">br_table</code></td>
+      <td><code class="highlighter-rouge">0x0e</code></td>
+      <td>see below</td>
+      <td>branch table control flow construct</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">return</code></td>
+      <td><code class="highlighter-rouge">0x0f</code></td>
+      <td> </td>
+      <td>return zero or one value from this function</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The <em>sig</em> fields of <code class="highlighter-rouge">block</code> and <code class="highlighter-rouge">if</code> operators specify function signatures
+which describe their use of the operand stack.</p>
+
+<p>The <code class="highlighter-rouge">br_table</code> operator has an immediate operand which is encoded as follows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>target_count</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>number of entries in the target_table</td>
+    </tr>
+    <tr>
+      <td>target_table</td>
+      <td><code class="highlighter-rouge">varuint32*</code></td>
+      <td>target entries that indicate an outer block or loop to which to break</td>
+    </tr>
+    <tr>
+      <td>default_target</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>an outer block or loop to which to break in the default case</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The <code class="highlighter-rouge">br_table</code> operator implements an indirect branch. It accepts an optional value argument
+(like other branches) and an additional <code class="highlighter-rouge">i32</code> expression as input, and 
+branches to the block or loop at the given offset within the <code class="highlighter-rouge">target_table</code>. If the input value is 
+out of range, <code class="highlighter-rouge">br_table</code> branches to the default target.</p>
+
+<p>Note: Gaps in the opcode space, here and elsewhere, are reserved for
+<a href="../PostMVP/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> extensions.</p>
+
+<h2 id="call-operators-described-heresemanticscalls">Call operators (<a href="../Semantics/#calls">described here</a>)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Opcode</th>
+      <th>Immediates</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">call</code></td>
+      <td><code class="highlighter-rouge">0x10</code></td>
+      <td>function_index : <code class="highlighter-rouge">varuint32</code>
+</td>
+      <td>call a function by its <a href="../Modules/#function-index-space">index</a>
+</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">call_indirect</code></td>
+      <td><code class="highlighter-rouge">0x11</code></td>
+      <td>type_index : <code class="highlighter-rouge">varuint32</code>, reserved : <code class="highlighter-rouge">varuint1</code>
+</td>
+      <td>call a function indirect with an expected signature</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The <code class="highlighter-rouge">call_indirect</code> operator takes a list of function arguments and as the last
+operand the index into the table. Its <code class="highlighter-rouge">reserved</code> immediate is for
+<a href="FutureFeatures.md#multiple-tables-and-memories">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use and must be <code class="highlighter-rouge">0</code> in the MVP.</p>
+
+<h2 id="parametric-operators-described-heresemanticstype-parametric-operators">Parametric operators (<a href="../Semantics/#type-parametric-operators">described here</a>)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Opcode</th>
+      <th>Immediates</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">drop</code></td>
+      <td><code class="highlighter-rouge">0x1a</code></td>
+      <td> </td>
+      <td>ignore value</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">select</code></td>
+      <td><code class="highlighter-rouge">0x1b</code></td>
+      <td> </td>
+      <td>select one of two values based on condition</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="variable-access-described-heresemanticslocal-variables">Variable access (<a href="../Semantics/#local-variables">described here</a>)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Opcode</th>
+      <th>Immediates</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">get_local</code></td>
+      <td><code class="highlighter-rouge">0x20</code></td>
+      <td>local_index : <code class="highlighter-rouge">varuint32</code>
+</td>
+      <td>read a local variable or parameter</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">set_local</code></td>
+      <td><code class="highlighter-rouge">0x21</code></td>
+      <td>local_index : <code class="highlighter-rouge">varuint32</code>
+</td>
+      <td>write a local variable or parameter</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">tee_local</code></td>
+      <td><code class="highlighter-rouge">0x22</code></td>
+      <td>local_index : <code class="highlighter-rouge">varuint32</code>
+</td>
+      <td>write a local variable or parameter and return the same value</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">get_global</code></td>
+      <td><code class="highlighter-rouge">0x23</code></td>
+      <td>global_index : <code class="highlighter-rouge">varuint32</code>
+</td>
+      <td>read a global variable</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">set_global</code></td>
+      <td><code class="highlighter-rouge">0x24</code></td>
+      <td>global_index : <code class="highlighter-rouge">varuint32</code>
+</td>
+      <td>write a global variable</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="memory-related-operators-described-heresemanticslinear-memory-accesses">Memory-related operators (<a href="../Semantics/#linear-memory-accesses">described here</a>)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Opcode</th>
+      <th>Immediate</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">i32.load</code></td>
+      <td><code class="highlighter-rouge">0x28</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.load</code></td>
+      <td><code class="highlighter-rouge">0x29</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.load</code></td>
+      <td><code class="highlighter-rouge">0x2a</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.load</code></td>
+      <td><code class="highlighter-rouge">0x2b</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.load8_s</code></td>
+      <td><code class="highlighter-rouge">0x2c</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.load8_u</code></td>
+      <td><code class="highlighter-rouge">0x2d</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.load16_s</code></td>
+      <td><code class="highlighter-rouge">0x2e</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.load16_u</code></td>
+      <td><code class="highlighter-rouge">0x2f</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.load8_s</code></td>
+      <td><code class="highlighter-rouge">0x30</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.load8_u</code></td>
+      <td><code class="highlighter-rouge">0x31</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.load16_s</code></td>
+      <td><code class="highlighter-rouge">0x32</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.load16_u</code></td>
+      <td><code class="highlighter-rouge">0x33</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.load32_s</code></td>
+      <td><code class="highlighter-rouge">0x34</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.load32_u</code></td>
+      <td><code class="highlighter-rouge">0x35</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>load from memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.store</code></td>
+      <td><code class="highlighter-rouge">0x36</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>store to memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.store</code></td>
+      <td><code class="highlighter-rouge">0x37</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>store to memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.store</code></td>
+      <td><code class="highlighter-rouge">0x38</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>store to memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.store</code></td>
+      <td><code class="highlighter-rouge">0x39</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>store to memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.store8</code></td>
+      <td><code class="highlighter-rouge">0x3a</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>store to memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.store16</code></td>
+      <td><code class="highlighter-rouge">0x3b</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>store to memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.store8</code></td>
+      <td><code class="highlighter-rouge">0x3c</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>store to memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.store16</code></td>
+      <td><code class="highlighter-rouge">0x3d</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>store to memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.store32</code></td>
+      <td><code class="highlighter-rouge">0x3e</code></td>
+      <td><code class="highlighter-rouge">memory_immediate</code></td>
+      <td>store to memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">current_memory</code></td>
+      <td><code class="highlighter-rouge">0x3f</code></td>
+      <td>reserved : <code class="highlighter-rouge">varuint1</code>
+</td>
+      <td>query the size of memory</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">grow_memory</code></td>
+      <td><code class="highlighter-rouge">0x40</code></td>
+      <td>reserved : <code class="highlighter-rouge">varuint1</code>
+</td>
+      <td>grow the size of memory</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The <code class="highlighter-rouge">memory_immediate</code> type is encoded as follows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>flags</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>a bitfield which currently contains the alignment in the least significant bits, encoded as <code class="highlighter-rouge">log2(alignment)</code>
+</td>
+    </tr>
+    <tr>
+      <td>offset</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>the value of the offset</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As implied by the <code class="highlighter-rouge">log2(alignment)</code> encoding, the alignment must be a power of 2.
+As an additional validation criteria, the alignment must be less or equal to 
+natural alignment. The bits after the
+<code class="highlighter-rouge">log(memory-access-size)</code> least-significant bits must be set to 0. These bits
+are reserved for <a href="PostMVP.md#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use
+(e.g., for shared memory ordering requirements).</p>
+
+<p>The <code class="highlighter-rouge">reserved</code> immediate to the <code class="highlighter-rouge">current_memory</code> and <code class="highlighter-rouge">grow_memory</code> operators is
+for <a href="FutureFeatures.md#multiple-tables-and-memories">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use and must be 0 in the MVP.</p>
+
+<h2 id="constants-described-heresemanticsconstants">Constants (<a href="../Semantics/#constants">described here</a>)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Opcode</th>
+      <th>Immediates</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">i32.const</code></td>
+      <td><code class="highlighter-rouge">0x41</code></td>
+      <td>value : <code class="highlighter-rouge">varint32</code>
+</td>
+      <td>a constant value interpreted as <code class="highlighter-rouge">i32</code>
+</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.const</code></td>
+      <td><code class="highlighter-rouge">0x42</code></td>
+      <td>value : <code class="highlighter-rouge">varint64</code>
+</td>
+      <td>a constant value interpreted as <code class="highlighter-rouge">i64</code>
+</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.const</code></td>
+      <td><code class="highlighter-rouge">0x43</code></td>
+      <td>value : <code class="highlighter-rouge">uint32</code>
+</td>
+      <td>a constant value interpreted as <code class="highlighter-rouge">f32</code>
+</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.const</code></td>
+      <td><code class="highlighter-rouge">0x44</code></td>
+      <td>value : <code class="highlighter-rouge">uint64</code>
+</td>
+      <td>a constant value interpreted as <code class="highlighter-rouge">f64</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="comparison-operators-described-heresemantics32-bit-integer-operators">Comparison operators (<a href="../Semantics/#32-bit-integer-operators">described here</a>)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Opcode</th>
+      <th>Immediate</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">i32.eqz</code></td>
+      <td><code class="highlighter-rouge">0x45</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.eq</code></td>
+      <td><code class="highlighter-rouge">0x46</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.ne</code></td>
+      <td><code class="highlighter-rouge">0x47</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.lt_s</code></td>
+      <td><code class="highlighter-rouge">0x48</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.lt_u</code></td>
+      <td><code class="highlighter-rouge">0x49</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.gt_s</code></td>
+      <td><code class="highlighter-rouge">0x4a</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.gt_u</code></td>
+      <td><code class="highlighter-rouge">0x4b</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.le_s</code></td>
+      <td><code class="highlighter-rouge">0x4c</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.le_u</code></td>
+      <td><code class="highlighter-rouge">0x4d</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.ge_s</code></td>
+      <td><code class="highlighter-rouge">0x4e</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.ge_u</code></td>
+      <td><code class="highlighter-rouge">0x4f</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.eqz</code></td>
+      <td><code class="highlighter-rouge">0x50</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.eq</code></td>
+      <td><code class="highlighter-rouge">0x51</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.ne</code></td>
+      <td><code class="highlighter-rouge">0x52</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.lt_s</code></td>
+      <td><code class="highlighter-rouge">0x53</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.lt_u</code></td>
+      <td><code class="highlighter-rouge">0x54</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.gt_s</code></td>
+      <td><code class="highlighter-rouge">0x55</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.gt_u</code></td>
+      <td><code class="highlighter-rouge">0x56</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.le_s</code></td>
+      <td><code class="highlighter-rouge">0x57</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.le_u</code></td>
+      <td><code class="highlighter-rouge">0x58</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.ge_s</code></td>
+      <td><code class="highlighter-rouge">0x59</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.ge_u</code></td>
+      <td><code class="highlighter-rouge">0x5a</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.eq</code></td>
+      <td><code class="highlighter-rouge">0x5b</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.ne</code></td>
+      <td><code class="highlighter-rouge">0x5c</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.lt</code></td>
+      <td><code class="highlighter-rouge">0x5d</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.gt</code></td>
+      <td><code class="highlighter-rouge">0x5e</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.le</code></td>
+      <td><code class="highlighter-rouge">0x5f</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.ge</code></td>
+      <td><code class="highlighter-rouge">0x60</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.eq</code></td>
+      <td><code class="highlighter-rouge">0x61</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.ne</code></td>
+      <td><code class="highlighter-rouge">0x62</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.lt</code></td>
+      <td><code class="highlighter-rouge">0x63</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.gt</code></td>
+      <td><code class="highlighter-rouge">0x64</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.le</code></td>
+      <td><code class="highlighter-rouge">0x65</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.ge</code></td>
+      <td><code class="highlighter-rouge">0x66</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="numeric-operators-described-heresemantics32-bit-integer-operators">Numeric operators (<a href="../Semantics/#32-bit-integer-operators">described here</a>)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Opcode</th>
+      <th>Immediate</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">i32.clz</code></td>
+      <td><code class="highlighter-rouge">0x67</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.ctz</code></td>
+      <td><code class="highlighter-rouge">0x68</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.popcnt</code></td>
+      <td><code class="highlighter-rouge">0x69</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.add</code></td>
+      <td><code class="highlighter-rouge">0x6a</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.sub</code></td>
+      <td><code class="highlighter-rouge">0x6b</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.mul</code></td>
+      <td><code class="highlighter-rouge">0x6c</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.div_s</code></td>
+      <td><code class="highlighter-rouge">0x6d</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.div_u</code></td>
+      <td><code class="highlighter-rouge">0x6e</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.rem_s</code></td>
+      <td><code class="highlighter-rouge">0x6f</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.rem_u</code></td>
+      <td><code class="highlighter-rouge">0x70</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.and</code></td>
+      <td><code class="highlighter-rouge">0x71</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.or</code></td>
+      <td><code class="highlighter-rouge">0x72</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.xor</code></td>
+      <td><code class="highlighter-rouge">0x73</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.shl</code></td>
+      <td><code class="highlighter-rouge">0x74</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.shr_s</code></td>
+      <td><code class="highlighter-rouge">0x75</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.shr_u</code></td>
+      <td><code class="highlighter-rouge">0x76</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.rotl</code></td>
+      <td><code class="highlighter-rouge">0x77</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.rotr</code></td>
+      <td><code class="highlighter-rouge">0x78</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.clz</code></td>
+      <td><code class="highlighter-rouge">0x79</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.ctz</code></td>
+      <td><code class="highlighter-rouge">0x7a</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.popcnt</code></td>
+      <td><code class="highlighter-rouge">0x7b</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.add</code></td>
+      <td><code class="highlighter-rouge">0x7c</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.sub</code></td>
+      <td><code class="highlighter-rouge">0x7d</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.mul</code></td>
+      <td><code class="highlighter-rouge">0x7e</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.div_s</code></td>
+      <td><code class="highlighter-rouge">0x7f</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.div_u</code></td>
+      <td><code class="highlighter-rouge">0x80</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.rem_s</code></td>
+      <td><code class="highlighter-rouge">0x81</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.rem_u</code></td>
+      <td><code class="highlighter-rouge">0x82</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.and</code></td>
+      <td><code class="highlighter-rouge">0x83</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.or</code></td>
+      <td><code class="highlighter-rouge">0x84</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.xor</code></td>
+      <td><code class="highlighter-rouge">0x85</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.shl</code></td>
+      <td><code class="highlighter-rouge">0x86</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.shr_s</code></td>
+      <td><code class="highlighter-rouge">0x87</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.shr_u</code></td>
+      <td><code class="highlighter-rouge">0x88</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.rotl</code></td>
+      <td><code class="highlighter-rouge">0x89</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.rotr</code></td>
+      <td><code class="highlighter-rouge">0x8a</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.abs</code></td>
+      <td><code class="highlighter-rouge">0x8b</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.neg</code></td>
+      <td><code class="highlighter-rouge">0x8c</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.ceil</code></td>
+      <td><code class="highlighter-rouge">0x8d</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.floor</code></td>
+      <td><code class="highlighter-rouge">0x8e</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.trunc</code></td>
+      <td><code class="highlighter-rouge">0x8f</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.nearest</code></td>
+      <td><code class="highlighter-rouge">0x90</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.sqrt</code></td>
+      <td><code class="highlighter-rouge">0x91</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.add</code></td>
+      <td><code class="highlighter-rouge">0x92</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.sub</code></td>
+      <td><code class="highlighter-rouge">0x93</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.mul</code></td>
+      <td><code class="highlighter-rouge">0x94</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.div</code></td>
+      <td><code class="highlighter-rouge">0x95</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.min</code></td>
+      <td><code class="highlighter-rouge">0x96</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.max</code></td>
+      <td><code class="highlighter-rouge">0x97</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.copysign</code></td>
+      <td><code class="highlighter-rouge">0x98</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.abs</code></td>
+      <td><code class="highlighter-rouge">0x99</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.neg</code></td>
+      <td><code class="highlighter-rouge">0x9a</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.ceil</code></td>
+      <td><code class="highlighter-rouge">0x9b</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.floor</code></td>
+      <td><code class="highlighter-rouge">0x9c</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.trunc</code></td>
+      <td><code class="highlighter-rouge">0x9d</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.nearest</code></td>
+      <td><code class="highlighter-rouge">0x9e</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.sqrt</code></td>
+      <td><code class="highlighter-rouge">0x9f</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.add</code></td>
+      <td><code class="highlighter-rouge">0xa0</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.sub</code></td>
+      <td><code class="highlighter-rouge">0xa1</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.mul</code></td>
+      <td><code class="highlighter-rouge">0xa2</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.div</code></td>
+      <td><code class="highlighter-rouge">0xa3</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.min</code></td>
+      <td><code class="highlighter-rouge">0xa4</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.max</code></td>
+      <td><code class="highlighter-rouge">0xa5</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.copysign</code></td>
+      <td><code class="highlighter-rouge">0xa6</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="conversions-described-heresemanticsdatatype-conversions">Conversions (<a href="../Semantics/#datatype-conversions">described here</a>)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Opcode</th>
+      <th>Immediate</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">i32.wrap/i64</code></td>
+      <td><code class="highlighter-rouge">0xa7</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.trunc_s/f32</code></td>
+      <td><code class="highlighter-rouge">0xa8</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.trunc_u/f32</code></td>
+      <td><code class="highlighter-rouge">0xa9</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.trunc_s/f64</code></td>
+      <td><code class="highlighter-rouge">0xaa</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i32.trunc_u/f64</code></td>
+      <td><code class="highlighter-rouge">0xab</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.extend_s/i32</code></td>
+      <td><code class="highlighter-rouge">0xac</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.extend_u/i32</code></td>
+      <td><code class="highlighter-rouge">0xad</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.trunc_s/f32</code></td>
+      <td><code class="highlighter-rouge">0xae</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.trunc_u/f32</code></td>
+      <td><code class="highlighter-rouge">0xaf</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.trunc_s/f64</code></td>
+      <td><code class="highlighter-rouge">0xb0</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.trunc_u/f64</code></td>
+      <td><code class="highlighter-rouge">0xb1</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.convert_s/i32</code></td>
+      <td><code class="highlighter-rouge">0xb2</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.convert_u/i32</code></td>
+      <td><code class="highlighter-rouge">0xb3</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.convert_s/i64</code></td>
+      <td><code class="highlighter-rouge">0xb4</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.convert_u/i64</code></td>
+      <td><code class="highlighter-rouge">0xb5</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.demote/f64</code></td>
+      <td><code class="highlighter-rouge">0xb6</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.convert_s/i32</code></td>
+      <td><code class="highlighter-rouge">0xb7</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.convert_u/i32</code></td>
+      <td><code class="highlighter-rouge">0xb8</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.convert_s/i64</code></td>
+      <td><code class="highlighter-rouge">0xb9</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.convert_u/i64</code></td>
+      <td><code class="highlighter-rouge">0xba</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.promote/f32</code></td>
+      <td><code class="highlighter-rouge">0xbb</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="reinterpretations-described-heresemanticsdatatype-conversions">Reinterpretations (<a href="../Semantics/#datatype-conversions">described here</a>)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Opcode</th>
+      <th>Immediate</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">i32.reinterpret/f32</code></td>
+      <td><code class="highlighter-rouge">0xbc</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">i64.reinterpret/f64</code></td>
+      <td><code class="highlighter-rouge">0xbd</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f32.reinterpret/i32</code></td>
+      <td><code class="highlighter-rouge">0xbe</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">f64.reinterpret/i64</code></td>
+      <td><code class="highlighter-rouge">0xbf</code></td>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/binary-encoding/">Binary Encoding
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/c-and-c++/">Guide for C/C++ developers
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/dynamic-linking/">Dynamic linking
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/faq/">FAQ
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/feature-test/">Feature Test
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/future-features/">Features to add after the MVP
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration [<img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][future general]
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/high-level-goals/">WebAssembly High-Level Goals
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/js/">JavaScript API
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/mvp/">Minimum Viable Product
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/modules/">Modules
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/non-web/">Non-Web Embeddings
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/nondeterminism/">Nondeterminism in WebAssembly
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/portability/">Portability
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/rationale/">Design Rationale
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/security/">Security
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/semantics/">Semantics
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/text-format/">Text Format
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/tooling/">Tooling support
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/use-cases/">Use Cases
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/web/">Web Embedding
+</a>
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

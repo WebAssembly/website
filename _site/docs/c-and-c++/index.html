@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom2.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/intro/">Getting Started</a>
+      
+      <a class="site-nav-item btn" href="/docs/binary-encoding/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="guide-for-cc-developers">Guide for C/C++ developers</h1>
+
+<p>WebAssembly is being designed to support C and C++ code well, right from
+the start in <a href="../MVP/">the MVP</a>. The following explains the outlook for
+C and C++ developers.</p>
+
+<h2 id="porting-c-and-c-code-to-webassembly">Porting C and C++ code to WebAssembly</h2>
+
+<h3 id="platform-features">Platform features</h3>
+
+<p>WebAssembly has a pretty conventional ISA: 8-bit bytes, two’s complement
+integers, little-endian, and a lot of other normal properties. Reasonably
+portable C/C++ code should port to WebAssembly without difficultly.</p>
+
+<p>WebAssembly has 32-bit and 64-bit architecture variants, called wasm32 and
+wasm64. wasm32 has an ILP32 data model, meaning that <code class="highlighter-rouge">int</code>, <code class="highlighter-rouge">long</code>, and
+pointer types are all 32-bit, while the <code class="highlighter-rouge">long long</code> type is 64-bit. wasm64
+has an LP64 data model, meaning that <code class="highlighter-rouge">long</code> and pointer types will be
+64-bit, while <code class="highlighter-rouge">int</code> is 32-bit.</p>
+
+<p><a href="../MVP/">The MVP</a> will support only wasm32; support for wasm64 will be
+added in the future to support
+<a href="../FutureFeatures/#linear-memory-bigger-than-4-gib">64-bit address spaces <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
+
+<p><code class="highlighter-rouge">float</code> and <code class="highlighter-rouge">double</code> are the IEEE 754-2008 single- and double-precision types,
+which are native in WebAssembly. <code class="highlighter-rouge">long double</code> is the IEEE 754-2008
+quad-precision type, which is a software-emulated type. WebAssembly does
+not have a builtin quad-precision type or associated operators. The long
+double type here is software-emulated in library code linked into WebAssembly
+applications that need it.</p>
+
+<p>For performance and compatibility with other platforms, <code class="highlighter-rouge">float</code> and
+<code class="highlighter-rouge">double</code> are recommended for most uses.</p>
+
+<h3 id="language-support">Language Support</h3>
+
+<p>C and C++ language conformance is largely determined by individual compiler
+support, but WebAssembly includes all the functionality that popular C and C++
+compilers need to support high-quality implementations.</p>
+
+<p>While <a href="../MVP/">the MVP</a> will be fully functional, additional features enabling
+greater performance will be added soon after, including:</p>
+
+<ul>
+  <li>
+    <p><a href="../PostMVP/#threads">Support for multi-threaded execution with shared memory</a>.</p>
+  </li>
+  <li>
+    <p><a href="../PostMVP/#zero-cost-exception-handling">Zero-cost C++ exception handling</a>.
+C++ exceptions can be implemented without this, but this feature will
+enable them to have lower runtime overhead.</p>
+  </li>
+  <li>
+    <p>Support for <a href="../PostMVP/#fixed-width-simd">128-bit SIMD</a>. SIMD will be
+exposed to C/C++ though explicit APIs such as <a href="http://clang.llvm.org/docs/LanguageExtensions.html#vectors-and-extended-vectors">LLVM’s vector extensions</a>
+and <a href="https://gcc.gnu.org/onlinedocs/gcc/Vector-Extensions.html">GCC’s vector extensions</a>, auto-vectorization, and emulated APIs from
+other platforms such as <code class="highlighter-rouge">&lt;xmmintrin.h&gt;</code>.</p>
+  </li>
+</ul>
+
+<h3 id="apis">APIs</h3>
+
+<p>WebAssembly applications can use high-level C/C++ APIs such as the C
+and C++ standard libraries, OpenGL, SDL, pthreads, and others, just as
+in normal C/C++ development. Under the covers, these libraries
+implement their functionality by using low-level facilities provided by
+WebAssembly implementations. On <a href="../Web/">the Web</a>, they utilize
+Web APIs (for example, OpenGL is executed on WebGL, libc date and
+time methods use the browser’s Date functionality, etc.).
+<a href="../NonWeb/">In other contexts</a>, other low-level mechanisms may be used.</p>
+
+<h3 id="abis">ABIs</h3>
+
+<p>In <a href="../MVP/">the MVP</a>, WebAssembly does not yet have a stable ABI for
+libraries. Developers will need to ensure that all code linked into an
+application are compiled with the same compiler and options.</p>
+
+<p>In the future, when WebAssembly is extended to support
+<a href="../DynamicLinking/">dynamic linking</a>, stable ABIs are
+expected to be defined in accompaniment.</p>
+
+<h3 id="undefined-and-implementation-defined-behavior">Undefined and Implementation-defined Behavior</h3>
+
+<h4 id="undefined-behavior">Undefined Behavior</h4>
+
+<p>WebAssembly doesn’t change the C or C++ languages. Things which cause
+undefined behavior in C or C++ are still bugs when compiling for WebAssembly
+[even when the corresponding behavior in WebAssembly itself is defined]
+(Nondeterminism.md#note-for-users-of-c-c-and-similar-languages). C and C++
+optimizers still assume that undefined behavior won’t occur, so such bugs
+can still lead to surprising behavior.</p>
+
+<p>For example, while unaligned memory access is
+<a href="../Semantics/#alignment">fully defined</a> in WebAssembly, C and C++ compilers
+make no guarantee that a (non-packed) unaligned memory access at the source
+level is harmlessly translated into an unaligned memory access in WebAssembly.
+And in practice, popular C and C++ compilers do optimize on the assumption that
+alignment rules are followed, meaning that they don’t always preserve program
+behavior otherwise.</p>
+
+<p>On WebAssembly, the primary <a href="../Nondeterminism/">nondeterminism</a> and
+<a href="../Security/">security</a> invariants are always maintained. Demons can’t actually
+fly out your nose, as that would constitute an escape from the sandbox. And,
+callstacks can’t become corrupted.</p>
+
+<p>Other than that, programs which invoke undefined behavior at the source language
+level may be compiled into WebAssembly programs which do anything else,
+including corrupting the contents of the application’s linear memory, calling APIs with
+arbitrary parameters, hanging, trapping, or consuming arbitrary amounts of
+resources (within the limits).</p>
+
+<p><a href="../Tooling/">Tools are being developed and ported</a> to help developers find
+and fix such bugs in their code.</p>
+
+<h4 id="implementation-defined-behavior">Implementation-Defined Behavior</h4>
+
+<p>Most implementation-defined behavior in C and C++ is dependent on the compiler
+rather than on the underlying platform. For those details that are dependent
+on the platform, on WebAssembly they follow naturally from having 8-bit bytes,
+32-bit and 64-bit two’s complement integers, and
+[32-bit and 64-bit IEEE-754-2008-style floating point support]
+(Semantics.md#floating-point-operators).</p>
+
+<h2 id="portability-of-compiled-code">Portability of compiled code</h2>
+
+<p>WebAssembly can be efficiently implemented on a wide variety of platforms,
+provided they can satisfy certain
+<a href="../Portability/#assumptions-for-efficient-execution">basic expectations</a>.</p>
+
+<p>WebAssembly has very limited <a href="../Nondeterminism/">nondeterminism</a>, so it is
+expected that compiled WebAssembly programs will behave very consistently
+across different implementations, and across different versions of the same
+implementation.</p>
+
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/binary-encoding/">Binary Encoding
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/c-and-c++/">Guide for C/C++ developers
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/dynamic-linking/">Dynamic linking
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/faq/">FAQ
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/feature-test/">Feature Test
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/future-features/">Features to add after the MVP
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration [<img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][future general]
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/high-level-goals/">WebAssembly High-Level Goals
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/js/">JavaScript API
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/mvp/">Minimum Viable Product
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/modules/">Modules
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/non-web/">Non-Web Embeddings
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/nondeterminism/">Nondeterminism in WebAssembly
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/portability/">Portability
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/rationale/">Design Rationale
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/security/">Security
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/semantics/">Semantics
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/text-format/">Text Format
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/tooling/">Tooling support
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/use-cases/">Use Cases
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/web/">Web Embedding
+</a>
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

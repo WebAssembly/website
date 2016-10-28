@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom2.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/intro/">Getting Started</a>
+      
+      <a class="site-nav-item btn" href="/docs/binary-encoding/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="faq">FAQ</h1>
+
+<h2 id="why-create-a-new-standard-when-there-is-already-asmjs">Why create a new standard when there is already asm.js?</h2>
+
+<p>… especially since pthreads (<a href="https://blog.mozilla.org/javascript/2015/02/26/the-path-to-parallel-javascript/">Mozilla pthreads</a>, <a href="https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/d-0ibJwCS24">Chromium pthreads</a>) and
+SIMD (<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/">simd.js</a>, <a href="https://groups.google.com/a/chromium.org/forum/#!topic/blink-dev/2PIOEJG_aYY">Chromium SIMD</a>, <a href="http://discourse.specifiction.org/t/request-for-comments-simd-js-in-asm-js/676">simd.js in asm.js</a>) are coming to
+JavaScript.</p>
+
+<p>There are two main benefits WebAssembly provides:</p>
+
+<ol>
+  <li>
+    <p>The kind of binary format being considered for WebAssembly can be natively
+decoded much faster than JavaScript can be parsed (<a href="../BinaryEncoding/#why-a-binary-encoding-instead-of-a-text-only-representation">experiments</a> show more
+than 20× faster).  On mobile, large compiled codes can easily take 20–40
+seconds <em>just to parse</em>, so native decoding (especially when combined with
+other techniques like <a href="https://www.w3.org/TR/streams-api/">streaming</a> for better-than-gzip compression) is
+critical to providing a good cold-load user experience.</p>
+  </li>
+  <li>
+    <p>By avoiding the simultaneous asm.js constraints of <a href="http://asmjs.org/spec/latest/#ahead-of-time-compilation">AOT</a>-<a href="https://blog.mozilla.org/luke/2014/01/14/asm-js-aot-compilation-and-startup-performance/">compilability</a>
+and good performance even on engines without
+<a href="https://blog.mozilla.org/luke/2015/02/18/microsoft-announces-asm-js-optimizations/#asmjs-opts">specific asm.js optimizations</a>, a new standard makes it <em>much easier</em> to
+add the <a href="../FutureFeatures/">features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> required to reach native
+levels of performance.</p>
+  </li>
+</ol>
+
+<p>Of course, every new standard introduces new costs (maintenance, attack surface,
+code size) that must be offset by the benefits. WebAssembly minimizes costs by
+having a design that allows (though not requires) a browser to implement
+WebAssembly inside its <em>existing</em> JavaScript engine (thereby reusing the
+JavaScript engine’s existing compiler backend, ES6 module loading frontend,
+security sandboxing mechanisms and other supporting VM components). Thus, in
+cost, WebAssembly should be comparable to a big new JavaScript feature, not a
+fundamental extension to the browser model.</p>
+
+<p>Comparing the two, even for engines which already optimize asm.js, the benefits
+outweigh the costs.</p>
+
+<h2 id="what-are-webassemblys-use-cases">What are WebAssembly’s use cases?</h2>
+
+<p>WebAssembly was designed with <a href="../UseCases/">a variety of use cases in mind</a>.</p>
+
+<h2 id="can-webassembly-be-polyfilled">Can WebAssembly be polyfilled?</h2>
+
+<p>We think so. There was an early
+<a href="https://github.com/WebAssembly/polyfill-prototype-1">prototype</a> with demos 
+[<a href="https://lukewagner.github.io/AngryBotsPacked">1</a>, 
+<a href="https://lukewagner.github.io/PlatformerGamePacked">2</a>], which showed
+that decoding a binary WebAssembly-like format into asm.js can be efficient.
+And as the WebAssembly design has changed there have been
+<a href="https://github.com/WebAssembly/polyfill-prototype-2">more</a>
+<a href="https://github.com/WebAssembly/binaryen/blob/master/src/wasm2asm.h">experiments</a>
+with polyfilling.</p>
+
+<p>Overall, optimism has been increasing for quick adoption of WebAssembly in
+browsers, which is great, but it has decreased the motivation to work on a
+polyfill.</p>
+
+<p>It is also the case that polyfilling WebAssembly to asm.js is less urgent
+because of the existence of alternatives, for example, a reverse polyfill -
+compiling
+<a href="https://github.com/WebAssembly/binaryen/blob/master/src/asm2wasm.h">asm.js to WebAssembly</a> -
+exists, and it allows shipping a single build that can run as either
+asm.js or WebAssembly. It is also possible to build a project into
+two parallel asm.js and WebAssembly builds by just
+<a href="https://github.com/kripken/emscripten/wiki/WebAssembly">flipping a switch</a>
+in emscripten, which avoids polyfill time on the client entirely. A third
+option, for non-performant code, is to use a compiled WebAssembly interpreter
+such as
+<a href="https://github.com/WebAssembly/binaryen/blob/master/test/binaryen.js/test.js">binaryen.js</a>.</p>
+
+<p>However, a WebAssembly polyfill is still an interesting idea and should in
+principle be possible.</p>
+
+<h2 id="is-webassembly-only-for-cc-programmers">Is WebAssembly only for C/C++ programmers?</h2>
+
+<p>As explained in the <a href="../HighLevelGoals/">high-level goals</a>, to achieve a Minimum
+Viable Product, the initial focus is on <a href="../CAndC++/">C/C++</a>.</p>
+
+<p>However, by <a href="../Modules/#integration-with-es6-modules">integrating with JavaScript at the ES6 Module interface</a>,
+web developers don’t need to write C++ to take advantage of libraries that others have written; 
+reusing a modular C++ library can be as simple as <a href="http://jsmodules.io">using a module from JavaScript</a>.</p>
+
+<p>Beyond the MVP, another <a href="../HighLevelGoals/">high-level goal</a>
+is to improve support for languages other than C/C++.  This includes <a href="../FutureFeatures/#gcdom-integration">allowing WebAssembly code to
+allocate and access garbage-collected (JavaScript, DOM, Web API) objects
+<img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.
+Even before GC support is added to WebAssembly, it is possible to compile a language’s VM 
+to WebAssembly (assuming it’s written in portable C/C++) and this has already been demonstrated 
+(<a href="http://ruby.dj">1</a>, <a href="https://kripken.github.io/lua.vm.js/lua.vm.js.html">2</a>,
+<a href="https://syntensity.blogspot.com/2010/12/python-demo.html">3</a>).  However, “compile the VM” strategies 
+increase the size of distributed code, lose browser devtools integration, can have cross-language
+cycle-collection problems and miss optimizations that require integration with the browser.</p>
+
+<h2 id="which-compilers-can-i-use-to-build-webassembly-programs">Which compilers can I use to build WebAssembly programs?</h2>
+
+<p>WebAssembly initially focuses on <a href="../CAndC++/">C/C++</a>, and a new, clean
+WebAssembly backend is being developed in upstream clang/LLVM, which can then be
+used by LLVM-based projects like <a href="http://emscripten.org">Emscripten</a> and <a href="http://gonacl.com">PNaCl</a>.</p>
+
+<p>As WebAssembly evolves it will support more languages than C/C++, and we hope
+that other compilers will support it as well, even for the C/C++ language, for
+example <a href="https://gcc.gnu.org">GCC</a>. The WebAssembly working group found it easier to start with
+LLVM support because they had more experience with that toolchain from their
+<a href="http://emscripten.org">Emscripten</a> and <a href="http://gonacl.com">PNaCl</a> work.</p>
+
+<p>We hope that proprietary compilers also gain WebAssembly support, but we’ll let
+vendors speak about their own platforms.</p>
+
+<p>The <a href="https://www.w3.org/community/webassembly/">WebAssembly Community Group</a> would be delighted to collaborate with more
+compiler vendors, take their input into consideration in WebAssembly itself, and
+work with them on ABI matters.</p>
+
+<h2 id="will-webassembly-support-view-source-on-the-web">Will WebAssembly support View Source on the Web?</h2>
+
+<p>Yes! WebAssembly defines a <a href="../TextFormat/">text format</a> to be rendered when
+developers view the source of a WebAssembly module in any developer tool. Also,
+a specific goal of the text format is to allow developers to write WebAssembly
+modules by hand for testing, experimenting, optimizing, learning and teaching
+purposes. In fact, by dropping all the
+<a href="http://asmjs.org/spec/latest/#introduction">coercions required by asm.js validation</a>,
+the WebAssembly text format should be much more natural to read and write than
+asm.js. Outside the browser, command-line and online tools that convert between
+text and binary will also be made readily available.  Lastly, a scalable form of
+source maps is also being considered as part of the WebAssembly
+<a href="../Tooling/">tooling story</a>.</p>
+
+<h2 id="whats-the-story-for-emscripten-users">What’s the story for Emscripten users?</h2>
+
+<p>Existing Emscripten users will get the option to build their projects to
+WebAssembly, by flipping a flag. Initially, Emscripten’s asm.js output would be
+converted to WebAssembly, but eventually Emscripten would use WebAssembly
+throughout the pipeline. This painless transition is enabled by the
+<a href="../HighLevelGoals/">high-level goal</a> that WebAssembly integrate well with the
+Web platform (including allowing synchronous calls into and out of JavaScript)
+which makes WebAssembly compatible with Emscripten’s current asm.js compilation
+model.</p>
+
+<h2 id="is-webassembly-trying-to-replace-javascript">Is WebAssembly trying to replace JavaScript?</h2>
+
+<p>No! WebAssembly is designed to be a complement to, not replacement of,
+JavaScript. While WebAssembly will, over time, allow many languages to be
+compiled to the Web, JavaScript has an incredible amount of momentum and will
+remain the single, privileged (as described
+<a href="../FAQ/#is-webassembly-only-for-cc-programmers">above</a>) dynamic language of the
+Web. Furthermore, it is expected that JavaScript and WebAssembly will be used
+together in a number of configurations:</p>
+
+<ul>
+  <li>Whole, compiled C++ apps that leverage JavaScript to glue things together.</li>
+  <li>HTML/CSS/JavaScript UI around a main WebAssembly-controlled center canvas,
+allowing developers to leverage the power of web frameworks to build
+accessible, web-native-feeling experiences.</li>
+  <li>Mostly HTML/CSS/JavaScript app with a few high-performance WebAssembly modules
+(e.g., graphing, simulation, image/sound/video processing, visualization,
+animation, compression, etc., examples which we can already see in asm.js
+today) allowing developers to reuse popular WebAssembly libraries just like
+JavaScript libraries today.</li>
+  <li>When WebAssembly
+<a href="../FutureFeatures/#gcdom-integration">gains the ability to access garbage-collected objects <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
+those objects will be shared with JavaScript, and not live in a walled-off
+world of their own.</li>
+</ul>
+
+<h2 id="why-not-just-use-llvm-bitcode-as-a-binary-format">Why not just use LLVM bitcode as a binary format?</h2>
+
+<p>The <a href="http://llvm.org/">LLVM</a> compiler infrastructure has a lot to recommend it:
+it has an existing intermediate representation (LLVM IR) and binary encoding
+format (bitcode). It has code generation backends targeting many architectures
+is actively developed and maintained by a large community. In fact
+<a href="http://gonacl.com">PNaCl</a> already uses LLVM as a basis for its binary
+format. However the goals and requirements that LLVM was designed to meet are
+subtly mismatched with those of WebAssembly.</p>
+
+<p>WebAssembly has several requirements and goals for its Instruction Set
+Architecture (ISA) and binary encoding:</p>
+
+<ul>
+  <li>Portability: The ISA must be the same for every machine architecture.</li>
+  <li>Stability: The ISA and binary encoding must not change over time (or change
+only in ways that can be kept backward-compatible).</li>
+  <li>Small encoding: The representation of a program should be as small as possible
+for transmission over the Internet.</li>
+  <li>Fast decoding: The binary format should be fast to decompress and decode for
+fast startup of programs.</li>
+  <li>Fast compiling: The ISA should be fast to compile (and suitable for either
+AOT- or JIT-compilation) for fast startup of programs.</li>
+  <li>Minimal <a href="../Nondeterminism/">nondeterminism</a>: The behavior of programs should
+be as predictable and deterministic as possible (and should be the same on
+every architecture, a stronger form of the portability requirement stated
+above).</li>
+</ul>
+
+<p>LLVM IR is meant to make compiler optimizations easy to implement, and to
+represent the constructs and semantics required by C, C++, and other languages
+on a large variety of operating systems and architectures. This means that by
+default the IR is not portable (the same program has different representations
+for different architectures) or stable (it changes over time as optimization and
+language requirements change). It has representations for a huge variety of
+information that is useful for implementing mid-level compiler optimizations but
+is not useful for code generation (but which represents a large surface area for
+codegen implementers to deal with).  It also has undefined behavior (largely
+similar to that of C and C++) which makes some classes of optimization feasible
+or more powerful, but which can lead to unpredictable behavior at runtime.
+LLVM’s binary format (bitcode) was designed for temporary on-disk serialization
+of the IR for link-time optimization, and not for stability or compressibility
+(although it does have some features for both of those).</p>
+
+<p>None of these problems are insurmountable. For example PNaCl defines a small
+portable
+<a href="https://developer.chrome.com/native-client/reference/pnacl-bitcode-abi">subset</a>
+of the IR with reduced undefined behavior, and a stable version of the bitcode
+encoding. It also employs several techniques to improve startup
+performance. However, each customization, workaround, and special solution means
+less benefit from the common infrastructure. We believe that by taking our
+experience with LLVM and designing an IR and binary encoding for our goals and
+requirements, we can do much better than adapting a system designed for other
+purposes.</p>
+
+<p>Note that this discussion applies to use of LLVM IR as a standardized
+format. LLVM’s clang frontend and midlevel optimizers can still be used to
+generate WebAssembly code from C and C++, and will use LLVM IR in their
+implementation similarly to how PNaCl and Emscripten do today.</p>
+
+<h2 id="why-is-there-no-fast-math-mode-with-relaxed-floating-point-semantics">Why is there no fast-math mode with relaxed floating point semantics?</h2>
+
+<p>Optimizing compilers commonly have fast-math flags which permit the compiler to
+relax the rules around floating point in order to optimize more
+aggressively. This can include assuming that NaNs or infinities don’t occur,
+ignoring the difference between negative zero and positive zero, making
+algebraic manipulations which change how rounding is performed or when overflow
+might occur, or replacing operators with approximations that are cheaper to
+compute.</p>
+
+<p>These optimizations effectively introduce nondeterminism; it isn’t possible to
+determine how the code will behave without knowing the specific choices made by
+the optimizer. This often isn’t a serious problem in native code scenarios,
+because all the nondeterminism is resolved by the time native code is
+produced. Since most hardware doesn’t have floating point nondeterminism,
+developers have an opportunity to test the generated code, and then count on it
+behaving consistently for all users thereafter.</p>
+
+<p>WebAssembly implementations run on the user side, so there is no opportunity for
+developers to test the final behavior of the code. Nondeterminism at this level
+could cause distributed WebAssembly programs to behave differently in different
+implementations, or change over time. WebAssembly does have
+<a href="../Nondeterminism/">some nondeterminism</a> in cases where the tradeoffs warrant
+it, but fast-math flags are not believed to be important enough:</p>
+
+<ul>
+  <li>Many of the important fast-math optimizations happen in the mid-level
+optimizer of a compiler, before WebAssembly code is emitted. For example,
+loop vectorization that depends on floating point reassociation can still be
+done at this level if the user applies the appropriate fast-math flags, so
+WebAssembly programs can still enjoy these benefits. As another example,
+compilers can replace floating point division with floating point
+multiplication by a reciprocal in WebAssembly programs just as they do for
+other platforms.</li>
+  <li>Mid-level compiler optimizations may also be augmented by implementing them
+in a <a href="../JITLibrary/">JIT library</a> in WebAssembly. This would allow them to
+perform optimizations that benefit from having
+<a href="../FeatureTest/">information about the target</a> and information about the
+source program semantics such as fast-math flags at the same time. For
+example, if SIMD types wider than 128-bit are added, it’s expected that there
+would be feature tests allowing WebAssembly code to determine which SIMD
+types to use on a given platform.</li>
+  <li>When WebAssembly
+<a href="FutureFeatures.md#additional-floating-point-operators">adds an FMA operator <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
+folding multiply and add sequences into FMA operators will be possible.</li>
+  <li>WebAssembly doesn’t include its own math functions like <code class="highlighter-rouge">sin</code>, <code class="highlighter-rouge">cos</code>, <code class="highlighter-rouge">exp</code>,
+<code class="highlighter-rouge">pow</code>, and so on. WebAssembly’s strategy for such functions is to allow them
+to be implemented as library routines in WebAssembly itself (note that x86’s
+<code class="highlighter-rouge">sin</code> and <code class="highlighter-rouge">cos</code> instructions are slow and imprecise and are generally avoided
+these days anyway). Users wishing to use faster and less precise math
+functions on WebAssembly can simply select a math library implementation
+which does so.</li>
+  <li>Most of the individual floating point operators that WebAssembly does have
+already map to individual fast instructions in hardware. Telling <code class="highlighter-rouge">add</code>,
+<code class="highlighter-rouge">sub</code>, or <code class="highlighter-rouge">mul</code> they don’t have to worry about NaN for example doesn’t make
+them any faster, because NaN is handled quickly and transparently in hardware
+on all modern platforms.</li>
+  <li>WebAssembly has no floating point traps, status register, dynamic rounding
+modes, or signalling NaNs, so optimizations that depend on the absence of
+these features are all safe.</li>
+</ul>
+
+<h2 id="what-about-mmap">What about <code class="highlighter-rouge">mmap</code>?</h2>
+
+<p>The <a href="http://pubs.opengroup.org/onlinepubs/009695399/functions/mmap.html"><code class="highlighter-rouge">mmap</code></a>
+syscall has many useful features. While these are all packed into one overloaded
+syscall in POSIX, WebAssembly unpacks this functionality into multiple
+operators:</p>
+
+<ul>
+  <li>the MVP starts with the ability to grow linear memory via a
+<a href="../Semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> operator;</li>
+  <li>proposed
+<a href="FutureFeatures.md#finer-grained-control-over-memory">future features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> would
+allow the application to change the protection and mappings for pages in the
+contiguous range <code class="highlighter-rouge">0</code> to <code class="highlighter-rouge">memory_size</code>.</li>
+</ul>
+
+<p>A significant feature of <code class="highlighter-rouge">mmap</code> that is missing from the above list is the
+ability to allocate disjoint virtual address ranges. The reasoning for this
+omission is:</p>
+
+<ul>
+  <li>The above functionality is sufficient to allow a user-level libc to implement
+full, compatible <code class="highlighter-rouge">mmap</code> with what appears to be noncontiguous memory
+allocation (but, under the hood is just coordinated use of <code class="highlighter-rouge">memory_resize</code> and
+<code class="highlighter-rouge">mprotect</code>/<code class="highlighter-rouge">map_file</code>/<code class="highlighter-rouge">map_shmem</code>/<code class="highlighter-rouge">madvise</code>).</li>
+  <li>
+    <p>The benefit of allowing noncontiguous virtual address allocation would be if
+it allowed the engine to interleave a WebAssembly module’s linear memory with
+other memory allocations in the same process (in order to mitigate virtual
+address space fragmentation). There are two problems with this:</p>
+
+    <ul>
+      <li>This interleaving with unrelated allocations does not currently admit
+efficient security checks to prevent one module from corrupting data outside
+its heap (see discussion in
+<a href="https://github.com/WebAssembly/design/pull/285">#285</a>).</li>
+      <li>This interleaving would require making allocation nondeterministic and
+nondeterminism is something that WebAssembly generally
+<a href="../Nondeterminism/">tries to avoid</a>.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="why-have-wasm32-and-wasm64-instead-of-just-an-abstract-sizet">Why have wasm32 and wasm64, instead of just an abstract <code class="highlighter-rouge">size_t</code>?</h2>
+
+<p>The amount of linear memory needed to hold an abstract <code class="highlighter-rouge">size_t</code> would then also
+need to be determined by an abstraction, and then partitioning the linear memory
+address space into segments for different purposes would be more complex. The
+size of each segment would depend on how many <code class="highlighter-rouge">size_t</code>-sized objects are stored
+in it. This is theoretically doable, but it would add complexity and there would
+be more work to do at application startup time.</p>
+
+<p>Also, allowing applications to statically know the pointer size can allow them
+to be optimized more aggressively. Optimizers can better fold and simplify
+integer expressions when they have full knowledge of the bitwidth. And, knowing
+memory sizes and layouts for various types allows one to know how many trailing
+zeros there are in various pointer types.</p>
+
+<p>Also, C and C++ deeply conflict with the concept of an abstract <code class="highlighter-rouge">size_t</code>.
+Constructs like <code class="highlighter-rouge">sizeof</code> are required to be fully evaluated in the front-end
+of the compiler because they can participate in type checking. And even before
+that, it’s common to have predefined macros which indicate pointer sizes,
+allowing code to be specialized for pointer sizes at the very earliest stages of
+compilation. Once specializations are made, information is lost, scuttling
+attempts to introduce abstractions.</p>
+
+<p>And finally, it’s still possible to add an abstract <code class="highlighter-rouge">size_t</code> in the future if
+the need arises and practicalities permit it.</p>
+
+<h2 id="why-have-wasm32-and-wasm64-instead-of-just-using-8-bytes-for-storing-pointers">Why have wasm32 and wasm64, instead of just using 8 bytes for storing pointers?</h2>
+
+<p>A great number of applications don’t ever need as much as 4 GiB of memory.
+Forcing all these applications to use 8 bytes for every pointer they store would
+significantly increase the amount of memory they require, and decrease their
+effective utilization of important hardware resources such as cache and memory
+bandwidth.</p>
+
+<p>The motivations and performance effects here should be essentially the same as
+those that motivated the development of the
+<a href="https://en.wikipedia.org/wiki/X32_ABI">x32 ABI</a> for Linux.</p>
+
+<p>Even Knuth found it worthwhile to give us his opinion on this issue at point,
+<a href="http://www-cs-faculty.stanford.edu/~uno/news08.html">a flame about 64-bit pointers</a>.</p>
+
+<h2 id="will-i-be-able-to-access-proprietary-platform-apis-eg-android--ios">Will I be able to access proprietary platform APIs (e.g. Android / iOS)?</h2>
+
+<p>Yes but it will depend on the <em>WebAssembly embedder</em>. Inside a browser you’ll 
+get access to the same HTML5 and other browser-specific APIs which are also 
+accessible through regular JavaScript. However, if a wasm VM is provided as an 
+<a href="../NonWeb/">“app execution platform”</a> by a specific vendor, it might provide 
+access to <a href="../Portability/#api">proprietary platform-specific APIs</a> of e.g. 
+Android / iOS.</p>
+
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/binary-encoding/">Binary Encoding
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/c-and-c++/">Guide for C/C++ developers
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/dynamic-linking/">Dynamic linking
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/faq/">FAQ
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/feature-test/">Feature Test
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/future-features/">Features to add after the MVP
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration [<img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][future general]
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/high-level-goals/">WebAssembly High-Level Goals
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/js/">JavaScript API
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/mvp/">Minimum Viable Product
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/modules/">Modules
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/non-web/">Non-Web Embeddings
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/nondeterminism/">Nondeterminism in WebAssembly
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/portability/">Portability
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/rationale/">Design Rationale
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/security/">Security
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/semantics/">Semantics
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/text-format/">Text Format
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/tooling/">Tooling support
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/use-cases/">Use Cases
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/web/">Web Embedding
+</a>
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom2.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/intro/">Getting Started</a>
+      
+      <a class="site-nav-item btn" href="/docs/binary-encoding/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="webassembly-high-level-goals">WebAssembly High-Level Goals</h1>
+
+<ol>
+  <li>Define a <a href="../Portability/">portable</a>, size- and load-time-efficient
+<a href="../MVP/#binary-format">binary format</a> to serve as a compilation target which
+can be compiled to execute at native speed by taking advantage of common
+hardware capabilities available on a wide range of platforms, including
+<a href="https://en.wikipedia.org/wiki/Mobile_device">mobile</a> and
+<a href="https://en.wikipedia.org/wiki/Internet_of_Things">IoT</a>.</li>
+  <li>Specify and implement incrementally:
+    <ul>
+      <li>a <a href="../MVP/">Minimum Viable Product (MVP)</a> for the standard with
+roughly the same functionality as <a href="http://asmjs.org">asm.js</a>, primarily
+aimed at <a href="../CAndC++/">C/C++</a>;</li>
+      <li>a <a href="../PostMVP/">follow-up to the MVP</a> which adds several more
+essential features; and</li>
+      <li>
+<a href="../FutureFeatures/">additional features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, specified iteratively and
+prioritized by feedback and experience, including support for languages
+other than C/C++.</li>
+    </ul>
+  </li>
+  <li>Design to execute within and integrate well with the <em>existing</em>
+<a href="../Web/">Web platform</a>:
+    <ul>
+      <li>maintain the versionless, <a href="../FeatureTest/">feature-tested</a> and
+<a href="../BinaryEncoding/#backwards-compatibility">backwards-compatible</a>
+evolution story of the Web;</li>
+      <li>execute in the same semantic universe as JavaScript;</li>
+      <li>allow synchronous calls to and from JavaScript;</li>
+      <li>enforce the same-origin and permissions security policies;</li>
+      <li>access browser functionality through the same Web APIs that are accessible
+to JavaScript; and</li>
+      <li>define a human-editable text format that is convertible to and from the
+binary format, supporting View Source functionality.</li>
+    </ul>
+  </li>
+  <li>Design to support <a href="../NonWeb/">non-browser embeddings</a> as well.</li>
+  <li>Make a great platform:
+    <ul>
+      <li>build a new LLVM backend for WebAssembly and an accompanying
+clang port (<a href="../FAQ/#which-compilers-can-i-use-to-build-webassembly-programs">why LLVM first?</a>);</li>
+      <li>promote other compilers and tools targeting WebAssembly; and</li>
+      <li>enable other useful <a href="../Tooling/">tooling</a>.</li>
+    </ul>
+  </li>
+</ol>
+
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/binary-encoding/">Binary Encoding
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/c-and-c++/">Guide for C/C++ developers
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/dynamic-linking/">Dynamic linking
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/faq/">FAQ
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/feature-test/">Feature Test
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/future-features/">Features to add after the MVP
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration [<img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][future general]
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/high-level-goals/">WebAssembly High-Level Goals
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/js/">JavaScript API
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/mvp/">Minimum Viable Product
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/modules/">Modules
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/non-web/">Non-Web Embeddings
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/nondeterminism/">Nondeterminism in WebAssembly
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/portability/">Portability
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/rationale/">Design Rationale
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/security/">Security
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/semantics/">Semantics
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/text-format/">Text Format
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/tooling/">Tooling support
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/use-cases/">Use Cases
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/web/">Web Embedding
+</a>
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

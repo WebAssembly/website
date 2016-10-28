@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom2.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/intro/">Getting Started</a>
+      
+      <a class="site-nav-item btn" href="/docs/binary-encoding/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="design-rationale">Design Rationale</h1>
+
+<p>This document describes rationales for WebAssembly’s design decisions, acting as
+footnotes to the main design text, keeping the main specification easier to
+read, and making it easier to revisit decisions later without having to plow
+through all the issues and pull requests. This rationale document tries to list
+how decisions were made, and where tradeoffs were made for the sake of language
+ergonomics, portability, performance, security, and Getting Things Done.</p>
+
+<p>WebAssembly was designed incrementally, with multiple implementations being
+pursued concurrently. As the MVP stabilizes and we get experience from real-world
+codebases, we’ll revisit the alternatives listed below, reevaluate the tradeoffs
+and update the <a href="../Semantics/">design</a> before the MVP is finalized.</p>
+
+<h2 id="why-a-stack-machine">Why a stack machine?</h2>
+
+<p>Why not an AST, or a register- or SSA-based bytecode?</p>
+
+<ul>
+  <li>We started with an AST and generalized to a <a href="../Semantics/">structured stack machine</a>. ASTs allow a 
+dense encoding and efficient decoding, compilation, and interpretation.
+The structured stack machine of WebAssembly is a generalization of ASTs allowed in previous versions while allowing
+efficiency gains in interpretation and baseline compilation, as well as a straightforward 
+design for multi-return functions.</li>
+  <li>The stack machine allows smaller binary encoding than registers or SSA <a href="https://research.microsoft.com/en-us/projects/jszap/">JSZap</a>, <a href="https://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.108.1711">Slim Binaries</a>,
+and structured control flow allows simpler and more efficient verification, including decoding directly
+to a compiler’s internal SSA form.</li>
+  <li>
+    <p><a href="https://github.com/WebAssembly/polyfill-prototype-1">Polyfill prototype</a> shows simple and efficient translation to asm.js.</p>
+
+  </li>
+</ul>
+
+<h2 id="why-not-a-fully-general-stack-machine">Why not a fully-general stack machine?</h2>
+
+<p>The WebAssembly stack machine is restricted to structured control flow and structured
+use of the stack. This greatly simplifies one-pass verification, avoiding a fixpoint computation
+like that of other stack machines such as the Java Virtual Machine (prior to <a href="https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html">stack maps</a>).
+This also simplifies compilation and manipulation of WebAssembly code by other tools.
+Further generalization of the WebAssembly stack machine is planned post-MVP, such as the
+addition of multiple return values from control flow constructs and function calls.</p>
+
+<h2 id="basic-types-only">Basic Types Only</h2>
+
+<p>WebAssembly only represents <a href="../Semantics/#Types">a few types</a>.</p>
+
+<ul>
+  <li>More complex types can be formed from these basic types. It’s up to the source
+language compiler to express its own types in terms of the basic machine
+types. This allows WebAssembly to present itself as a virtual ISA, and lets
+compilers target it as they would any other ISA.</li>
+  <li>These types are directly representable on all modern CPU architectures.</li>
+  <li>Smaller types (such as <code class="highlighter-rouge">i8</code> and <code class="highlighter-rouge">i16</code>) are usually no more efficient and in
+languages like C/C++ are only semantically meaningful for memory accesses
+since arithmetic get widened to <code class="highlighter-rouge">i32</code> or <code class="highlighter-rouge">i64</code>. Avoiding them at least for MVP
+makes it easier to implement a WebAssembly VM.</li>
+  <li>Other types (such as <code class="highlighter-rouge">f16</code>, <code class="highlighter-rouge">i128</code>) aren’t widely supported by existing
+hardware and can be supported by runtime libraries if developers wish to use
+them. Hardware support is sometimes uneven, e.g. some support load/store of
+<code class="highlighter-rouge">f16</code> only whereas other hardware also supports scalar arithmetic on <code class="highlighter-rouge">f16</code>,
+and yet other hardware only supports SIMD arithmetic on <code class="highlighter-rouge">f16</code>. They can be
+added to WebAssembly later without compromising MVP.</li>
+  <li>More complex object types aren’t semantically useful for MVP: WebAssembly
+seeks to provide the primitive building blocks upon which higher-level
+constructs can be built. They may become useful to support other languages,
+especially when considering <a href="../GC/">garbage collection</a>.</li>
+</ul>
+
+<h2 id="loadstore-addressing">Load/Store Addressing</h2>
+
+<p>Load/store instructions include an immediate offset used for
+<a href="../Semantics/#Addressing">addressing</a>. This is intended to simplify folding
+of offsets into complex address modes in hardware, and to simplify bounds
+checking optimizations. It offloads some of the optimization work to the
+compiler that targets WebAssembly, executing on the developer’s machine, instead
+of performing that work in the WebAssembly compiler on the user’s machine.</p>
+
+<h2 id="alignment-hints">Alignment Hints</h2>
+
+<p>Load/store instructions contain
+<a href="../Semantics/#Alignment">alignment hints</a>. This makes it easier to generate
+efficient code on certain hardware architectures.</p>
+
+<p>Either tooling or an explicit opt-in “debug mode” in the spec could allow
+execution of a module in a mode that threw exceptions on misaligned access.
+This mode would incur some runtime cost for branching on most platforms which is
+why it isn’t the specified default.</p>
+
+<h2 id="out-of-bounds">Out of Bounds</h2>
+
+<p>The ideal semantics is for
+<a href="../Semantics/#Out-of-Bounds">out-of-bounds accesses</a> to trap, but the
+implications are not yet fully clear.</p>
+
+<p>There are several possible variations on this design being discussed and
+experimented with. More measurement is required to understand the associated
+tradeoffs.</p>
+
+<ul>
+  <li>After an out-of-bounds access, the instance can no longer execute code and
+any outstanding JavaScript <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer">ArrayBuffer</a> aliasing the linear memory are
+detached.
+    <ul>
+      <li>This would primarily allow hoisting bounds checks above effectful
+operators.</li>
+      <li>This can be viewed as a mild security measure under the assumption that
+while the sandbox is still ensuring safety, the instance’s internal state
+is incoherent and further execution could lead to Bad Things (e.g., XSS
+attacks).</li>
+    </ul>
+  </li>
+  <li>To allow for potentially more-efficient memory sandboxing, the semantics
+could allow for a nondeterministic choice between one of the following when
+an out-of-bounds access occurred.
+    <ul>
+      <li>The ideal trap semantics.</li>
+      <li>Loads return an unspecified value.</li>
+      <li>Stores are either ignored or store to an unspecified location in the
+linear memory.</li>
+      <li>Either tooling or an explicit opt-in “debug mode” in the spec should allow
+execution of a module in a mode that threw exceptions on out-of-bounds
+access.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="linear-memory-resizing">Linear Memory Resizing</h2>
+
+<p>To allow efficient engines to employ virtual-memory based techniques for bounds
+checking, memory sizes are required to be page-aligned.
+For portability across a range of CPU architectures and operating systems,
+WebAssembly defines a fixed page size.
+Programs can depend on this fixed page size and still remain portable across all
+WebAssembly engines.
+64KiB represents the least common multiple of many platforms and CPUs.
+In the future, WebAssembly may offer the ability to use larger page sizes on
+some platforms for increased TLB efficiency.</p>
+
+<p>The <code class="highlighter-rouge">grow_memory</code> operator returns the old memory size. This is desirable for
+using <code class="highlighter-rouge">grow_memory</code> independently on multiple threads, so that each thread can
+know where the region it allocated starts. The obvious alternative would be for
+such threads to communicate manually, however wasm implementations will likely
+already be communicating between threads in order to properly allocate the sum
+of the allocation requests, so it’s expected that they can provide the needed
+information without significant extra effort.</p>
+
+<p>The <a href="../Modules/#linear-memory-section">optional maximum size</a> is designed to
+address a number of competing constraints:</p>
+
+<ol>
+  <li>Allow WebAssembly modules to grab large regions of contiguous memory in a
+32-bit address space early in an application’s startup before the virtual
+address space becomes fragmented by execution of the application.</li>
+  <li>Allow many small WebAssembly instances to execute in a single 32-bit process.
+(For example, it is common for a single web application to use dozens of
+libraries, each of which may, over time, include WebAssembly modules as
+implementation details.)</li>
+  <li>Avoid <em>forcing</em> every developer using WebAssembly to understand their precise
+maximum heap usage.</li>
+  <li>When threading and shared memory are added to WebAssembly
+<a href="../PostMVP/#threads">post-MVP</a>, the design should not require memory growth
+to <code class="highlighter-rouge">realloc</code> since this implies significant implementation complexity,
+security hazards, and optimization challenges.</li>
+</ol>
+
+<p>The optional maximum addresses these constraints:</p>
+
+<ul>
+  <li>(1) is addressed by specifying a large maximum memory size. Simply setting a
+large <em>initial</em> memory size has problems due to (3) and the fact that a
+failure to allocate initial is a fatal error which makes the choice of “how
+big?” difficult.</li>
+  <li>(2) and (3) are addressed by making the maximum optional combined with the
+implied implementation that, on 32-bit, engines will not allocate
+significantly more than the current memory size, <em>and</em> the compiler sets the
+initial size to just enough to hold static data.</li>
+  <li>(4) is addressed assuming that, when threading is added, a new, optional
+“shared” flag is added to the memory section that must be set to enable shared
+memory and the shared flag forces the maximum to be specified. In this case,
+shared memory never moves; the only thing that changes is that the bounds
+grows which does not have all the abovementioned hazards. In particular, any
+extant <code class="highlighter-rouge">SharedArrayBuffer</code>s that alias linear memory stay valid without
+any updates.</li>
+</ul>
+
+<h2 id="linear-memory-disabled-if-no-linear-memory-section">Linear memory disabled if no linear memory section</h2>
+
+<p>See <a href="https://github.com/WebAssembly/spec/pull/107">#107</a>.</p>
+
+<h2 id="control-flow">Control Flow</h2>
+
+<p>Structured control flow provides simple and size-efficient binary encoding and
+compilation. Any control flow–even irreducible–can be transformed into structured
+control flow with the
+<a href="https://github.com/kripken/emscripten/raw/master/docs/paper.pdf">Relooper</a>
+<a href="http://dl.acm.org/citation.cfm?id=2048224&amp;CFID=670868333&amp;CFTOKEN=46181900">algorithm</a>,
+with guaranteed low code size overhead, and typically minimal throughput
+overhead (except for pathological cases of irreducible control
+flow). Alternative approaches can generate reducible control flow via node
+splitting, which can reduce throughput overhead, at the cost of increasing
+code size (potentially very significantly in pathological cases).
+Also,
+<a href="../FutureFeatures/#more-expressive-control-flow">more expressive control flow constructs <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+may be added in the future.</p>
+
+<h2 id="nop">Nop</h2>
+
+<p>The nop operator does not produce a value or cause side effects.
+It is nevertheless useful for compilers and tools, which sometimes need to replace instructions with a <code class="highlighter-rouge">nop</code>. Without a <code class="highlighter-rouge">nop</code> instruction, code generators would use alternative <em>does-nothing</em> opcode patterns that consume space in a module and may have a runtime cost. Finding an appropriate opcode that does nothing but has the appropriate type for the node’s location is nontrivial. The existence of many different ways to encode <code class="highlighter-rouge">nop</code> - often mixed in the same module - would reduce the efficiency of compression algorithms.</p>
+
+<h2 id="locals">Locals</h2>
+
+<p>C/C++ makes it possible to take the address of a function’s local values and
+pass this pointer to callees or to other threads. Since WebAssembly’s local
+variables are outside the address space, C/C++ compilers implement address-taken
+variables by creating a separate stack data structure within linear memory. This
+stack is sometimes called the “aliased” stack, since it is used for variables
+which may be pointed to by pointers.</p>
+
+<p>Since the aliased stack appears to the WebAssembly engine as normal memory,
+WebAssembly optimizations that would target the aliased stack need to be more
+general, and thus more complicated. We observe that common compiler
+optimizations done before the WebAssembly code is produced, such as LLVM’s
+global value numbering, effectively split address-taken variables into many
+small ranges that can often be allocated as local variables. Thus our
+expectation that any loss of optimization potential here is minimal.</p>
+
+<p>Conversely, non-address taken values which are usually on the stack are instead
+represented as locals inside functions. This effectively means that WebAssembly
+has an infinite set of registers, and can choose to spill values as it sees fit
+in a manner unobservable to the hosted code. This implies that there’s a
+separate stack, unaddressable from hosted code, which is also used to spill
+return values. This allows strong security properties to be enforced, but does
+mean that two stacks are maintained (one by the VM, the other by the compiler
+which targets WebAssembly) which can lead to some inefficiencies.</p>
+
+<p>Local variables are not in Static Single Assignment (SSA) form, meaning that
+multiple incoming SSA values which have separate liveness can “share” the
+storage represented by a local through the <code class="highlighter-rouge">set_local</code> operator. From an SSA
+perspective, this means that multiple independent values can share a local
+variable in WebAssembly, which is effectively a kind of pre-coloring that clever
+producers can use to pre-color variables and give hints to a WebAssembly VM’s
+register allocation algorithms, offloading some of the optimization work from
+the WebAssembly VM.</p>
+
+<h2 id="variable-length-argument-lists-varargs">Variable-Length Argument Lists (“varargs”)</h2>
+
+<p>C and C++ compilers are expected to implement variable-length argument lists by
+storing arguments in a buffer in linear memory and passing a pointer to the
+buffer. This greatly simplifies WebAssembly VM implementations by punting this
+ABI consideration to the front-end compiler. It does negatively impact
+performance, but variable-length calls are already somewhat slow.</p>
+
+<h2 id="multiple-return-values">Multiple Return Values</h2>
+
+<p>WebAssembly’s MVP does not support multiple return values from functions because
+they aren’t strictly necessary for the earliest anticipated use cases (and it’s
+a <em>minimum</em> viable product), and they would introduce some complexity for some
+implementations. However, multiple return values are a very useful feature, and
+are relevant to ABIs, so it’s likely to be added soon after the MVP.</p>
+
+<h2 id="indirect-calls">Indirect Calls</h2>
+
+<p>The table-based scheme for indirect function calls was motivated by the need
+to represent function pointers as integer values that can be stored into the
+linear memory, as well as to enforce basic safety properties such as
+calling a function with the wrong signature does not destroy the safety
+guarantees of WebAssembly. In particular, an exact signature match implies
+an internal machine-level ABI match, which some engines require to ensure safety.
+An indirection also avoids a possible information leak through raw code addresses.</p>
+
+<p>Languages like C and C++ that compile to WebAssembly also imposed
+requirements, such as the uniqueness of function pointers and the ability
+to compare function pointers to data pointers, or treat data as function
+pointers.</p>
+
+<p>Several alternatives to direct indices with a heterogeneous indirect function table
+were considered, from alternatives with multiple tables to statically typed function
+pointers that can be mapped back and forth to integers. With the added complication
+of dynamic linking and dynamic code generation, none of these alternatives perfectly
+fit the requirements.</p>
+
+<p>The current design requires two dynamic checks when invoking a function pointer:
+a bounds check against the size of the indirect function table and a signature check
+for the function at that index against an expected signature. Some dynamic optimization
+techniques (e.g. inline caches, or a one-element cache), can reduce the number of
+checks in common cases. Other techniques such as trading a bounds check for a mask or
+segregating the table per signature to require only a bounds check could be considered
+in the future. Also, if tables are small enough, an engine can internally use per-signature
+tables filled with failure handlers to avoid one check.</p>
+
+<h2 id="control-flow-instructions-with-values">Control Flow Instructions with Values</h2>
+
+<p>Control flow instructions such as <code class="highlighter-rouge">br</code>, <code class="highlighter-rouge">br_if</code>, <code class="highlighter-rouge">br_table</code>, <code class="highlighter-rouge">if</code> and <code class="highlighter-rouge">if-else</code> can 
+transfer stack values in WebAssembly. These primitives are useful building blocks for 
+WebAssembly producers, e.g. in compiling expression languages. It offers significant 
+size reduction by avoiding the need for <code class="highlighter-rouge">set_local</code>/<code class="highlighter-rouge">get_local</code> pairs in the common case 
+of an expression with only one immediate use. Control flow instructions can then model
+expressions with result values, thus allowing even more opportunities to further reduce
+<code class="highlighter-rouge">set_local</code>/<code class="highlighter-rouge">get_local</code> usage (which constitute 30-40% of total bytes in the
+<a href="https://github.com/WebAssembly/polyfill-prototype-1">polyfill prototype</a>).
+<code class="highlighter-rouge">br</code>-with-value and <code class="highlighter-rouge">if</code> constructs that return values can model also model <code class="highlighter-rouge">phis</code> which
+appear in SSA representations of programs.</p>
+
+<h2 id="limited-local-nondeterminism">Limited Local Nondeterminism</h2>
+
+<p>There are a few obvious cases where nondeterminism is essential to the API, such
+as random number generators, date/time functions or input events. The
+WebAssembly specification is strict when it comes to other sources of
+<a href="../Nondeterminism/">limited local nondeterminism</a> of operators: it specifies
+all possible corner cases, and specifies a single outcome when this can be done
+reasonably.</p>
+
+<p>Ideally, WebAssembly would be fully deterministic because a fully deterministic
+platform is easier to:</p>
+
+<ul>
+  <li>Reason about.</li>
+  <li>Implement.</li>
+  <li>Test portably.</li>
+</ul>
+
+<p>Nondeterminism is only specified as a compromise when there is no other
+practical way to:</p>
+
+<ul>
+  <li>Achieve <a href="../Portability/">portable</a> native performance.</li>
+  <li>Lower resource usage.</li>
+  <li>Reduce implementation complexity (both of WebAssembly VMs as well as compilers
+generating WebAssembly binaries).</li>
+  <li>Allow usage of new hardware features.</li>
+  <li>Allows implementations to <a href="../Security/">security-harden</a> certain usecases.</li>
+</ul>
+
+<p>When nondeterminism is allowed into WebAssembly it is always done in a limited
+and local manner. This prevents the entire program from being invalid, as would
+be the case with C++ undefined behavior.</p>
+
+<p>As WebAssembly gets implemented and tested with multiple languages on multiple
+architectures we may revisit some of the design decisions:</p>
+
+<ul>
+  <li>When all relevant hardware implements an operation the same way, there’s no
+need for nondeterminism in WebAssembly semantics. One such
+example is floating-point: at a high-level most operators follow
+IEEE-754 semantics, it is therefore not necessary to specify WebAssembly’s
+floating-point operators differently from IEEE-754.</li>
+  <li>When different languages have different expectations then it’s unfortunate if
+WebAssembly measurably penalizes one’s performance by enforcing determinism
+which that language doesn’t care about, but which another language may want.</li>
+</ul>
+
+<h2 id="nan-bit-pattern-propagation">NaN bit pattern propagation</h2>
+
+<p>In general, WebAssembly’s floating point operations provide the guarantee that
+if all NaNs passed to an operation are “canonical”, the result is “canonical”,
+where canonical means the most significant bit of the fraction field is 1, and
+the trailing bits are all 0.</p>
+
+<p>This is intended to support interpreters running on WebAssembly that use
+NaN-boxing, because they don’t have to canonicalize the output of an arithmetic
+instruction if they know the inputs are canonical.</p>
+
+<p>When the inputs are non-canonical, the resulting NaN is nondeterministic, to
+accomodate a variety of known hardware behaviors: returning one of the input
+NaNs, returning a canonical NaN, or bitwise-or’ing the input NaNs together.</p>
+
+<p>The sign bit of generated NaNs is always nondeterministic since x86 generates
+NaNs with it set to 1 while other architectures generate NaNs with it set to 0.</p>
+
+<h2 id="integer-operations">Integer operations</h2>
+
+<p>WebAssembly’s signed integer divide rounds its result toward zero. This is not
+because of a lack of sympathy for
+<a href="https://python-history.blogspot.com/2010/08/why-pythons-integer-division-floors.html">better alternatives</a>,
+but out of practicality. Because all popular hardware today implements
+rounding toward zero, and because C and many other languages now specify
+rounding to zero, having WebAssembly in the middle doing something different
+would mean divisions would have to be doubly complicated.</p>
+
+<p>Similarly, WebAssembly’s shift operators mask their shift counts to the number
+of bits in the shifted value. Confusingly, this means that shifting a 32-bit
+value by 32 bits is an identity operation, and that a left shift is not
+equivalent to a multiplication by a power of 2 because the overflow behavior
+is different. Nevertheless, because several popular hardware architectures
+today implement this masking behavior, and those that don’t can typically
+emulate it with a single extra mask instruction, and because several popular
+source languages, including JavaScript and C#, have come to specify this
+behavior too, we reluctantly adopt this behavior as well.</p>
+
+<p>WebAssembly has three classes of integer operations: signed, unsigned, and
+sign-agnostic. The signed and unsigned instructions have the property that
+whenever they can’t return their mathematically expected value (such as when
+an overflow occurs, or when their operand is outside their domain), they
+trap, in order to avoid silently returning an incorrect value.</p>
+
+<p>Note that the <code class="highlighter-rouge">add</code>, <code class="highlighter-rouge">sub</code>, and <code class="highlighter-rouge">mul</code> operators are categorized as
+sign-agnostic. Because of the magic of two’s complement representation, they
+may be used for both signed and unsigned purposes. Note that this (very
+conveniently!) means that engines don’t need to add extra overflow-checking
+code for these most common of arithmetic operators on the most popular
+hardware platforms.</p>
+
+<h2 id="motivating-scenarios-for-feature-testing">Motivating Scenarios for Feature Testing</h2>
+
+<ol>
+  <li>
+<a href="../PostMVP/">Post-MVP</a>,
+<a href="FutureFeatures.md#additional-integer-operations"><code class="highlighter-rouge">i32.min_s</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> is introduced. A
+WebAssembly developer updates their toolkit so that the compiler may leverage
+<code class="highlighter-rouge">i32.min_s</code>. The developer’s WebAssembly module works correctly both on
+execution environments at MVP, as well as those supporting <code class="highlighter-rouge">i32.min_s</code>.</li>
+</ol>
+
+<ul>
+  <li>A variant of this, where a few more new opcodes are available, the compiler
+is updated to be able to leverage all of them, but not all execution targets
+support all of them. The developer wants to reach as many of their customers as
+possible, while at the same time providing them with the best experience
+possible. The developer has to balance the cost of the test matrix resulting
+from the combinations of possible feature configurations.</li>
+</ul>
+
+<ol>
+  <li>Post-MVP, module authors may now use <a href="../PostMVP/#threads">Threading</a> APIs in
+the browser. A developer wants to leverage multithreading in their module.</li>
+</ol>
+
+<ul>
+  <li>
+    <p>In one variant of the scenario, our developer does not want to pay the
+engineering cost of developing and supporting a threaded and non-threaded
+version of their code. They opt not to support MVP targets, and only support
+post-MVP targets. End-users (browser users) get some message indicating they
+need MVP support.</p>
+  </li>
+  <li>
+    <p>In another variant, our developer explicitly authors both MVP-only and post-
+MVP (with threads) code.</p>
+  </li>
+</ul>
+
+<ol>
+  <li>
+    <p><a href="../PostMVP/#fixed-width-simd">SIMD</a> support is not universally equivalent on
+all targets. While polyfill variants of SIMD APIs are available, a developer
+prefers writing dedicated SIMD and non-SIMD versions of their compression
+algorithm, because the non-SIMD version performs better in environments without
+SIMD support, when compared to the SIMD polyfill. They package their compression
+code for reuse by third parties.</p>
+  </li>
+  <li>
+    <p>An application author is assembling together an application by reusing
+modules such as those developed in the scenarios above. The application author’s
+development environment is able to quickly and correctly identify the platform
+dependencies (e.g. threading, SIMD) and communicate back to the application
+author the implications these dependencies have on the end-application. Some
+APIs exposed from the threading-aware module are only pertinent to environments
+supporting threading. As a consequence, the application author needs to write
+specialized code when threads are/are not supported. (Note: we should understand
+this scenario for both forms of WebAssembly reuse currently imagined: dynamic
+linking and static imports.)</p>
+  </li>
+  <li>
+    <p>The compression algorithm described in scenario 3 is deployed on a
+restrictive execution environment, as part of an application. In this
+environment, a process may not change memory page access protection flags (e.g.
+certain gaming consoles, to investigate server side deployment scenarios). The
+compression module is compiled by the WebAssembly environment, enabling the
+configuration most specific to the target (i.e. with/without Threads, SIMD,
+etc).</p>
+  </li>
+</ol>
+
+<ul>
+  <li>A variant of this scenario where the environment is additionally separating
+storage into system-visible and application-visible, the latter not being able
+to contain machine-executable code (certain phones, to investigate if gaming
+consoles or server side have a similar sandboxing mechanism).</li>
+</ul>
+
+<h2 id="why-a-binary-encoding">Why a binary encoding?</h2>
+
+<p>Given that text is so compressible and it is well known that it is hard to beat
+gzipped source, is there any win from having a binary format over a text format?
+Yes:</p>
+
+<ul>
+  <li>Large reductions in payload size can still significantly decrease the
+compressed file size.
+    <ul>
+      <li>Experimental results from a
+<a href="https://github.com/WebAssembly/polyfill-prototype-1">polyfill prototype</a> show the
+gzipped binary format to be about 20-30% smaller than the corresponding
+gzipped asm.js.</li>
+    </ul>
+  </li>
+  <li>A binary format that represents the names of variables and functions with raw
+indices instead of strings is much faster to decode: array indexing
+vs. dictionary lookup.
+    <ul>
+      <li>Experimental results from a
+<a href="https://github.com/WebAssembly/polyfill-prototype-1">polyfill prototype</a> show that
+decoding the binary format is about 23× faster than parsing the
+corresponding asm.js source (using
+<a href="https://github.com/lukewagner/AngryBotsPacked">this demo</a>, comparing
+<em>just</em> parsing in SpiderMonkey (no validation, IR generation) to <em>just</em>
+decoding in the polyfill (no asm.js code generation).</li>
+    </ul>
+  </li>
+  <li>A binary format allows many optimizations for code size and decoding speed that would
+not be possible on a source form.</li>
+</ul>
+
+<h2 id="why-a-layered-binary-encoding">Why a layered binary encoding?</h2>
+<ul>
+  <li>We can do better than generic compression because we are aware of the code
+structure and other details:
+    <ul>
+      <li>For example, macro compression that
+<a href="https://github.com/WebAssembly/design/issues/58#issuecomment-101863032">deduplicates AST trees</a>
+can focus on ASTs + their children, thus having <code class="highlighter-rouge">O(nodes)</code> entities
+to worry about, compared to generic compression which in principle would
+need to look at <code class="highlighter-rouge">O(bytes*bytes)</code> entities.  Such macros would allow the
+logical equivalent of <code class="highlighter-rouge">#define ADD1(x) (x+1)</code>, i.e., to be
+parameterized. Simpler macros (<code class="highlighter-rouge">#define ADDX1 (x+1)</code>) can implement useful
+features like constant pools.</li>
+      <li>Another example is reordering of functions and some internal nodes, which
+we know does not change semantics, but
+<a href="https://www.rfk.id.au/blog/entry/cromulate-improve-compressibility/">can improve general compression</a>.</li>
+    </ul>
+  </li>
+  <li>JITs and simple developer tooling do not benefit from compression, so layering allows
+the related development and maintenance burden to be offloaded to reusable tools/libraries.</li>
+  <li>Each of the layers works to find compression opportunities to the best of
+its abilities, without encroaching upon the subsequent layer’s compression
+opportunities.</li>
+  <li>
+<a href="https://www.w3.org/TR/PNG/">Existing web standards</a> demonstrate many of
+the advantages of a layered encoding strategy.</li>
+</ul>
+
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/binary-encoding/">Binary Encoding
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/c-and-c++/">Guide for C/C++ developers
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/dynamic-linking/">Dynamic linking
+</a>
+          
+        
+          
+        
+          
+          <a class="side-nav-item" href="/docs/faq/">FAQ
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/feature-test/">Feature Test
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/future-features/">Features to add after the MVP
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration [<img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][future general]
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/high-level-goals/">WebAssembly High-Level Goals
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/js/">JavaScript API
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/mvp/">Minimum Viable Product
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/modules/">Modules
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/non-web/">Non-Web Embeddings
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/nondeterminism/">Nondeterminism in WebAssembly
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/portability/">Portability
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/rationale/">Design Rationale
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/security/">Security
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/semantics/">Semantics
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/text-format/">Text Format
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/tooling/">Tooling support
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/use-cases/">Use Cases
+</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/web/">Web Embedding
+</a>
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
