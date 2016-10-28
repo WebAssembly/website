@@ -8,6 +8,7 @@ exclude: [
   Gemfile.lock,
   CNAME,
   docs/LICENSE,
+  docs/Contributing.md,
   docs/README.md,
   docs/tools
 ]
