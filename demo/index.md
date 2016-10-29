@@ -4,7 +4,7 @@ markdown: kramdown
 permalink: demo/
 ---
 # Angry Bots Demo
-<div markdown="1" id="wasm-fail" class="flash flash-error">
+<div markdown="1" id="wasm-fail" class="flash flash-error flash-hide">
   Uh-oh! WebAssembly isn't enabled in this browser. To get an early preview of this experimental technology, at your own risk:
 
   - on [Chrome Canary](https://www.google.com/chrome/browser/canary.html), open `chrome://flags/#enable-webassembly` and enable the switch.

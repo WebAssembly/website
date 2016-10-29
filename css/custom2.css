@@ -1672,6 +1672,10 @@ header {
     color: #f44336;
 }
 
+.flash-hide {
+    display: none;
+}
+
 .lead {
     font-size: 20px;
     font-weight: 300;
