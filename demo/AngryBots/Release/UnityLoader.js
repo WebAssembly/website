@@ -85,7 +85,7 @@ function LoadCompressedJS(e, t) {
 function LoadUncompressedJS(e, t) {
     var script = document.createElement('script');
     script.src = e;
-    document.body.append(script);
+    document.body.appendChild(script);
 }
 
 function fetchRemotePackageWrapper(e, t, n, o) {
