@@ -83,28 +83,31 @@ function integrateWasmJS(Module) {
   }
  }
  Module["asm"] = (function(global, env, providedBuffer) {
-  var binary;
-  if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
-   binary = Module["wasmBinary"];
-   assert(binary, "on the web, we need the wasm binary to be preloaded and set on Module['wasmBinary']. emcc.py will do that for you when generating HTML (but not JS)");
-   binary = new Uint8Array(binary);
-  } else {
-   binary = Module["readBinary"](wasmCodeFile);
-  }
   info["global"] = {
    "NaN": NaN,
    "Infinity": Infinity
   };
   info["global.Math"] = global.Math;
   info["env"] = env;
+
+  // Temporarily support the old JS API to keep the demo running on old
+  // experimental browser builds.
   if (typeof Wasm != "undefined" && Wasm.experimentalVersion < 0xc) {
-    var exports = Wasm.instantiateModule(binary, info).exports;
+    var exports = Wasm.instantiateModule(new Uint8Array(Module.wasmBinary), info).exports;
     mergeMemory(exports.memory);
     applyMappedGlobals();
     return exports;
   }
 
-  var exports = new WebAssembly.Instance(new WebAssembly.Module(binary), info).exports;
+  // Temporarily support browsers which haven't implemented WebAssembly.compile
+  // by doing janky synchronous compilation.
+  if (!Module.wasmModule)
+    Module.wasmModule = new WebAssembly.Module(Module.wasmBinary);
+
+  var exports = new WebAssembly.Instance(Module.wasmModule, info).exports;
+
+  // Note: in future iterations of the toolchain, these post-processing steps
+  // shouldn't be necessary.
   mergeMemory(exports.memory.buffer);
   applyMappedGlobals();
   return exports;
