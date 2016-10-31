@@ -18,14 +18,14 @@ $ git submodule update --init --recursive
 Install gem dependencies:
 
 ```
-$ bundle
+$ bundle install
 ```
 
 Build with Jekyll or serve local preview:
 
 ```
-$ jekyll build
-$ jekyll serve
+$ bundle exec jekyll build
+$ bundle exec jekyll serve
 ```
 
 ## Publishing
