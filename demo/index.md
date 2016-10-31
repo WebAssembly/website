@@ -19,15 +19,6 @@ permalink: demo/
 
 This is an experimental demo of Angry Bots, a Unity game which has been ported to WebAssembly. Fight robots and explore a 3D space station with realistic environmental effects in this top-down shooter. Movement is controlled by W, A, S, D or the arrow keys and aiming &amp; firing is controlled by the mouse.
 
-### WebAssembly Demo Status
-
-| Early multi-browser support | <span class="yes">✓</span> | Runs in experimental builds of Chromium, Firefox, and Edge. |
-| Demo execution | <span class="yes">✓</span> | Full execution semantics implemented.
-| Stable binary format | <span class="no">✘</span> | Binary format will be updated to match design iterations, until it is frozen for stable release.
-| Standard textual encoding | <span class="no">✘</span> | Textual encoding will be standardized before stable release.
-| Stable tooling | <span class="no">✘</span> | A mature toolchain for compiling and debugging WebAssembly will be available before stable release.
-| Stable JS API | <span class="no">✘</span> | The Wasm object will be updated to allow additional behavior and introspection before stable release
-
 <script type="text/javascript" >
 (function() {
   var support = (typeof Wasm === 'object') || (typeof WebAssembly === 'object');
