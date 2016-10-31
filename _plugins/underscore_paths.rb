@@ -14,7 +14,7 @@ module UnderscorePaths
       site.pages.each { |p| underscore_links(p) }
     end
     def underscore_links(page)
-      page.url = underscore(page.url)
+      page.url = underscore(page.url).gsub(/^\/design\//, '/docs/')
     end
 
     def underscore(str)

@@ -3,33 +3,37 @@ name: WebAssembly
 exclude: [
   README.md,
   LICENSE,
+  google66d80fe1bc71482a.html,
   Gemfile,
   Gemfile.lock,
-  docs/LICENSE,
-  docs/Contributing.md,
-  docs/README.md,
-  docs/tools
+  CNAME,
+  design/LICENSE,
+  design/Contributing.md,
+  design/README.md,
+  design/tools
 ]
+
+destination: docs
 
 permalink: pretty
 
 defaults:
   -
     scope:
-      path: "docs"
+      path: "design"
     values:
       layout: "doc"
       type: "doc"
   -
     scope:
-      path: "docs/CodeOfConduct.md"
+      path: "design/CodeOfConduct.md"
     values:
       layout: "community"
       type: "community"
       permalink: "/community/code-of-conduct/"
   -
     scope:
-      path: "docs/Events.md"
+      path: "design/Events.md"
     values:
       layout: "community"
       type: "community"
