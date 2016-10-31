@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/developers-guide/">Getting Started</a>
+      
+      
+      <a class="site-nav-item btn" href="/docs/high-level-goals/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="text-format">Text Format</h1>
+
+<p>WebAssembly does not yet have a standardized text format that encodes function
+bodies in addition to module structure, data segments and other program
+metadata in a way that is eqivalent to the <a href="../binary-encoding/">binary format</a>.
+WebAssembly does, however, have a specified
+<a href="#linear-bytecode">textual representation</a> of function bodies which should be displayed in browsers and other tools when <a href="#debug-symbol-integration">debugging</a>
+modules.</p>
+
+<h1 id="linear-bytecode">Linear bytecode</h1>
+
+<p>WebAssembly function bodies encode bytecode instructions which have specified canonical opcode names. A linear presentation of these sequences of instructions allows a direct human-readable order-preserving presentation of the binary format. This format is suitable for opcode by opcode inspection of a WebAssembly program and can readily be related to the <a href="../semantics/">sematics</a> of the format.</p>
+
+<p>Here is an example function illustrated in C++, binary, and text (linear
+assembly bytecode):</p>
+
+<table>
+  <tr>
+    <th>C++</th>
+    <th>Binary</th>
+    <th>Text</th>
+  </tr>
+  <tr>
+    <td><pre>
+int factorial(int n) {
+  if (n == 0)
+    return 1;
+  else
+    return n * fac(n-1);
+}</pre></td>
+    <td><pre>
+20 00
+42 00
+51
+04 7e
+42 01
+05
+20 00
+20 00
+42 01
+7d
+10 00
+7e
+0b</pre></td>
+    <td><pre>
+get_local 0
+i64.const 0
+i64.eq
+if i64
+    i64.const 1
+else
+    get_local 0
+    get_local 0
+    i64.const 1
+    i64.sub
+    call 0
+    i64.mul
+end</pre></td>
+  </tr>
+</table>
+
+<h1 id="tool-conventions">Tool conventions</h1>
+
+<p>Most WebAssembly tools currently use <a href="https://en.wikipedia.org/wiki/S-expression">s-expressions</a> to represent modules in a
+textual format. Although the s-expression format is not an official text format,
+it is a tooling convention because it allows for the representation of function
+signatures, declarations, and other metadata and it doesn’t have much of a
+syntax to speak of (avoiding syntax bikeshed discussions).</p>
+
+<p>Here are some of these prototypes. Keep in mind that these <em>aren’t</em> official,
+and the final standard format may look entirely different:</p>
+
+<ul>
+  <li>
+<a href="https://github.com/WebAssembly/spec/tree/master/interpreter/test">Prototype specification</a> consumes an s-expression syntax.</li>
+  <li>
+<a href="https://github.com/AndrewScheidecker/WAVM/tree/master/Test">WAVM backend</a> consumes compatible s-expressions.</li>
+  <li>
+<a href="https://github.com/WebAssembly/wabt">wabt</a> consumes compatible s-expressions.</li>
+  <li>
+<a href="https://github.com/llvm-mirror/llvm/tree/master/test/CodeGen/WebAssembly">LLVM backend</a> (the <code class="highlighter-rouge">CHECK:</code> parts of these tests) emits compatible s-expressions.</li>
+  <li>
+<a href="https://github.com/WebAssembly/ilwasm">ilwasm</a> emits compatible s-expressions.</li>
+  <li>
+    <p><a href="https://github.com/WebAssembly/binaryen">binaryen</a> can consume compatible s-expressions.</p>
+
+  </li>
+</ul>
+
+<h2 id="debug-symbol-integration">Debug symbol integration</h2>
+
+<p>The binary format inherently strips names from functions, locals, globals, etc,
+reducing each of these to dense indices. Without help, the text format must
+therefore synthesize new names. However, as part of the <a href="../tooling/">tooling</a>
+story, a lightweight, optional “debug symbol” global section may be defined
+which associates names with each indexed entity and, when present, these names
+will be used in the text format projected from a binary WebAssembly module.</p>
+
+<h1 id="future-design">Future design</h1>
+<h2 id="unicorn"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></h2>
+
+<p>An official text format for WebAssembly needs to
+be able to represent any well-structured module unambiguously.
+In addition to function bodies and their instruction sequences, it also needs a
+way of encoding declarations, function
+signatures, data segments, tables, and other
+<a href="../binary-encoding/#high-level-structure">sections</a> of the binary format.</p>
+
+<p>In addition, expansions or extensions to a standardized text format may offer
+additional syntactic sugar, macro expansions, or other conveniences to make it
+easier to write and read WebAssembly. However, since the linear sequence of
+bytecodes in a binary module may have more than one higher-level
+representation, such sugar or conveniences may not be possible to resolve
+canonically from the binary format alone.</p>
+
+<p>The design goals for a WebAssembly text format derive from the following use
+cases:</p>
+
+<ul>
+  <li>View Source on a WebAssembly module, thus fitting into the Web (where every source can be viewed) in a natural way.</li>
+  <li>Presentation in browser development tools when source maps aren’t present (which is necessarily the case with <a href="../mvp/">the Minimum Viable Product (MVP)</a>).</li>
+  <li>Writing WebAssembly code directly for reasons including pedagogical, experimental, debugging, optimization, and testing of the spec itself.</li>
+</ul>
+
+<h2 id="additional-design-considerations">Additional design considerations</h2>
+
+<p>There is no requirement to use JavaScript syntax; this format is not intended to be evaluated or translated directly into JavaScript. There may also be substantive reasons to use notation that is different than JavaScript (for example, WebAssembly has a 64-bit integer type, and it should be represented in the text format, since that is the natural thing to do for WebAssembly, regardless of JavaScript not having such a type). On the other hand, when there are no substantive reasons and the options are basically bikeshedding, then it does make sense for the text format to match existing conventions on the Web (for example, curly braces, as in JavaScript and CSS).</p>
+
+<p>The text format may not be uniquely representable. Multiple textual files will likley assemble to the same binary file. For example, whitespace shouldn’t be significant and memory initialization can be broken out into smaller pieces in a text format.</p>
+
+<p>The text format should be precise in that values that cannot be accurately represented in the binary format are considered invalid text. Floating-point numbers should therefore be represented as hexadecimal floating-point as specified by C99, C++17, and IEEE-754-2008 section 5.12.3. The textual format may be improved to also support more human-readable representations, but never at the cost of accurate representation.</p>
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        
+        
+          
+          <a class="side-nav-item" href="/docs/high-level-goals/">WebAssembly High-Level Goals</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/js/">JavaScript API</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/binary-encoding/">Binary Encoding</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/text-format/">Text Format</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/semantics/">Semantics</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/modules/">Modules</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/faq/">FAQ</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/rationale/">Design Rationale</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/mvp/">Minimum Viable Product</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/future-features/">Features to add after the MVP</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/portability/">Portability</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/security/">Security</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/nondeterminism/">Nondeterminism in WebAssembly</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/use-cases/">Use Cases</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/c-and-c++/">Guide for C/C++ developers</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/web/">Web Embedding</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/non-web/">Non-Web Embeddings</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/feature-test/">Feature Test</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/tooling/">Tooling support</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/dynamic-linking/">Dynamic linking</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

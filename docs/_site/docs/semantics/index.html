@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/developers-guide/">Getting Started</a>
+      
+      
+      <a class="site-nav-item btn" href="/docs/high-level-goals/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="semantics">Semantics</h1>
+
+<p>This document explains the high-level design of WebAssembly code: its types, constructs, and
+semantics.
+WebAssembly code can be considered a <em>structured stack machine</em>; a machine where most computations use a stack
+of values, but control flow is expressed in structured constructs such as blocks, ifs, and loops.
+In practice, implementations need not maintain an actual value stack, nor actual data structures for control; they
+need only behave <a href="https://en.wikipedia.org/wiki/As-if_rule">as if</a> they did so.
+For full details consult <a href="https://github.com/WebAssembly/spec">the formal Specification</a>,
+for file-level encoding details consult <a href="../binary-encoding/">Binary Encoding</a>,
+and for the human-readable text representation consult <a href="../text-format/">Text Format</a>.</p>
+
+<p>Each function body consists of a list of instructions which forms an implicit <em>block</em>.
+Execution of instructions proceeds by way of a traditional <em>program counter</em> that advances
+through the instructions.
+Instructions fall into two categories: <em>control</em> instructions that form control constructs and <em>simple</em> instructions.
+Control instructions pop their argument value(s) off the stack, may change the
+program counter, and push result value(s) onto the stack.
+Simple instructions pop their argument value(s) from the stack, apply an operator to the values,
+and then push the result value(s) onto the stack, followed by an implicit advancement of
+the program counter.</p>
+
+<p>All instructions and operators in WebAssembly are explicitly typed, with no overloading rules.
+Verification of WebAssembly code requires only a single pass with constant-time
+type checking and well-formedness checking.</p>
+
+<p>WebAssembly offers a set of language-independent operators that closely
+match operators in many programming languages and are efficiently implementable
+on all modern computers. Each operator has a corresponding simple instruction.</p>
+
+<p>The <a href="../rationale/">rationale</a> document details why WebAssembly is designed as
+detailed in this document.</p>
+
+<p><a href="../future-features/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> = Planned <a href="../future-features/">future</a> feature</p>
+
+<h2 id="traps">Traps</h2>
+
+<p>Some operators may <em>trap</em> under some conditions, as noted below. In the MVP,
+trapping means that execution in the WebAssembly instance is terminated and
+abnormal termination is reported to the outside environment. In a JavaScript
+environment such as a browser, a trap results in throwing a JavaScript exception.
+If developer tools are active, attaching a debugger before the
+termination would be sensible.</p>
+
+<p>Call stack space is limited by unspecified and dynamically varying constraints
+and is a source of <a href="../nondeterminism/">nondeterminism</a>. If program call stack usage
+exceeds the available call stack space at any time, a trap occurs.</p>
+
+<p>Implementations must have an internal maximum call stack size, and every call
+must take up some resources toward exhausting that size (of course, dynamic
+resources may be exhausted much earlier). This rule exists to avoid differences
+in observable behavior; if some implementations have this property and others
+don’t, the same program which runs successfully on some implementations may
+consume unbounded resources and fail on others. Also, in the future, it is
+expected that WebAssembly will add some form of stack-introspection
+functionality, in which case such optimizations would be directly observable.</p>
+
+<p>Support for explicit tail calls is planned in
+<a href="../future-features/#general-purpose-proper-tail-calls">the future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
+which would add an explicit tail-call operator with well-defined effects
+on stack introspection.</p>
+
+<h2 id="types">Types</h2>
+
+<p>WebAssembly has the following <em>value types</em>:</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">i32</code>: 32-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i64</code>: 64-bit integer</li>
+  <li>
+<code class="highlighter-rouge">f32</code>: 32-bit floating point</li>
+  <li>
+<code class="highlighter-rouge">f64</code>: 64-bit floating point</li>
+</ul>
+
+<p>Each parameter and local variable has exactly one <a href="../semantics/#types">value type</a>. Function signatures
+consist of a sequence of zero or more parameter types and a sequence of zero or more return
+types. (Note: in the MVP, a function can have at most one return type).</p>
+
+<p>Note that the value types <code class="highlighter-rouge">i32</code> and <code class="highlighter-rouge">i64</code> are not inherently signed or
+unsigned. The interpretation of these types is determined by individual
+operators.</p>
+
+<h2 id="linear-memory">Linear Memory</h2>
+
+<p>A <em>linear memory</em> is a contiguous, byte-addressable range of memory spanning
+from offset <code class="highlighter-rouge">0</code> and extending up to a varying <em>memory size</em>. This size is always 
+a multiple of the WebAssembly page size, which is fixed to 64KiB (though large
+page support may be added in an opt-in manner in the 
+<a href="../future-features/#large-page-support">future</a>). The initial state of a linear
+memory is defined by the module’s <a href="../modules/#linear-memory-section">linear memory</a> and
+<a href="../modules/#data-section">data</a> sections. The memory size can be dynamically
+increased by the <a href="../semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> operator.</p>
+
+<p>A linear memory can be considered to be an untyped array of bytes, and it is
+unspecified how embedders map this array into their process’ own <a href="https://en.wikipedia.org/wiki/Virtual_memory">virtual
+memory</a>. Linear memory is sandboxed; it does not alias other linear memories,
+the execution engine’s internal data structures, the execution stack, local
+variables, or other process memory.</p>
+
+<p>Every WebAssembly <a href="../modules/">instance</a> has one specially-designated <em>default</em> 
+linear memory which is the linear memory accessed by all the 
+<a href="#linear-memory-access">memory operators below</a>. In the MVP, there are <em>only</em>
+default linear memories but
+<a href="../future-features/#multiple-tables-and-memories">new memory operators <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+may be added after the MVP which can also access non-default memories.</p>
+
+<p>Linear memories (default or otherwise) can either be <a href="../modules/#imports">imported</a>
+or <a href="../modules/#linear-memory-section">defined inside the module</a>. After import
+or definition, there is no difference when accessing a linear memory whether it
+was imported or defined internally.</p>
+
+<p>In the MVP, linear memory cannot be shared between threads of execution.
+The addition of <a href="../future-features/#threads">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> will allow this.</p>
+
+<h3 id="linear-memory-accesses">Linear Memory Accesses</h3>
+
+<p>Linear memory access is accomplished with explicit <code class="highlighter-rouge">load</code> and <code class="highlighter-rouge">store</code> operators.
+All <code class="highlighter-rouge">load</code> and <code class="highlighter-rouge">store</code> operators use little-endian byte order when translating
+between values and bytes.
+Integer loads can specify a <em>storage size</em> which is smaller than the result type as
+well as a signedness which determines whether the bytes are sign- or zero-
+extended into the result type.</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">i32.load8_s</code>: load 1 byte and sign-extend i8 to i32</li>
+  <li>
+<code class="highlighter-rouge">i32.load8_u</code>: load 1 byte and zero-extend i8 to i32</li>
+  <li>
+<code class="highlighter-rouge">i32.load16_s</code>: load 2 bytes and sign-extend i16 to i32</li>
+  <li>
+<code class="highlighter-rouge">i32.load16_u</code>: load 2 bytes and zero-extend i16 to i32</li>
+  <li>
+<code class="highlighter-rouge">i32.load</code>: load 4 bytes as i32</li>
+  <li>
+<code class="highlighter-rouge">i64.load8_s</code>: load 1 byte and sign-extend i8 to i64</li>
+  <li>
+<code class="highlighter-rouge">i64.load8_u</code>: load 1 byte and zero-extend i8 to i64</li>
+  <li>
+<code class="highlighter-rouge">i64.load16_s</code>: load 2 bytes and sign-extend i16 to i64</li>
+  <li>
+<code class="highlighter-rouge">i64.load16_u</code>: load 2 bytes and zero-extend i16 to i64</li>
+  <li>
+<code class="highlighter-rouge">i64.load32_s</code>: load 4 bytes and sign-extend i32 to i64</li>
+  <li>
+<code class="highlighter-rouge">i64.load32_u</code>: load 4 bytes and zero-extend i32 to i64</li>
+  <li>
+<code class="highlighter-rouge">i64.load</code>: load 8 bytes as i64</li>
+  <li>
+<code class="highlighter-rouge">f32.load</code>: load 4 bytes as f32</li>
+  <li>
+<code class="highlighter-rouge">f64.load</code>: load 8 bytes as f64</li>
+</ul>
+
+<p>Stores have an additional input operand which is the <code class="highlighter-rouge">value</code> to store to memory.
+Like loads, integer stores may specify a smaller <em>storage size</em> than the operand
+size in which case integer wrapping is implied.</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">i32.store8</code>: wrap i32 to i8 and store 1 byte</li>
+  <li>
+<code class="highlighter-rouge">i32.store16</code>: wrap i32 to i16 and store 2 bytes</li>
+  <li>
+<code class="highlighter-rouge">i32.store</code>: (no conversion) store 4 bytes</li>
+  <li>
+<code class="highlighter-rouge">i64.store8</code>: wrap i64 to i8 and store 1 byte</li>
+  <li>
+<code class="highlighter-rouge">i64.store16</code>: wrap i64 to i16 and store 2 bytes</li>
+  <li>
+<code class="highlighter-rouge">i64.store32</code>: wrap i64 to i32 and store 4 bytes</li>
+  <li>
+<code class="highlighter-rouge">i64.store</code>: (no conversion) store 8 bytes</li>
+  <li>
+<code class="highlighter-rouge">f32.store</code>: (no conversion) store 4 bytes</li>
+  <li>
+<code class="highlighter-rouge">f64.store</code>: (no conversion) store 8 bytes</li>
+</ul>
+
+<p>Store operators do not produce a value.</p>
+
+<p>The above operators operate on the <a href="#linear-memory">default linear memory</a>.</p>
+
+<h3 id="addressing">Addressing</h3>
+
+<p>Each linear memory access operator has an address operand and an unsigned
+integer byte offset immediate. The infinite-precision unsigned sum of the
+address operand’s value with the offset’s value is called the <em>effective
+address</em>, which is interpreted as an unsigned byte index into the linear memory.</p>
+
+<p>Linear memory operators access the bytes starting at the effective address and
+extend for the number of bytes implied by the storage size. If any of the
+accessed bytes are beyond the current memory size, the access is considered
+<em>out-of-bounds</em>.</p>
+
+<p>The use of infinite-precision in the effective address computation means that
+the addition of the offset to the address never causes wrapping, so if the
+address for an access is out-of-bounds, the effective address will always also
+be out-of-bounds.</p>
+
+<p>In wasm32, address operands and offset attributes have type <code class="highlighter-rouge">i32</code>, and linear
+memory sizes are limited to 4 GiB (of course, actual sizes are further limited
+by <a href="../nondeterminism/">available resources</a>). In wasm64, address operands and
+offsets have type <code class="highlighter-rouge">i64</code>. The MVP only includes wasm32; subsequent versions
+will add support for wasm64 and thus
+<a href="../future-features/#linear-memory-bigger-than-4-gib">&gt;4 GiB linear memory <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
+
+<h3 id="alignment">Alignment</h3>
+
+<p>Each linear memory access operator also has an immediate positive integer power
+of 2 alignment attribute which must be no greater than the memory access’ size.
+An alignment value which is the same as the memory access’ size is considered
+to be a <em>natural</em> alignment. The alignment applies to the effective address and
+not merely the address operand, i.e. the immediate offset is taken into account
+when considering alignment.</p>
+
+<p>The alignment has same type (determined by wasm32/wasm64, as described above) as
+the address and offset operands.</p>
+
+<p>If the effective address of a memory access is a multiple of the alignment
+attribute value of the memory access, the memory access is considered <em>aligned</em>,
+otherwise it is considered <em>misaligned</em>. Aligned and misaligned accesses have
+the same behavior.</p>
+
+<p>Alignment affects performance as follows:</p>
+
+<ul>
+  <li>Aligned accesses with at least natural alignment are fast.</li>
+  <li>Aligned accesses with less than natural alignment may be somewhat slower
+(think: implementation makes multiple accesses, either in software or in
+hardware).</li>
+  <li>Misaligned access of any kind may be <em>massively</em> slower (think:
+implementation takes a signal and fixes things up).</li>
+</ul>
+
+<p>Thus, it is recommend that WebAssembly producers align frequently-used data to
+permit the use of natural alignment access, and use loads and stores with the
+greatest alignment values practical, while always avoiding misaligned accesses.</p>
+
+<h3 id="out-of-bounds">Out of Bounds</h3>
+
+<p>Out of bounds accesses trap.</p>
+
+<h3 id="resizing">Resizing</h3>
+
+<p>In the MVP, linear memory can be resized by a <code class="highlighter-rouge">grow_memory</code> operator. The
+operand to this operator is in units of the WebAssembly page size,
+which is defined to be 64KiB (though large page support may be added in 
+the <a href="../future-features/#large-page-support">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>).</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">grow_memory</code> : grow linear memory by a given unsigned delta of pages.
+ Return the previous memory size in units of pages or -1 on failure.</li>
+</ul>
+
+<p>When a linear memory has a declared <a href="../modules/#linear-memory-section">maximum memory size</a>,
+<code class="highlighter-rouge">grow_memory</code> must fail if it would grow past the maximum. However,
+<code class="highlighter-rouge">grow_memory</code> may still fail before the maximum if it was not possible to
+reserve the space up front or if enabling the reserved memory fails.
+When there is no maximum memory size declared, <code class="highlighter-rouge">grow_memory</code> is expected
+to perform a system allocation which may fail.</p>
+
+<p>The current size of the linear memory can be queried by the following operator:</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">current_memory</code> : return the current memory size in units of pages.</li>
+</ul>
+
+<p>As stated <a href="../semantics/#linear-memory">above</a>, linear memory is contiguous,
+meaning there are no “holes” in the linear address space. After the
+MVP, there are <a href="../future-features/#finer-grained-control-over-memory">future features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+proposed to allow setting protection and creating mappings within the
+contiguous linear memory.</p>
+
+<p>In the MVP, memory can only be grown. After the MVP, a memory shrinking
+operator may be added. However, due to normal fragmentation, applications are
+instead expected release unused physical pages from the working set using the
+<a href="../future-features/#finer-grained-control-over-memory"><code class="highlighter-rouge">discard</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> future feature.</p>
+
+<p>The above operators operate on the <a href="#linear-memory">default linear memory</a>.</p>
+
+<h2 id="table">Table</h2>
+
+<p>A <em>table</em> is similar to a linear memory whose elements, instead of being bytes,
+are opaque values of a particular <em>table element type</em>. This allows the table to
+contain values—like GC references, raw OS handles, or native pointers—that are
+accessed by WebAssembly code indirectly through an integer index. This feature
+bridges the gap between low-level, untrusted linear memory and high-level
+opaque handles/references at the cost of a bounds-checked table indirection.</p>
+
+<p>The table’s element type constrains the type of elements stored in the table
+and allows engines to avoid some type checks on table use. When a WebAssembly
+value is stored in a table, the value’s type must precisely match the element
+type. Depending on the operator/API used to store the value, this check may be
+static or dynamic. Just like linear memory, updates to a table are observed
+immediately by all instances that reference the table. Host environments may
+also allow storing non-WebAssembly values in tables in which case, as with
+<a href="../modules/#imports">imports</a>, the meaning of using the value is defined by the
+host environment.</p>
+
+<p>Every WebAssembly <a href="../modules/">instance</a> has one specially-designated <em>default</em>
+table which is indexed by <a href="#calls"><code class="highlighter-rouge">call_indirect</code></a> and other future
+table operators. Tables can either be <a href="../modules/#imports">imported</a> or 
+<a href="../modules/#table-section">defined inside the module</a>. After import or
+definition, there is no difference when calling into a table whether it was
+imported or defined internally.</p>
+
+<p>In the MVP, the primary purpose of tables is to implement indirect function
+calls in C/C++ using an integer index as the pointer-to-function and the table
+to hold the array of indirectly-callable functions. Thus, in the MVP:</p>
+
+<ul>
+  <li>tables may only be accessed from WebAssembly code via <a href="#calls"><code class="highlighter-rouge">call_indirect</code></a>;</li>
+  <li>the only allowed table element type is <code class="highlighter-rouge">anyfunc</code> (function with any signature);</li>
+  <li>tables may not be directly mutated or resized from WebAssembly code;
+this can only be done through the host environment (e.g., the <code class="highlighter-rouge">WebAssembly</code>
+<a href="../js/#webassemblytable-objects">JavaScript API</a>).</li>
+</ul>
+
+<p>These restrictions may be relaxed in the [future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][types].</p>
+
+<h2 id="local-variables">Local variables</h2>
+
+<p>Each function has a fixed, pre-declared number of <em>local variables</em> which occupy a single
+index space local to the function. Parameters are addressed as local variables. Local
+variables do not have addresses and are not aliased by linear memory. Local
+variables have <a href="#types">value types</a> and are initialized to the appropriate zero value for their
+type at the beginning of the function, except parameters which are initialized to the values
+of the arguments passed to the function.</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">get_local</code>: read the current value of a local variable</li>
+  <li>
+<code class="highlighter-rouge">set_local</code>: set the current value of a local variable</li>
+  <li>
+<code class="highlighter-rouge">tee_local</code>: like <code class="highlighter-rouge">set_local</code>, but also returns the set value</li>
+</ul>
+
+<p>The details of index space for local variables and their types will be further clarified,
+e.g. whether locals with type <code class="highlighter-rouge">i32</code> and <code class="highlighter-rouge">i64</code> must be contiguous and separate from
+others, etc.</p>
+
+<h2 id="global-variables">Global variables</h2>
+
+<p>A <em>global variable</em> stores a single value of a fixed <a href="#types">value type</a> and may be
+declared either <em>mutable</em> or <em>immutable</em>. This provides WebAssembly with memory
+locations that are disjoint from any <a href="#linear-memory">linear memory</a> and thus
+cannot be arbitrarily aliased as bits.</p>
+
+<p>Global variables are accessed via an integer index into the module-defined 
+<a href="../modules/#global-index-space">global index space</a>. Global variables can 
+either be <a href="../modules/#imports">imported</a> or <a href="../modules/#global-section">defined inside the module</a>.
+After import or definition, there is no difference when accessing a global.</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">get_global</code>: get the current value of a global variable</li>
+  <li>
+<code class="highlighter-rouge">set_global</code>: set the current value of a global variable</li>
+</ul>
+
+<p>It is a validation error for a <code class="highlighter-rouge">set_global</code> to index an immutable global variable.</p>
+
+<p>In the MVP, the primary use case of global variables is to represent
+instantiation-time immutable values as a useful building block for
+<a href="../dynamic-linking/">dynamic linking</a>.</p>
+
+<p>After the MVP, when <a href="../gc/">reference types</a> are added to the set of <a href="#types">value types</a>,
+global variables will be necessary to allow sharing reference types between
+<a href="../future-features/#threads">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> since shared linear memory cannot load or store
+references.</p>
+
+<h2 id="control-constructs-and-instructions">Control constructs and instructions</h2>
+
+<p>WebAssembly offers basic structured control flow constructs such as <em>blocks</em>, <em>loops</em>, and <em>ifs</em>.
+All constructs are formed out of the following control instructions:</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">nop</code>: no operation, no effect</li>
+  <li>
+<code class="highlighter-rouge">block</code>: the beginning of a block construct, a sequence of instructions with a label at the end</li>
+  <li>
+<code class="highlighter-rouge">loop</code>: a block with a label at the beginning which may be used to form loops</li>
+  <li>
+<code class="highlighter-rouge">if</code>: the beginning of an if construct with an implicit <em>then</em> block</li>
+  <li>
+<code class="highlighter-rouge">else</code>: marks the else block of an if</li>
+  <li>
+<code class="highlighter-rouge">br</code>: branch to a given label in an enclosing construct</li>
+  <li>
+<code class="highlighter-rouge">br_if</code>: conditionally branch to a given label in an enclosing construct</li>
+  <li>
+<code class="highlighter-rouge">br_table</code>: a jump table which jumps to a label in an enclosing construct</li>
+  <li>
+<code class="highlighter-rouge">return</code>: return zero or more values from this function</li>
+  <li>
+<code class="highlighter-rouge">end</code>: an instruction that marks the end of a block, loop, if, or function</li>
+</ul>
+
+<p>Blocks are composed of matched pairs of <code class="highlighter-rouge">block</code> … <code class="highlighter-rouge">end</code> instructions, loops with matched pairs of 
+<code class="highlighter-rouge">loop</code> … <code class="highlighter-rouge">end</code> instructions, and ifs with either <code class="highlighter-rouge">if</code> … <code class="highlighter-rouge">end</code> or <code class="highlighter-rouge">if</code> … <code class="highlighter-rouge">else</code> … <code class="highlighter-rouge">end</code> sequences.
+For each of these constructs the instructions in the ellipsis are said to be <em>enclosed</em> in the
+construct.</p>
+
+<h3 id="branches-and-nesting">Branches and nesting</h3>
+
+<p>The <code class="highlighter-rouge">br</code>, <code class="highlighter-rouge">br_if</code>, and <code class="highlighter-rouge">br_table</code> instructions express low-level branching and are hereafter refered to simply as branches.
+Branches may only reference labels defined by a construct in which they are enclosed.
+For example, references to a <code class="highlighter-rouge">block</code>’s label can only occur within the <code class="highlighter-rouge">block</code>’s body.</p>
+
+<p>In practice, outer <code class="highlighter-rouge">block</code>s can be used to place labels for any given branching
+pattern, except that the nesting restriction makes it impossible to branch into the middle of a loop
+from outside the loop. This limitation ensures by construction that all control flow graphs
+are well-structured as in high-level languages like Java, JavaScript and Go.
+Notice that that a branch to a <code class="highlighter-rouge">block</code>’s label is  equivalent to a labeled <code class="highlighter-rouge">break</code> in
+high-level languages; branches simply break out of a <code class="highlighter-rouge">block</code>, and branches to a <code class="highlighter-rouge">loop</code>
+correspond to a “continue” statement.</p>
+
+<h3 id="execution-semantics-of-control-instructions">Execution semantics of control instructions</h3>
+
+<p>Executing a <code class="highlighter-rouge">return</code> pops return value(s) off the stack and returns from the current function.</p>
+
+<p>Executing a <code class="highlighter-rouge">block</code> or <code class="highlighter-rouge">loop</code> instruction has no effect on the value stack.</p>
+
+<p>Executing the <code class="highlighter-rouge">end</code> of a <code class="highlighter-rouge">block</code> or <code class="highlighter-rouge">loop</code> (including implicit blocks such as in <code class="highlighter-rouge">if</code> or for a function body) has no effect on the value stack.</p>
+
+<p>Executing the <code class="highlighter-rouge">end</code> of the implicit block for a function body pops the return value(s) (if any) off the stack and returns from the function.</p>
+
+<p>Executing the <code class="highlighter-rouge">if</code> instruction pops an <code class="highlighter-rouge">i32</code> condition off the stack and either falls through to the next instruction
+or sets the program counter to after the <code class="highlighter-rouge">else</code> or <code class="highlighter-rouge">end</code> of the <code class="highlighter-rouge">if</code>.</p>
+
+<p>Executing the <code class="highlighter-rouge">else</code> instruction of an <code class="highlighter-rouge">if</code> sets the program counter to after the corresponding <code class="highlighter-rouge">end</code> of the <code class="highlighter-rouge">if</code>.</p>
+
+<p>Branches that exit a <code class="highlighter-rouge">block</code> or <code class="highlighter-rouge">if</code> may yield value(s) for that construct.
+Branches pop result value(s) off the stack which must be the same type as the declared
+type of the construct which they target. If a conditional or unconditional branch is taken, the values pushed
+onto the stack between the beginning of the construct and the branch are discarded, the result value(s) are
+pushed back onto the stack, and the program counter is updated to the end of the construct.</p>
+
+<p>Branches that target a <code class="highlighter-rouge">loop</code> do not yield a value; they pop any values pushed onto the stack since the start of the loop and set the program counter to the start of the loop.</p>
+
+<p>The <code class="highlighter-rouge">drop</code> operator can be used to explicitly pop and a value from the stack.</p>
+
+<p>The implicit popping associated with explicit branches makes compiling expression languages straightforward, even non-local
+control-flow transfer, requiring fewer drops.</p>
+
+<p>Note that in the MVP, all control constructs and control instructions, including <code class="highlighter-rouge">return</code> are
+restricted to at most one value.</p>
+
+<h3 id="br_table"><code class="highlighter-rouge">br_table</code></h3>
+
+<p>A <code class="highlighter-rouge">br_table</code> consists of a zero-based array of labels, a <em>default</em> label,
+and an index operand. A <code class="highlighter-rouge">br_table</code> jumps to the label indexed in the array
+or the default label if the index is out of bounds.</p>
+
+<h2 id="calls">Calls</h2>
+
+<p>Each function has a <em>signature</em>, which consists of:</p>
+
+<ul>
+  <li>Return types, which are a sequence of value types</li>
+  <li>Argument types, which are a sequence of value types</li>
+</ul>
+
+<p>WebAssembly doesn’t support variable-length argument lists (aka
+varargs). Compilers targeting WebAssembly can instead support them through
+explicit accesses to linear memory.</p>
+
+<p>In the MVP, the length of the return types sequence may only be 0 or 1. This
+restriction may be lifted in the future.</p>
+
+<p>Direct calls to a function specify the callee by an index into the 
+<a href="../modules/#function-index-space">function index space</a>.</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">call</code>: call function directly</li>
+</ul>
+
+<p>A direct call to a function with a mismatched signature is a module verification error.</p>
+
+<p>Indirect calls to a function indicate the callee with an <code class="highlighter-rouge">i32</code> index into
+a <a href="#table">table</a>. The <em>expected</em> signature of the target function (specified
+by its index in the <a href="../binary-encoding/#type-section">types section</a>) is given as
+a second immediate.</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">call_indirect</code>: call function indirectly</li>
+</ul>
+
+<p>Unlike <code class="highlighter-rouge">call</code>, which checks that the caller and callee signatures match
+statically as part of validation, <code class="highlighter-rouge">call_indirect</code> checks for signature match
+<em>dynamically</em>, comparing the caller’s expected signature with the callee function’s
+signature and and trapping if there is a mismatch. Since the callee may be in a
+different module which necessarily has a separate <a href="../binary-encoding/#type-section">types section</a>,
+and thus index space of types, the signature match must compare the underlying 
+<a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/types.ml#L5"><code class="highlighter-rouge">func_type</code></a>.
+As noted <a href="#table">above</a>, table elements may also be host-environment-defined
+values in which case the meaning of a call (and how the signature is checked)
+is defined by the host-environment, much like calling an import.</p>
+
+<p>In the MVP, the single <code class="highlighter-rouge">call_indirect</code> operator accesses the <a href="#table">default table</a>.</p>
+
+<p>Multiple return value calls will be possible, though possibly not in the
+MVP. The details of multiple-return-value calls needs clarification. Calling a
+function that returns multiple values will likely have to be a statement that
+specifies multiple local variables to which to assign the corresponding return
+values.</p>
+
+<h2 id="constants">Constants</h2>
+
+<p>These operators have an immediate operand of their associated type which is
+produced as their result value. All possible values of all types are
+supported (including NaN values of all possible bit patterns).</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">i32.const</code>: produce the value of an i32 immediate</li>
+  <li>
+<code class="highlighter-rouge">i64.const</code>: produce the value of an i64 immediate</li>
+  <li>
+<code class="highlighter-rouge">f32.const</code>: produce the value of an f32 immediate</li>
+  <li>
+<code class="highlighter-rouge">f64.const</code>: produce the value of an f64 immediate</li>
+</ul>
+
+<h2 id="32-bit-integer-operators">32-bit Integer operators</h2>
+
+<p>Integer operators are signed, unsigned, or sign-agnostic. Signed operators
+use two’s complement signed integer representation.</p>
+
+<p>Signed and unsigned operators trap whenever the result cannot be represented
+in the result type. This includes division and remainder by zero, and signed
+division overflow (<code class="highlighter-rouge">INT32_MIN / -1</code>). Signed remainder with a non-zero
+denominator always returns the correct value, even when the corresponding
+division would trap. Sign-agnostic operators silently wrap overflowing
+results into the result type.</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">i32.add</code>: sign-agnostic addition</li>
+  <li>
+<code class="highlighter-rouge">i32.sub</code>: sign-agnostic subtraction</li>
+  <li>
+<code class="highlighter-rouge">i32.mul</code>: sign-agnostic multiplication (lower 32-bits)</li>
+  <li>
+<code class="highlighter-rouge">i32.div_s</code>: signed division (result is truncated toward zero)</li>
+  <li>
+<code class="highlighter-rouge">i32.div_u</code>: unsigned division (result is <a href="https://en.wikipedia.org/wiki/Floor_and_ceiling_functions">floored</a>)</li>
+  <li>
+<code class="highlighter-rouge">i32.rem_s</code>: signed remainder (result has the sign of the dividend)</li>
+  <li>
+<code class="highlighter-rouge">i32.rem_u</code>: unsigned remainder</li>
+  <li>
+<code class="highlighter-rouge">i32.and</code>: sign-agnostic bitwise and</li>
+  <li>
+<code class="highlighter-rouge">i32.or</code>: sign-agnostic bitwise inclusive or</li>
+  <li>
+<code class="highlighter-rouge">i32.xor</code>: sign-agnostic bitwise exclusive or</li>
+  <li>
+<code class="highlighter-rouge">i32.shl</code>: sign-agnostic shift left</li>
+  <li>
+<code class="highlighter-rouge">i32.shr_u</code>: zero-replicating (logical) shift right</li>
+  <li>
+<code class="highlighter-rouge">i32.shr_s</code>: sign-replicating (arithmetic) shift right</li>
+  <li>
+<code class="highlighter-rouge">i32.rotl</code>: sign-agnostic rotate left</li>
+  <li>
+<code class="highlighter-rouge">i32.rotr</code>: sign-agnostic rotate right</li>
+  <li>
+<code class="highlighter-rouge">i32.eq</code>: sign-agnostic compare equal</li>
+  <li>
+<code class="highlighter-rouge">i32.ne</code>: sign-agnostic compare unequal</li>
+  <li>
+<code class="highlighter-rouge">i32.lt_s</code>: signed less than</li>
+  <li>
+<code class="highlighter-rouge">i32.le_s</code>: signed less than or equal</li>
+  <li>
+<code class="highlighter-rouge">i32.lt_u</code>: unsigned less than</li>
+  <li>
+<code class="highlighter-rouge">i32.le_u</code>: unsigned less than or equal</li>
+  <li>
+<code class="highlighter-rouge">i32.gt_s</code>: signed greater than</li>
+  <li>
+<code class="highlighter-rouge">i32.ge_s</code>: signed greater than or equal</li>
+  <li>
+<code class="highlighter-rouge">i32.gt_u</code>: unsigned greater than</li>
+  <li>
+<code class="highlighter-rouge">i32.ge_u</code>: unsigned greater than or equal</li>
+  <li>
+<code class="highlighter-rouge">i32.clz</code>: sign-agnostic count leading zero bits (All zero bits are considered leading if the value is zero)</li>
+  <li>
+<code class="highlighter-rouge">i32.ctz</code>: sign-agnostic count trailing zero bits (All zero bits are considered trailing if the value is zero)</li>
+  <li>
+<code class="highlighter-rouge">i32.popcnt</code>: sign-agnostic count number of one bits</li>
+  <li>
+<code class="highlighter-rouge">i32.eqz</code>: compare equal to zero (return 1 if operand is zero, 0 otherwise)</li>
+</ul>
+
+<p>Shifts counts are wrapped to be less than the log-base-2 of the number of bits
+in the value to be shifted, as an unsigned quantity. For example, in a 32-bit
+shift, only the least 5 significant bits of the count affect the result. In a
+64-bit shift, only the least 6 significant bits of the count affect the result.</p>
+
+<p>Rotate counts are treated as unsigned.  A count value greater than or equal
+to the number of bits in the value to be rotated yields the same result as
+if the count was wrapped to its least significant N bits, where N is 5 for
+an i32 value or 6 for an i64 value.</p>
+
+<p>All comparison operators yield 32-bit integer results with <code class="highlighter-rouge">1</code> representing
+<code class="highlighter-rouge">true</code> and <code class="highlighter-rouge">0</code> representing <code class="highlighter-rouge">false</code>.</p>
+
+<h2 id="64-bit-integer-operators">64-bit integer operators</h2>
+
+<p>The same operators are available on 64-bit integers as the those available for
+32-bit integers.</p>
+
+<h2 id="floating-point-operators">Floating point operators</h2>
+
+<p>Floating point arithmetic follows the IEEE 754-2008 standard, except that:</p>
+<ul>
+  <li>The IEEE 754-2008 section 6.2 recommendation that operations propagate NaN
+bits from their operands is permitted but not required.</li>
+  <li>WebAssembly uses “non-stop” mode, and floating point exceptions are not
+otherwise observable. In particular, neither alternate floating point
+exception handling attributes nor the non-computational operators on status
+flags are supported. There is no observable difference between quiet and
+signalling NaN. However, positive infinity, negative infinity, and NaN are
+still always produced as result values to indicate overflow, invalid, and
+divide-by-zero conditions, as specified by IEEE 754-2008.</li>
+  <li>WebAssembly uses the round-to-nearest ties-to-even rounding attribute, except
+where otherwise specified. Non-default directed rounding attributes are not
+supported.</li>
+</ul>
+
+<p>In the future, these limitations may be lifted, enabling
+[full IEEE 754-2008 support <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][future ieee 745].</p>
+
+<p>Note that not all operators required by IEEE 754-2008 are provided directly.
+However, WebAssembly includes enough functionality to support reasonable library
+implementations of the remaining required operators.</p>
+
+<p>When the result of any arithmetic operation other than <code class="highlighter-rouge">neg</code>, <code class="highlighter-rouge">abs</code>, or
+<code class="highlighter-rouge">copysign</code> is a NaN, the sign bit and the fraction field (which does not include
+the implicit leading digit of the significand) of the NaN are computed as
+follows:</p>
+
+<ul>
+  <li>
+    <p>If the fraction fields of all NaN inputs to the instruction all consist
+of 1 in the most significant bit and 0 in the remaining bits, or if there are
+no NaN inputs, the result is a NaN with a nondeterministic sign bit, 1 in the
+most significant bit of the fraction field, and all zeros in the remaining
+bits of the fraction field.</p>
+  </li>
+  <li>
+    <p>Otherwise the result is a NaN with a nondeterministic sign bit, 1 in the most
+significant bit of the fraction field, and nondeterminsitic values in the
+remaining bits of the fraction field.</p>
+  </li>
+</ul>
+
+<p>32-bit floating point operations are as follows:</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">f32.add</code>: addition</li>
+  <li>
+<code class="highlighter-rouge">f32.sub</code>: subtraction</li>
+  <li>
+<code class="highlighter-rouge">f32.mul</code>: multiplication</li>
+  <li>
+<code class="highlighter-rouge">f32.div</code>: division</li>
+  <li>
+<code class="highlighter-rouge">f32.abs</code>: absolute value</li>
+  <li>
+<code class="highlighter-rouge">f32.neg</code>: negation</li>
+  <li>
+<code class="highlighter-rouge">f32.copysign</code>: copysign</li>
+  <li>
+<code class="highlighter-rouge">f32.ceil</code>: ceiling operator</li>
+  <li>
+<code class="highlighter-rouge">f32.floor</code>: floor operator</li>
+  <li>
+<code class="highlighter-rouge">f32.trunc</code>: round to nearest integer towards zero</li>
+  <li>
+<code class="highlighter-rouge">f32.nearest</code>: round to nearest integer, ties to even</li>
+  <li>
+<code class="highlighter-rouge">f32.eq</code>: compare ordered and equal</li>
+  <li>
+<code class="highlighter-rouge">f32.ne</code>: compare unordered or unequal</li>
+  <li>
+<code class="highlighter-rouge">f32.lt</code>: compare ordered and less than</li>
+  <li>
+<code class="highlighter-rouge">f32.le</code>: compare ordered and less than or equal</li>
+  <li>
+<code class="highlighter-rouge">f32.gt</code>: compare ordered and greater than</li>
+  <li>
+<code class="highlighter-rouge">f32.ge</code>: compare ordered and greater than or equal</li>
+  <li>
+<code class="highlighter-rouge">f32.sqrt</code>: square root</li>
+  <li>
+<code class="highlighter-rouge">f32.min</code>: minimum (binary operator); if either operand is NaN, returns NaN</li>
+  <li>
+<code class="highlighter-rouge">f32.max</code>: maximum (binary operator); if either operand is NaN, returns NaN</li>
+</ul>
+
+<p>64-bit floating point operators:</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">f64.add</code>: addition</li>
+  <li>
+<code class="highlighter-rouge">f64.sub</code>: subtraction</li>
+  <li>
+<code class="highlighter-rouge">f64.mul</code>: multiplication</li>
+  <li>
+<code class="highlighter-rouge">f64.div</code>: division</li>
+  <li>
+<code class="highlighter-rouge">f64.abs</code>: absolute value</li>
+  <li>
+<code class="highlighter-rouge">f64.neg</code>: negation</li>
+  <li>
+<code class="highlighter-rouge">f64.copysign</code>: copysign</li>
+  <li>
+<code class="highlighter-rouge">f64.ceil</code>: ceiling operator</li>
+  <li>
+<code class="highlighter-rouge">f64.floor</code>: floor operator</li>
+  <li>
+<code class="highlighter-rouge">f64.trunc</code>: round to nearest integer towards zero</li>
+  <li>
+<code class="highlighter-rouge">f64.nearest</code>: round to nearest integer, ties to even</li>
+  <li>
+<code class="highlighter-rouge">f64.eq</code>: compare ordered and equal</li>
+  <li>
+<code class="highlighter-rouge">f64.ne</code>: compare unordered or unequal</li>
+  <li>
+<code class="highlighter-rouge">f64.lt</code>: compare ordered and less than</li>
+  <li>
+<code class="highlighter-rouge">f64.le</code>: compare ordered and less than or equal</li>
+  <li>
+<code class="highlighter-rouge">f64.gt</code>: compare ordered and greater than</li>
+  <li>
+<code class="highlighter-rouge">f64.ge</code>: compare ordered and greater than or equal</li>
+  <li>
+<code class="highlighter-rouge">f64.sqrt</code>: square root</li>
+  <li>
+<code class="highlighter-rouge">f64.min</code>: minimum (binary operator); if either operand is NaN, returns NaN</li>
+  <li>
+<code class="highlighter-rouge">f64.max</code>: maximum (binary operator); if either operand is NaN, returns NaN</li>
+</ul>
+
+<p><code class="highlighter-rouge">min</code> and <code class="highlighter-rouge">max</code> operators treat <code class="highlighter-rouge">-0.0</code> as being effectively less than <code class="highlighter-rouge">0.0</code>.</p>
+
+<p>In floating point comparisons, the operands are <em>unordered</em> if either operand
+is NaN, and <em>ordered</em> otherwise.</p>
+
+<h2 id="datatype-conversions-truncations-reinterpretations-promotions-and-demotions">Datatype conversions, truncations, reinterpretations, promotions, and demotions</h2>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">i32.wrap/i64</code>: wrap a 64-bit integer to a 32-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i32.trunc_s/f32</code>: truncate a 32-bit float to a signed 32-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i32.trunc_s/f64</code>: truncate a 64-bit float to a signed 32-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i32.trunc_u/f32</code>: truncate a 32-bit float to an unsigned 32-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i32.trunc_u/f64</code>: truncate a 64-bit float to an unsigned 32-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i32.reinterpret/f32</code>: reinterpret the bits of a 32-bit float as a 32-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i64.extend_s/i32</code>: extend a signed 32-bit integer to a 64-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i64.extend_u/i32</code>: extend an unsigned 32-bit integer to a 64-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i64.trunc_s/f32</code>: truncate a 32-bit float to a signed 64-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i64.trunc_s/f64</code>: truncate a 64-bit float to a signed 64-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i64.trunc_u/f32</code>: truncate a 32-bit float to an unsigned 64-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i64.trunc_u/f64</code>: truncate a 64-bit float to an unsigned 64-bit integer</li>
+  <li>
+<code class="highlighter-rouge">i64.reinterpret/f64</code>: reinterpret the bits of a 64-bit float as a 64-bit integer</li>
+  <li>
+<code class="highlighter-rouge">f32.demote/f64</code>: demote a 64-bit float to a 32-bit float</li>
+  <li>
+<code class="highlighter-rouge">f32.convert_s/i32</code>: convert a signed 32-bit integer to a 32-bit float</li>
+  <li>
+<code class="highlighter-rouge">f32.convert_s/i64</code>: convert a signed 64-bit integer to a 32-bit float</li>
+  <li>
+<code class="highlighter-rouge">f32.convert_u/i32</code>: convert an unsigned 32-bit integer to a 32-bit float</li>
+  <li>
+<code class="highlighter-rouge">f32.convert_u/i64</code>: convert an unsigned 64-bit integer to a 32-bit float</li>
+  <li>
+<code class="highlighter-rouge">f32.reinterpret/i32</code>: reinterpret the bits of a 32-bit integer as a 32-bit float</li>
+  <li>
+<code class="highlighter-rouge">f64.promote/f32</code>: promote a 32-bit float to a 64-bit float</li>
+  <li>
+<code class="highlighter-rouge">f64.convert_s/i32</code>: convert a signed 32-bit integer to a 64-bit float</li>
+  <li>
+<code class="highlighter-rouge">f64.convert_s/i64</code>: convert a signed 64-bit integer to a 64-bit float</li>
+  <li>
+<code class="highlighter-rouge">f64.convert_u/i32</code>: convert an unsigned 32-bit integer to a 64-bit float</li>
+  <li>
+<code class="highlighter-rouge">f64.convert_u/i64</code>: convert an unsigned 64-bit integer to a 64-bit float</li>
+  <li>
+<code class="highlighter-rouge">f64.reinterpret/i64</code>: reinterpret the bits of a 64-bit integer as a 64-bit float</li>
+</ul>
+
+<p>Wrapping and extension of integer values always succeed.
+Promotion and demotion of floating point values always succeed.
+Demotion of floating point values uses round-to-nearest ties-to-even rounding,
+and may overflow to infinity or negative infinity as specified by IEEE 754-2008.</p>
+
+<p>If the operand of promotion or demotion is a NaN, the result is a NaN with the
+following sign bit and fraction field (which does not include the implicit
+leading digit of the significand):</p>
+
+<ul>
+  <li>If the fraction fields of the operand consists of 1 in the most significant bit
+and 0 in the remaining bits, the result is a NaN with a nondeterministic sign
+bit, 1 in the most significant bit of the fraction field, and all zeros in the
+remaining bits of the fraction field.</li>
+  <li>Otherwise the result is a NaN with a nondeterministic sign bit, 1 in the most
+significant bit of the fraction field, and nondeterminsitic values in the
+remaining bits of the fraction field.</li>
+</ul>
+
+<p>Reinterpretations always succeed.</p>
+
+<p>Conversions from integer to floating point always succeed, and use
+round-to-nearest ties-to-even rounding.</p>
+
+<p>Truncation from floating point to integer where IEEE 754-2008 would specify an
+invalid operator exception (e.g. when the floating point value is NaN or
+outside the range which rounds to an integer in range) traps.</p>
+
+<h2 id="type-parametric-operators">Type-parametric operators.</h2>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">drop</code>: a unary operator that discards the value of its operand.</li>
+  <li>
+<code class="highlighter-rouge">select</code>: a ternary operator with two operands, which have the same type as
+each other, plus a boolean (i32) condition. <code class="highlighter-rouge">select</code> returns the first
+operand if the condition operand is non-zero, or the second otherwise.</li>
+</ul>
+
+<h2 id="unreachable">Unreachable</h2>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">unreachable</code>: An instruction which always traps.
+It is intended to be used for example after calls to functions which are known by the producer not to return.
+This trap is intended to be impossible for user code to catch or handle, even in the future when it may be possible to
+handle some other kinds of traps or exceptions.</li>
+</ul>
+
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        
+        
+          
+          <a class="side-nav-item" href="/docs/high-level-goals/">WebAssembly High-Level Goals</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/js/">JavaScript API</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/binary-encoding/">Binary Encoding</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/text-format/">Text Format</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/semantics/">Semantics</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/modules/">Modules</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/faq/">FAQ</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/rationale/">Design Rationale</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/mvp/">Minimum Viable Product</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/future-features/">Features to add after the MVP</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/portability/">Portability</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/security/">Security</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/nondeterminism/">Nondeterminism in WebAssembly</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/use-cases/">Use Cases</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/c-and-c++/">Guide for C/C++ developers</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/web/">Web Embedding</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/non-web/">Non-Web Embeddings</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/feature-test/">Feature Test</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/tooling/">Tooling support</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/dynamic-linking/">Dynamic linking</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

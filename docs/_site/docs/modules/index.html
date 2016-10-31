@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/developers-guide/">Getting Started</a>
+      
+      
+      <a class="site-nav-item btn" href="/docs/high-level-goals/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="modules">Modules</h1>
+
+<p>The distributable, loadable, and executable unit of code in WebAssembly
+is called a <strong>module</strong>. At runtime, a module can be <strong>instantiated</strong> 
+with a set of import values to produce an <strong>instance</strong>, which is an immutable
+tuple referencing all the state accessible to the running module. Multiple
+module instances can access the same shared state which is the basis for 
+<a href="../dynamic-linking/">dynamic linking</a> in WebAssembly. WebAssembly modules
+are also designed to <a href="#integration-with-es6-modules">integrate with ES6 modules</a>.</p>
+
+<p>A module contains the following sections:</p>
+
+<ul>
+  <li><a href="#imports">import</a></li>
+  <li><a href="#exports">export</a></li>
+  <li><a href="#module-start-function">start</a></li>
+  <li><a href="#global-section">global</a></li>
+  <li><a href="#linear-memory-section">memory</a></li>
+  <li><a href="#data-section">data</a></li>
+  <li><a href="#table-section">table</a></li>
+  <li><a href="#elements-section">elements</a></li>
+  <li><a href="#function-and-code-sections">function and code</a></li>
+</ul>
+
+<p>A module also defines several <em>index spaces</em> which are statically indexed by
+various operators and section fields in the module:</p>
+
+<ul>
+  <li>the <a href="#function-index-space">function index space</a>
+</li>
+  <li>the <a href="#global-index-space">global index space</a>
+</li>
+  <li>the <a href="#linear-memory-index-space">linear memory index space</a>
+</li>
+  <li>the <a href="#table-index-space">table index space</a>
+</li>
+</ul>
+
+<h2 id="imports">Imports</h2>
+
+<p>A module can declare a sequence of <strong>imports</strong> which are provided, at
+instantiation time, by the host environment. There are several kinds of imports:</p>
+
+<ul>
+  <li>
+<strong>function imports</strong>, which can be called inside the module by the
+<a href="../semantics/#calls"><code class="highlighter-rouge">call</code></a> operator;</li>
+  <li>
+<strong>global imports</strong>, which can be accessed inside the module by the
+<a href="../semantics/#global-variables">global operators</a>;</li>
+  <li>
+<strong>linear memory imports</strong>, which can be accessed inside the module by the
+<a href="../semantics/#linear-memory">memory operators</a>; and</li>
+  <li>
+<strong>table imports</strong>, which can be accessed inside the module by 
+<a href="../semantics/#calls">call_indirect</a> and other
+table operators in the 
+<a href="../future-features/#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</li>
+</ul>
+
+<p>In the future, other kinds of imports may be added. Imports are designed to
+allow modules to share code and data while still allowing separate compilation
+and caching.</p>
+
+<p>All imports include two opaque names: a <em>module name</em> and an <em>export name</em>. The
+interpretation of these names is up to the host environment but designed to
+allow a host environments, like the <a href="../web/">Web</a>, to support a two-level
+namespace.</p>
+
+<p>Each specific kind of import defines additional fields:</p>
+
+<p>A <em>function import</em> includes a signature to use for the imported
+function <em>inside</em> the module. The checking of the signature against the
+imported function <em>outside</em> the module is defined by the host environment.
+However, if the imported function is a WebAssembly function, the host
+environment must raise an instantiation-time error if there is a signature
+mismatch.</p>
+
+<p>A <em>global variable import</em> includes the <em>value type</em> and <em>mutability</em>
+of the global variable. These fields have the same meaning as in the
+<a href="#global-section">Global section</a>. In the MVP, global variable imports must be
+<em>immutable</em>.</p>
+
+<p>A <em>linear memory import</em> includes the same set of fields defined in the
+<a href="#linear-memory-section">Linear Memory section</a>:  <em>initial
+length</em> and optional <em>maximum length</em>. The host environment must only allow
+imports of WebAssembly linear memories that have initial length
+<em>greater-or-equal</em> than the initial length declared in the import and that have
+maximum length <em>less-or-equal</em> than the maximum length declared in the import.
+This ensures that separate compilation can assume: memory accesses below the
+declared initial length are always in-bounds, accesses above the declared
+maximum length are always out-of-bounds and if initial equals maximum, the
+length is fixed. In the MVP, every memory is a <a href="../semantics/#linear-memory">default memory</a>
+and thus there may be at most one linear memory import or linear memory
+section.</p>
+
+<p>A <em>table import</em> includes the same set of fields defined in the 
+<a href="#table-section">Table section</a>: <em>element type</em>, <em>initial
+length</em> and optional <em>maximum length</em>. As with the linear memory section, the
+host environment must ensure only WebAssembly tables are imported with
+exactly-matching element type, greater-or-equal initial length, and
+less-or-equal maximum length. In the MVP, every table is a <a href="../semantics/#table">default table</a>
+and thus there may be at most one table import or table section.</p>
+
+<p>Since the WebAssembly spec does not define how import names are interpreted:</p>
+
+<ul>
+  <li>the <a href="../web/#names">Web environment</a> defines names to be UTF8-encoded strings;</li>
+  <li>the host environment can interpret the module name as a file path, a URL,
+a key in a fixed set of builtin modules or the host environment may invoke a
+user-defined hook to resolve the module name to one of these;</li>
+  <li>the module name does not need to resolve to a WebAssembly module; it
+could resolve to a builtin module (implemented by the host environment) or a
+module written in another, compatible language; and</li>
+  <li>the meaning of calling an imported function is host-defined.</li>
+</ul>
+
+<p>The open-ended nature of module imports allow them to be used to expose
+arbitrary host environment functionality to WebAssembly code, similar to a
+native <code class="highlighter-rouge">syscall</code>. For example, a shell environment could define a builtin
+<code class="highlighter-rouge">stdio</code> module with an export <code class="highlighter-rouge">puts</code>.</p>
+
+<h2 id="exports">Exports</h2>
+
+<p>A module can declare a sequence of <strong>exports</strong> which are returned at
+instantiation time to the host environment. Each export has three fields:
+a <em>name</em>, whose meaning is defined by the host environment, a <em>type</em>,
+indicating whether the export is a function, global, memory or table, and
+an <em>index</em> into the type’s corresponding <a href="../modules/">index space</a>.</p>
+
+<p>All definitions are exportable: functions, globals, linear memories and tables.
+The meaning an exported definition is defined by the host environment. However,
+if another WebAssembly instance imports the definition, then both instances
+will share the same definition and the associated state (global variable value,
+linear memory bytes, table elements) is shared.</p>
+
+<p>In the MVP, only <em>immutable</em> global variables can be exported.</p>
+
+<h2 id="integration-with-es6-modules">Integration with ES6 modules</h2>
+
+<p>While ES6 defines how to parse, link and execute a module, ES6 does not
+define when this parsing/linking/execution occurs. An additional extension
+to the HTML spec is required to say when a script is parsed as a module instead
+of normal global code. This work is <a href="https://github.com/whatwg/loader/blob/master/roadmap.md">ongoing</a>.
+Currently, the following entry points for modules are being considered:</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">&lt;script type="module"&gt;</code>;</li>
+  <li>an overload to the <code class="highlighter-rouge">Worker</code> constructor;</li>
+  <li>an overload to the <code class="highlighter-rouge">importScripts</code> Worker API;</li>
+</ul>
+
+<p>Additionally, an ES6 module can recursively import other modules via <code class="highlighter-rouge">import</code>
+statements.</p>
+
+<p>For WebAssembly/ES6 module integration, the idea is that all the above module
+entry points could also load WebAssembly modules simply by passing the URL of a
+WebAssembly module. The distinction of whether the module was WebAssembly or ES6
+code could be made by namespacing or by content sniffing the first bytes of the
+fetched resource (which, for WebAssembly, would be a non-ASCII—and thus
+illegal as JavaScript—<a href="https://en.wikipedia.org/wiki/Magic_number_%28programming%29">magic number</a>).
+Thus, the whole module-loading pipeline (resolving the name to a URL, fetching
+the URL, any other <a href="http://whatwg.github.io/loader/">loader hooks</a>) would be
+shared and only the final stage would fork into either the JavaScript parser or
+the WebAssembly decoder.</p>
+
+<p>Any non-builtin imports from within a WebAssembly module would be treated as
+if they were <code class="highlighter-rouge">import</code> statements of an ES6 module. If an ES6 module <code class="highlighter-rouge">import</code>ed
+a WebAssembly module, the WebAssembly module’s exports would be linked as if
+they were the exports of an ES6 module. Once parsing and linking phases
+were complete, a WebAssembly module would have its start function, defined
+by the start module option, called in place of executing the ES6 module
+top-level script. By default, multiple loads of the same module URL (in
+the same realm) reuse the same instance. It may be worthwhile in the future
+to consider extensions to allow applications to load/compile/link a module
+once and instantiate multiple times (each with a separate linear memory).</p>
+
+<p>This integration strategy should allow WebAssembly modules to be fairly
+interchangeable with ES6 modules (ignoring
+<a href="../future-features/#gc/dom-integration">GC/Web API <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> signature restrictions of the
+WebAssembly MVP) and thus it should be natural to compose a single application
+from both kinds of code. This goal motivates the
+<a href="../semantics/#linear-memory">semantic design</a> of giving each WebAssembly
+module its own disjoint linear memory. Otherwise, if all modules shared a single
+linear memory (all modules with the same realm? origin? window?—even the
+scope of “all” is a nuanced question), a single app using multiple
+independent libraries would have to hope that all the WebAssembly modules
+transitively used by those libraries “played well” together (e.g., explicitly
+shared <code class="highlighter-rouge">malloc</code> and coordinated global address ranges). Instead, the
+<a href="../dynamic-linking/">dynamic linking future feature</a> is intended
+to allow <em>explicitly</em> sharing state between module instances.</p>
+
+<h2 id="module-start-function">Module start function</h2>
+
+<p>If the module has a start node defined, the function it refers should be called
+by the loader after the instance is initialized and before the exported functions
+are called.</p>
+
+<ul>
+  <li>The start function must not take any arguments or return anything</li>
+  <li>The function is identified by <a href="#function-index-space">function index</a> and can also be
+exported</li>
+  <li>There can only be at most one start node per module</li>
+</ul>
+
+<p>For example, a start node in a module will be:</p>
+
+<p><code class="highlighter-rouge">(start $start_function)</code></p>
+
+<p>or</p>
+
+<p><code class="highlighter-rouge">(start 42)</code></p>
+
+<p>In the first example, the environment is expected to call the function $start_function
+before calling any other module function. In the second case, the environment is
+expected to call the module function indexed 42. This number is the function index starting from 0 (same as for <code class="highlighter-rouge">export</code>).</p>
+
+<p>A module can:</p>
+
+<ul>
+  <li>Only have at most a start node</li>
+  <li>If a module contains a start node, the function must be defined in the module</li>
+  <li>The start function will be called after module loading and before any call to the module
+  function is done</li>
+</ul>
+
+<h2 id="global-section">Global section</h2>
+
+<p>The <em>global section</em> provides an internal definition of zero or more
+<a href="../semantics/#global-variables">global variables</a>.</p>
+
+<p>Each global variable internal definition declares its <em>type</em>
+(a <a href="../semantics/#types">value type</a>), <em>mutability</em> (boolean flag) and
+<em>initializer</em> (an <a href="#initializer-expression">initializer expression</a>).</p>
+
+<h2 id="linear-memory-section">Linear memory section</h2>
+
+<p>The <em>linear memory section</em> provides an internal definition of one
+<a href="../semantics/#linear-memory">linear memory</a>. In the MVP, every memory is a
+default memory and thus there may be at most one linear memory import or linear
+memory section.</p>
+
+<p>Each linear memory section declares an <em>initial</em> <a href="../semantics/#linear-memory">memory size</a>
+(which may be subsequently increased by <a href="../semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a>) and an
+optional <em>maximum memory size</em>.</p>
+
+<p><a href="../semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> is guaranteed to fail if attempting to
+grow past the declared maximum. When declared, implementations <em>should</em>
+(non-normative) attempt to reserve virtual memory up to the maximum size. While
+failure to allocate the <em>initial</em> memory size is a runtime error, failure to
+reserve up to the <em>maximum</em> is not. When a maximum memory size is <em>not</em> declared,
+on architectures with limited virtual address space, engines should allocate
+only the initial size and reallocate on demand.</p>
+
+<h2 id="data-section">Data section</h2>
+
+<p>The initial contents of linear memory are zero. The <em>data section</em> contains a
+possibly-empty array of <em>data segments</em> which specify the initial contents
+of fixed <code class="highlighter-rouge">(offset, length)</code> ranges of a given memory, specified by its 
+<a href="#linear-memory-index-space">linear memory index</a>. This section is analogous to
+the <code class="highlighter-rouge">.data</code> section of native executables. The <code class="highlighter-rouge">length</code> is an integer constant
+value (defining the length of the given segment). The <code class="highlighter-rouge">offset</code> is an
+<a href="#initializer-expression">initializer expression</a>.</p>
+
+<h2 id="table-section">Table section</h2>
+
+<p>The <em>table section</em> contains zero or more definitions of distinct 
+<a href="../semantics/#table">tables</a>. In the MVP, every table is a 
+default table and thus there may be at most one table import or table section.</p>
+
+<p>Each table definition declares an <em>element type</em>, <em>initial length</em>, and
+optional <em>maximum length</em>.</p>
+
+<p>In the MVP, the only valid element type is <code class="highlighter-rouge">"anyfunc"</code>, but in the
+<a href="../future-features/#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
+more element types may be added.</p>
+
+<p>In the MVP, tables can only be resized via host-defined APIs (such as
+the JavaScript <a href="../js/#webassemblytableprototypegrow"><code class="highlighter-rouge">WebAssembly.Table.prototype.grow</code></a>).
+A <code class="highlighter-rouge">grow_table</code> may be added in the <a href="../future-features/#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.
+In either case, table growth is guaranteed to fail if attempting to grow past
+the declared maximum. As with linear memory, when a maximum is declared,
+implementations <em>should</em> (non-normative) attempt to reserve virtual memory up to
+the maximum size. While failure to allocate the <em>initial</em> memory size is a
+runtime error, failure to reserve up to the <em>maximum</em> is not. When a maximum
+memory size is <em>not</em> declared, on architectures with limited virtual address
+space, engines should allocate only the initial size and reallocate on demand.</p>
+
+<h2 id="elements-section">Elements section</h2>
+
+<p>The intial contents of a tables’ elements are sentinel values (that would trap
+if called). The <em>elements section</em> allows a module to initialize (at
+instantiation time) the elements of any imported or internally-defined table
+with any other definition in the module. This is symmetric to how the 
+<a href="#data-section">Data section</a> allows a module to initialize the bytes
+of any imported or defined memory.</p>
+
+<p>The elements section contains a possibly-empty array of <em>element segments</em> which
+specify the initial contents of fixed <code class="highlighter-rouge">(offset, length)</code> ranges of a given
+table, specified by its <a href="#table-index-space">table index</a>. The <code class="highlighter-rouge">length</code> is an
+integer constant value (defining the length of the given segment). The <code class="highlighter-rouge">offset</code>
+is an <a href="#initializer-expression">initializer expression</a>. Elements are specified
+by their index into the corresponding <a href="../modules/">index space</a>.</p>
+
+<h2 id="function-and-code-sections">Function and Code sections</h2>
+
+<p>A single logical function definition is defined in two sections:</p>
+
+<ul>
+  <li>the <em>function</em> section declares the signatures of each internal function
+definition in the module;</li>
+  <li>the <em>code</em> section contains the <a href="../binary-encoding/#function-bodies">function body</a>
+of each function declared by the function section.</li>
+</ul>
+
+<p>This split aids in streaming compilation by putting the function bodies,
+which constitute most of the byte size of the module, near the end so that all
+metadata necessary for recursive module loading and parallel compilation is
+available before compilation begins.</p>
+
+<h2 id="function-index-space">Function Index Space</h2>
+
+<p>The <em>function index space</em> indexes all imported and internally-defined
+function definitions, assigning monotonically-increasing indices based on the
+order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).</p>
+
+<p>The function index space is used by:</p>
+
+<ul>
+  <li>
+<a href="../semantics/#calls">calls</a>, to identify the callee of a direct call</li>
+</ul>
+
+<h2 id="global-index-space">Global Index Space</h2>
+
+<p>The <em>global index space</em> indexes all imported and internally-defined
+global definitions, assigning monotonically-increasing indices based on the
+order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).</p>
+
+<p>The global index space is used by:</p>
+
+<ul>
+  <li>
+<a href="../semantics/#global-variables">global variable access operators</a>, to
+identify the global variable to read/write</li>
+  <li>
+<a href="#data-section">data segments</a>, to define the offset of a data segment
+(in linear memory) as the value of a global variable</li>
+</ul>
+
+<h2 id="linear-memory-index-space">Linear Memory Index Space</h2>
+
+<p>The <em>linear memory index space</em> indexes all imported and internally-defined
+linear memory definitions, assigning monotonically-increasing indices based on the
+order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).</p>
+
+<p>The linear memory index space is only used by the 
+<a href="#data-section">data section</a>. In the MVP, there is at most one linear memory so
+this index space is just a placeholder for when there can be 
+<a href="../future-features/#multiple-tables-and-memories">multiple memories <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
+
+<h2 id="table-index-space">Table Index Space</h2>
+
+<p>The <em>table index space</em> indexes all imported and internally-defined
+table definitions, assigning monotonically-increasing indices based on the
+order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).</p>
+
+<p>The table index space is only used by the <a href="#elements-section">elements section</a>.
+In the MVP, there is at most one table so this index space is just
+a placeholder for when there can be 
+<a href="../future-features/#multiple-tables-and-memories">multiple tables <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
+
+<h2 id="initializer-expression">Initializer Expression</h2>
+
+<p>Initializer expressions are evaluated at instantiation time and are currently
+used to:</p>
+
+<ul>
+  <li>define the initial value of <a href="#global-section">global variables</a>
+</li>
+  <li>define the offset of a <a href="#data-section">data segment</a> or 
+<a href="#elements-section">elements segment</a>
+</li>
+</ul>
+
+<p>An initializer expression is a pure WebAssembly expression that is encoded with
+the same <a href="../binary-encoding/">binary encoding</a> as WebAssembly expressions. Not
+all WebAssembly operators can or should be supported in initializer expressions;
+initializer expressions represent a minimal pure subset of WebAssembly
+expressions.</p>
+
+<p>In the MVP, to keep things simple while still supporting the basic needs
+of <a href="../dynamic-linking/">dynamic linking</a>, initializer expressions are restricted
+to the following nullary operators:</p>
+
+<ul>
+  <li>the four <a href="../semantics/#constants">constant operators</a>; and</li>
+  <li>
+<code class="highlighter-rouge">get_global</code>, where the global index must refer to an immutable import.</li>
+</ul>
+
+<p>In the future, operators like <code class="highlighter-rouge">i32.add</code> could be added to allow more expressive
+<code class="highlighter-rouge">base + offset</code> load-time calculations.</p>
+
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        
+        
+          
+          <a class="side-nav-item" href="/docs/high-level-goals/">WebAssembly High-Level Goals</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/js/">JavaScript API</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/binary-encoding/">Binary Encoding</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/text-format/">Text Format</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/semantics/">Semantics</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/modules/">Modules</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/faq/">FAQ</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/rationale/">Design Rationale</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/mvp/">Minimum Viable Product</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/future-features/">Features to add after the MVP</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/portability/">Portability</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/security/">Security</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/nondeterminism/">Nondeterminism in WebAssembly</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/use-cases/">Use Cases</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/c-and-c++/">Guide for C/C++ developers</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/web/">Web Embedding</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/non-web/">Non-Web Embeddings</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/feature-test/">Feature Test</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/tooling/">Tooling support</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/dynamic-linking/">Dynamic linking</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
