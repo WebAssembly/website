@@ -48,8 +48,8 @@ of values, but control flow is expressed in structured constructs such as blocks
 In practice, implementations need not maintain an actual value stack, nor actual data structures for control; they
 need only behave <a href="https://en.wikipedia.org/wiki/As-if_rule">as if</a> they did so.
 For full details consult <a href="https://github.com/WebAssembly/spec">the formal Specification</a>,
-for file-level encoding details consult <a href="../BinaryEncoding/">Binary Encoding</a>,
-and for the human-readable text representation consult <a href="../TextFormat/">Text Format</a>.</p>
+for file-level encoding details consult <a href="../binary-encoding/">Binary Encoding</a>,
+and for the human-readable text representation consult <a href="../text-format/">Text Format</a>.</p>
 
 <p>Each function body consists of a list of instructions which forms an implicit <em>block</em>.
 Execution of instructions proceeds by way of a traditional <em>program counter</em> that advances
@@ -69,10 +69,10 @@ type checking and well-formedness checking.</p>
 match operators in many programming languages and are efficiently implementable
 on all modern computers. Each operator has a corresponding simple instruction.</p>
 
-<p>The <a href="../Rationale/">rationale</a> document details why WebAssembly is designed as
+<p>The <a href="../rationale/">rationale</a> document details why WebAssembly is designed as
 detailed in this document.</p>
 
-<p><a href="../FutureFeatures/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> = Planned <a href="../FutureFeatures/">future</a> feature</p>
+<p><a href="../future-features/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> = Planned <a href="../future-features/">future</a> feature</p>
 
 <h2 id="traps">Traps</h2>
 
@@ -84,7 +84,7 @@ If developer tools are active, attaching a debugger before the
 termination would be sensible.</p>
 
 <p>Call stack space is limited by unspecified and dynamically varying constraints
-and is a source of <a href="../Nondeterminism/">nondeterminism</a>. If program call stack usage
+and is a source of <a href="../nondeterminism/">nondeterminism</a>. If program call stack usage
 exceeds the available call stack space at any time, a trap occurs.</p>
 
 <p>Implementations must have an internal maximum call stack size, and every call
@@ -116,7 +116,7 @@ on stack introspection.</p>
 <code class="highlighter-rouge">f64</code>: 64-bit floating point</li>
 </ul>
 
-<p>Each parameter and local variable has exactly one <a href="../Semantics/#types">value type</a>. Function signatures
+<p>Each parameter and local variable has exactly one <a href="../semantics/#types">value type</a>. Function signatures
 consist of a sequence of zero or more parameter types and a sequence of zero or more return
 types. (Note: in the MVP, a function can have at most one return type).</p>
 
@@ -130,10 +130,10 @@ operators.</p>
 from offset <code class="highlighter-rouge">0</code> and extending up to a varying <em>memory size</em>. This size is always 
 a multiple of the WebAssembly page size, which is fixed to 64KiB (though large
 page support may be added in an opt-in manner in the 
-<a href="../FutureFeatures/#large-page-support">future</a>). The initial state of a linear
-memory is defined by the module’s <a href="../Modules/#linear-memory-section">linear memory</a> and
-<a href="../Modules/#data-section">data</a> sections. The memory size can be dynamically
-increased by the <a href="../Semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> operator.</p>
+<a href="../future-features/#large-page-support">future</a>). The initial state of a linear
+memory is defined by the module’s <a href="../modules/#linear-memory-section">linear memory</a> and
+<a href="../modules/#data-section">data</a> sections. The memory size can be dynamically
+increased by the <a href="../semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> operator.</p>
 
 <p>A linear memory can be considered to be an untyped array of bytes, and it is
 unspecified how embedders map this array into their process’ own <a href="https://en.wikipedia.org/wiki/Virtual_memory">virtual
@@ -141,20 +141,20 @@ memory</a>. Linear memory is sandboxed; it does not alias other linear memories,
 the execution engine’s internal data structures, the execution stack, local
 variables, or other process memory.</p>
 
-<p>Every WebAssembly <a href="../Modules/">instance</a> has one specially-designated <em>default</em> 
+<p>Every WebAssembly <a href="../modules/">instance</a> has one specially-designated <em>default</em> 
 linear memory which is the linear memory accessed by all the 
 <a href="#linear-memory-access">memory operators below</a>. In the MVP, there are <em>only</em>
 default linear memories but
 <a href="FutureFeatures.md#multiple-tables-and-memories">new memory operators <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
 may be added after the MVP which can also access non-default memories.</p>
 
-<p>Linear memories (default or otherwise) can either be <a href="../Modules/#imports">imported</a>
-or <a href="../Modules/#linear-memory-section">defined inside the module</a>. After import
+<p>Linear memories (default or otherwise) can either be <a href="../modules/#imports">imported</a>
+or <a href="../modules/#linear-memory-section">defined inside the module</a>. After import
 or definition, there is no difference when accessing a linear memory whether it
 was imported or defined internally.</p>
 
 <p>In the MVP, linear memory cannot be shared between threads of execution.
-The addition of <a href="../FutureFeatures/#threads">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> will allow this.</p>
+The addition of <a href="../future-features/#threads">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> will allow this.</p>
 
 <h3 id="linear-memory-accesses">Linear Memory Accesses</h3>
 
@@ -244,7 +244,7 @@ be out-of-bounds.</p>
 
 <p>In wasm32, address operands and offset attributes have type <code class="highlighter-rouge">i32</code>, and linear
 memory sizes are limited to 4 GiB (of course, actual sizes are further limited
-by <a href="../Nondeterminism/">available resources</a>). In wasm64, address operands and
+by <a href="../nondeterminism/">available resources</a>). In wasm64, address operands and
 offsets have type <code class="highlighter-rouge">i64</code>. The MVP only includes wasm32; subsequent versions
 will add support for wasm64 and thus
 <a href="FutureFeatures.md#linear-memory-bigger-than-4-gib">&gt;4 GiB linear memory <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
@@ -298,7 +298,7 @@ the <a href="FutureFeatures.md#large-page-support">future <img class="emoji" tit
  Return the previous memory size in units of pages or -1 on failure.</li>
 </ul>
 
-<p>When a linear memory has a declared <a href="../Modules/#linear-memory-section">maximum memory size</a>,
+<p>When a linear memory has a declared <a href="../modules/#linear-memory-section">maximum memory size</a>,
 <code class="highlighter-rouge">grow_memory</code> must fail if it would grow past the maximum. However,
 <code class="highlighter-rouge">grow_memory</code> may still fail before the maximum if it was not possible to
 reserve the space up front or if enabling the reserved memory fails.
@@ -312,7 +312,7 @@ to perform a system allocation which may fail.</p>
 <code class="highlighter-rouge">current_memory</code> : return the current memory size in units of pages.</li>
 </ul>
 
-<p>As stated <a href="../Semantics/#linear-memory">above</a>, linear memory is contiguous,
+<p>As stated <a href="../semantics/#linear-memory">above</a>, linear memory is contiguous,
 meaning there are no “holes” in the linear address space. After the
 MVP, there are <a href="FutureFeatures.md#finer-grained-control-over-memory">future features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
 proposed to allow setting protection and creating mappings within the
@@ -341,13 +341,13 @@ type. Depending on the operator/API used to store the value, this check may be
 static or dynamic. Just like linear memory, updates to a table are observed
 immediately by all instances that reference the table. Host environments may
 also allow storing non-WebAssembly values in tables in which case, as with
-<a href="../Modules/#imports">imports</a>, the meaning of using the value is defined by the
+<a href="../modules/#imports">imports</a>, the meaning of using the value is defined by the
 host environment.</p>
 
-<p>Every WebAssembly <a href="../Modules/">instance</a> has one specially-designated <em>default</em>
+<p>Every WebAssembly <a href="../modules/">instance</a> has one specially-designated <em>default</em>
 table which is indexed by <a href="#calls"><code class="highlighter-rouge">call_indirect</code></a> and other future
-table operators. Tables can either be <a href="../Modules/#imports">imported</a> or 
-<a href="../Modules/#table-section">defined inside the module</a>. After import or
+table operators. Tables can either be <a href="../modules/#imports">imported</a> or 
+<a href="../modules/#table-section">defined inside the module</a>. After import or
 definition, there is no difference when calling into a table whether it was
 imported or defined internally.</p>
 
@@ -360,7 +360,7 @@ to hold the array of indirectly-callable functions. Thus, in the MVP:</p>
   <li>the only allowed table element type is <code class="highlighter-rouge">anyfunc</code> (function with any signature);</li>
   <li>tables may not be directly mutated or resized from WebAssembly code;
 this can only be done through the host environment (e.g., the <code class="highlighter-rouge">WebAssembly</code>
-<a href="../JS/#webassemblytable-objects">JavaScript API</a>).</li>
+<a href="../js/#webassemblytable-objects">JavaScript API</a>).</li>
 </ul>
 
 <p>These restrictions may be relaxed in the [future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][types].</p>
@@ -395,8 +395,8 @@ locations that are disjoint from any <a href="#linear-memory">linear memory</a> 
 cannot be arbitrarily aliased as bits.</p>
 
 <p>Global variables are accessed via an integer index into the module-defined 
-<a href="../Modules/#global-index-space">global index space</a>. Global variables can 
-either be <a href="../Modules/#imports">imported</a> or <a href="../Modules/#global-section">defined inside the module</a>.
+<a href="../modules/#global-index-space">global index space</a>. Global variables can 
+either be <a href="../modules/#imports">imported</a> or <a href="../modules/#global-section">defined inside the module</a>.
 After import or definition, there is no difference when accessing a global.</p>
 
 <ul>
@@ -410,11 +410,11 @@ After import or definition, there is no difference when accessing a global.</p>
 
 <p>In the MVP, the primary use case of global variables is to represent
 instantiation-time immutable values as a useful building block for
-<a href="../DynamicLinking/">dynamic linking</a>.</p>
+<a href="../dynamic-linking/">dynamic linking</a>.</p>
 
-<p>After the MVP, when <a href="../GC/">reference types</a> are added to the set of <a href="#types">value types</a>,
+<p>After the MVP, when <a href="../gc/">reference types</a> are added to the set of <a href="#types">value types</a>,
 global variables will be necessary to allow sharing reference types between
-<a href="../FutureFeatures/#threads">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> since shared linear memory cannot load or store
+<a href="../future-features/#threads">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> since shared linear memory cannot load or store
 references.</p>
 
 <h2 id="control-constructs-and-instructions">Control constructs and instructions</h2>
@@ -518,7 +518,7 @@ explicit accesses to linear memory.</p>
 restriction may be lifted in the future.</p>
 
 <p>Direct calls to a function specify the callee by an index into the 
-<a href="../Modules/#function-index-space">function index space</a>.</p>
+<a href="../modules/#function-index-space">function index space</a>.</p>
 
 <ul>
   <li>
@@ -529,7 +529,7 @@ restriction may be lifted in the future.</p>
 
 <p>Indirect calls to a function indicate the callee with an <code class="highlighter-rouge">i32</code> index into
 a <a href="#table">table</a>. The <em>expected</em> signature of the target function (specified
-by its index in the <a href="../BinaryEncoding/#type-section">types section</a>) is given as
+by its index in the <a href="../binary-encoding/#type-section">types section</a>) is given as
 a second immediate.</p>
 
 <ul>
@@ -541,7 +541,7 @@ a second immediate.</p>
 statically as part of validation, <code class="highlighter-rouge">call_indirect</code> checks for signature match
 <em>dynamically</em>, comparing the caller’s expected signature with the callee function’s
 signature and and trapping if there is a mismatch. Since the callee may be in a
-different module which necessarily has a separate <a href="../BinaryEncoding/#type-section">types section</a>,
+different module which necessarily has a separate <a href="../binary-encoding/#type-section">types section</a>,
 and thus index space of types, the signature match must compare the underlying 
 <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/types.ml#L5"><code class="highlighter-rouge">func_type</code></a>.
 As noted <a href="#table">above</a>, table elements may also be host-environment-defined

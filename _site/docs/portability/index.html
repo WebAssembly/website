@@ -41,14 +41,14 @@
       <div class="col-xs-12 col-lg-9 col-pop">
         <h1 id="portability">Portability</h1>
 
-<p>WebAssembly’s <a href="../BinaryEncoding/">binary format</a> is designed to be executable
+<p>WebAssembly’s <a href="../binary-encoding/">binary format</a> is designed to be executable
 efficiently on a variety of operating systems and instruction set architectures,
-<a href="../Web/">on the Web</a> and <a href="../NonWeb/">off the Web</a>.</p>
+<a href="../web/">on the Web</a> and <a href="../non-web/">off the Web</a>.</p>
 
 <h2 id="assumptions-for-efficient-execution">Assumptions for Efficient Execution</h2>
 
 <p>Execution environments which, despite
-<a href="../Nondeterminism/">limited, local, nondeterminism</a>, don’t offer
+<a href="../nondeterminism/">limited, local, nondeterminism</a>, don’t offer
 the following characteristics may be able to execute WebAssembly modules
 nonetheless. In some cases they may have to emulate behavior that the host
 hardware or operating system don’t offer so that WebAssembly modules execute
@@ -69,12 +69,12 @@ characteristics:</p>
 emulation thereof.</li>
   <li>Two’s complement signed integers in 32 bits and optionally 64 bits.</li>
   <li>IEEE 754-2008 32-bit and 64-bit floating point, except for
-<a href="../Semantics/#floating-point-operators">a few exceptions</a>.</li>
+<a href="../semantics/#floating-point-operators">a few exceptions</a>.</li>
   <li>Little-endian byte ordering.</li>
   <li>Memory regions which can be efficiently addressed with 32-bit
 pointers or indices.</li>
   <li>wasm64 additionally supports linear memory bigger than
-<a href="../FutureFeatures/#linear-memory-bigger-than-4-gib">4 GiB with 64-bit pointers or indices</a>.</li>
+<a href="../future-features/#linear-memory-bigger-than-4-gib">4 GiB with 64-bit pointers or indices</a>.</li>
   <li>Enforce secure isolation between WebAssembly modules and other modules or
 processes executing on the same machine.</li>
   <li>An execution environment which offers forward progress guarantees to all
@@ -89,11 +89,11 @@ aligned, for 64-bit accesses.</li>
 <h2 id="api">API</h2>
 
 <p>WebAssembly does not specify any APIs or syscalls, only an 
-<a href="../Modules/">import mechanism</a> where the set of available imports is defined
-by the host environment. In a <a href="../Web/">Web</a> environment, functionality is
+<a href="../modules/">import mechanism</a> where the set of available imports is defined
+by the host environment. In a <a href="../web/">Web</a> environment, functionality is
 accessed through the Web APIs defined by the
 <a href="https://en.wikipedia.org/wiki/Open_Web_Platform">Web Platform</a>.
-<a href="../NonWeb/">Non-Web</a> environments can choose to implement standard Web APIs,
+<a href="../non-web/">Non-Web</a> environments can choose to implement standard Web APIs,
 standard non-Web APIs (e.g. POSIX), or invent their own.</p>
 
 <h2 id="source-level">Source-level</h2>
@@ -101,8 +101,8 @@ standard non-Web APIs (e.g. POSIX), or invent their own.</p>
 <p>Portability at the C/C++ level can be achieved by programming to
 a standard API (e.g., POSIX) and relying on the compiler and/or libraries to map
 the standard interface to the host environment’s available imports either at
-compile-time (via <code class="highlighter-rouge">#ifdef</code>) or run-time (via <a href="../FeatureTest/">feature detection</a>
-and dynamic <a href="../Modules/">loading</a>/<a href="../DynamicLinking/">linking</a>).</p>
+compile-time (via <code class="highlighter-rouge">#ifdef</code>) or run-time (via <a href="../feature-test/">feature detection</a>
+and dynamic <a href="../modules/">loading</a>/<a href="../dynamic-linking/">linking</a>).</p>
 
       </div>
       <div class="col-xs-12 col-lg-3">

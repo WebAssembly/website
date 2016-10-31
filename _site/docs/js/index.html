@@ -41,16 +41,16 @@
       <div class="col-xs-12 col-lg-9 col-pop">
         <h1 id="javascript-api">JavaScript API</h1>
 
-<p>In the <a href="../MVP/">MVP</a>, the only way to access WebAssembly on the Web is through
+<p>In the <a href="../mvp/">MVP</a>, the only way to access WebAssembly on the Web is through
 an explicit JS API which is defined below.
-(In the <a href="../FutureFeatures/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, WebAssembly may also
+(In the <a href="../future-features/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, WebAssembly may also
 be loaded and run directly from an HTML <code class="highlighter-rouge">&lt;script type='module'&gt;</code> tag—and
 any other Web API that loads ES6 modules via URL—as part of 
-<a href="../Modules/#integration-with-es6-modules">ES6 Module integration</a>.)</p>
+<a href="../modules/#integration-with-es6-modules">ES6 Module integration</a>.)</p>
 
 <h2 id="traps">Traps</h2>
 
-<p>Whenever WebAssembly semantics specify a <a href="../Semantics/#traps">trap</a>,
+<p>Whenever WebAssembly semantics specify a <a href="../semantics/#traps">trap</a>,
 a <code class="highlighter-rouge">WebAssembly.RuntimeError</code> object is thrown. WebAssembly code (currently)
 has no way to catch this exception and thus the exception will necessarily
 propagate to the enclosing non-WebAssembly caller (either the browser or
@@ -139,7 +139,7 @@ with the resulting <code class="highlighter-rouge">WebAssembly.Module</code> obj
 the given <code class="highlighter-rouge">BufferSource</code> captured during the call to <code class="highlighter-rouge">compile</code>; subsequent mutations
 of the <code class="highlighter-rouge">BufferSource</code> after <code class="highlighter-rouge">compile</code> return do not affect ongoing compilations.</p>
 
-<p>In the <a href="../FutureFeatures/#streaming-compilation">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, this function can be
+<p>In the <a href="../future-features/#streaming-compilation">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, this function can be
 extended to accept a <a href="https://streams.spec.whatwg.org">stream</a>, thereby enabling
 asynchronous, background, streaming compilation.</p>
 
@@ -221,10 +221,10 @@ exception is thrown.</p>
 
 <ul>
   <li>The byte range delimited by the <code class="highlighter-rouge">BufferSource</code> is first logically decoded 
-according to <a href="../BinaryEncoding/">BinaryEncoding.md</a> and then validated
+according to <a href="../binary-encoding/">BinaryEncoding.md</a> and then validated
 according to the rules in <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/valid.ml#L415">spec/valid.ml</a>.</li>
   <li>The spec <code class="highlighter-rouge">string</code> values inside <code class="highlighter-rouge">Ast.module</code> are decoded as UTF8 as described in 
-<a href="../Web/#names">Web.md</a>.</li>
+<a href="../web/#names">Web.md</a>.</li>
   <li>On success, a new <code class="highlighter-rouge">WebAssembly.Module</code> object is returned with [[Module]] set to
 the validated <code class="highlighter-rouge">Ast.module</code>.</li>
   <li>On failure, a new <code class="highlighter-rouge">WebAssembly.CompileError</code> is thrown.</li>
@@ -455,8 +455,8 @@ Set <code class="highlighter-rouge">moduleRecord.[[Namespace]]</code> to <code c
 <p>Let <code class="highlighter-rouge">instanceObject</code> be a new <code class="highlighter-rouge">WebAssembly.Instance</code> object setting
 <code class="highlighter-rouge">[[Instance]]</code> to <code class="highlighter-rouge">instance</code> and <code class="highlighter-rouge">exports</code> to <code class="highlighter-rouge">moduleNamespace</code>.</p>
 
-<p>If, after evaluating the <code class="highlighter-rouge">offset</code> <a href="../Modules/#initializer-expression">initializer expression</a>
-of every <a href="../Modules/#data-section">Data</a> and <a href="../Modules/#elements-section">Element</a>
+<p>If, after evaluating the <code class="highlighter-rouge">offset</code> <a href="../modules/#initializer-expression">initializer expression</a>
+of every <a href="../modules/#data-section">Data</a> and <a href="../modules/#elements-section">Element</a>
 Segment, any of the segments do not fit in their respective Memory or Table, throw a 
 <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>.</p>
 
@@ -465,9 +465,9 @@ order in which they appear in the module. Segments may overlap and, if they do,
 the final value is the last value written in order. Note: there should be no
 errors possible that would cause this operation to fail partway through. After
 this operation completes, elements of <code class="highlighter-rouge">instance</code> are visible and callable
-through <a href="../Modules/#imports">imported Tables</a>, even if <code class="highlighter-rouge">start</code> fails.</p>
+through <a href="../modules/#imports">imported Tables</a>, even if <code class="highlighter-rouge">start</code> fails.</p>
 
-<p>If a <a href="../Modules/#module-start-function"><code class="highlighter-rouge">start</code></a> is present, it is evaluated
+<p>If a <a href="../modules/#module-start-function"><code class="highlighter-rouge">start</code></a> is present, it is evaluated
 given <code class="highlighter-rouge">instance</code>. Any errors thrown by <code class="highlighter-rouge">start</code> are propagated to the caller.</p>
 
 <p>Return <code class="highlighter-rouge">instanceObject</code>.</p>
@@ -480,7 +480,7 @@ has one concrete subclass, <a href="http://tc39.github.io/ecma262/#sec-source-te
 which corresponds to a normal ES6 module. These interfaces are used to define the
 <a href="https://html.spec.whatwg.org/multipage/webappapis.html#integration-with-the-javascript-module-system">process of loading a module on the Web</a>.</p>
 
-<p>When WebAssembly gets <a href="../Modules/#integration-with-es6-modules">ES6 Module integration</a>,
+<p>When WebAssembly gets <a href="../modules/#integration-with-es6-modules">ES6 Module integration</a>,
 a new <em>WebAssembly Module Record</em> subclass would be added which would specify
 the right thing to do for WebAssembly modules as part of the overall loading process.</p>
 
@@ -552,7 +552,7 @@ call one with the <code class="highlighter-rouge">new</code> operator.</p>
 <h2 id="webassemblymemory-objects">
 <code class="highlighter-rouge">WebAssembly.Memory</code> Objects</h2>
 
-<p>A <code class="highlighter-rouge">WebAssembly.Memory</code> object contains a single <a href="../Semantics/#linear-memory">linear memory</a>
+<p>A <code class="highlighter-rouge">WebAssembly.Memory</code> object contains a single <a href="../semantics/#linear-memory">linear memory</a>
 which can be simultaneously referenced by multiple <code class="highlighter-rouge">Instance</code> objects. Each
 <code class="highlighter-rouge">Memory</code> object has two internal slots:</p>
 
@@ -626,7 +626,7 @@ is thrown.</p>
 <p>Let <code class="highlighter-rouge">d</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<code class="highlighter-rouge">delta</code>).</p>
 
 <p>Let <code class="highlighter-rouge">ret</code> be the result of performing a
-<a href="../Semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> operation given delta <code class="highlighter-rouge">d</code>.</p>
+<a href="../semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> operation given delta <code class="highlighter-rouge">d</code>.</p>
 
 <p>If <code class="highlighter-rouge">ret</code> is <code class="highlighter-rouge">-1</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a> is thrown.</p>
 
@@ -651,7 +651,7 @@ is thrown. Otherwise return <code class="highlighter-rouge">M.[[BufferObject]]</
 <h2 id="webassemblytable-objects">
 <code class="highlighter-rouge">WebAssembly.Table</code> Objects</h2>
 
-<p>A <code class="highlighter-rouge">WebAssembly.Table</code> object contains a single <a href="../Semantics/#table">table</a>
+<p>A <code class="highlighter-rouge">WebAssembly.Table</code> object contains a single <a href="../semantics/#table">table</a>
 which can be simultaneously referenced by multiple <code class="highlighter-rouge">Instance</code> objects. Each
 <code class="highlighter-rouge">Table</code> object has two internal slots:</p>
 

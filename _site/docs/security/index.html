@@ -55,71 +55,71 @@ the host runtime using fault isolation techniques. This implies:</p>
   <li>Applications execute independently, and can’t escape the sandbox without
   going through appropriate APIs.</li>
   <li>Applications generally execute deterministically
-  <a href="../Nondeterminism/">with limited exceptions</a>.</li>
+  <a href="../nondeterminism/">with limited exceptions</a>.</li>
 </ul>
 
 <p>Additionally, each module is subject to the security policies of its embedding.
-Within a <a href="../Web/">web browser</a>, this includes restrictions on information flow
-through <a href="https://www.w3.org/Security/wiki/Same_Origin_Policy">same-origin policy</a>. On a <a href="../NonWeb/">non-web</a> platform, this could
+Within a <a href="../web/">web browser</a>, this includes restrictions on information flow
+through <a href="https://www.w3.org/Security/wiki/Same_Origin_Policy">same-origin policy</a>. On a <a href="../non-web/">non-web</a> platform, this could
 include the POSIX security model.</p>
 
 <h2 id="developers">Developers</h2>
 
 <p>The design of WebAssembly promotes safe programs by eliminating dangerous
 features from its execution semantics, while maintaining compatibility with
-programs written for <a href="../CandC++/">C/C++</a>.</p>
+programs written for <a href="../cand-c++/">C/C++</a>.</p>
 
 <p>Modules must declare all accessible functions and their associated types
-at load time, even when <a href="../DynamicLinking/">dynamic linking</a> is used. This
+at load time, even when <a href="../dynamic-linking/">dynamic linking</a> is used. This
 allows implicit enforcement of <a href="https://research.microsoft.com/apps/pubs/default.aspx?id=64250">control-flow integrity</a> (CFI) through
 structured control-flow. Since compiled code is immutable and not observable at
 runtime, WebAssembly programs are protected from control flow hijacking attacks.</p>
 
 <ul>
   <li>
-<a href="../Semantics/#calls">Function calls</a> must specify the index of a target
+<a href="../semantics/#calls">Function calls</a> must specify the index of a target
   that corresponds to a valid entry in the
-  <a href="../Modules/#function-index-space">function index space</a> or
-  <a href="../Modules/#table-index-space">table index space</a>.</li>
+  <a href="../modules/#function-index-space">function index space</a> or
+  <a href="../modules/#table-index-space">table index space</a>.</li>
   <li>
-<a href="../Rationale/#indirect-calls">Indirect function calls</a> are subject to a type
+<a href="../rationale/#indirect-calls">Indirect function calls</a> are subject to a type
   signature check at runtime; the type signature of the selected indirect
   function must match the type signature specified at the call site.</li>
   <li>A shadow stack is used to maintain a trusted call stack that is invulnerable
   to buffer overflows in the module heap, ensuring safe function returns.</li>
   <li>
-<a href="../Semantics/#branches-and-nesting">Branches</a> must point to valid
+<a href="../semantics/#branches-and-nesting">Branches</a> must point to valid
   destinations within the enclosing function.</li>
 </ul>
 
 <p>Variables in C/C++ can be lowered to two different primitives in WebAssembly,
-depending on their scope. <a href="../Semantics/#local-variables">Local variables</a>
-with fixed scope and <a href="../Semantics/#global-variables">global variables</a> are
+depending on their scope. <a href="../semantics/#local-variables">Local variables</a>
+with fixed scope and <a href="../semantics/#global-variables">global variables</a> are
 represented as fixed-type values stored by index. The former are initialized
 to zero by default and are stored in the protected shadow stack, whereas
-the latter are located in the <a href="../Modules/#global-index-space">global index space</a>
+the latter are located in the <a href="../modules/#global-index-space">global index space</a>
 and can be imported from external modules. Local variables with
-<a href="../Rationale/#locals">unclear static scope</a> (e.g. are used by the address-of
+<a href="../rationale/#locals">unclear static scope</a> (e.g. are used by the address-of
 operator, or are of type <code class="highlighter-rouge">struct</code> and returned by value) are stored in a separate
-user-addressable stack in <a href="../Semantics/#linear-memory">linear memory</a> at
+user-addressable stack in <a href="../semantics/#linear-memory">linear memory</a> at
 compile time. This is an isolated memory region with fixed maximum size that is
 zero initialized by default. References to this memory are computed with
 infinite precision to avoid wrapping and simplify bounds checking. In the future,
-support for <a href="../Modules/#linear-memory-section">multiple linear memory sections</a> and
-<a href="../FutureFeatures/#finer-grained-control-over-memory">finer-grained memory operations</a>
+support for <a href="../modules/#linear-memory-section">multiple linear memory sections</a> and
+<a href="../future-features/#finer-grained-control-over-memory">finer-grained memory operations</a>
 (e.g. shared memory, page protection, large pages, etc.) will be implemented.</p>
 
-<p><a href="../Semantics/#traps">Traps</a> are used to immediately terminate execution and
+<p><a href="../semantics/#traps">Traps</a> are used to immediately terminate execution and
 signal abnormal behavior to the execution environment. In a browser, this is
 represented as a JavaScript exception. Support for
-<a href="../FutureFeatures/#trappingor-non-trapping-strategies">module-defined trap handlers</a>
+<a href="../future-features/#trappingor-non-trapping-strategies">module-defined trap handlers</a>
 will be implemented in the future. Operations that can trap include:</p>
 
 <ul>
   <li>specifying an invalid index in any index space,</li>
   <li>performing an indirect function call with a mismatched signature,</li>
   <li>exceeding the maximum size of the protected call stack,</li>
-  <li>accessing <a href="../#Rationale/#out-of-bounds">out-of-bounds</a> addresses in linear
+  <li>accessing <a href="../#rationale/#out-of-bounds">out-of-bounds</a> addresses in linear
   memory,</li>
   <li>executing an illegal arithmetic operations (e.g. division or remainder by
   zero, signed division overflow, etc).</li>
@@ -138,7 +138,7 @@ common mitigations such as <a href="https://en.wikipedia.org/wiki/Executable_spa
 <a href="https://en.wikipedia.org/wiki/Buffer_overflow_protection#Random_canaries">stack smashing protection</a> (SSP) are not needed by WebAssembly programs.</p>
 
 <p>Another common class of memory safety errors involves unsafe pointer usage and
-<a href="../CandC++/#undefined-behavior">undefined behavior</a>. This includes dereferencing
+<a href="../cand-c++/#undefined-behavior">undefined behavior</a>. This includes dereferencing
 pointers to unallocated memory (e.g. <code class="highlighter-rouge">NULL</code>), or freed memory allocations. In
 WebAssembly, the semantics of pointers have been eliminated for function calls
 and variables with fixed static scope, allowing references to invalid indexes in
@@ -157,7 +157,7 @@ in WebAssembly, because control-flow integrity ensures that call targets are
 valid functions declared at load time. Likewise, race conditions, such as
 <a href="https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use">time of check to time of use</a> (TOCTOU) vulnerabilities, are possible in
 WebAssembly, since no execution or scheduling guarantees are provided beyond
-in-order execution and <a href="../FutureFeatures/#threads">post-MVP atomic memory primitives
+in-order execution and <a href="../future-features/#threads">post-MVP atomic memory primitives
 <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.
 Similarly, <a href="https://en.wikipedia.org/wiki/Side-channel_attack">side channel attacks</a> can occur, such as timing attacks against
 modules. In the future, additional protections may be provided by runtimes or

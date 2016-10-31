@@ -51,14 +51,14 @@ ergonomics, portability, performance, security, and Getting Things Done.</p>
 <p>WebAssembly was designed incrementally, with multiple implementations being
 pursued concurrently. As the MVP stabilizes and we get experience from real-world
 codebases, we’ll revisit the alternatives listed below, reevaluate the tradeoffs
-and update the <a href="../Semantics/">design</a> before the MVP is finalized.</p>
+and update the <a href="../semantics/">design</a> before the MVP is finalized.</p>
 
 <h2 id="why-a-stack-machine">Why a stack machine?</h2>
 
 <p>Why not an AST, or a register- or SSA-based bytecode?</p>
 
 <ul>
-  <li>We started with an AST and generalized to a <a href="../Semantics/">structured stack machine</a>. ASTs allow a 
+  <li>We started with an AST and generalized to a <a href="../semantics/">structured stack machine</a>. ASTs allow a 
 dense encoding and efficient decoding, compilation, and interpretation.
 The structured stack machine of WebAssembly is a generalization of ASTs allowed in previous versions while allowing
 efficiency gains in interpretation and baseline compilation, as well as a straightforward 
@@ -83,7 +83,7 @@ addition of multiple return values from control flow constructs and function cal
 
 <h2 id="basic-types-only">Basic Types Only</h2>
 
-<p>WebAssembly only represents <a href="../Semantics/#Types">a few types</a>.</p>
+<p>WebAssembly only represents <a href="../semantics/#Types">a few types</a>.</p>
 
 <ul>
   <li>More complex types can be formed from these basic types. It’s up to the source
@@ -104,13 +104,13 @@ added to WebAssembly later without compromising MVP.</li>
   <li>More complex object types aren’t semantically useful for MVP: WebAssembly
 seeks to provide the primitive building blocks upon which higher-level
 constructs can be built. They may become useful to support other languages,
-especially when considering <a href="../GC/">garbage collection</a>.</li>
+especially when considering <a href="../gc/">garbage collection</a>.</li>
 </ul>
 
 <h2 id="loadstore-addressing">Load/Store Addressing</h2>
 
 <p>Load/store instructions include an immediate offset used for
-<a href="../Semantics/#Addressing">addressing</a>. This is intended to simplify folding
+<a href="../semantics/#Addressing">addressing</a>. This is intended to simplify folding
 of offsets into complex address modes in hardware, and to simplify bounds
 checking optimizations. It offloads some of the optimization work to the
 compiler that targets WebAssembly, executing on the developer’s machine, instead
@@ -119,7 +119,7 @@ of performing that work in the WebAssembly compiler on the user’s machine.</p>
 <h2 id="alignment-hints">Alignment Hints</h2>
 
 <p>Load/store instructions contain
-<a href="../Semantics/#Alignment">alignment hints</a>. This makes it easier to generate
+<a href="../semantics/#Alignment">alignment hints</a>. This makes it easier to generate
 efficient code on certain hardware architectures.</p>
 
 <p>Either tooling or an explicit opt-in “debug mode” in the spec could allow
@@ -130,7 +130,7 @@ why it isn’t the specified default.</p>
 <h2 id="out-of-bounds">Out of Bounds</h2>
 
 <p>The ideal semantics is for
-<a href="../Semantics/#Out-of-Bounds">out-of-bounds accesses</a> to trap, but the
+<a href="../semantics/#Out-of-Bounds">out-of-bounds accesses</a> to trap, but the
 implications are not yet fully clear.</p>
 
 <p>There are several possible variations on this design being discussed and
@@ -185,7 +185,7 @@ already be communicating between threads in order to properly allocate the sum
 of the allocation requests, so it’s expected that they can provide the needed
 information without significant extra effort.</p>
 
-<p>The <a href="../Modules/#linear-memory-section">optional maximum size</a> is designed to
+<p>The <a href="../modules/#linear-memory-section">optional maximum size</a> is designed to
 address a number of competing constraints:</p>
 
 <ol>
@@ -199,7 +199,7 @@ implementation details.)</li>
   <li>Avoid <em>forcing</em> every developer using WebAssembly to understand their precise
 maximum heap usage.</li>
   <li>When threading and shared memory are added to WebAssembly
-<a href="../FutureFeatures/#threads">post-MVP</a>, the design should not require memory growth
+<a href="../future-features/#threads">post-MVP</a>, the design should not require memory growth
 to <code class="highlighter-rouge">realloc</code> since this implies significant implementation complexity,
 security hazards, and optimization challenges.</li>
 </ol>
@@ -241,7 +241,7 @@ flow). Alternative approaches can generate reducible control flow via node
 splitting, which can reduce throughput overhead, at the cost of increasing
 code size (potentially very significantly in pathological cases).
 Also,
-<a href="../FutureFeatures/#more-expressive-control-flow">more expressive control flow constructs <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+<a href="../future-features/#more-expressive-control-flow">more expressive control flow constructs <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
 may be added in the future.</p>
 
 <h2 id="nop">Nop</h2>
@@ -348,7 +348,7 @@ appear in SSA representations of programs.</p>
 <p>There are a few obvious cases where nondeterminism is essential to the API, such
 as random number generators, date/time functions or input events. The
 WebAssembly specification is strict when it comes to other sources of
-<a href="../Nondeterminism/">limited local nondeterminism</a> of operators: it specifies
+<a href="../nondeterminism/">limited local nondeterminism</a> of operators: it specifies
 all possible corner cases, and specifies a single outcome when this can be done
 reasonably.</p>
 
@@ -365,12 +365,12 @@ platform is easier to:</p>
 practical way to:</p>
 
 <ul>
-  <li>Achieve <a href="../Portability/">portable</a> native performance.</li>
+  <li>Achieve <a href="../portability/">portable</a> native performance.</li>
   <li>Lower resource usage.</li>
   <li>Reduce implementation complexity (both of WebAssembly VMs as well as compilers
 generating WebAssembly binaries).</li>
   <li>Allow usage of new hardware features.</li>
-  <li>Allows implementations to <a href="../Security/">security-harden</a> certain usecases.</li>
+  <li>Allows implementations to <a href="../security/">security-harden</a> certain usecases.</li>
 </ul>
 
 <p>When nondeterminism is allowed into WebAssembly it is always done in a limited
@@ -446,7 +446,7 @@ hardware platforms.</p>
 
 <ol>
   <li>
-<a href="../FutureFeatures/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
+<a href="../future-features/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
 <a href="FutureFeatures.md#additional-integer-operations"><code class="highlighter-rouge">i32.min_s</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> is introduced. A
 WebAssembly developer updates their toolkit so that the compiler may leverage
 <code class="highlighter-rouge">i32.min_s</code>. The developer’s WebAssembly module works correctly both on
@@ -464,8 +464,8 @@ from the combinations of possible feature configurations.</li>
 
 <ol>
   <li>
-<a href="../FutureFeatures/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, module authors may now use
-<a href="../FutureFeatures/#threads">Threading</a>
+<a href="../future-features/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, module authors may now use
+<a href="../future-features/#threads">Threading</a>
 APIs in the browser. A developer wants to leverage multithreading in their
 module.</li>
 </ol>
@@ -486,7 +486,7 @@ MVP (with threads) code.</p>
 
 <ol>
   <li>
-    <p><a href="../FutureFeatures/#fixed-width-simd">SIMD</a> support is not universally
+    <p><a href="../future-features/#fixed-width-simd">SIMD</a> support is not universally
 equivalent on all targets. While polyfill variants of SIMD APIs are available,
 a developer prefers writing dedicated SIMD and non-SIMD versions of their
 compression algorithm, because the non-SIMD version performs better in

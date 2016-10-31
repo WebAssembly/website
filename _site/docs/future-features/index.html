@@ -42,22 +42,22 @@
         <h1 id="features-to-add-after-the-mvp">Features to add after the MVP</h1>
 
 <p>These are features that make sense in the context of the
-<a href="../HighLevelGoals/">high-level goals</a> of WebAssembly but won’t be part of the
-initial <a href="../MVP/">Minimum Viable Product</a> release.</p>
+<a href="../high-level-goals/">high-level goals</a> of WebAssembly but won’t be part of the
+initial <a href="../mvp/">Minimum Viable Product</a> release.</p>
 
 <p>We expect several essential features to be standardized immediately after the
 MVP. Others will be prioritized based on developer feedback, and all will be
-available under <a href="../FeatureTest/">feature tests</a>.</p>
+available under <a href="../feature-test/">feature tests</a>.</p>
 
 <p><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> = Essential features we want to prioritize adding shortly after
-the <a href="../MVP/">MVP</a>.</p>
+the <a href="../mvp/">MVP</a>.</p>
 
 <h2 id="on-deck-for-immediate-design">On Deck for Immediate Design</h2>
 
 <h3 id="great-tooling-support-star-star-star">Great tooling support <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
 </h3>
 
-<p>This is covered in the <a href="../Tooling/">tooling</a> section.</p>
+<p>This is covered in the <a href="../tooling/">tooling</a> section.</p>
 
 <h3 id="threads-star-star">Threads <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
 </h3>
@@ -73,7 +73,7 @@ in the same thread of execution, which themselves synchronize-with atomics in
 other threads. Following these rules, regular load/store operators can still be
 elided, duplicated, and split up. This guarantees that data-race free code
 executes as if it were sequentially consistent. Even when there are data races,
-WebAssembly will ensure that the <a href="../Nondeterminism/">nondeterminism</a> remains
+WebAssembly will ensure that the <a href="../nondeterminism/">nondeterminism</a> remains
 limited and local.</p>
 
 <p>Modules can have thread-local variables that are disjoint from linear memory
@@ -119,7 +119,7 @@ implement <code class="highlighter-rouge">setjmp</code>/<code class="highlighter
 destructors. It does not, however, allow the undefined behavior case of jumping
 forward to a stack that was already unwound which is sometimes used to implement
 coroutines. Coroutine support is being
-<a href="../FutureFeatures/#coroutines">considered separately</a>.</p>
+<a href="../future-features/#coroutines">considered separately</a>.</p>
 
 <h3 id="feature-testing-star">Feature Testing <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
 </h3>
@@ -131,7 +131,7 @@ gain this experience. In the interim, it’s possible to do a crude feature test
 (as people do in JavaScript) by just <code class="highlighter-rouge">eval</code>-ing WebAssembly code and catching
 validation errors.</p>
 
-<p>See <a href="../FeatureTest/">Feature test</a> for a more detailed sketch.</p>
+<p>See <a href="../feature-test/">Feature test</a> for a more detailed sketch.</p>
 
 <h2 id="proposals-we-might-consider-in-the-future">Proposals we might consider in the future</h2>
 
@@ -167,11 +167,11 @@ performing these operators in sequence.</li>
 </ul>
 
 <p>The <code class="highlighter-rouge">addr</code> and <code class="highlighter-rouge">length</code> parameters above would be required to be multiples of
-<a href="../Semantics/#resizing"><code class="highlighter-rouge">page_size</code></a>.</p>
+<a href="../semantics/#resizing"><code class="highlighter-rouge">page_size</code></a>.</p>
 
 <p>The <code class="highlighter-rouge">mprotect</code> operator would require hardware memory protection to execute
 efficiently and thus may be added as an “optional” feature (requiring a
-<a href="../FeatureTest/">feature test</a> to use). To support efficient execution even when
+<a href="../feature-test/">feature test</a> to use). To support efficient execution even when
 no hardware memory protection is available, a restricted form of <code class="highlighter-rouge">mprotect</code>
 could be added which is declared statically and only protects low memory
 (providing the expected fault-on-low-memory behavior of native C/C++ apps).</p>
@@ -179,13 +179,13 @@ could be added which is declared statically and only protects low memory
 <p>The above list of functionality mostly covers the set of functionality
 provided by the <code class="highlighter-rouge">mmap</code> OS primitive. One significant exception is that <code class="highlighter-rouge">mmap</code>
 can allocate noncontiguous virtual address ranges. See the
-<a href="../FAQ/#what-about-mmap">FAQ</a> for rationale.</p>
+<a href="../faq/#what-about-mmap">FAQ</a> for rationale.</p>
 
 <h3 id="large-page-support">Large page support</h3>
 
 <p>Some platforms offer support for memory pages as large as 16GiB, which 
 can improve  the efficiency of memory management in some situations. WebAssembly
-may offer programs the option to specify a larger page size than the <a href="../Semantics/#resizing">default</a>.</p>
+may offer programs the option to specify a larger page size than the <a href="../semantics/#resizing">default</a>.</p>
 
 <h3 id="more-expressive-control-flow">More expressive control flow</h3>
 
@@ -214,7 +214,7 @@ languages.</li>
 
 <h3 id="gcdom-integration">GC/DOM Integration</h3>
 
-<p>See <a href="../GC/">GC.md</a>.</p>
+<p>See <a href="../gc/">GC.md</a>.</p>
 
 <h3 id="linear-memory-bigger-than-4-gib">Linear memory bigger than 4 GiB</h3>
 
@@ -240,7 +240,7 @@ supporting both in the same instance in the future.</p>
 <h3 id="source-maps-integration">Source maps integration</h3>
 
 <ul>
-  <li>Add a new source maps <a href="../MVP/#module-structure">module section type</a>.</li>
+  <li>Add a new source maps <a href="../mvp/#module-structure">module section type</a>.</li>
   <li>Either embed the source maps directly or just a URL from which source maps can
 be downloaded.</li>
   <li>Text source maps become intractably large for even moderate-sized compiled
@@ -283,7 +283,7 @@ ordering of arguments in the PTC signature.</p>
 
 <p>General-purpose Proper Tail Calls would have no signature restrictions, and
 therefore be more broadly usable than
-<a href="../Semantics/#signature-restricted-proper-tail-calls">Signature-restricted Proper Tail Calls</a>,
+<a href="../semantics/#signature-restricted-proper-tail-calls">Signature-restricted Proper Tail Calls</a>,
 though there would be some different performance characteristics.</p>
 
 <h3 id="asynchronous-signals">Asynchronous Signals</h3>
@@ -351,7 +351,7 @@ collection and defragmentation.</li>
 <p>WebAssembly’s JIT interface would likely be fairly low-level. However, there
 are use cases for higher-level functionality and optimization too. One avenue
 for addressing these use cases is a
-<a href="../JITLibrary/">JIT and Optimization library</a>.</p>
+<a href="../jit-library/">JIT and Optimization library</a>.</p>
 
 <h3 id="multiprocess-support">Multiprocess support</h3>
 
@@ -462,7 +462,7 @@ than <code class="highlighter-rouge">0.0</code>.</p>
 
 <p>Note that some operators, like <code class="highlighter-rouge">fma</code>, may not be available or may not perform
 well on all platforms. These should be guarded by
-<a href="../FeatureTest/">feature tests</a> so that if available, they behave consistently.</p>
+<a href="../feature-test/">feature tests</a> so that if available, they behave consistently.</p>
 
 <h3 id="floating-point-approximation-operators">Floating point approximation operators</h3>
 
@@ -500,7 +500,7 @@ quadruple precision.</p>
 
 <p>WebAssembly floating point conforms IEEE 754-2008 in most respects, but there
 are a few areas that are
-<a href="../Semantics/#floating-point-operators">not yet covered</a>.</p>
+<a href="../semantics/#floating-point-operators">not yet covered</a>.</p>
 
 <p>To support exceptions and alternate rounding modes, one option is to define an
 alternate form for each of <code class="highlighter-rouge">add</code>, <code class="highlighter-rouge">sub</code>, <code class="highlighter-rouge">mul</code>, <code class="highlighter-rouge">div</code>, <code class="highlighter-rouge">sqrt</code>, and <code class="highlighter-rouge">fma</code>. These
@@ -557,7 +557,7 @@ arithmetic, or optimizing JavaScript Numbers to use int32 operators. Another fam
 includes compiling code that doesn’t expect overflow to occur, but which wishes
 to have overflow detected and reported if it does happen. These use cases would
 ideally like to have overflow trap, and to allow them to
-<a href="../FutureFeatures/#trapping-or-non-trapping-strategies">handle trap specially</a>. Following the rule that explicitly signed and
+<a href="../future-features/#trapping-or-non-trapping-strategies">handle trap specially</a>. Following the rule that explicitly signed and
 unsigned operators trap whenever the result value can not be represented in the
 result type, it would be possible to add explicitly signed and unsigned versions
 of integer <code class="highlighter-rouge">add</code>, <code class="highlighter-rouge">sub</code>, and <code class="highlighter-rouge">mul</code>, which would trap on overflow. The main
@@ -566,12 +566,12 @@ general-purpose use on several of today’s popular hardware architectures.</p>
 
 <h3 id="better-feature-testing-support">Better feature testing support</h3>
 
-<p>The <a href="../FeatureTest/">MVP feature testing situation</a> could be improved by
+<p>The <a href="../feature-test/">MVP feature testing situation</a> could be improved by
 allowing unknown/unsupported instructions to decode and validate. The runtime
 semantics of these unknown instructions could either be to trap or call a
 same-signature module-defined polyfill function. This feature could provide a
 lighter-weight alternative to load-time polyfilling (approach 2 in
-<a href="../FeatureTest/">FeatureTest.md</a>), especially if the <a href="../BinaryEncoding/">specific layer</a>
+<a href="../feature-test/">FeatureTest.md</a>), especially if the <a href="../binary-encoding/">specific layer</a>
 were to be standardized and performed natively such that no user-space translation 
 pass was otherwise necessary.</p>
 
@@ -579,8 +579,8 @@ pass was otherwise necessary.</p>
 
 <p>In the MVP, there are no global variables; C/C++ global variables are stored in
 linear memory and thus accessed through normal
-<a href="../Semantics/#linear-memory-operators">linear memory operators</a>.
-<a href="../DynamicLinking/">Dynamic linking</a> will add some form of immutable global
+<a href="../semantics/#linear-memory-operators">linear memory operators</a>.
+<a href="../dynamic-linking/">Dynamic linking</a> will add some form of immutable global
 variable analogous to “symbols” in native binaries. In some cases, though,
 it may be useful to have a fully mutable global variable which lives outside
 linear memory. This would allow more aggressive compiler optimizations (due to
@@ -594,7 +594,7 @@ have their address taken.</p>
 
 <p>The WebAssembly binary format is designed to allow streaming decoding,
 validation and compilation. In the MVP, however, the only way to compile
-WebAssembly in a browser is through <a href="../JS/">JS API</a> functions which
+WebAssembly in a browser is through <a href="../js/">JS API</a> functions which
 require all code to be available in an <code class="highlighter-rouge">ArrayBuffer</code> before compilation
 can begin.</p>
 
@@ -603,16 +603,16 @@ of WebAssembly in browsers:</p>
 
 <ul>
   <li>
-<a href="../Modules/#integration-with-es6-modules">ES6 Module integration</a> would allow
+<a href="../modules/#integration-with-es6-modules">ES6 Module integration</a> would allow
 the browser’s network layer to feed a stream directly into the engine.</li>
-  <li>The asynchronous <a href="../JS/#wasmcompile"><code class="highlighter-rouge">WebAssembly.compile</code></a> function could be 
+  <li>The asynchronous <a href="../js/#wasmcompile"><code class="highlighter-rouge">WebAssembly.compile</code></a> function could be 
 extended to accept a readable stream (as defined by the 
 <a href="https://streams.spec.whatwg.org">Streams API</a>)
 which would allow the engine to compile the stream as chunks became available,
 fulfilling the promise when the stream was complete. Readable streams
 can come from not just the network (via <a href="http://fetch.spec.whatwg.org/"><code class="highlighter-rouge">fetch</code></a>),
 but also JS stream writers and likely other future Web APIs. Thus, this feature
-would enable Web apps to perform their own (<a href="../BinaryEncoding/">“layer 1”</a>)
+would enable Web apps to perform their own (<a href="../binary-encoding/">“layer 1”</a>)
 custom compression (on top of the spec-defined binary format, under generic
 HTTP <code class="highlighter-rouge">Content-Encoding</code> compression).</li>
 </ul>
@@ -627,7 +627,7 @@ of supporting multiple return values from blocks / functions.</p>
 <p>The MVP limits modules to at most one memory and at most one table (the default
 ones) and there are only operators for accessing the default table and memory.</p>
 
-<p>After the MVP and after <a href="../GC/">GC reference types</a> have been added, the default
+<p>After the MVP and after <a href="../gc/">GC reference types</a> have been added, the default
 limitation can be relaxed so that any number of tables and memories could be
 imported or internally defined and memories/tables could be passed around as
 parameters, return values and locals. New variants of <code class="highlighter-rouge">load</code>, <code class="highlighter-rouge">store</code>
@@ -643,12 +643,12 @@ since opaque, could be implemented as a raw function pointer).</p>
 <h3 id="more-table-operators-and-types">More Table Operators and Types</h3>
 
 <p>In the MVP, WebAssembly has limited functionality for operating on 
-<a href="../Semantics/#table">tables</a> and the host-environment can do much more (e.g.,
-see <a href="../JS/#webassemblytable-objects">JavaScript’s <code class="highlighter-rouge">WebAssembly.Table</code> API</a>).
+<a href="../semantics/#table">tables</a> and the host-environment can do much more (e.g.,
+see <a href="../js/#webassemblytable-objects">JavaScript’s <code class="highlighter-rouge">WebAssembly.Table</code> API</a>).
 It would be useful to be able to do everything from within WebAssembly so, e.g.,
 it was possible to write a WebAssembly dynamic loader in WebAssembly. As a
 prerequisite, WebAssembly would need first-class support for 
-<a href="../GC/">GC references</a> on the stack and in locals. Given that, the following
+<a href="../gc/">GC references</a> on the stack and in locals. Given that, the following
 could be added:</p>
 
 <ul>

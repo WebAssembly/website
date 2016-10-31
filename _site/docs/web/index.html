@@ -43,12 +43,12 @@
 
 <p>Unsurprisingly, one of WebAssembly’s primary purposes is to run on the Web,
 for example embedded in Web browsers (though this is
-<a href="../NonWeb/">not its only purpose</a>).</p>
+<a href="../non-web/">not its only purpose</a>).</p>
 
 <p>This means integrating with the Web ecosystem, leveraging Web APIs, supporting
 the Web’s security model, preserving the Web’s portability, and designing in
 room for evolutionary development. Many of these goals are clearly
-reflected in WebAssembly’s <a href="../HighLevelGoals/">high-level goals</a>. In
+reflected in WebAssembly’s <a href="../high-level-goals/">high-level goals</a>. In
 particular, WebAssembly MVP will be no looser from a security point of view
 than if the module was JavaScript.</p>
 
@@ -57,7 +57,7 @@ and the rest of the Web platform that have been considered:</p>
 
 <h2 id="javascript-api">JavaScript API</h2>
 
-<p>A <a href="../JS/">JavaScript API</a> is provided which allows JavaScript to compile
+<p>A <a href="../js/">JavaScript API</a> is provided which allows JavaScript to compile
 WebAssembly modules, perform limited reflection on compiled modules, store
 and retrieve compiled modules from offline storage, instantiate compiled modules
 with JavaScript imports, call the exported functions of instantiated modules,
@@ -65,7 +65,7 @@ alias the exported memory of instantiated modules, etc.</p>
 
 <h2 id="modules">Modules</h2>
 
-<p>WebAssembly’s <a href="../Modules/">modules</a> allow for natural <a href="../Modules/#integration-with-es6-modules">integration with
+<p>WebAssembly’s <a href="../modules/">modules</a> allow for natural <a href="../modules/#integration-with-es6-modules">integration with
 the ES6 module system</a>.</p>
 
 <h3 id="names">Names</h3>
@@ -100,14 +100,14 @@ rule is only mandatory for Web embedding.</p>
 
 <h2 id="security">Security</h2>
 
-<p>WebAssembly’s <a href="../Security/">security</a> model should depend on the
+<p>WebAssembly’s <a href="../security/">security</a> model should depend on the
 <a href="https://www.w3.org/Security/wiki/Same_Origin_Policy">same-origin policy</a>, with <a href="https://www.w3.org/TR/cors/">cross-origin resource sharing (CORS)</a> and
 <a href="https://www.w3.org/TR/SRI/">subresource integrity</a> to enable distribution through content
-distribution networks and to implement <a href="../DynamicLinking/">dynamic linking</a>.</p>
+distribution networks and to implement <a href="../dynamic-linking/">dynamic linking</a>.</p>
 
 <h2 id="simd">SIMD</h2>
 
-<p>Once <a href="../FutureFeatures/#fixed-width-simd">SIMD is supported</a> WebAssembly would:</p>
+<p>Once <a href="../future-features/#fixed-width-simd">SIMD is supported</a> WebAssembly would:</p>
 
 <ul>
   <li>Be statically typed analogous to <a href="http://discourse.specifiction.org/t/request-for-comments-simd-js-in-asm-js">SIMD.js-in-asm.js</a>;</li>
@@ -117,7 +117,7 @@ distribution networks and to implement <a href="../DynamicLinking/">dynamic link
 
 <h2 id="gc">GC</h2>
 
-<p>Once <a href="../GC/">GC is supported</a>, WebAssembly code would be able to reference
+<p>Once <a href="../gc/">GC is supported</a>, WebAssembly code would be able to reference
 and access JavaScript, DOM, and general WebIDL-defined objects.</p>
 
 

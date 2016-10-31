@@ -42,7 +42,7 @@
         <h1 id="guide-for-cc-developers">Guide for C/C++ developers</h1>
 
 <p>WebAssembly is being designed to support C and C++ code well, right from
-the start in <a href="../MVP/">the MVP</a>. The following explains the outlook for
+the start in <a href="../mvp/">the MVP</a>. The following explains the outlook for
 C and C++ developers.</p>
 
 <h2 id="porting-c-and-c-code-to-webassembly">Porting C and C++ code to WebAssembly</h2>
@@ -59,9 +59,9 @@ pointer types are all 32-bit, while the <code class="highlighter-rouge">long lon
 has an LP64 data model, meaning that <code class="highlighter-rouge">long</code> and pointer types will be
 64-bit, while <code class="highlighter-rouge">int</code> is 32-bit.</p>
 
-<p><a href="../MVP/">The MVP</a> will support only wasm32; support for wasm64 will be
+<p><a href="../mvp/">The MVP</a> will support only wasm32; support for wasm64 will be
 added in the future to support
-<a href="../FutureFeatures/#linear-memory-bigger-than-4-gib">64-bit address spaces <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
+<a href="../future-features/#linear-memory-bigger-than-4-gib">64-bit address spaces <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
 
 <p><code class="highlighter-rouge">float</code> and <code class="highlighter-rouge">double</code> are the IEEE 754-2008 single- and double-precision types,
 which are native in WebAssembly. <code class="highlighter-rouge">long double</code> is the IEEE 754-2008
@@ -79,20 +79,20 @@ applications that need it.</p>
 support, but WebAssembly includes all the functionality that popular C and C++
 compilers need to support high-quality implementations.</p>
 
-<p>While <a href="../MVP/">the MVP</a> will be fully functional, additional features enabling
+<p>While <a href="../mvp/">the MVP</a> will be fully functional, additional features enabling
 greater performance will be added soon after, including:</p>
 
 <ul>
   <li>
-    <p><a href="../FutureFeatures/#threads">Support for multi-threaded execution with shared memory</a>.</p>
+    <p><a href="../future-features/#threads">Support for multi-threaded execution with shared memory</a>.</p>
   </li>
   <li>
-    <p><a href="../FutureFeatures/#zero-cost-exception-handling">Zero-cost C++ exception handling</a>.
+    <p><a href="../future-features/#zero-cost-exception-handling">Zero-cost C++ exception handling</a>.
 C++ exceptions can be implemented without this, but this feature will
 enable them to have lower runtime overhead.</p>
   </li>
   <li>
-    <p>Support for <a href="../FutureFeatures/#fixed-width-simd">128-bit SIMD</a>. SIMD will be
+    <p>Support for <a href="../future-features/#fixed-width-simd">128-bit SIMD</a>. SIMD will be
 exposed to C/C++ though explicit APIs such as <a href="http://clang.llvm.org/docs/LanguageExtensions.html#vectors-and-extended-vectors">LLVM’s vector extensions</a>
 and <a href="https://gcc.gnu.org/onlinedocs/gcc/Vector-Extensions.html">GCC’s vector extensions</a>, auto-vectorization, and emulated APIs from
 other platforms such as <code class="highlighter-rouge">&lt;xmmintrin.h&gt;</code>.</p>
@@ -105,19 +105,19 @@ other platforms such as <code class="highlighter-rouge">&lt;xmmintrin.h&gt;</cod
 and C++ standard libraries, OpenGL, SDL, pthreads, and others, just as
 in normal C/C++ development. Under the covers, these libraries
 implement their functionality by using low-level facilities provided by
-WebAssembly implementations. On <a href="../Web/">the Web</a>, they utilize
+WebAssembly implementations. On <a href="../web/">the Web</a>, they utilize
 Web APIs (for example, OpenGL is executed on WebGL, libc date and
 time methods use the browser’s Date functionality, etc.).
-<a href="../NonWeb/">In other contexts</a>, other low-level mechanisms may be used.</p>
+<a href="../non-web/">In other contexts</a>, other low-level mechanisms may be used.</p>
 
 <h3 id="abis">ABIs</h3>
 
-<p>In <a href="../MVP/">the MVP</a>, WebAssembly does not yet have a stable ABI for
+<p>In <a href="../mvp/">the MVP</a>, WebAssembly does not yet have a stable ABI for
 libraries. Developers will need to ensure that all code linked into an
 application are compiled with the same compiler and options.</p>
 
 <p>In the future, when WebAssembly is extended to support
-<a href="../DynamicLinking/">dynamic linking</a>, stable ABIs are
+<a href="../dynamic-linking/">dynamic linking</a>, stable ABIs are
 expected to be defined in accompaniment.</p>
 
 <h3 id="undefined-and-implementation-defined-behavior">Undefined and Implementation-defined Behavior</h3>
@@ -132,15 +132,15 @@ optimizers still assume that undefined behavior won’t occur, so such bugs
 can still lead to surprising behavior.</p>
 
 <p>For example, while unaligned memory access is
-<a href="../Semantics/#alignment">fully defined</a> in WebAssembly, C and C++ compilers
+<a href="../semantics/#alignment">fully defined</a> in WebAssembly, C and C++ compilers
 make no guarantee that a (non-packed) unaligned memory access at the source
 level is harmlessly translated into an unaligned memory access in WebAssembly.
 And in practice, popular C and C++ compilers do optimize on the assumption that
 alignment rules are followed, meaning that they don’t always preserve program
 behavior otherwise.</p>
 
-<p>On WebAssembly, the primary <a href="../Nondeterminism/">nondeterminism</a> and
-<a href="../Security/">security</a> invariants are always maintained. Demons can’t actually
+<p>On WebAssembly, the primary <a href="../nondeterminism/">nondeterminism</a> and
+<a href="../security/">security</a> invariants are always maintained. Demons can’t actually
 fly out your nose, as that would constitute an escape from the sandbox. And,
 callstacks can’t become corrupted.</p>
 
@@ -150,7 +150,7 @@ including corrupting the contents of the application’s linear memory, calling 
 arbitrary parameters, hanging, trapping, or consuming arbitrary amounts of
 resources (within the limits).</p>
 
-<p><a href="../Tooling/">Tools are being developed and ported</a> to help developers find
+<p><a href="../tooling/">Tools are being developed and ported</a> to help developers find
 and fix such bugs in their code.</p>
 
 <h4 id="implementation-defined-behavior">Implementation-Defined Behavior</h4>
@@ -166,9 +166,9 @@ on the platform, on WebAssembly they follow naturally from having 8-bit bytes,
 
 <p>WebAssembly can be efficiently implemented on a wide variety of platforms,
 provided they can satisfy certain
-<a href="../Portability/#assumptions-for-efficient-execution">basic expectations</a>.</p>
+<a href="../portability/#assumptions-for-efficient-execution">basic expectations</a>.</p>
 
-<p>WebAssembly has very limited <a href="../Nondeterminism/">nondeterminism</a>, so it is
+<p>WebAssembly has very limited <a href="../nondeterminism/">nondeterminism</a>, so it is
 expected that compiled WebAssembly programs will behave very consistently
 across different implementations, and across different versions of the same
 implementation.</p>

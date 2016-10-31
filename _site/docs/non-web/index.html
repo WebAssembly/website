@@ -41,7 +41,7 @@
       <div class="col-xs-12 col-lg-9 col-pop">
         <h1 id="non-web-embeddings">Non-Web Embeddings</h1>
 
-<p>While WebAssembly is designed to run <a href="../Web/">on the Web</a>, it is
+<p>While WebAssembly is designed to run <a href="../web/">on the Web</a>, it is
 also desirable for it to be able to execute well in other environments,
 including everything from minimal shells for testing to full-blown
 application environments e.g. on servers in datacenters, on IoT devices,
@@ -50,8 +50,8 @@ embedded within larger programs.</p>
 
 <p>Non-Web environments may provide different APIs than Web
 environments, which
-<a href="../FeatureTest/">feature testing</a> and
-<a href="../DynamicLinking/">dynamic linking</a> will make discoverable and
+<a href="../feature-test/">feature testing</a> and
+<a href="../dynamic-linking/">dynamic linking</a> will make discoverable and
 usable.</p>
 
 <p>Non-Web environments may include JavaScript VMs (e.g. <a href="https://nodejs.org">node.js</a>), however
@@ -75,7 +75,7 @@ Web and node.js environments and is distinct from the JavaScript spec.</p>
 source code level, communities would build libraries that mapped from a 
 source-level interface to the host environment’s builtin capabilities
 (either at build time or runtime).  WebAssembly would provide the raw building
-blocks (feature testing, <a href="../Modules/#imports-and-exports">builtin modules</a> and
+blocks (feature testing, <a href="../modules/#imports-and-exports">builtin modules</a> and
 dynamic loading) to make these libraries possible. Two early expected examples
 are POSIX and SDL.</p>
 

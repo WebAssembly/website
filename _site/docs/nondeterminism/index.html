@@ -41,7 +41,7 @@
       <div class="col-xs-12 col-lg-9 col-pop">
         <h1 id="nondeterminism-in-webassembly">Nondeterminism in WebAssembly</h1>
 
-<p>WebAssembly is a <a href="../Portability/">portable</a> <a href="../Security/">sandboxed</a> platform
+<p>WebAssembly is a <a href="../portability/">portable</a> <a href="../security/">sandboxed</a> platform
 with limited, local, nondeterminism.</p>
 
 <ul>
@@ -54,7 +54,7 @@ may select from a limited set of possible behaviors.</li>
 there is no “spooky action at a distance”.</li>
 </ul>
 
-<p>The <a href="../Rationale/">rationale</a> document details why WebAssembly is designed as
+<p>The <a href="../rationale/">rationale</a> document details why WebAssembly is designed as
 detailed in this document.</p>
 
 <p>The following is a list of the places where the WebAssembly specification
@@ -65,7 +65,7 @@ currently admits nondeterminism:</p>
 will have different support for each feature. This can be detected with
 <code class="highlighter-rouge">has_feature</code>, but is still a source of differences between executions.</li>
   <li>
-<a href="../FutureFeatures/#threads">When threads are added as a feature <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, even without
+<a href="../future-features/#threads">When threads are added as a feature <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, even without
 shared memory, nondeterminism will be visible through the global sequence of
 API calls. With shared memory, the result of load operators is
 nondeterministic.</li>
@@ -92,7 +92,7 @@ may vary between platforms.</li>
       <li>Memory allocation may fail.</li>
       <li>The runtime can fail to allocate a physical page when a memory location is first
 accessed (e.g. through a load or store), even if that memory was virtually reserved
-by the maximum size property of the <a href="../Modules/#linear-memory-section">memory section</a>.</li>
+by the maximum size property of the <a href="../modules/#linear-memory-section">memory section</a>.</li>
       <li>Program stack may get exhausted (e.g., because function call depth is too big,
 or functions have too many locals, or infinite recursion). Note that this stack
 isn’t located in the program-accessible linear memory.</li>
@@ -105,7 +105,7 @@ isn’t located in the program-accessible linear memory.</li>
 <p>Users of C, C++, and similar languages should be aware that operators which
 have defined or constrained behavior in WebAssembly itself may nonetheless still
 have undefined behavior
-<a href="../CAndC++/#undefined-behavior">at the source code level</a>.</p>
+<a href="../c-and-c++/#undefined-behavior">at the source code level</a>.</p>
 
 
       </div>

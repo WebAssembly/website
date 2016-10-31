@@ -42,19 +42,19 @@
         <h1 id="webassembly-high-level-goals">WebAssembly High-Level Goals</h1>
 
 <ol>
-  <li>Define a <a href="../Portability/">portable</a>, size- and load-time-efficient
-<a href="../MVP/#binary-format">binary format</a> to serve as a compilation target which
+  <li>Define a <a href="../portability/">portable</a>, size- and load-time-efficient
+<a href="../mvp/#binary-format">binary format</a> to serve as a compilation target which
 can be compiled to execute at native speed by taking advantage of common
 hardware capabilities available on a wide range of platforms, including
 <a href="https://en.wikipedia.org/wiki/Mobile_device">mobile</a> and
 <a href="https://en.wikipedia.org/wiki/Internet_of_Things">IoT</a>.</li>
   <li>Specify and implement incrementally:
     <ul>
-      <li>a <a href="../MVP/">Minimum Viable Product (MVP)</a> for the standard with
+      <li>a <a href="../mvp/">Minimum Viable Product (MVP)</a> for the standard with
 roughly the same functionality as <a href="http://asmjs.org">asm.js</a>, primarily
-aimed at <a href="../CAndC++/">C/C++</a>;</li>
+aimed at <a href="../c-and-c++/">C/C++</a>;</li>
       <li>
-<a href="../FutureFeatures/">additional features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
+<a href="../future-features/">additional features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
 initially focused on key features like threads,
 zero cost exceptions, and SIMD,
 follow by additional features
@@ -63,10 +63,10 @@ other than C/C++.</li>
     </ul>
   </li>
   <li>Design to execute within and integrate well with the <em>existing</em>
-<a href="../Web/">Web platform</a>:
+<a href="../web/">Web platform</a>:
     <ul>
-      <li>maintain the versionless, <a href="../FeatureTest/">feature-tested</a> and
-<a href="../BinaryEncoding/#backwards-compatibility">backwards-compatible</a>
+      <li>maintain the versionless, <a href="../feature-test/">feature-tested</a> and
+<a href="../binary-encoding/#backwards-compatibility">backwards-compatible</a>
 evolution story of the Web;</li>
       <li>execute in the same semantic universe as JavaScript;</li>
       <li>allow synchronous calls to and from JavaScript;</li>
@@ -77,13 +77,13 @@ to JavaScript; and</li>
 binary format, supporting View Source functionality.</li>
     </ul>
   </li>
-  <li>Design to support <a href="../NonWeb/">non-browser embeddings</a> as well.</li>
+  <li>Design to support <a href="../non-web/">non-browser embeddings</a> as well.</li>
   <li>Make a great platform:
     <ul>
       <li>build a new LLVM backend for WebAssembly and an accompanying
-clang port (<a href="../FAQ/#which-compilers-can-i-use-to-build-webassembly-programs">why LLVM first?</a>);</li>
+clang port (<a href="../faq/#which-compilers-can-i-use-to-build-webassembly-programs">why LLVM first?</a>);</li>
       <li>promote other compilers and tools targeting WebAssembly; and</li>
-      <li>enable other useful <a href="../Tooling/">tooling</a>.</li>
+      <li>enable other useful <a href="../tooling/">tooling</a>.</li>
     </ul>
   </li>
 </ol>

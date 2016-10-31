@@ -52,7 +52,7 @@ JavaScript.</p>
 <ol>
   <li>
     <p>The kind of binary format being considered for WebAssembly can be natively
-decoded much faster than JavaScript can be parsed (<a href="../BinaryEncoding/#why-a-binary-encoding-instead-of-a-text-only-representation">experiments</a> show more
+decoded much faster than JavaScript can be parsed (<a href="../binary-encoding/#why-a-binary-encoding-instead-of-a-text-only-representation">experiments</a> show more
 than 20× faster).  On mobile, large compiled codes can easily take 20–40
 seconds <em>just to parse</em>, so native decoding (especially when combined with
 other techniques like <a href="https://www.w3.org/TR/streams-api/">streaming</a> for better-than-gzip compression) is
@@ -62,7 +62,7 @@ critical to providing a good cold-load user experience.</p>
     <p>By avoiding the simultaneous asm.js constraints of <a href="http://asmjs.org/spec/latest/#ahead-of-time-compilation">AOT</a>-<a href="https://blog.mozilla.org/luke/2014/01/14/asm-js-aot-compilation-and-startup-performance/">compilability</a>
 and good performance even on engines without
 <a href="https://blog.mozilla.org/luke/2015/02/18/microsoft-announces-asm-js-optimizations/#asmjs-opts">specific asm.js optimizations</a>, a new standard makes it <em>much easier</em> to
-add the <a href="../FutureFeatures/">features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> required to reach native
+add the <a href="../future-features/">features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> required to reach native
 levels of performance.</p>
   </li>
 </ol>
@@ -81,7 +81,7 @@ outweigh the costs.</p>
 
 <h2 id="what-are-webassemblys-use-cases">What are WebAssembly’s use cases?</h2>
 
-<p>WebAssembly was designed with <a href="../UseCases/">a variety of use cases in mind</a>.</p>
+<p>WebAssembly was designed with <a href="../use-cases/">a variety of use cases in mind</a>.</p>
 
 <h2 id="can-webassembly-be-polyfilled">Can WebAssembly be polyfilled?</h2>
 
@@ -117,15 +117,15 @@ principle be possible.</p>
 
 <h2 id="is-webassembly-only-for-cc-programmers">Is WebAssembly only for C/C++ programmers?</h2>
 
-<p>As explained in the <a href="../HighLevelGoals/">high-level goals</a>, to achieve a Minimum
-Viable Product, the initial focus is on <a href="../CAndC++/">C/C++</a>.</p>
+<p>As explained in the <a href="../high-level-goals/">high-level goals</a>, to achieve a Minimum
+Viable Product, the initial focus is on <a href="../c-and-c++/">C/C++</a>.</p>
 
-<p>However, by <a href="../Modules/#integration-with-es6-modules">integrating with JavaScript at the ES6 Module interface</a>,
+<p>However, by <a href="../modules/#integration-with-es6-modules">integrating with JavaScript at the ES6 Module interface</a>,
 web developers don’t need to write C++ to take advantage of libraries that others have written; 
 reusing a modular C++ library can be as simple as <a href="http://jsmodules.io">using a module from JavaScript</a>.</p>
 
-<p>Beyond the MVP, another <a href="../HighLevelGoals/">high-level goal</a>
-is to improve support for languages other than C/C++.  This includes <a href="../FutureFeatures/#gcdom-integration">allowing WebAssembly code to
+<p>Beyond the MVP, another <a href="../high-level-goals/">high-level goal</a>
+is to improve support for languages other than C/C++.  This includes <a href="../future-features/#gcdom-integration">allowing WebAssembly code to
 allocate and access garbage-collected (JavaScript, DOM, Web API) objects
 <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.
 Even before GC support is added to WebAssembly, it is possible to compile a language’s VM 
@@ -137,7 +137,7 @@ cycle-collection problems and miss optimizations that require integration with t
 
 <h2 id="which-compilers-can-i-use-to-build-webassembly-programs">Which compilers can I use to build WebAssembly programs?</h2>
 
-<p>WebAssembly initially focuses on <a href="../CAndC++/">C/C++</a>, and a new, clean
+<p>WebAssembly initially focuses on <a href="../c-and-c++/">C/C++</a>, and a new, clean
 WebAssembly backend is being developed in upstream clang/LLVM, which can then be
 used by LLVM-based projects like <a href="http://emscripten.org">Emscripten</a> and <a href="http://gonacl.com">PNaCl</a>.</p>
 
@@ -156,7 +156,7 @@ work with them on ABI matters.</p>
 
 <h2 id="will-webassembly-support-view-source-on-the-web">Will WebAssembly support View Source on the Web?</h2>
 
-<p>Yes! WebAssembly defines a <a href="../TextFormat/">text format</a> to be rendered when
+<p>Yes! WebAssembly defines a <a href="../text-format/">text format</a> to be rendered when
 developers view the source of a WebAssembly module in any developer tool. Also,
 a specific goal of the text format is to allow developers to write WebAssembly
 modules by hand for testing, experimenting, optimizing, learning and teaching
@@ -166,7 +166,7 @@ the WebAssembly text format should be much more natural to read and write than
 asm.js. Outside the browser, command-line and online tools that convert between
 text and binary will also be made readily available.  Lastly, a scalable form of
 source maps is also being considered as part of the WebAssembly
-<a href="../Tooling/">tooling story</a>.</p>
+<a href="../tooling/">tooling story</a>.</p>
 
 <h2 id="whats-the-story-for-emscripten-users">What’s the story for Emscripten users?</h2>
 
@@ -174,7 +174,7 @@ source maps is also being considered as part of the WebAssembly
 WebAssembly, by flipping a flag. Initially, Emscripten’s asm.js output would be
 converted to WebAssembly, but eventually Emscripten would use WebAssembly
 throughout the pipeline. This painless transition is enabled by the
-<a href="../HighLevelGoals/">high-level goal</a> that WebAssembly integrate well with the
+<a href="../high-level-goals/">high-level goal</a> that WebAssembly integrate well with the
 Web platform (including allowing synchronous calls into and out of JavaScript)
 which makes WebAssembly compatible with Emscripten’s current asm.js compilation
 model.</p>
@@ -185,7 +185,7 @@ model.</p>
 JavaScript. While WebAssembly will, over time, allow many languages to be
 compiled to the Web, JavaScript has an incredible amount of momentum and will
 remain the single, privileged (as described
-<a href="../FAQ/#is-webassembly-only-for-cc-programmers">above</a>) dynamic language of the
+<a href="../faq/#is-webassembly-only-for-cc-programmers">above</a>) dynamic language of the
 Web. Furthermore, it is expected that JavaScript and WebAssembly will be used
 together in a number of configurations:</p>
 
@@ -200,7 +200,7 @@ animation, compression, etc., examples which we can already see in asm.js
 today) allowing developers to reuse popular WebAssembly libraries just like
 JavaScript libraries today.</li>
   <li>When WebAssembly
-<a href="../FutureFeatures/#gcdom-integration">gains the ability to access garbage-collected objects <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
+<a href="../future-features/#gcdom-integration">gains the ability to access garbage-collected objects <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
 those objects will be shared with JavaScript, and not live in a walled-off
 world of their own.</li>
 </ul>
@@ -228,7 +228,7 @@ for transmission over the Internet.</li>
 fast startup of programs.</li>
   <li>Fast compiling: The ISA should be fast to compile (and suitable for either
 AOT- or JIT-compilation) for fast startup of programs.</li>
-  <li>Minimal <a href="../Nondeterminism/">nondeterminism</a>: The behavior of programs should
+  <li>Minimal <a href="../nondeterminism/">nondeterminism</a>: The behavior of programs should
 be as predictable and deterministic as possible (and should be the same on
 every architecture, a stronger form of the portability requirement stated
 above).</li>
@@ -287,7 +287,7 @@ behaving consistently for all users thereafter.</p>
 developers to test the final behavior of the code. Nondeterminism at this level
 could cause distributed WebAssembly programs to behave differently in different
 implementations, or change over time. WebAssembly does have
-<a href="../Nondeterminism/">some nondeterminism</a> in cases where the tradeoffs warrant
+<a href="../nondeterminism/">some nondeterminism</a> in cases where the tradeoffs warrant
 it, but fast-math flags are not believed to be important enough:</p>
 
 <ul>
@@ -300,9 +300,9 @@ compilers can replace floating point division with floating point
 multiplication by a reciprocal in WebAssembly programs just as they do for
 other platforms.</li>
   <li>Mid-level compiler optimizations may also be augmented by implementing them
-in a <a href="../JITLibrary/">JIT library</a> in WebAssembly. This would allow them to
+in a <a href="../jit-library/">JIT library</a> in WebAssembly. This would allow them to
 perform optimizations that benefit from having
-<a href="../FeatureTest/">information about the target</a> and information about the
+<a href="../feature-test/">information about the target</a> and information about the
 source program semantics such as fast-math flags at the same time. For
 example, if SIMD types wider than 128-bit are added, it’s expected that there
 would be feature tests allowing WebAssembly code to determine which SIMD
@@ -336,7 +336,7 @@ operators:</p>
 
 <ul>
   <li>the MVP starts with the ability to grow linear memory via a
-<a href="../Semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> operator;</li>
+<a href="../semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> operator;</li>
   <li>proposed
 <a href="FutureFeatures.md#finer-grained-control-over-memory">future features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> would
 allow the application to change the protection and mappings for pages in the
@@ -365,7 +365,7 @@ its heap (see discussion in
 <a href="https://github.com/WebAssembly/design/pull/285">#285</a>).</li>
       <li>This interleaving would require making allocation nondeterministic and
 nondeterminism is something that WebAssembly generally
-<a href="../Nondeterminism/">tries to avoid</a>.</li>
+<a href="../nondeterminism/">tries to avoid</a>.</li>
     </ul>
   </li>
 </ul>
@@ -416,8 +416,8 @@ those that motivated the development of the
 <p>Yes but it will depend on the <em>WebAssembly embedder</em>. Inside a browser you’ll 
 get access to the same HTML5 and other browser-specific APIs which are also 
 accessible through regular JavaScript. However, if a wasm VM is provided as an 
-<a href="../NonWeb/">“app execution platform”</a> by a specific vendor, it might provide 
-access to <a href="../Portability/#api">proprietary platform-specific APIs</a> of e.g. 
+<a href="../non-web/">“app execution platform”</a> by a specific vendor, it might provide 
+access to <a href="../portability/#api">proprietary platform-specific APIs</a> of e.g. 
 Android / iOS.</p>
 
 

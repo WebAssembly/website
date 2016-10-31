@@ -88,14 +88,14 @@ programs, inspecting their state, modifying their state.</li>
 WebAssembly module.</li>
     </ul>
   </li>
-  <li>Sanitizers for <a href="../Security/#memory-safety">non-memory-safe</a> languages: asan,
+  <li>Sanitizers for <a href="../security/#memory-safety">non-memory-safe</a> languages: asan,
 tsan, msan, ubsan. Efficient support of sanitizers may require improving:
     <ul>
       <li>Trapping support;</li>
       <li>Shadow stack techniques (often implemented through <code class="highlighter-rouge">mmap</code>’s <code class="highlighter-rouge">MAP_FIXED</code>).</li>
     </ul>
   </li>
-  <li>Opt-in <a href="../Security/">security</a> enhancements for developers’ own code:
+  <li>Opt-in <a href="../security/">security</a> enhancements for developers’ own code:
 developers targeting WebAssembly may want their own code to be sandboxed
 further than what WebAssembly implementations require to protect users.</li>
   <li>Profilers:
