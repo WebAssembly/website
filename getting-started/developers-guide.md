@@ -2,7 +2,7 @@
 layout: getting-started
 ---
 
-# Developers' Guide
+# Developer's Guide
 
 This page aims to provide complete, working step-by-step instructions to compile a simple program directly to WebAssembly.
 
@@ -26,7 +26,7 @@ To compile to WebAssembly, we need the incoming branch of emscripten. We can ins
 ### Compile and run a simple program
 We now have a full toolchain we can use to compile a simple program to WebAssembly. There are a few remaining caveats, however:
 
-- We have to pass the flag `-s BINARYEN=1` to `emcc` (otherwise by default `emcc` will emit asm.js).
+- We have to pass the flag `-s WASM=1` to `emcc` (otherwise by default `emcc` will emit asm.js).
 - If we want emscripten to generate an HTML page that runs our program, in addition to the wasm binary and JavaScript wrapper, we have to specify an output filename with a `.html` extension.
 - Finally, to actually run the program, we cannot simply open the HTML file in a web browser because cross-origin requests are not supported for the `file` protocol scheme. We have to actually serve the output files over HTTP.
 
@@ -39,7 +39,7 @@ $ echo '#include &lt;stdio.h&gt;' &gt; hello.c
 $ echo 'int main(int argc, char ** argv) {' &gt;&gt; hello.c
 $ echo 'printf("Hello, world!\n");' &gt;&gt; hello.c
 $ echo '}' &gt;&gt; hello.c
-$ <b>emcc hello.c -s BINARYEN=1 -o hello.html</b>
+$ <b>emcc hello.c -s WASM=1 -o hello.html</b>
 </pre>
 
 To serve the compiled files over HTTP, we can use the HTTP server built in to Python:
