@@ -5,14 +5,14 @@ layout: community
 # Contributing to WebAssembly
 
 WebAssembly is initially designed and implemented by browser vendors who are
-interested in meeting a variety of [use cases](/docs/UseCases/). As design and
+interested in meeting a variety of [use cases](/docs/use-cases/). As design and
 implementation progresses they'll need input and contributions from developers
 interested in using WebAssembly.
 
 Interested in participating? We suggest you start by:
 
 1. Acquainting yourself with the
-   [Code of Ethics and Professional Conduct](/community/CodeOfConduct/).
+   [Code of Ethics and Professional Conduct](/community/code-of-conduct/).
 2. Reading the [WebAssembly design][].
 3. Joining the IRC channel `irc://irc.w3.org:6667/#webassembly`.
 
