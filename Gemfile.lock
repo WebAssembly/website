@@ -63,6 +63,7 @@ DEPENDENCIES
   html-pipeline
   jekyll (~> 3.0)
   jekyll-optional-front-matter
+  nokogiri (~> 1.6)
 
 BUNDLED WITH
    1.13.6

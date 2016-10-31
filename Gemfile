@@ -5,3 +5,4 @@ group :jekyll_plugins do
 end
 gem 'gemoji', '3.0.0.rc1'
 gem 'html-pipeline'
+gem 'nokogiri', '~> 1.6'

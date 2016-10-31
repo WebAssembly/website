@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module AutoTitles
   class Generator < Jekyll::Generator
     def generate(site)
@@ -9,10 +11,12 @@ module AutoTitles
     end
 
     def guess_title(page)
-      # return first markdown heading, sans #
-      page.content.each_line do |line|
-        unless (m = line.match(/^\s*#+\s*([^#]+)[\s#]*/)).nil?
-          return m.captures.first
+      # return first heading
+      html = Kramdown::Document.new(page.content).to_html
+      doc = Nokogiri::HTML(html)
+      ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].each do |query|
+        unless (h = doc.at_css(query)).nil?
+          return h.inner_text
         end
       end
       ""
