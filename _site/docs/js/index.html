@@ -43,7 +43,7 @@
 
 <p>In the <a href="../MVP/">MVP</a>, the only way to access WebAssembly on the Web is through
 an explicit JS API which is defined below.
-(In the <a href="../PostMVP/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, WebAssembly may also
+(In the <a href="../FutureFeatures/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, WebAssembly may also
 be loaded and run directly from an HTML <code class="highlighter-rouge">&lt;script type='module'&gt;</code> tag—and
 any other Web API that loads ES6 modules via URL—as part of 
 <a href="../Modules/#integration-with-es6-modules">ES6 Module integration</a>.)</p>
@@ -603,6 +603,10 @@ aliases <code class="highlighter-rouge">m</code> and whose
 <a href="http://tc39.github.io/ecma262/#sec-properties-of-the-arraybuffer-prototype-object">[[ArrayBufferByteLength]]</a>
 is set to the byte length of <code class="highlighter-rouge">m</code>.</p>
 
+<p>Any attempts to <a href="http://tc39.github.io/ecma262/#sec-detacharraybuffer"><code class="highlighter-rouge">detach</code></a> <code class="highlighter-rouge">buffer</code> <em>other</em> than
+the detachment performed by <a href="#webassemblymemoryprototypegrow"><code class="highlighter-rouge">m.grow</code></a> shall throw a 
+<a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a></p>
+
 <p>Return a new <code class="highlighter-rouge">WebAssembly.Memory</code> instance with [[Memory]] set to <code class="highlighter-rouge">m</code> and
 [[BufferObject]] set to <code class="highlighter-rouge">buffer</code>.</p>
 
@@ -933,10 +937,6 @@ is thrown.</p>
         
           
           <a class="side-nav-item" href="/docs/portability/">Portability</a>
-          
-        
-          
-          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features</a>
           
         
           

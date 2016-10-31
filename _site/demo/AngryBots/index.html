@@ -86,21 +86,9 @@ window.addEventListener('resize', softFullscreenResizeWebGLRenderTarget);
 </script>
 
 <script type='text/javascript'>
-  var canvas = document.getElementById("canvas");
-  var Module = {
-    TOTAL_MEMORY: 268435456,
-    errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
-    canvas: canvas,
-    dataUrl: "Release/AngryBots.data",
-    codeUrl: "Release/AngryBots.js",
-    memUrl: "Release/AngryBots.mem",
-    compatibilitycheck: function() {
-      if (typeof Wasm !== 'object' && typeof WebAssembly !== 'object') (alert("You need a browser which supports WebAssembly to run this content. See the WebAssembly demo page for instructions."), window.history.back());
-      hasWebGL ? mobile ? confirm("Please note that Unity WebGL is not currently supported on mobiles. Press Ok if you wish to continue anyway.") || window.history.back() : -1 == browser.indexOf("Firefox") && -1 == browser.indexOf("Chrome") && -1 == browser.indexOf("Safari") && (confirm("Please note that your browser is not currently supported for this Unity WebGL content. Try installing Firefox, or press Ok if you wish to continue anyway.") || window.history.back()) : (alert("You need a browser which supports WebGL to run this content. Try installing Firefox."), window.history.back())
-    },
-    progress: (new UnityProgress(canvas)),
-  };
-
+  // Note: all this feature testing is only necessary to serve old versions of
+  // the binary format and JS API to old experimental browser builds. None of
+  // this would be necessary in a production WebAssembly build.
   var version = "";
   if (typeof Wasm === 'object' && Wasm.experimentalVersion < 0xc) {
     version = String(Wasm.experimentalVersion);
@@ -112,32 +100,23 @@ window.addEventListener('resize', softFullscreenResizeWebGLRenderTarget);
     }
   }
 
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'AngryBots' + version + '.wasm', true);
-  xhr.responseType = 'arraybuffer';
-  xhr.onload = function() {
-    Module.wasmBinary = xhr.response;
-
-    var codeXHR = new XMLHttpRequest();
-    codeXHR.open('GET', 'Release/UnityLoader.js', true);
-    codeXHR.onload = function() {
-      var code = codeXHR.responseText;
-      var blob = new Blob([code], {type: 'text/javascript'});
-      codeXHR = null;
-      var src = URL.createObjectURL(blob);
-      var script = document.createElement('script');
-      script.src = URL.createObjectURL(blob);
-      script.onload = function() {
-        URL.revokeObjectURL(script.src);
-      };
-      document.body.appendChild(script);
-    }
-    codeXHR.send(null);
+  var canvas = document.getElementById("canvas");
+  var Module = {
+    TOTAL_MEMORY: 268435456,
+    errorhandler: null,			// arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
+    canvas: canvas,
+    dataUrl: "Release/AngryBots.data",
+    wasmUrl: "AngryBots" + version + ".wasm",
+    wasmWrapperUrl: "Release/AngryBots.js",
+    memUrl: "Release/AngryBots.mem",
+    compatibilitycheck: function() {
+      if (typeof Wasm !== 'object' && typeof WebAssembly !== 'object') (alert("You need a browser which supports WebAssembly to run this content. See the WebAssembly demo page for instructions."), window.history.back());
+      hasWebGL ? mobile ? confirm("Please note that Unity WebGL is not currently supported on mobiles. Press Ok if you wish to continue anyway.") || window.history.back() : -1 == browser.indexOf("Firefox") && -1 == browser.indexOf("Chrome") && -1 == browser.indexOf("Safari") && (confirm("Please note that your browser is not currently supported for this Unity WebGL content. Try installing Firefox, or press Ok if you wish to continue anyway.") || window.history.back()) : (alert("You need a browser which supports WebGL to run this content. Try installing Firefox."), window.history.back())
+    },
+    progress: (new UnityProgress(canvas)),
   };
-  xhr.send(null);
-
 </script>
-
+<script src="Release/UnityLoader.js"></script>
 
   </body>
 </html>

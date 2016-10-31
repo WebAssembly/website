@@ -43,9 +43,9 @@
 
 <h1 id="feature-test">Feature Test</h1>
 
-<p><a href="../PostMVP/">PostMVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, applications will be able to query which features are
+<p><a href="../FutureFeatures/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, applications will be able to query which features are
 supported via
-<a href="../PostMVP/#feature-testing"><code class="highlighter-rouge">has_feature</code> or a similar API <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>. This
+<a href="../FutureFeatures/#feature-testing"><code class="highlighter-rouge">has_feature</code> or a similar API <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>. This
 accounts for the pragmatic reality that features are shipped in different orders
 at different times by different engines.</p>
 
@@ -93,7 +93,8 @@ it can be constant-folded by WebAssembly engines.</p>
 <a href="FutureFeatures.md#additional-integer-operators"><code class="highlighter-rouge">i32.min_s</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - Strategy 2
 could be used to translate <code class="highlighter-rouge">(i32.min_s lhs rhs)</code> into an equivalent expression
 that stores <code class="highlighter-rouge">lhs</code> and <code class="highlighter-rouge">rhs</code> in locals then uses <code class="highlighter-rouge">i32.lt_s</code> and <code class="highlighter-rouge">select</code>.</li>
-  <li>[Threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][future threads] - If an application uses <code class="highlighter-rouge">#ifdef</code> extensively
+  <li>
+<a href="FutureFeatures.md#threads">Threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - If an application uses <code class="highlighter-rouge">#ifdef</code> extensively
 to produce thread-enabled/disabled builds, Strategy 1 would be appropriate.
 However, if the application was able to abstract use of threading to a few
 primitives, Strategy 2 could be used to patch in the right primitive 
@@ -109,8 +110,7 @@ correctness but an alternative strategy existed that did not rely on
 the application to test <code class="highlighter-rouge">(has_feature "mprotect")</code> to avoid calling the
 <code class="highlighter-rouge">abort()</code>. The <code class="highlighter-rouge">has_feature</code> query could be exposed to C++ code via
 the existing <code class="highlighter-rouge">__builtin_cpu_supports</code>.</li>
-  <li>
-<a href="../PostMVP/#fixed-width-simd">SIMD</a> - When SIMD operators have a good-enough
+  <li>[SIMD]]<a href="FutureFeatures.md#fixed-width-simd">future simd</a> - When SIMD operators have a good-enough
 polyfill, e.g., <code class="highlighter-rouge">f32x4.fma</code> via <code class="highlighter-rouge">f32x4.mul</code>/<code class="highlighter-rouge">add</code>, Strategy 2 could be used 
 (similar to the <code class="highlighter-rouge">i32.min_s</code> example above). However, when a SIMD feature has no
 efficient polyfill (e.g., <code class="highlighter-rouge">f64x2</code>, which introduces both operators <em>and</em>
@@ -150,7 +150,7 @@ polyfill would then replace <code class="highlighter-rouge">foo</code> with <cod
 coarser granularity substitution. Since this is all in userspace, the strategy
 can evolve over time.</p>
 
-<p>See also the <a href="../PostMVP/#feature-testing">better feature testing support <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+<p>See also the <a href="../FutureFeatures/#feature-testing">better feature testing support <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
 future feature.</p>
 
 
@@ -237,10 +237,6 @@ future feature.</p>
         
           
           <a class="side-nav-item" href="/docs/portability/">Portability</a>
-          
-        
-          
-          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features</a>
           
         
           

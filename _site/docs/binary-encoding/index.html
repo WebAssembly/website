@@ -47,7 +47,7 @@
 small files, fast decoding, and reduced memory usage.
 See the <a href="../Rationale/#why-a-binary-encoding">rationale document</a> for more detail.</p>
 
-<p><a href="../PostMVP/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> = Planned <a href="../PostMVP/">future</a> feature</p>
+<p><a href="../FutureFeatures/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> = Planned <a href="../FutureFeatures/">future</a> feature</p>
 
 <p>The encoding is split into three layers:</p>
 
@@ -118,7 +118,7 @@ represented by <em>at most</em> ceil(<em>N</em>/7) bytes that may contain paddin
     <tr>
       <td>
 <code class="highlighter-rouge">-0x02</code> (i.e., the byte <code class="highlighter-rouge">0x7e</code>)</td>
-      <td><code class="highlighter-rouge">i32</code></td>
+      <td><code class="highlighter-rouge">i64</code></td>
     </tr>
     <tr>
       <td>
@@ -151,7 +151,7 @@ represented by <em>at most</em> ceil(<em>N</em>/7) bytes that may contain paddin
 
 <p>Some of these will be followed by additional fields, see below.</p>
 
-<p>Note: Gaps are reserved for <a href="../PostMVP/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> extensions. The use of a signed scheme is so that types can coexist in a single space with (positive) indices into the type section, which may be relevant for future extensions of the type system.</p>
+<p>Note: Gaps are reserved for <a href="../FutureFeatures/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> extensions. The use of a signed scheme is so that types can coexist in a single space with (positive) indices into the type section, which may be relevant for future extensions of the type system.</p>
 
 <h3 id="valuetype"><code class="highlighter-rouge">value_type</code></h3>
 <p>A <code class="highlighter-rouge">varint7</code> indicating a <a href="../Semantics/#types">value type</a>. One of:</p>
@@ -182,7 +182,7 @@ In the MVP, only one type is available:</p>
   <li><a href="../AstSemantics/#table"><code class="highlighter-rouge">anyfunc</code></a></li>
 </ul>
 
-<p>Note: In the <a href="../PostMVP/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, other element types may be allowed.</p>
+<p>Note: In the <a href="../FutureFeatures/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, other element types may be allowed.</p>
 
 <h3 id="functype"><code class="highlighter-rouge">func_type</code></h3>
 <p>The description of a function signature. Its type constructor is followed by an additional description:</p>
@@ -224,7 +224,7 @@ In the MVP, only one type is available:</p>
   </tbody>
 </table>
 
-<p>Note: In the <a href="../PostMVP/#multiple-return">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, <code class="highlighter-rouge">return_count</code> and <code class="highlighter-rouge">return_type</code> might be generalised to allow multiple values.</p>
+<p>Note: In the <a href="../FutureFeatures/#multiple-return">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, <code class="highlighter-rouge">return_count</code> and <code class="highlighter-rouge">return_type</code> might be generalised to allow multiple values.</p>
 
 <h2 id="other-types">Other Types</h2>
 
@@ -352,7 +352,7 @@ In the MVP, only one type is available:</p>
   </tbody>
 </table>
 
-<p>Note: In the <a href="PostMVP.md#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, the “flags” field may be extended, e.g., to include a flag for sharing between threads.</p>
+<p>Note: In the <a href="FutureFeatures.md#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, the “flags” field may be extended, e.g., to include a flag for sharing between threads.</p>
 
 <h3 id="initexpr"><code class="highlighter-rouge">init_expr</code></h3>
 <p>The encoding of an <a href="../Modules/#initializer-expression">initializer expression</a>
@@ -1268,21 +1268,21 @@ It is legal to have several entries with the same type.</p>
     <tr>
       <td><code class="highlighter-rouge">block</code></td>
       <td><code class="highlighter-rouge">0x02</code></td>
-      <td>sig : <code class="highlighter-rouge">inline_signature_type</code>
+      <td>sig : <code class="highlighter-rouge">block_type</code>
 </td>
       <td>begin a sequence of expressions, yielding 0 or 1 values</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">loop</code></td>
       <td><code class="highlighter-rouge">0x03</code></td>
-      <td>sig : <code class="highlighter-rouge">inline_signature_type</code>
+      <td>sig : <code class="highlighter-rouge">block_type</code>
 </td>
       <td>begin a block which can also form control flow loops</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">if</code></td>
       <td><code class="highlighter-rouge">0x04</code></td>
-      <td>sig : <code class="highlighter-rouge">inline_signature_type</code>
+      <td>sig : <code class="highlighter-rouge">block_type</code>
 </td>
       <td>begin if expression</td>
     </tr>
@@ -1365,7 +1365,7 @@ branches to the block or loop at the given offset within the <code class="highli
 out of range, <code class="highlighter-rouge">br_table</code> branches to the default target.</p>
 
 <p>Note: Gaps in the opcode space, here and elsewhere, are reserved for
-<a href="../PostMVP/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> extensions.</p>
+<a href="../FutureFeatures/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> extensions.</p>
 
 <h2 id="call-operators-described-heresemanticscalls">Call operators (<a href="../Semantics/#calls">described here</a>)</h2>
 
@@ -1674,7 +1674,7 @@ operand the index into the table. Its <code class="highlighter-rouge">reserved</
 As an additional validation criteria, the alignment must be less or equal to 
 natural alignment. The bits after the
 <code class="highlighter-rouge">log(memory-access-size)</code> least-significant bits must be set to 0. These bits
-are reserved for <a href="PostMVP.md#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use
+are reserved for <a href="FutureFeatures.md#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use
 (e.g., for shared memory ordering requirements).</p>
 
 <p>The <code class="highlighter-rouge">reserved</code> immediate to the <code class="highlighter-rouge">current_memory</code> and <code class="highlighter-rouge">grow_memory</code> operators is
@@ -2609,10 +2609,6 @@ for <a href="FutureFeatures.md#multiple-tables-and-memories">future <img class="
         
           
           <a class="side-nav-item" href="/docs/portability/">Portability</a>
-          
-        
-          
-          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features</a>
           
         
           

@@ -41,67 +41,75 @@
       <div class="col-xs-12 col-lg-9 col-pop">
         <h1 id="text-format">Text Format</h1>
 
-<p>The purpose of this text format is to support:</p>
+<p>WebAssembly does not yet have a standardized text format that encodes function
+bodies in addition to module structure, data segments and other program
+metadata in a way that is eqivalent to the <a href="../BinaryEncoding/">binary format</a>.
+WebAssembly does, however, have a specified
+<a href="#linear-bytecode">textual representation</a> of function bodies which should be displayed in browsers and other tools when <a href="#debug-symbol-integration">debugging</a>
+modules.</p>
 
-<ul>
-  <li>View Source on a WebAssembly module, thus fitting into the Web (where every
-source can be viewed) in a natural way.</li>
-  <li>Presentation in browser development tools when source maps aren’t present
-(which is necessarily the case with <a href="../MVP/">the Minimum Viable Product (MVP)</a>).</li>
-  <li>Writing WebAssembly code directly for reasons including pedagogical,
-experimental, debugging, optimization, and testing of the spec itself.</li>
-</ul>
+<h1 id="linear-bytecode">Linear bytecode</h1>
 
-<p>The text format is equivalent and isomorphic to the <a href="../BinaryEncoding/">binary format</a>.</p>
+<p>WebAssembly function bodies encode bytecode instructions which have specified canonical opcode names. A linear presentation of these sequences of instructions allows a direct human-readable order-preserving presentation of the binary format. This format is suitable for opcode by opcode inspection of a WebAssembly program and can readily be related to the <a href="../Semantics/">sematics</a> of the format.</p>
 
-<p>The text format will be standardized, but only for tooling purposes:</p>
+<p>Here is an example function illustrated in C++, binary, and text (linear
+assembly bytecode):</p>
 
-<ul>
-  <li>Compilers will support this format for <code class="highlighter-rouge">.S</code> and inline assembly.</li>
-  <li>Debuggers and profilers will present binary code using this textual format.</li>
-  <li>Browsers will not parse the textual format on regular web content in order to
-implement WebAssembly semantics.</li>
-</ul>
+<table>
+  <tr>
+    <th>C++</th>
+    <th>Binary</th>
+    <th>Text</th>
+  </tr>
+  <tr>
+    <td><pre>
+int factorial(int n) {
+  if (n == 0)
+    return 1;
+  else
+    return n * fac(n-1);
+}</pre></td>
+    <td><pre>
+20 00
+42 00
+51
+04 7e
+42 01
+05
+20 00
+20 00
+42 01
+7d
+10 00
+7e
+0b</pre></td>
+    <td><pre>
+get_local 0
+i64.const 0
+i64.eq
+if i64
+    i64.const 1
+else
+    get_local 0
+    get_local 0
+    i64.const 1
+    i64.sub
+    call 0
+    i64.mul
+end</pre></td>
+  </tr>
+</table>
 
-<p>Given that the code representation is actually an
-<a href="../Semantics/">Abstract Syntax Tree</a>, the syntax would contain nested
-statements and expressions (instead of the linear list of instructions most
-assembly languages have).</p>
+<h1 id="tool-conventions">Tool conventions</h1>
 
-<p>There is no requirement to use JavaScript syntax; this format is not intended to
-be evaluated or translated directly into JavaScript. There may also be
-substantive reasons to use notation that is different than JavaScript (for
-example, WebAssembly has a 32-bit integer type, and it should be represented
-in the text format, since that is the natural thing to do for WebAssembly,
-regardless of JavaScript not having such a type). On the other hand,
-when there are no substantive reasons and the options are basically
-bikeshedding, then it does make sense for the text format to match existing
-conventions on the Web (for example, curly braces, as in JavaScript and CSS).</p>
+<p>Most WebAssembly tools currently use <a href="https://en.wikipedia.org/wiki/S-expression">s-expressions</a> to represent modules in a
+textual format. Although the s-expression format is not an official text format,
+it is a tooling convention because it allows for the representation of function
+signatures, declarations, and other metadata and it doesn’t have much of a
+syntax to speak of (avoiding syntax bikeshed discussions).</p>
 
-<p>The text format isn’t uniquely representable. Multiple textual files can assemble
-to the same binary file, for example whitespace isn’t relevant and memory initialization
-can be broken out into smaller pieces in the text format.</p>
-
-<p>The text format is precise in that values that cannot be accurately represented in the
-binary format are considered invalid text. Floating-point numbers are therefore
-represented as hexadecimal floating-point as specified by the C99 standard, which
-IEEE-754-2008 section 5.12.3 also specifies. The textual format may be improved to also
-support more human-readable representations, but never at the cost of accurate representation.</p>
-
-<h1 id="official-text-format">Official Text Format</h1>
-
-<p>WebAssembly currently doesn’t have a final, official, text format. As detailed above the
-main purpose of the text format will be for human consumption, feedback from humans on
-readability will therefore factor into standardizing a text format.</p>
-
-<p>There are, however, prototype syntaxes which are used to bring up WebAssembly: it’s easier
-to develop using a text format than it is with a binary format, even if the ultimate
-WebAssembly format will be binary. Most of these prototypes use <a href="https://en.wikipedia.org/wiki/S-expression">s-expressions</a> because they
-can easily represent expression trees and <a href="../Semantics/">ASTs</a> (as opposed to CFGs)
-and don’t have much of a syntax to speak of (avoiding syntax bikeshed discussions).</p>
-
-<p>Here are some of these prototypes. Keep in mind that these <em>aren’t</em> official, and the final
-official format may look entirely different:</p>
+<p>Here are some of these prototypes. Keep in mind that these <em>aren’t</em> official,
+and the final standard format may look entirely different:</p>
 
 <ul>
   <li>
@@ -120,7 +128,7 @@ official format may look entirely different:</p>
   </li>
 </ul>
 
-<h1 id="debug-symbol-integration">Debug symbol integration</h1>
+<h2 id="debug-symbol-integration">Debug symbol integration</h2>
 
 <p>The binary format inherently strips names from functions, locals, globals, etc,
 reducing each of these to dense indices. Without help, the text format must
@@ -128,6 +136,38 @@ therefore synthesize new names. However, as part of the <a href="../Tooling/">to
 story, a lightweight, optional “debug symbol” global section may be defined
 which associates names with each indexed entity and, when present, these names
 will be used in the text format projected from a binary WebAssembly module.</p>
+
+<h1 id="future-design-unicorn">Future design <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">
+</h1>
+
+<p>An official text format capable of representing WebAssembly modules needs a
+way of encoding, in addition to function bodies: declarations, function
+signatures, data segments, tables, and other
+<a href="../BinaryEncoding/#high-level-structure">sections</a> of the binary format.</p>
+
+<p>In addition, expansions or extensions to a standardized text format may offer
+additional syntactic sugar, macro expansions, or other conveniences to make it
+easier to write and read WebAssembly. However, since the linear sequence of
+bytecodes in a binary module may have more than one higher-level
+representation, such sugar or conveniences may not be possible to resolve
+canonically from the binary format alone.</p>
+
+<p>The design goals for a WebAssembly text format derive from the following use
+cases:</p>
+
+<ul>
+  <li>View Source on a WebAssembly module, thus fitting into the Web (where every source can be viewed) in a natural way.</li>
+  <li>Presentation in browser development tools when source maps aren’t present (which is necessarily the case with <a href="../MVP/">the Minimum Viable Product (MVP)</a>).</li>
+  <li>Writing WebAssembly code directly for reasons including pedagogical, experimental, debugging, optimization, and testing of the spec itself.</li>
+</ul>
+
+<h2 id="additional-design-considerations">Additional design considerations</h2>
+
+<p>There is no requirement to use JavaScript syntax; this format is not intended to be evaluated or translated directly into JavaScript. There may also be substantive reasons to use notation that is different than JavaScript (for example, WebAssembly has a 64-bit integer type, and it should be represented in the text format, since that is the natural thing to do for WebAssembly, regardless of JavaScript not having such a type). On the other hand, when there are no substantive reasons and the options are basically bikeshedding, then it does make sense for the text format to match existing conventions on the Web (for example, curly braces, as in JavaScript and CSS).</p>
+
+<p>The text format may not be uniquely representable. Multiple textual files will likley assemble to the same binary file. For example, whitespace shouldn’t be significant and memory initialization can be broken out into smaller pieces in a text format.</p>
+
+<p>The text format should be precise in that values that cannot be accurately represented in the binary format are considered invalid text. Floating-point numbers should therefore be represented as hexadecimal floating-point as specified by C99, C++17, and IEEE-754-2008 section 5.12.3. The textual format may be improved to also support more human-readable representations, but never at the cost of accurate representation.</p>
 
       </div>
       <div class="col-xs-12 col-lg-3">
@@ -212,10 +252,6 @@ will be used in the text format projected from a binary WebAssembly module.</p>
         
           
           <a class="side-nav-item" href="/docs/portability/">Portability</a>
-          
-        
-          
-          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features</a>
           
         
           

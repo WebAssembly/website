@@ -72,7 +72,7 @@ on all modern computers. Each operator has a corresponding simple instruction.</
 <p>The <a href="../Rationale/">rationale</a> document details why WebAssembly is designed as
 detailed in this document.</p>
 
-<p><a href="../PostMVP/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> = Planned <a href="../PostMVP/">future</a> feature</p>
+<p><a href="../FutureFeatures/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> = Planned <a href="../FutureFeatures/">future</a> feature</p>
 
 <h2 id="traps">Traps</h2>
 
@@ -154,7 +154,7 @@ or definition, there is no difference when accessing a linear memory whether it
 was imported or defined internally.</p>
 
 <p>In the MVP, linear memory cannot be shared between threads of execution.
-The addition of <a href="../PostMVP/#threads">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> will allow this.</p>
+The addition of <a href="../FutureFeatures/#threads">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> will allow this.</p>
 
 <h3 id="linear-memory-accesses">Linear Memory Accesses</h3>
 
@@ -414,7 +414,7 @@ instantiation-time immutable values as a useful building block for
 
 <p>After the MVP, when <a href="../GC/">reference types</a> are added to the set of <a href="#types">value types</a>,
 global variables will be necessary to allow sharing reference types between
-<a href="../PostMVP/#threads">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> since shared linear memory cannot load or store
+<a href="../FutureFeatures/#threads">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> since shared linear memory cannot load or store
 references.</p>
 
 <h2 id="control-constructs-and-instructions">Control constructs and instructions</h2>
@@ -992,10 +992,6 @@ handle some other kinds of traps or exceptions.</li>
         
           
           <a class="side-nav-item" href="/docs/portability/">Portability</a>
-          
-        
-          
-          <a class="side-nav-item" href="/docs/post-mvp/">Essential Post-MVP Features</a>
           
         
           

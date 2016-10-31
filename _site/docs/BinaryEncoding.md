@@ -6,7 +6,7 @@ The binary encoding is a dense representation of module information that enables
 small files, fast decoding, and reduced memory usage.
 See the [rationale document](Rationale.md#why-a-binary-encoding) for more detail.
 
-[:unicorn:][future general] = Planned [future](PostMVP.md) feature
+[:unicorn:][future general] = Planned [future][future general] feature
 
 The encoding is split into three layers:
 
@@ -60,7 +60,7 @@ All types are distinguished by a negative `varint7` values that is the first byt
 | Opcode | Type constructor |
 |--------|------------------|
 | `-0x01` (i.e., the byte `0x7f`) | `i32` |
-| `-0x02` (i.e., the byte `0x7e`) | `i32` |
+| `-0x02` (i.e., the byte `0x7e`) | `i64` |
 | `-0x03` (i.e., the byte `0x7d`) | `f32` |
 | `-0x04` (i.e., the byte `0x7c`) | `f64` |
 | `-0x10` (i.e., the byte `0x70`) | `anyfunc` |
@@ -480,9 +480,9 @@ It is legal to have several entries with the same type.
 | ---- | ---- | ---- | ---- |
 | `unreachable` | `0x00` | | trap immediately |
 | `nop` | `0x01` | | no operation |
-| `block` | `0x02` | sig : `inline_signature_type` | begin a sequence of expressions, yielding 0 or 1 values |
-| `loop` | `0x03` |  sig : `inline_signature_type` | begin a block which can also form control flow loops |
-| `if` | `0x04` | sig : `inline_signature_type` | begin if expression |
+| `block` | `0x02` | sig : `block_type` | begin a sequence of expressions, yielding 0 or 1 values |
+| `loop` | `0x03` |  sig : `block_type` | begin a block which can also form control flow loops |
+| `if` | `0x04` | sig : `block_type` | begin if expression |
 | `else` | `0x05` | | begin else expression of if |
 | `end` | `0x0b` | | end a block, loop, or if |
 | `br` | `0x0c` | relative_depth : `varuint32` | break that targets an outer nested block |
@@ -736,9 +736,9 @@ for [future :unicorn:][future multiple tables] use and must be 0 in the MVP.
 | `f32.reinterpret/i32` | `0xbe` | | |
 | `f64.reinterpret/i64` | `0xbf` | | |
 
-[future general]: PostMVP.md
-[future multiple return]: PostMVP.md#multiple-return
-[future threads]: PostMVP.md#threads
+[future general]: FutureFeatures.md
+[future multiple return]: FutureFeatures.md#multiple-return
+[future threads]: FutureFeatures.md#threads
 [future types]: FutureFeatures.md#more-table-operators-and-types
 [future multiple tables]: FutureFeatures.md#multiple-tables-and-memories
 [future compression]: https://github.com/WebAssembly/decompressor-prototype/blob/master/CompressionLayer1.md
