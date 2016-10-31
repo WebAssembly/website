@@ -1,6 +1,6 @@
-# webassembly.github.io
+# Website
 
-Project overview for WebAssembly
+Project overview for WebAssembly: [webassembly.org](http://webassembly.org)
 
 ## Dependencies
 

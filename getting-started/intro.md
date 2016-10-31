@@ -1,5 +1,0 @@
----
-layout: getting-started
----
-
-# Intro

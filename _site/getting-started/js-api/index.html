@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/developers-guide/">Getting Started</a>
+      
+      
+      <a class="site-nav-item btn" href="/docs/high-level-goals/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="understanding-the-js-api">Understanding the JS API</h1>
+
+<p><em>We assume here that you already have a .wasm module, whether <a href="/getting-started/developers-guide/">compiled from a C/C++ program</a> or <a href="/getting-started/advanced-tools/#wabt-the-webassembly-binary-toolkit">assembled directly from s-exprs</a>.</em></p>
+
+<h2 id="loading-and-running">Loading and running</h2>
+
+<p>While there are <a href="/docs/future-features/">future plans</a> to allow WebAssembly modules to be loaded just like ES6 modules (using <code class="highlighter-rouge">&lt;script type='module'&gt;</code>), WebAssembly must currently be loaded and compiled by JavaScript.  For basic loading, there are three steps:</p>
+
+<ul>
+  <li>Get the <code class="highlighter-rouge">.wasm</code> bytes into a typed array or <code class="highlighter-rouge">ArrayBuffer</code></li>
+  <li>Compile the bytes into a <code class="highlighter-rouge">WebAssembly.Module</code></li>
+  <li>Instantiate the <code class="highlighter-rouge">WebAssembly.Module</code> with imports to get the callable exports</li>
+</ul>
+
+<p>Let’s talk about these steps in more detail.</p>
+
+<p>For the first step there are many ways to get a typed array or <code class="highlighter-rouge">ArrayBuffer</code> of bytes: over the network, using XHR or fetch, from a <code class="highlighter-rouge">File</code> retrieved from IndexedDB, or even synthesized directly in JavaScript.</p>
+
+<p>The next step is to compile the bytes using the async function <code class="highlighter-rouge">WebAssembly.compile</code> which returns a Promise that resolves to a <code class="highlighter-rouge">WebAssembly.Module</code>.  A <code class="highlighter-rouge">Module</code> object is stateless and supports <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm">structured cloning</a> which means that the compiled code can be stored in IndexedDB and/or shared between windows and workers via <code class="highlighter-rouge">postMessage</code>.</p>
+
+<p>The last step is to <em>instantiate</em> the <code class="highlighter-rouge">Module</code> by constructing a new <code class="highlighter-rouge">WebAssembly.Instance</code> passing in a <code class="highlighter-rouge">Module</code> and any imports requested by the <code class="highlighter-rouge">Module</code>.  <code class="highlighter-rouge">Instance</code> objects are like <a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">function closures</a>, pairing code with environment and are not structured cloneable.</p>
+
+<p>We can combine these last two steps into one <code class="highlighter-rouge">instantiate</code> operation that takes both bytes and imports and asynchronously returns an <code class="highlighter-rouge">Instance</code>:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">instantiate</span><span class="p">(</span><span class="nx">bytes</span><span class="p">,</span> <span class="nx">imports</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">WebAssembly</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">bytes</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">m</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nx">WebAssembly</span><span class="p">.</span><span class="nx">Instance</span><span class="p">(</span><span class="nx">m</span><span class="p">,</span> <span class="nx">imports</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>To actually demonstrate this in action, we first need to introduce another piece of the JS API:
+Function imports and exports
+Like ES6 modules, WebAssembly modules can import and export functions (and, we’ll see later, other types of objects too).  We can see a simple example of both in this module which imports a function <code class="highlighter-rouge">i</code> from module <code class="highlighter-rouge">imports</code> and exports a function <code class="highlighter-rouge">e</code>:</p>
+
+<pre><code class="language-lisp">;; simple.wasm
+(module
+  (func $i (import “imports” “i”) (param i32))
+  (func (export “e”)
+    i32.const 42
+    call $i))
+</code></pre>
+
+<p>(Here, instead of writing the module in C/C++ and compiling to WebAssembly, we write the module directly in the <a href="/docs/text-format/">text format</a> which can be <a href="/getting-started/advanced-tools/wabt-the-webassembly-binary-toolkit">assembled</a> directly into the binary file <code class="highlighter-rouge">simple.wasm</code>.)</p>
+
+<p>Looking at this module we can see a few things.  First, WebAssembly imports have a two-level namespace; in this case the import with the internal name <code class="highlighter-rouge">$i</code> is imported from <code class="highlighter-rouge">imports.i</code>.  Similarly, we must reflect this two-level namespace in the import object passed to <code class="highlighter-rouge">instantiate</code>:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">importObject</span> <span class="o">=</span> <span class="p">{</span> <span class="na">imports</span><span class="p">:</span> <span class="p">{</span> <span class="na">i</span><span class="p">:</span> <span class="nx">arg</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">}</span> <span class="p">};</span>
+</code></pre>
+</div>
+
+<p>Putting together everything in this section and the last, we can fetch, compile and instantiate our module with the simple promise chain:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">fetch</span><span class="p">(</span><span class="s1">'simple.wasm'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">arrayBuffer</span><span class="p">())</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">bytes</span> <span class="o">=&gt;</span> <span class="nx">instantiate</span><span class="p">(</span><span class="nx">bytes</span><span class="p">,</span> <span class="nx">importObject</span><span class="p">))</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">instance</span> <span class="o">=&gt;</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">e</span><span class="p">());</span>
+</code></pre>
+</div>
+
+<p>The last line calls our exported WebAssembly function which, in turn, calls our imported JS function which ultimately executes <code class="highlighter-rouge">console.log(42)</code>.
+Memory
+<a href="/docs/semantics/#linear-memory">Linear memory</a> is another important WebAssembly building block that is typically used to represent the entire heap of a compiled C/C++ application.  From a JavaScript perspective, linear memory (henceforth, just “memory”) can be thought of as a resizable <code class="highlighter-rouge">ArrayBuffer</code> that is carefully optimized for low-overhead sandboxing of loads and stores.</p>
+
+<p>Memories can be created from JavaScript by supplying their initial size and, optionally, their maximum size:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">memory</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebAssembly</span><span class="p">.</span><span class="nx">Memory</span><span class="p">({</span><span class="na">initial</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="na">maximum</span><span class="p">:</span><span class="mi">100</span><span class="p">});</span>
+</code></pre>
+</div>
+
+<p>The first important thing to notice is that the unit of <code class="highlighter-rouge">initial</code> and <code class="highlighter-rouge">maximum</code> is <em>WebAssembly pages</em> which are fixed to be 64KiB.  Thus, <code class="highlighter-rouge">memory</code> above has an initial size of 10 pages, or 640KiB and a maximum size of 6.4MiB.</p>
+
+<p>Since most byte-range operations in JavaScript already operate on <code class="highlighter-rouge">ArrayBuffer</code> and typed arrays, rather than defining a whole new set of incompatible operations, <code class="highlighter-rouge">WebAssembly.Memory</code> exposes its bytes by simply providing a <code class="highlighter-rouge">buffer</code> getter that returns an <code class="highlighter-rouge">ArrayBuffer</code>.  For example, to write <code class="highlighter-rouge">42</code> directly into the first word of linear memory:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="k">new</span> <span class="nx">Uint32Array</span><span class="p">(</span><span class="nx">memory</span><span class="p">.</span><span class="nx">buffer</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>Once created, a memory can be grown by calls to <code class="highlighter-rouge">Memory.prototype.grow</code>, where again the argument is specified in units of WebAssembly pages:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">memory</span><span class="p">.</span><span class="nx">grow</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>If a <code class="highlighter-rouge">maximum</code> is supplied upon creation, attempts to grow past this <code class="highlighter-rouge">maximum</code> will throw a <code class="highlighter-rouge">RangeError</code> exception.  The engines takes advantage of this supplied upper-bounds to reserve memory ahead of time which can make resizing more efficient.</p>
+
+<p>Since an <code class="highlighter-rouge">ArrayBuffer</code>’s <code class="highlighter-rouge">byteLength</code> is immutable, after a successful <code class="highlighter-rouge">Memory.grow</code> operation, the<code class="highlighter-rouge">buffer</code> getter will return a <em>new</em> <code class="highlighter-rouge">ArrayBuffer</code> object (with the new <code class="highlighter-rouge">byteLength</code>) and any previous <code class="highlighter-rouge">ArrayBuffer</code> objects become “detached” (zero length, many operations throw).</p>
+
+<p>Just like functions, linear memories can be defined inside a module or imported.  Similarly, a module may also optionally export its memory.  This means that JavaScript can get access to the memory of a WebAssembly instance either by creating a <code class="highlighter-rouge">new WebAssembly.Memory</code> and passing it in as an import <em>or</em> by receiving a <code class="highlighter-rouge">Memory</code> export.</p>
+
+<p>For example, let’s take a WebAssembly module that sums an array of integers (replacing the body of the function with “…”):</p>
+
+<pre><code class="language-lisp">(module
+  (memory (export “mem”) 1)
+  (func (export “accumulate”) (param $ptr i32) (param $length i32) …))
+</code></pre>
+
+<p>Since this module <em>exports</em> its memory, given an <code class="highlighter-rouge">Instance</code> of this module <code class="highlighter-rouge">i</code>, we can use the <code class="highlighter-rouge">buffer</code> getter to populate an input array directly in the instance’s linear memory as follows:</p>
+
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">i32</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Uint32Array</span><span class="p">(</span><span class="nx">instance</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">mem</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+  <span class="nx">i32</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">i</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="nx">i</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">accumulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>Memory <em>imports</em> work just like function imports, only <code class="highlighter-rouge">Memory</code> objects are passed as values instead of JS functions.  Memory imports are useful for two reasons:</p>
+
+<ul>
+  <li>They allow JavaScript to fetch and create the initial contents of memory before or concurrent with module compilation.</li>
+  <li>They allow a single <code class="highlighter-rouge">Memory</code> object to be imported by multiple instances, which is a critical building block for implementing <a href="/docs/dynamic-linking">dynamic linking</a> in WebAssembly.</li>
+</ul>
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Getting Started</h6>
+        <nav class="side-nav">
+          <a class="side-nav-item" href="/getting-started/developers-guide/">Developer's Guide</a>
+          <a class="side-nav-item" href="/getting-started/js-api/">JS API</a>
+          <a class="side-nav-item" href="/getting-started/advanced-tools/">Advanced Tools</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
