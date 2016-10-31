@@ -90,17 +90,17 @@ it can be constant-folded by WebAssembly engines.</p>
 
 <ul>
   <li>
-<a href="FutureFeatures.md#additional-integer-operators"><code class="highlighter-rouge">i32.min_s</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - Strategy 2
+<a href="../future-features/#additional-integer-operators"><code class="highlighter-rouge">i32.min_s</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - Strategy 2
 could be used to translate <code class="highlighter-rouge">(i32.min_s lhs rhs)</code> into an equivalent expression
 that stores <code class="highlighter-rouge">lhs</code> and <code class="highlighter-rouge">rhs</code> in locals then uses <code class="highlighter-rouge">i32.lt_s</code> and <code class="highlighter-rouge">select</code>.</li>
   <li>
-<a href="FutureFeatures.md#threads">Threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - If an application uses <code class="highlighter-rouge">#ifdef</code> extensively
+<a href="../future-features/#threads">Threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - If an application uses <code class="highlighter-rouge">#ifdef</code> extensively
 to produce thread-enabled/disabled builds, Strategy 1 would be appropriate.
 However, if the application was able to abstract use of threading to a few
 primitives, Strategy 2 could be used to patch in the right primitive 
 implementation.</li>
   <li>
-<a href="FutureFeatures.md#finer-grained-control-over-memory"><code class="highlighter-rouge">mprotect</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - If engines
+<a href="../future-features/#finer-grained-control-over-memory"><code class="highlighter-rouge">mprotect</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - If engines
 aren’t able to use OS signal handling to implement <code class="highlighter-rouge">mprotect</code> efficiently,
 <code class="highlighter-rouge">mprotect</code> may become a permanently optional feature. For uses of <code class="highlighter-rouge">mprotect</code>
 that are not necessary for correctness (but rather just catching bugs),
@@ -110,7 +110,7 @@ correctness but an alternative strategy existed that did not rely on
 the application to test <code class="highlighter-rouge">(has_feature "mprotect")</code> to avoid calling the
 <code class="highlighter-rouge">abort()</code>. The <code class="highlighter-rouge">has_feature</code> query could be exposed to C++ code via
 the existing <code class="highlighter-rouge">__builtin_cpu_supports</code>.</li>
-  <li>[SIMD]]<a href="FutureFeatures.md#fixed-width-simd">future simd</a> - When SIMD operators have a good-enough
+  <li>[SIMD]]<a href="../future-features/#fixed-width-simd">future simd</a> - When SIMD operators have a good-enough
 polyfill, e.g., <code class="highlighter-rouge">f32x4.fma</code> via <code class="highlighter-rouge">f32x4.mul</code>/<code class="highlighter-rouge">add</code>, Strategy 2 could be used 
 (similar to the <code class="highlighter-rouge">i32.min_s</code> example above). However, when a SIMD feature has no
 efficient polyfill (e.g., <code class="highlighter-rouge">f64x2</code>, which introduces both operators <em>and</em>

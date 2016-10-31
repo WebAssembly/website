@@ -8,11 +8,11 @@ module LocalMdLinksToHtml
         slug = underscore($2)
         "[#{$1}](../#{slug}/#{$3})"
       end
-      page.content = page.content.gsub(/\[([^\]]*)\]: ([^:\)]*)\.md(#[^\)]*)?/) do
+      page.content = page.content.gsub(/\[([^\]]*)\]: ([^:\)]*)\.md(#[^\)\s]*)?/) do
         slug = underscore($2)
         "[#{$1}]: ../#{slug}/#{$3}"
       end
-      page.content = page.content.gsub(/\[([^\]]*)\]: <([^:\)]*)\.md(#[^\)]*)?>/) do
+      page.content = page.content.gsub(/\[([^\]]*)\]: <([^:\)]*)\.md(#[^\)\s]*)?>/) do
         slug = underscore($2)
         "[#{$1}]: <../#{slug}/#{$3}>"
       end

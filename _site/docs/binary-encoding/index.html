@@ -153,7 +153,7 @@ represented by <em>at most</em> ceil(<em>N</em>/7) bytes that may contain paddin
 
 <p>Note: Gaps are reserved for <a href="../future-features/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> extensions. The use of a signed scheme is so that types can coexist in a single space with (positive) indices into the type section, which may be relevant for future extensions of the type system.</p>
 
-<h3 id="valuetype"><code class="highlighter-rouge">value_type</code></h3>
+<h3 id="value_type"><code class="highlighter-rouge">value_type</code></h3>
 <p>A <code class="highlighter-rouge">varint7</code> indicating a <a href="../semantics/#types">value type</a>. One of:</p>
 
 <ul>
@@ -165,7 +165,7 @@ represented by <em>at most</em> ceil(<em>N</em>/7) bytes that may contain paddin
 
 <p>as encoded above.</p>
 
-<h3 id="blocktype"><code class="highlighter-rouge">block_type</code></h3>
+<h3 id="block_type"><code class="highlighter-rouge">block_type</code></h3>
 <p>A <code class="highlighter-rouge">varint7</code> indicating a block signature. These types are encoded as:</p>
 
 <ul>
@@ -173,7 +173,7 @@ represented by <em>at most</em> ceil(<em>N</em>/7) bytes that may contain paddin
   <li>or <code class="highlighter-rouge">-0x40</code> (i.e., the byte <code class="highlighter-rouge">0x40</code>) indicating a signature with 0 results.</li>
 </ul>
 
-<h3 id="elemtype"><code class="highlighter-rouge">elem_type</code></h3>
+<h3 id="elem_type"><code class="highlighter-rouge">elem_type</code></h3>
 
 <p>A <code class="highlighter-rouge">varint7</code> indicating the types of elements in a <a href="../ast-semantics/#table">table</a>.
 In the MVP, only one type is available:</p>
@@ -184,7 +184,7 @@ In the MVP, only one type is available:</p>
 
 <p>Note: In the <a href="../future-features/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, other element types may be allowed.</p>
 
-<h3 id="functype"><code class="highlighter-rouge">func_type</code></h3>
+<h3 id="func_type"><code class="highlighter-rouge">func_type</code></h3>
 <p>The description of a function signature. Its type constructor is followed by an additional description:</p>
 
 <table>
@@ -228,7 +228,7 @@ In the MVP, only one type is available:</p>
 
 <h2 id="other-types">Other Types</h2>
 
-<h3 id="globaltype"><code class="highlighter-rouge">global_type</code></h3>
+<h3 id="global_type"><code class="highlighter-rouge">global_type</code></h3>
 <p>The description of a global variable.</p>
 
 <table>
@@ -254,7 +254,7 @@ In the MVP, only one type is available:</p>
   </tbody>
 </table>
 
-<h3 id="tabletype"><code class="highlighter-rouge">table_type</code></h3>
+<h3 id="table_type"><code class="highlighter-rouge">table_type</code></h3>
 <p>The description of a table.</p>
 
 <table>
@@ -280,7 +280,7 @@ In the MVP, only one type is available:</p>
   </tbody>
 </table>
 
-<h3 id="memorytype"><code class="highlighter-rouge">memory_type</code></h3>
+<h3 id="memory_type"><code class="highlighter-rouge">memory_type</code></h3>
 <p>The description of a memory.</p>
 
 <table>
@@ -301,7 +301,7 @@ In the MVP, only one type is available:</p>
   </tbody>
 </table>
 
-<h3 id="externalkind"><code class="highlighter-rouge">external_kind</code></h3>
+<h3 id="external_kind"><code class="highlighter-rouge">external_kind</code></h3>
 <p>A single-byte unsigned integer indicating the kind of definition being imported or defined:</p>
 
 <ul>
@@ -319,7 +319,7 @@ In the MVP, only one type is available:</p>
 </li>
 </ul>
 
-<h3 id="resizablelimits"><code class="highlighter-rouge">resizable_limits</code></h3>
+<h3 id="resizable_limits"><code class="highlighter-rouge">resizable_limits</code></h3>
 <p>A packed tuple that describes the limits of a
 <a href="../semantics/#table">table</a> or <a href="../semantics/#resizing">memory</a>:</p>
 
@@ -352,9 +352,9 @@ In the MVP, only one type is available:</p>
   </tbody>
 </table>
 
-<p>Note: In the <a href="FutureFeatures.md#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, the “flags” field may be extended, e.g., to include a flag for sharing between threads.</p>
+<p>Note: In the <a href="../future-features/#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, the “flags” field may be extended, e.g., to include a flag for sharing between threads.</p>
 
-<h3 id="initexpr"><code class="highlighter-rouge">init_expr</code></h3>
+<h3 id="init_expr"><code class="highlighter-rouge">init_expr</code></h3>
 <p>The encoding of an <a href="../modules/#initializer-expression">initializer expression</a>
 is the normal encoding of the expression followed by the <code class="highlighter-rouge">end</code> opcode as a
 delimiter.</p>
@@ -544,7 +544,7 @@ followed by zero sections).</p>
   </tbody>
 </table>
 
-<p>Note: In the <a href="FutureFeatures.md#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
+<p>Note: In the <a href="../future-features/#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
 this section may contain other forms of type entries as well, which can be distinguished by the <code class="highlighter-rouge">form</code> field of the type encoding.</p>
 
 <h3 id="import-section">Import section</h3>
@@ -1399,7 +1399,7 @@ out of range, <code class="highlighter-rouge">br_table</code> branches to the de
 
 <p>The <code class="highlighter-rouge">call_indirect</code> operator takes a list of function arguments and as the last
 operand the index into the table. Its <code class="highlighter-rouge">reserved</code> immediate is for
-<a href="FutureFeatures.md#multiple-tables-and-memories">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use and must be <code class="highlighter-rouge">0</code> in the MVP.</p>
+<a href="../future-features/#multiple-tables-and-memories">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use and must be <code class="highlighter-rouge">0</code> in the MVP.</p>
 
 <h2 id="parametric-operators-described-heresemanticstype-parametric-operators">Parametric operators (<a href="../semantics/#type-parametric-operators">described here</a>)</h2>
 
@@ -1674,11 +1674,11 @@ operand the index into the table. Its <code class="highlighter-rouge">reserved</
 As an additional validation criteria, the alignment must be less or equal to 
 natural alignment. The bits after the
 <code class="highlighter-rouge">log(memory-access-size)</code> least-significant bits must be set to 0. These bits
-are reserved for <a href="FutureFeatures.md#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use
+are reserved for <a href="../future-features/#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use
 (e.g., for shared memory ordering requirements).</p>
 
 <p>The <code class="highlighter-rouge">reserved</code> immediate to the <code class="highlighter-rouge">current_memory</code> and <code class="highlighter-rouge">grow_memory</code> operators is
-for <a href="FutureFeatures.md#multiple-tables-and-memories">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use and must be 0 in the MVP.</p>
+for <a href="../future-features/#multiple-tables-and-memories">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> use and must be 0 in the MVP.</p>
 
 <h2 id="constants-described-heresemanticsconstants">Constants (<a href="../semantics/#constants">described here</a>)</h2>
 
