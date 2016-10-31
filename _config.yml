@@ -1,0 +1,36 @@
+name: WebAssembly
+
+exclude: [
+  README.md,
+  LICENSE,
+  Gemfile,
+  Gemfile.lock,
+  docs/LICENSE,
+  docs/Contributing.md,
+  docs/README.md,
+  docs/tools
+]
+
+permalink: pretty
+
+defaults:
+  -
+    scope:
+      path: "docs"
+    values:
+      layout: "doc"
+      type: "doc"
+  -
+    scope:
+      path: "docs/CodeOfConduct.md"
+    values:
+      layout: "community"
+      type: "community"
+      permalink: "/community/code-of-conduct/"
+  -
+    scope:
+      path: "docs/Events.md"
+    values:
+      layout: "community"
+      type: "community"
+      permalink: "/community/events/"

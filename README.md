@@ -1,9 +1,33 @@
-# webassembly.github.io
+# Website
 
-Project overview for WebAssembly
+Project overview for WebAssembly: [webassembly.org](http://webassembly.org)
 
-## Updating
+## Dependencies
 
-Landing page is updated manually by editing `index.html`.
+- Ruby >= 2.0.0
 
-The contents of the "Overview" section should mirror the overview in [design/README.md](https://github.com/WebAssembly/design/README.md). Please update text in both locations when editing.
+## Building the site
+
+Clone the project and the `design` submodule:
+
+```
+$ git clone https://github.com/WebAssembly/webassembly.github.io
+$ git submodule update --init --recursive
+```
+
+Install gem dependencies:
+
+```
+$ bundle install
+```
+
+Build with Jekyll or serve local preview:
+
+```
+$ bundle exec jekyll build
+$ bundle exec jekyll serve
+```
+
+## Publishing
+
+This site uses Jekyll plugins, so GitHub Pages will not build it automatically. To publish, check in manually build static site files and configure GitHub Pages to serve from the output directory. 

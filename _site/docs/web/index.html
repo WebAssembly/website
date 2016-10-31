@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+</head>
+
+
+<body>
+  <header class="page-section-spacious">
+    <div class="container">
+    <div class="site-logo">
+      <h1 class="title">WebAssembly</h1>
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/demo/">Demo</a>
+      <a class="site-nav-item btn" href="/getting-started/developers-guide/">Getting Started</a>
+      
+      
+      <a class="site-nav-item btn" href="/docs/high-level-goals/">Docs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+    </div>
+  </section>
+  
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-9 col-pop">
+        <h1 id="web-embedding">Web Embedding</h1>
+
+<p>Unsurprisingly, one of WebAssembly’s primary purposes is to run on the Web,
+for example embedded in Web browsers (though this is
+<a href="../non-web/">not its only purpose</a>).</p>
+
+<p>This means integrating with the Web ecosystem, leveraging Web APIs, supporting
+the Web’s security model, preserving the Web’s portability, and designing in
+room for evolutionary development. Many of these goals are clearly
+reflected in WebAssembly’s <a href="../high-level-goals/">high-level goals</a>. In
+particular, WebAssembly MVP will be no looser from a security point of view
+than if the module was JavaScript.</p>
+
+<p>More concretely, the following is a list of points of contact between WebAssembly
+and the rest of the Web platform that have been considered:</p>
+
+<h2 id="javascript-api">JavaScript API</h2>
+
+<p>A <a href="../js/">JavaScript API</a> is provided which allows JavaScript to compile
+WebAssembly modules, perform limited reflection on compiled modules, store
+and retrieve compiled modules from offline storage, instantiate compiled modules
+with JavaScript imports, call the exported functions of instantiated modules,
+alias the exported memory of instantiated modules, etc.</p>
+
+<h2 id="modules">Modules</h2>
+
+<p>WebAssembly’s <a href="../modules/">modules</a> allow for natural <a href="../modules/#integration-with-es6-modules">integration with
+the ES6 module system</a>.</p>
+
+<h3 id="names">Names</h3>
+
+<p>A WebAssembly module imports and exports functions. WebAssembly names functions
+using arbitrary-length byte sequences. Any 8-bit values are permitted in a
+WebAssembly name, including the null byte and byte sequences that don’t
+correspond to any Unicode code point regardless of encoding. The most natural
+Web representation of a mapping of function names to functions is a JS object
+in which each function is a property. Property names in JS are UTF-16 encoded
+strings. A WebAssembly module may fail validation on the Web if it imports or
+exports functions whose names do not transcode cleanly to UTF-16 according to
+the following conversion algorithm, assuming that the WebAssembly name is in a
+<code class="highlighter-rouge">Uint8Array</code> called <code class="highlighter-rouge">array</code>:</p>
+
+<div class="highlighter-rouge">
+<pre class="highlight"><code>function convertToJSString(array)
+{
+  var string = "";
+  for (var i = 0; i &lt; array.length; ++i)
+    string += String.fromCharCode(array[i]);
+  return decodeURIComponent(escape(string));
+}
+</code></pre>
+</div>
+
+<p>This performs the UTF8 decoding (<code class="highlighter-rouge">decodeURIComponent(escape(string))</code>) using
+a <a href="http://monsur.hossa.in/2012/07/20/utf-8-in-javascript.html">common JS idiom</a>.
+Transcoding failure is detected by <code class="highlighter-rouge">decodeURIComponent</code>, which may throw
+<code class="highlighter-rouge">URIError</code>. If it does, the WebAssembly module will not validate. This validation
+rule is only mandatory for Web embedding.</p>
+
+<h2 id="security">Security</h2>
+
+<p>WebAssembly’s <a href="../security/">security</a> model should depend on the
+<a href="https://www.w3.org/Security/wiki/Same_Origin_Policy">same-origin policy</a>, with <a href="https://www.w3.org/TR/cors/">cross-origin resource sharing (CORS)</a> and
+<a href="https://www.w3.org/TR/SRI/">subresource integrity</a> to enable distribution through content
+distribution networks and to implement <a href="../dynamic-linking/">dynamic linking</a>.</p>
+
+<h2 id="simd">SIMD</h2>
+
+<p>Once <a href="../future-features/#fixed-width-simd">SIMD is supported</a> WebAssembly would:</p>
+
+<ul>
+  <li>Be statically typed analogous to <a href="http://discourse.specifiction.org/t/request-for-comments-simd-js-in-asm-js">SIMD.js-in-asm.js</a>;</li>
+  <li>Reuse specification of operation semantics (with TC39);</li>
+  <li>Reuse backend implementation (same IR nodes).</li>
+</ul>
+
+<h2 id="gc">GC</h2>
+
+<p>Once <a href="../gc/">GC is supported</a>, WebAssembly code would be able to reference
+and access JavaScript, DOM, and general WebIDL-defined objects.</p>
+
+
+      </div>
+      <div class="col-xs-12 col-lg-3">
+        <h6 class="side-title">Documentation</h6>
+        <nav class="side-nav">
+        
+        
+          
+          <a class="side-nav-item" href="/docs/high-level-goals/">WebAssembly High-Level Goals</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/js/">JavaScript API</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/binary-encoding/">Binary Encoding</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/text-format/">Text Format</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/semantics/">Semantics</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/modules/">Modules</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/faq/">FAQ</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/rationale/">Design Rationale</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/mvp/">Minimum Viable Product</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/future-features/">Features to add after the MVP</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/portability/">Portability</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/security/">Security</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/nondeterminism/">Nondeterminism in WebAssembly</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/use-cases/">Use Cases</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/c-and-c++/">Guide for C/C++ developers</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/web/">Web Embedding</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/non-web/">Non-Web Embeddings</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/feature-test/">Feature Test</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/tooling/">Tooling support</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library</a>
+          
+        
+          
+          <a class="side-nav-item" href="/docs/dynamic-linking/">Dynamic linking</a>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
