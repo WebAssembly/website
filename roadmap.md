@@ -25,8 +25,8 @@ See [Getting Started](/getting-started/developers-guide/) to start experimenting
 In addition to processing feedback during the Browser Preview, the WebAssembly community group and contributors plan to:
 
 * distill the [design](https://github.com/webassembly/design)
-  and [spec interpreter](http://github.com/webassembly/spec/interpreter) repos
-  into a single unified specification in the [spec](github.com/webassembly/spec)
+  and [spec interpreter](https://github.com/WebAssembly/spec/tree/master/interpreter) repos
+  into a single unified specification in the [spec](https://github.com/WebAssembly/spec)
   repo
 * propose a new charter for a W3C WebAssembly Working Group
 * graduate the [WebAssembly LLVM backend](https://github.com/llvm-mirror/llvm/tree/master/test/CodeGen/WebAssembly) from experimental to stable (and update Emscripten)
