@@ -11,7 +11,7 @@ Project overview for WebAssembly: [webassembly.org](http://webassembly.org)
 Clone the project and the `design` submodule:
 
 ```
-$ git clone https://github.com/WebAssembly/webassembly.github.io
+$ git clone https://github.com/WebAssembly/website
 $ git submodule update --init --recursive
 ```
 
