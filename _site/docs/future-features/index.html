@@ -55,13 +55,17 @@ the <a href="../mvp/">MVP</a>.</p>
 
 <h2 id="on-deck-for-immediate-design">On Deck for Immediate Design</h2>
 
-<h3 id="great-tooling-support-star-star-star">Great tooling support <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
-</h3>
+<h3 id="great-tooling-support">Great tooling support</h3>
+<h4 id="star-star-star">
+<img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
+</h4>
 
 <p>This is covered in the <a href="../tooling/">tooling</a> section.</p>
 
-<h3 id="threads-star-star">Threads <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
-</h3>
+<h3 id="threads">Threads</h3>
+<h4 id="star-star">
+<img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
+</h4>
 
 <p>Provide low-level buildings blocks for pthreads-style shared memory: shared
 memory between threads, atomics and futexes (or <a href="http://wg21.link/n4195">synchronic</a>).</p>
@@ -80,8 +84,8 @@ limited and local.</p>
 <p>Modules can have thread-local variables that are disjoint from linear memory
 and can thus be represented efficiently by the engine.</p>
 
-<h3 id="fixed-width-simd-star">Fixed-width SIMD <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
-</h3>
+<h3 id="fixed-width-simd">Fixed-width SIMD</h3>
+<h4 id="star"><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"></h4>
 
 <p>Support fixed-width SIMD vectors, initially only for 128-bit wide vectors as
 demonstrated in <a href="https://developer.chrome.com/native-client/reference/pnacl-c-cpp-language-support#portable-simd-vectors">PNaCl’s SIMD</a> and <a href="https://github.com/tc39/ecmascript_simd">SIMD.js</a>.</p>
@@ -90,8 +94,8 @@ demonstrated in <a href="https://developer.chrome.com/native-client/reference/pn
 semantics. SIMD operators (e.g., <code class="highlighter-rouge">f32x4.add</code>) could be either builtin
 operators (no different from <code class="highlighter-rouge">i32.add</code>) or exports of a builtin SIMD module.</p>
 
-<h3 id="zero-cost-exception-handling-star">Zero-cost Exception Handling <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
-</h3>
+<h3 id="zero-cost-exception-handling">Zero-cost Exception Handling</h3>
+<h4 id="star-1"><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"></h4>
 
 <p>The WebAssembly MVP may support four no-exception
 modes for C++:</p>
@@ -122,8 +126,8 @@ forward to a stack that was already unwound which is sometimes used to implement
 coroutines. Coroutine support is being
 <a href="../future-features/#coroutines">considered separately</a>.</p>
 
-<h3 id="feature-testing-star">Feature Testing <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
-</h3>
+<h3 id="feature-testing">Feature Testing</h3>
+<h4 id="star-2"><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"></h4>
 
 <p>Post-MVP, some form of feature-testing will be required. We don’t yet have the
 experience writing polyfills to know whether <code class="highlighter-rouge">has_feature</code> is the right
