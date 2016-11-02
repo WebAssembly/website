@@ -28,6 +28,8 @@ $ bundle exec jekyll build
 $ bundle exec jekyll serve
 ```
 
+> You must run `bundle exec jekyll build` after every change and include the `docs` directory in your commit!
+
 ## Publishing
 
 This site uses Jekyll plugins, so GitHub Pages will not build it automatically. To publish, check in manually built static site files to the `docs` directory.

@@ -81,7 +81,7 @@ Like ES6 modules, WebAssembly modules can import and export functions (and, weâ€
     call $i))
 </code></pre>
 
-<p>(Here, instead of writing the module in C/C++ and compiling to WebAssembly, we write the module directly in the <a href="/docs/text-format/">text format</a> which can be <a href="/getting-started/advanced-tools/wabt-the-webassembly-binary-toolkit">assembled</a> directly into the binary file <code class="highlighter-rouge">simple.wasm</code>.)</p>
+<p>(Here, instead of writing the module in C/C++ and compiling to WebAssembly, we write the module directly in the <a href="/docs/text-format/">text format</a> which can be <a href="/getting-started/advanced-tools/#wabt-the-webassembly-binary-toolkit">assembled</a> directly into the binary file <code class="highlighter-rouge">simple.wasm</code>.)</p>
 
 <p>Looking at this module we can see a few things.  First, WebAssembly imports have a two-level namespace; in this case the import with the internal name <code class="highlighter-rouge">$i</code> is imported from <code class="highlighter-rouge">imports.i</code>.  Similarly, we must reflect this two-level namespace in the import object passed to <code class="highlighter-rouge">instantiate</code>:</p>
 
