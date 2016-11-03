@@ -19,7 +19,7 @@ Please contribute your feedback or issues in the following forums:
   - SpiderMonkey / Firefox bugs: [bugzilla.mozilla.org][]
   - Chakra / Edge bugs: [Microsoft/ChakraCore][]
   - Documentation typos / suggestions: [WebAssembly/design][]
-  - Website bugs: [WebAssembly/webassembly.github.io][]
+  - Website bugs: [WebAssembly/website][]
 
 [WebAssembly/design]: https://github.com/WebAssembly/design
 [WebAssembly/binaryen]: https://github.com/WebAssembly/binaryen
@@ -27,4 +27,4 @@ Please contribute your feedback or issues in the following forums:
 [crbug.com/v8]: https://bugs.chromium.org/p/v8/issues/entry?template=Defect%20report%20from%20user&labels=wasm
 [bugzilla.mozilla.org]: https://bugzilla.mozilla.org/enter_bug.cgi?component=JavaScript%20Engine&product=Core
 [Microsoft/ChakraCore]: https://github.com/Microsoft/ChakraCore/issues/new
-[WebAssembly/webassembly.github.io]: https://github.com/WebAssembly/webassembly.github.io
+[WebAssembly/website]: https://github.com/WebAssembly/website
