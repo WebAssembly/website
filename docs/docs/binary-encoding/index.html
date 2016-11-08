@@ -445,7 +445,8 @@ invalidate a module.</p>
   </tbody>
 </table>
 
-<p>Each section is optional and may appear at most once.
+<p>Each known section is optional and may appear at most once.
+Unknown sections all have the same <code class="highlighter-rouge">id</code>, and can be named non-uniquely (all bytes composing their names can be identical).
 Known sections from this list may not appear out of order.
 The content of each section is encoded in its <code class="highlighter-rouge">payload_data</code>.</p>
 
@@ -916,7 +917,8 @@ only valid index value for a memory or table export is 0.</p>
     <tr>
       <td>index</td>
       <td><code class="highlighter-rouge">varuint32</code></td>
-      <td>start function index</td>
+      <td>start <a href="../modules/#function-index-space">function index</a>
+</td>
     </tr>
   </tbody>
 </table>
@@ -1082,6 +1084,7 @@ into the linear memory.</p>
 <p>The names section does not change execution semantics, and thus is not allocated a section code.
 It is encoded as an unknown section (id <code class="highlighter-rouge">0</code>) followed by the identification string <code class="highlighter-rouge">"name"</code>.
 Like all unknown sections, a validation error in this section does not cause validation of the module to fail.
+The name section may appear only once, and only after the <a href="#Data-section">Data section</a>.
 The expectation is that, when a binary WebAssembly module is viewed in a browser or other development
 environment, the names in this section will be used as the names of functions
 and locals in the <a href="../text-format/">text format</a>.</p>
@@ -1109,8 +1112,9 @@ and locals in the <a href="../text-format/">text format</a>.</p>
 </table>
 
 <p>The sequence of <code class="highlighter-rouge">function_names</code> assigns names to the corresponding
-function index. The count may be greater or less than the actual number of
-functions.</p>
+<a href="../modules/#function-index-space">function index</a>. (Note: this assigns names to both
+imported and module-defined functions.) The count may be greater or less than
+the actual number of functions.</p>
 
 <h4 id="function-names">Function names</h4>
 

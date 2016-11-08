@@ -232,6 +232,47 @@ the validated <code class="highlighter-rouge">Ast.module</code>.</li>
   <li>On failure, a new <code class="highlighter-rouge">WebAssembly.CompileError</code> is thrown.</li>
 </ul>
 
+<h3 id="webassemblymoduleexports"><code class="highlighter-rouge">WebAssembly.Module.exports</code></h3>
+
+<p>The <code class="highlighter-rouge">exports</code> function has the signature:</p>
+
+<div class="highlighter-rouge">
+<pre class="highlight"><code>Array exports(moduleObject)
+</code></pre>
+</div>
+
+<p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code> instance, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
+is thrown.</p>
+
+<p>This function returns an <code class="highlighter-rouge">Array</code> produced by mapping each
+<a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L152"><code class="highlighter-rouge">Ast.export</code></a>
+<code class="highlighter-rouge">e</code> of <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L187">moduleObject.[[Module]].exports</a>
+to the Object <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">name:</span><span class="w"> </span><span class="err">String(e.name),</span><span class="w"> </span><span class="err">kind:</span><span class="w"> </span><span class="err">e.ekind</span><span class="w"> </span><span class="p">}</span></code> where <code class="highlighter-rouge">e.name</code> is <a href="../web/#names">decoded as UTF8</a>
+and <code class="highlighter-rouge">e.ekind</code> is mapped to one of the String values <code class="highlighter-rouge">"function"</code>, <code class="highlighter-rouge">"table"</code>, <code class="highlighter-rouge">"memory"</code>, <code class="highlighter-rouge">"global"</code>.</p>
+
+<p>Note: other fields like <code class="highlighter-rouge">signature</code> may be added in the future.</p>
+
+<h3 id="webassemblymoduleimports"><code class="highlighter-rouge">WebAssembly.Module.imports</code></h3>
+
+<p>The <code class="highlighter-rouge">imports</code> function has the signature:</p>
+
+<div class="highlighter-rouge">
+<pre class="highlight"><code>Array imports(moduleObject)
+</code></pre>
+</div>
+
+<p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code> instance, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
+is thrown.</p>
+
+<p>This function returns an <code class="highlighter-rouge">Array</code> produced by mapping each
+<a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L167"><code class="highlighter-rouge">Ast.import</code></a>
+<code class="highlighter-rouge">i</code> of <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L203">moduleObject.[[Module]].imports</a>
+to the Object <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">module:</span><span class="w"> </span><span class="err">String(i.module_name),</span><span class="w"> </span><span class="err">name:</span><span class="w"> </span><span class="err">String(i.item_name),</span><span class="w"> </span><span class="err">kind:</span><span class="w"> </span><span class="err">i.ikind</span><span class="w"> </span><span class="p">}</span></code> where
+<code class="highlighter-rouge">i.module_name</code> and <code class="highlighter-rouge">i.item_name</code> are  <a href="../web/#names">decoded as UTF8</a> and
+<code class="highlighter-rouge">i.ikind</code> is mapped to one of the String values <code class="highlighter-rouge">"function"</code>, <code class="highlighter-rouge">"table"</code>, <code class="highlighter-rouge">"memory"</code>, <code class="highlighter-rouge">"global"</code>.</p>
+
+<p>Note: other fields like <code class="highlighter-rouge">signature</code> may be added in the future.</p>
+
 <h3 id="structured-clone-of-a-webassemblymodule">Structured Clone of a <code class="highlighter-rouge">WebAssembly.Module</code>
 </h3>
 
@@ -850,9 +891,7 @@ is thrown.</p>
 <h2 id="todo">TODO</h2>
 
 <ul>
-  <li>
-<code class="highlighter-rouge">WebAssembly.Module</code> <code class="highlighter-rouge">exports</code>/<code class="highlighter-rouge">imports</code> properties (reflection)</li>
-  <li>JS API for cyclic imports (perhaps a Promise-returning <code class="highlighter-rouge">WebAssembly.instantiate</code>?)</li>
+  <li>JS API for cyclic imports</li>
 </ul>
 
 

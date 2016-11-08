@@ -373,8 +373,8 @@ this can only be done through the host environment (e.g., the <code class="highl
 index space local to the function. Parameters are addressed as local variables. Local
 variables do not have addresses and are not aliased by linear memory. Local
 variables have <a href="#types">value types</a> and are initialized to the appropriate zero value for their
-type at the beginning of the function, except parameters which are initialized to the values
-of the arguments passed to the function.</p>
+type (<code class="highlighter-rouge">0</code> for integers, <code class="highlighter-rouge">+0.</code> for floating-point) at the beginning of the function,
+except parameters which are initialized to the values of the arguments passed to the function.</p>
 
 <ul>
   <li>

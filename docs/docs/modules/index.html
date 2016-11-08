@@ -366,7 +366,9 @@ available before compilation begins.</p>
 
 <p>The <em>function index space</em> indexes all imported and internally-defined
 function definitions, assigning monotonically-increasing indices based on the
-order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).</p>
+order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).
+Thus, the index space starts at zero with the function imports (if any) followed
+by the functions defined within the module.</p>
 
 <p>The function index space is used by:</p>
 
@@ -379,7 +381,9 @@ order of definition in the module (as defined by the <a href="../binary-encoding
 
 <p>The <em>global index space</em> indexes all imported and internally-defined
 global definitions, assigning monotonically-increasing indices based on the
-order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).</p>
+order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).
+Thus, the index space starts at zero with the global imports (if any) followed
+by the globals defined within the module.</p>
 
 <p>The global index space is used by:</p>
 
@@ -396,7 +400,9 @@ identify the global variable to read/write</li>
 
 <p>The <em>linear memory index space</em> indexes all imported and internally-defined
 linear memory definitions, assigning monotonically-increasing indices based on the
-order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).</p>
+order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).
+Thus, the index space starts at zero with the memory imports (if any) followed
+by the memories defined within the module.</p>
 
 <p>The linear memory index space is only used by the 
 <a href="#data-section">data section</a>. In the MVP, there is at most one linear memory so
@@ -407,7 +413,9 @@ this index space is just a placeholder for when there can be
 
 <p>The <em>table index space</em> indexes all imported and internally-defined
 table definitions, assigning monotonically-increasing indices based on the
-order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).</p>
+order of definition in the module (as defined by the <a href="../binary-encoding/">binary encoding</a>).
+Thus, the index space starts at zero with the table imports (if any) followed
+by the tables defined within the module.</p>
 
 <p>The table index space is only used by the <a href="#elements-section">elements section</a>.
 In the MVP, there is at most one table so this index space is just
