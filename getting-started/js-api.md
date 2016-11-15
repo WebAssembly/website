@@ -127,7 +127,7 @@ For example, let’s take a WebAssembly module that sums an array of integers (r
 ```
 
 
-Since this module *exports* its memory, given an `Instance` of this module `i`, we can use the `buffer` getter to populate an input array directly in the instance’s linear memory as follows:
+Since this module *exports* its memory, given an `Instance` of this module called `instance`, we can use its exports' `mem` getter to create and populate an input array directly in the instance’s linear memory, as follows:
 
 
 ```js
