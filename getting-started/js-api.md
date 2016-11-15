@@ -38,7 +38,9 @@ function instantiate(bytes, imports) {
 ```
 
 To actually demonstrate this in action, we first need to introduce another piece of the JS API:
-Function imports and exports
+
+## Function imports and exports
+
 Like ES6 modules, WebAssembly modules can import and export functions (and, we’ll see later, other types of objects too).  We can see a simple example of both in this module which imports a function `i` from module `imports` and exports a function `e`:
 
 
@@ -73,7 +75,9 @@ fetch('simple.wasm').then(response => response.arrayBuffer())
 
 
 The last line calls our exported WebAssembly function which, in turn, calls our imported JS function which ultimately executes `console.log(42)`.
-Memory
+
+## Memory
+
 [Linear memory](/docs/semantics/#linear-memory) is another important WebAssembly building block that is typically used to represent the entire heap of a compiled C/C++ application.  From a JavaScript perspective, linear memory (henceforth, just “memory”) can be thought of as a resizable `ArrayBuffer` that is carefully optimized for low-overhead sandboxing of loads and stores.
 
 
