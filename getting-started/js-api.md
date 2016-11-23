@@ -45,8 +45,8 @@ Like ES6 modules, WebAssembly modules can import and export functions (and, we�
 ```lisp
 ;; simple.wasm
 (module
-  (func $i (import “imports” “i”) (param i32))
-  (func (export “e”)
+  (func $i (import "imports" "i") (param i32))
+  (func (export "e")
     i32.const 42
     call $i))
 ```
@@ -118,8 +118,8 @@ For example, let’s take a WebAssembly module that sums an array of integers (r
 
 ```lisp
 (module
-  (memory (export “mem”) 1)
-  (func (export “accumulate”) (param $ptr i32) (param $length i32) …))
+  (memory (export "mem") 1)
+  (func (export "accumulate") (param $ptr i32) (param $length i32) …))
 ```
 
 
