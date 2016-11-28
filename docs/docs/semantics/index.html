@@ -365,7 +365,7 @@ this can only be done through the host environment (e.g., the <code class="highl
 <a href="../js/#webassemblytable-objects">JavaScript API</a>).</li>
 </ul>
 
-<p>These restrictions may be relaxed in the [future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][types].</p>
+<p>These restrictions may be relaxed in the <a href="../future-features/#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
 
 <h2 id="local-variables">Local variables</h2>
 
@@ -489,7 +489,7 @@ pushed back onto the stack, and the program counter is updated to the end of the
 
 <p>Branches that target a <code class="highlighter-rouge">loop</code> do not yield a value; they pop any values pushed onto the stack since the start of the loop and set the program counter to the start of the loop.</p>
 
-<p>The <code class="highlighter-rouge">drop</code> operator can be used to explicitly pop and a value from the stack.</p>
+<p>The <code class="highlighter-rouge">drop</code> operator can be used to explicitly pop a value from the stack.</p>
 
 <p>The implicit popping associated with explicit branches makes compiling expression languages straightforward, even non-local
 control-flow transfer, requiring fewer drops.</p>
@@ -685,7 +685,7 @@ supported.</li>
 </ul>
 
 <p>In the future, these limitations may be lifted, enabling
-[full IEEE 754-2008 support <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle">][future ieee 745].</p>
+<a href="../future-features/#full-ieee-754-2008-conformance">full IEEE 754-2008 support <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
 
 <p>Note that not all operators required by IEEE 754-2008 are provided directly.
 However, WebAssembly includes enough functionality to support reasonable library

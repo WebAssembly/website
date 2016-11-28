@@ -221,7 +221,7 @@ exception is thrown.</p>
 
 <p>Otherwise, this function performs synchronous compilation of the <code class="highlighter-rouge">BufferSource</code>:</p>
 
-<ul>
+<ol>
   <li>The byte range delimited by the <code class="highlighter-rouge">BufferSource</code> is first logically decoded 
 according to <a href="../binary-encoding/">BinaryEncoding.md</a> and then validated
 according to the rules in <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/valid.ml#L415">spec/valid.ml</a>.</li>
@@ -230,7 +230,7 @@ according to the rules in <a href="https://github.com/WebAssembly/spec/blob/mast
   <li>On success, a new <code class="highlighter-rouge">WebAssembly.Module</code> object is returned with [[Module]] set to
 the validated <code class="highlighter-rouge">Ast.module</code>.</li>
   <li>On failure, a new <code class="highlighter-rouge">WebAssembly.CompileError</code> is thrown.</li>
-</ul>
+</ol>
 
 <h3 id="webassemblymoduleexports"><code class="highlighter-rouge">WebAssembly.Module.exports</code></h3>
 
@@ -345,59 +345,41 @@ is thrown.</p>
 <p>For each <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L168"><code class="highlighter-rouge">import</code></a>
 <code class="highlighter-rouge">i</code> in <code class="highlighter-rouge">module.imports</code>:</p>
 
-<ul>
+<ol>
   <li>Let <code class="highlighter-rouge">o</code> be the resultant value of performing
 <a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">importObject</code>, <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L170"><code class="highlighter-rouge">i.module_name</code></a>).</li>
   <li>If <code class="highlighter-rouge">Type(o)</code> is not Object, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
   <li>Let <code class="highlighter-rouge">v</code> be the value of performing <a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">o</code>, <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L171"><code class="highlighter-rouge">i.item_name</code></a>)</li>
-  <li>If <code class="highlighter-rouge">i</code> is a function import:
-    <ul>
-      <li>If <a href="https://tc39.github.io/ecma262/#sec-iscallable"><code class="highlighter-rouge">IsCallable(v)</code></a> is <code class="highlighter-rouge">false</code>,
+  <li>If <code class="highlighter-rouge">i</code> is a function import:</li>
+  <li>If <a href="https://tc39.github.io/ecma262/#sec-iscallable"><code class="highlighter-rouge">IsCallable(v)</code></a> is <code class="highlighter-rouge">false</code>,
 throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
-      <li>If <code class="highlighter-rouge">v</code> is an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a>:
-        <ul>
-          <li>If the signature of <code class="highlighter-rouge">v</code> does not match the signature of <code class="highlighter-rouge">i</code>, throw a 
-<a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
-          <li>Let <code class="highlighter-rouge">closure</code> be <code class="highlighter-rouge">v.[[Closure]]</code>.</li>
-        </ul>
-      </li>
-      <li>Otherwise:
-        <ul>
-          <li>Let <code class="highlighter-rouge">closure</code> be a new <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L9">host function</a>
-of the given signature
-which calls <code class="highlighter-rouge">v</code> by coercing WebAssembly arguments to JavaScript arguments
-via <a href="#tojsvalue"><code class="highlighter-rouge">ToJSValue</code></a> and returns the result, if any, by coercing
-via <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a>.</li>
-        </ul>
-      </li>
-      <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">funcs</code>.</li>
-      <li>Append <code class="highlighter-rouge">closure</code> to <code class="highlighter-rouge">imports</code>.</li>
-    </ul>
-  </li>
-  <li>If <code class="highlighter-rouge">i</code> is a global import:
-    <ul>
-      <li>If <code class="highlighter-rouge">i</code> is not an immutable global, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
-      <li>If <code class="highlighter-rouge">Type(v)</code> is not Number, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
-      <li>Append <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a><code class="highlighter-rouge">(v)</code> to <code class="highlighter-rouge">imports</code>.</li>
-    </ul>
-  </li>
-  <li>If <code class="highlighter-rouge">i</code> is a memory import:
-    <ul>
-      <li>If <code class="highlighter-rouge">v</code> is not a <a href="#webassemblymemory-objects"><code class="highlighter-rouge">WebAssembly.Memory</code> object</a>,
+  <li>If <code class="highlighter-rouge">v</code> is an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a>:
+    1. If the signature of <code class="highlighter-rouge">v</code> does not match the signature of <code class="highlighter-rouge">i</code>, throw a 
+  <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.
+    1. Let <code class="highlighter-rouge">closure</code> be <code class="highlighter-rouge">v.[[Closure]]</code>.</li>
+  <li>Otherwise:
+    1. Let <code class="highlighter-rouge">closure</code> be a new <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L9">host function</a>
+  of the given signature
+  which calls <code class="highlighter-rouge">v</code> by coercing WebAssembly arguments to JavaScript arguments
+  via <a href="#tojsvalue"><code class="highlighter-rouge">ToJSValue</code></a> and returns the result, if any, by coercing
+  via <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a>.</li>
+  <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">funcs</code>.</li>
+  <li>Append <code class="highlighter-rouge">closure</code> to <code class="highlighter-rouge">imports</code>.</li>
+  <li>If <code class="highlighter-rouge">i</code> is a global import:</li>
+  <li>If <code class="highlighter-rouge">i</code> is not an immutable global, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
+  <li>If <code class="highlighter-rouge">Type(v)</code> is not Number, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
+  <li>Append <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a><code class="highlighter-rouge">(v)</code> to <code class="highlighter-rouge">imports</code>.</li>
+  <li>If <code class="highlighter-rouge">i</code> is a memory import:</li>
+  <li>If <code class="highlighter-rouge">v</code> is not a <a href="#webassemblymemory-objects"><code class="highlighter-rouge">WebAssembly.Memory</code> object</a>,
+ throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
+  <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">memories</code>.</li>
+  <li>Append <code class="highlighter-rouge">v.[[Memory]]</code> to <code class="highlighter-rouge">imports</code>.</li>
+  <li>Otherwise (<code class="highlighter-rouge">i</code> is a table import):</li>
+  <li>If <code class="highlighter-rouge">v</code> is not a <a href="#webassemblytable-objects"><code class="highlighter-rouge">WebAssembly.Table</code> object</a>,
 throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
-      <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">memories</code>.</li>
-      <li>Append <code class="highlighter-rouge">v.[[Memory]]</code> to <code class="highlighter-rouge">imports</code>.</li>
-    </ul>
-  </li>
-  <li>Otherwise (<code class="highlighter-rouge">i</code> is a table import):
-    <ul>
-      <li>If <code class="highlighter-rouge">v</code> is not a <a href="#webassemblytable-objects"><code class="highlighter-rouge">WebAssembly.Table</code> object</a>,
-throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
-      <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">tables</code>.</li>
-      <li>Append <code class="highlighter-rouge">v.[[Table]]</code> to <code class="highlighter-rouge">imports</code>.</li>
-    </ul>
-  </li>
-</ul>
+  <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">tables</code>.</li>
+  <li>Append <code class="highlighter-rouge">v.[[Table]]</code> to <code class="highlighter-rouge">imports</code>.</li>
+</ol>
 
 <p>Let <code class="highlighter-rouge">instance</code> be the result of creating a new
 <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L17"><code class="highlighter-rouge">instance</code></a>
@@ -408,77 +390,47 @@ given <code class="highlighter-rouge">module</code> and <code class="highlighter
 <p>Let <code class="highlighter-rouge">exports</code> be a list of (string, JS value) pairs that is mapped from 
 each <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L24">external</a> value <code class="highlighter-rouge">e</code> in <code class="highlighter-rouge">instance.exports</code> as follows:</p>
 
-<ul>
-  <li>If <code class="highlighter-rouge">e</code> is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L12">closure</a> <code class="highlighter-rouge">c</code>:
-    <ul>
-      <li>If there is an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> <code class="highlighter-rouge">func</code> in <code class="highlighter-rouge">funcs</code> whose <code class="highlighter-rouge">func.[[Closure]]</code> equals <code class="highlighter-rouge">c</code>, then return <code class="highlighter-rouge">func</code>.</li>
-      <li>(Note: At most one wrapper is created for any closure, so <code class="highlighter-rouge">func</code> is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import that is already an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a>, then the original function object will be found. For imports that are regular JS functions, a new wrapper will be created.)</li>
-      <li>Otherwise:
-        <ul>
-          <li>Let <code class="highlighter-rouge">func</code> be an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> created from <code class="highlighter-rouge">c</code>.</li>
-          <li>Append <code class="highlighter-rouge">func</code> to <code class="highlighter-rouge">funcs</code>.</li>
-          <li>Return <code class="highlighter-rouge">func</code>.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>If <code class="highlighter-rouge">e</code> is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L15">global</a> <code class="highlighter-rouge">v</code>:
-    <ul>
-      <li>
+<ol>
+  <li>If <code class="highlighter-rouge">e</code> is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L12">closure</a> <code class="highlighter-rouge">c</code>:</li>
+  <li>If there is an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> <code class="highlighter-rouge">func</code> in <code class="highlighter-rouge">funcs</code> whose <code class="highlighter-rouge">func.[[Closure]]</code> equals <code class="highlighter-rouge">c</code>, then return <code class="highlighter-rouge">func</code>.</li>
+  <li>(Note: At most one wrapper is created for any closure, so <code class="highlighter-rouge">func</code> is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import that is already an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a>, then the original function object will be found. For imports that are regular JS functions, a new wrapper will be created.)</li>
+  <li>Otherwise:
+    1. Let <code class="highlighter-rouge">func</code> be an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> created from <code class="highlighter-rouge">c</code>.
+    1. Append <code class="highlighter-rouge">func</code> to <code class="highlighter-rouge">funcs</code>.
+    1. Return <code class="highlighter-rouge">func</code>.</li>
+  <li>If <code class="highlighter-rouge">e</code> is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L15">global</a> <code class="highlighter-rouge">v</code>:</li>
+  <li>
 <a href="https://tc39.github.io/ecma262/#assert">Assert</a>: the global is immutable
 by MVP validation constraint.</li>
-      <li>Return <a href="#tojsvalue"><code class="highlighter-rouge">ToJSValue</code></a><code class="highlighter-rouge">(v)</code>.</li>
-    </ul>
-  </li>
-  <li>If <code class="highlighter-rouge">e</code> is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L14">memory</a> <code class="highlighter-rouge">m</code>:
-    <ul>
-      <li>If there is an element <code class="highlighter-rouge">memory</code> in <code class="highlighter-rouge">memories</code> whose <code class="highlighter-rouge">memory.[[Memory]]</code> is <code class="highlighter-rouge">m</code>, then return <code class="highlighter-rouge">memory</code>.</li>
-      <li>(Note: At most one <code class="highlighter-rouge">WebAssembly.Memory</code> object is created for any memory, so the above <code class="highlighter-rouge">memory</code> is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import, the original object will be found.)</li>
+  <li>Return <a href="#tojsvalue"><code class="highlighter-rouge">ToJSValue</code></a><code class="highlighter-rouge">(v)</code>.</li>
+  <li>If <code class="highlighter-rouge">e</code> is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L14">memory</a> <code class="highlighter-rouge">m</code>:</li>
+  <li>If there is an element <code class="highlighter-rouge">memory</code> in <code class="highlighter-rouge">memories</code> whose <code class="highlighter-rouge">memory.[[Memory]]</code> is <code class="highlighter-rouge">m</code>, then return <code class="highlighter-rouge">memory</code>.</li>
+  <li>(Note: At most one <code class="highlighter-rouge">WebAssembly.Memory</code> object is created for any memory, so the above <code class="highlighter-rouge">memory</code> is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import, the original object will be found.)</li>
+  <li>Otherwise:
+    1. Let <code class="highlighter-rouge">memory</code> be a new <code class="highlighter-rouge">WebAssembly.Memory</code> object created via <a href="#creatememoryobject"><code class="highlighter-rouge">CreateMemoryObject</code></a> from <code class="highlighter-rouge">m</code>.
+    1. Append <code class="highlighter-rouge">memory</code> to <code class="highlighter-rouge">memories</code>.
+    1. Return <code class="highlighter-rouge">memory</code>.</li>
+  <li>Otherwise <code class="highlighter-rouge">e</code> must be a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L13">table</a> <code class="highlighter-rouge">t</code>:</li>
+  <li>If there is an element <code class="highlighter-rouge">table</code> in <code class="highlighter-rouge">tables</code> whose <code class="highlighter-rouge">table.[[Table]]</code> is <code class="highlighter-rouge">t</code>, then return <code class="highlighter-rouge">table</code>.</li>
+  <li>(Note: At most one <code class="highlighter-rouge">WebAssembly.Table</code> object is created for any table, so the above <code class="highlighter-rouge">table</code> is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import, the original object will be found.)</li>
+  <li>Otherwise:
+    1. Let <code class="highlighter-rouge">values</code> be a list of JS values that is mapped from <code class="highlighter-rouge">t</code>’s elements as follows:
+    <ol>
+      <li>For an element that is <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/table.mli#L8"><code class="highlighter-rouge">uninitialized</code></a>:</li>
+      <li>Return <code class="highlighter-rouge">null</code>.</li>
+      <li>For an element that is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7"><code class="highlighter-rouge">closure</code></a> <code class="highlighter-rouge">c</code>:</li>
+      <li>If there is an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> <code class="highlighter-rouge">func</code> in <code class="highlighter-rouge">funcs</code> whose <code class="highlighter-rouge">func.[[Closure]]</code> equals <code class="highlighter-rouge">c</code>, then return <code class="highlighter-rouge">func</code>.</li>
+      <li>(Note: At most one wrapper is created for a any closure, so <code class="highlighter-rouge">func</code> is uniquely determined. Moreover, if the item was an import that is already an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a>, then the original function object will be found. For imports that are regular JS functions, a new wrapper will be created.)</li>
       <li>Otherwise:
-        <ul>
-          <li>Let <code class="highlighter-rouge">memory</code> be a new <code class="highlighter-rouge">WebAssembly.Memory</code> object created via <a href="#creatememoryobject"><code class="highlighter-rouge">CreateMemoryObject</code></a> from <code class="highlighter-rouge">m</code>.</li>
-          <li>Append <code class="highlighter-rouge">memory</code> to <code class="highlighter-rouge">memories</code>.</li>
-          <li>Return <code class="highlighter-rouge">memory</code>.</li>
-        </ul>
-      </li>
-    </ul>
+     1. Let <code class="highlighter-rouge">func</code> be an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> created from <code class="highlighter-rouge">c</code>.
+     1. Append <code class="highlighter-rouge">func</code> to <code class="highlighter-rouge">funcs</code>.
+     1. Return <code class="highlighter-rouge">func</code>.
+    1. Let <code class="highlighter-rouge">table</code> be a new <code class="highlighter-rouge">WebAssembly.Table</code> object with [[Table]] set to <code class="highlighter-rouge">t</code> and [[Values]] set to <code class="highlighter-rouge">values</code>.
+    1. Append <code class="highlighter-rouge">table</code> to <code class="highlighter-rouge">tables</code>.
+    1. Return <code class="highlighter-rouge">table</code>.</li>
+    </ol>
   </li>
-  <li>Otherwise <code class="highlighter-rouge">e</code> must be a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L13">table</a> <code class="highlighter-rouge">t</code>:
-    <ul>
-      <li>If there is an element <code class="highlighter-rouge">table</code> in <code class="highlighter-rouge">tables</code> whose <code class="highlighter-rouge">table.[[Table]]</code> is <code class="highlighter-rouge">t</code>, then return <code class="highlighter-rouge">table</code>.</li>
-      <li>(Note: At most one <code class="highlighter-rouge">WebAssembly.Table</code> object is created for any table, so the above <code class="highlighter-rouge">table</code> is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import, the original object will be found.)</li>
-      <li>Otherwise:
-        <ul>
-          <li>Let <code class="highlighter-rouge">values</code> be a list of JS values that is mapped from <code class="highlighter-rouge">t</code>’s elements as follows:
-            <ul>
-              <li>For an element that is <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/table.mli#L8"><code class="highlighter-rouge">uninitialized</code></a>:
-                <ul>
-                  <li>Return <code class="highlighter-rouge">null</code>.</li>
-                </ul>
-              </li>
-              <li>For an element that is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7"><code class="highlighter-rouge">closure</code></a> <code class="highlighter-rouge">c</code>:
-                <ul>
-                  <li>If there is an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> <code class="highlighter-rouge">func</code> in <code class="highlighter-rouge">funcs</code> whose <code class="highlighter-rouge">func.[[Closure]]</code> equals <code class="highlighter-rouge">c</code>, then return <code class="highlighter-rouge">func</code>.</li>
-                  <li>(Note: At most one wrapper is created for a any closure, so <code class="highlighter-rouge">func</code> is uniquely determined. Moreover, if the item was an import that is already an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a>, then the original function object will be found. For imports that are regular JS functions, a new wrapper will be created.)</li>
-                  <li>Otherwise:
-                    <ul>
-                      <li>Let <code class="highlighter-rouge">func</code> be an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> created from <code class="highlighter-rouge">c</code>.</li>
-                      <li>Append <code class="highlighter-rouge">func</code> to <code class="highlighter-rouge">funcs</code>.</li>
-                      <li>Return <code class="highlighter-rouge">func</code>.</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-          <li>Let <code class="highlighter-rouge">table</code> be a new <code class="highlighter-rouge">WebAssembly.Table</code> object with [[Table]] set to <code class="highlighter-rouge">t</code> and [[Values]] set to <code class="highlighter-rouge">values</code>.</li>
-          <li>Append <code class="highlighter-rouge">table</code> to <code class="highlighter-rouge">tables</code>.</li>
-          <li>Return <code class="highlighter-rouge">table</code>.</li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
+</ol>
 
 <p>Note: For the purpose of the above algorithm, two <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7">closure</a> values are considered equal if and only if:</p>
 
@@ -572,20 +524,17 @@ representing the function</li>
 
 <p>WebAssembly Exported Functions have a <code class="highlighter-rouge">[[Call]](this, argValues)</code> method defined as:</p>
 
-<ul>
+<ol>
   <li>Let <code class="highlighter-rouge">args</code> be an empty list of coerced values.</li>
   <li>Let <code class="highlighter-rouge">inArity</code> be the number of arguments and <code class="highlighter-rouge">outArity</code> be the number of results in the <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/eval.ml#L106"><code class="highlighter-rouge">function type</code></a> of the function’s [[Closure]].</li>
-  <li>For all values <code class="highlighter-rouge">v</code> in <code class="highlighter-rouge">argValues</code>, in the order of their appearance:
-    <ul>
-      <li>If the length of<code class="highlighter-rouge">args</code> is less than <code class="highlighter-rouge">inArity</code>, append <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a><code class="highlighter-rouge">(v)</code> to <code class="highlighter-rouge">args</code>.</li>
-    </ul>
-  </li>
+  <li>For all values <code class="highlighter-rouge">v</code> in <code class="highlighter-rouge">argValues</code>, in the order of their appearance:</li>
+  <li>If the length of<code class="highlighter-rouge">args</code> is less than <code class="highlighter-rouge">inArity</code>, append <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a><code class="highlighter-rouge">(v)</code> to <code class="highlighter-rouge">args</code>.</li>
   <li>While the length of <code class="highlighter-rouge">args</code> is less than <code class="highlighter-rouge">inArity</code>, append <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a><code class="highlighter-rouge">(undefined)</code> to <code class="highlighter-rouge">args</code>.</li>
   <li>Let <code class="highlighter-rouge">ret</code> be the result of calling <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/eval.ml#L443"><code class="highlighter-rouge">Eval.invoke</code></a>
 passing [[Closure]], and <code class="highlighter-rouge">args</code>.</li>
   <li>If <code class="highlighter-rouge">outArity</code> is 0, return <code class="highlighter-rouge">undefined</code>.</li>
   <li>Otherwise, return <a href="#tojsvalue"><code class="highlighter-rouge">ToJSValue</code></a><code class="highlighter-rouge">(v)</code>, where <code class="highlighter-rouge">v</code> is the singular element of <code class="highlighter-rouge">ret</code>.</li>
-</ul>
+</ol>
 
 <p><code class="highlighter-rouge">[[Call]](this, argValues)</code> executes in the [[Realm]] of the callee Exported Function. This corresponds to <a href="https://tc39.github.io/ecma262/#sec-built-in-function-objects">the requirements of builtin function objects in JavaScript</a>.</p>
 
@@ -810,9 +759,9 @@ otherwise, let <code class="highlighter-rouge">elem</code> be <code class="highl
 <p>To coerce a WebAssembly <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/values.ml#L9"><code class="highlighter-rouge">value</code></a>
 to a JavaScript value:</p>
 
-<ul>
+<ol>
   <li>given a WebAssembly <code class="highlighter-rouge">i32</code> is interpreted as a signed integer, converted (losslessly) to an
-IEEE754 double and then returned as a JavaScript Number</li>
+  IEEE754 double and then returned as a JavaScript Number</li>
   <li>given a WebAssembly <code class="highlighter-rouge">i64</code>, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 </li>
   <li>given a WebAssembly <code class="highlighter-rouge">f32</code> (single-precision IEEE754), convert (losslessly) to
@@ -820,7 +769,7 @@ a IEEE754 double, <a href="http://tc39.github.io/ecma262/#sec-setvalueinbuffer">
 and return as a JavaScript Number</li>
   <li>given a WebAssembly <code class="highlighter-rouge">f64</code>, <a href="http://tc39.github.io/ecma262/#sec-setvalueinbuffer">possibly canonicalize NaN</a>
 and return as a JavaScript Number</li>
-</ul>
+</ol>
 
 <p>If the WebAssembly value is optional, then given <code class="highlighter-rouge">None</code>, return JavaScript value
 <code class="highlighter-rouge">undefined</code>.</p>
@@ -829,7 +778,7 @@ and return as a JavaScript Number</li>
 
 <p>To coerce a JavaScript value to a given WebAssembly <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/types.ml#L3"><code class="highlighter-rouge">value type</code></a>,</p>
 
-<ul>
+<ol>
   <li>coerce to <code class="highlighter-rouge">i32</code> via <a href="http://tc39.github.io/ecma262/#sec-toint32"><code class="highlighter-rouge">ToInt32(v)</code></a>
 </li>
   <li>for <code class="highlighter-rouge">i64</code>, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
@@ -839,7 +788,7 @@ and then converting the resulting IEEE754 64-bit double to a 32-bit float using 
 </li>
   <li>coerce to <code class="highlighter-rouge">f64</code> via <a href="http://tc39.github.io/ecma262/#sec-tonumber"><code class="highlighter-rouge">ToNumber(v)</code></a>
 </li>
-</ul>
+</ol>
 
 <p>If the value type is optional, then given <code class="highlighter-rouge">None</code>, the JavaScript value is
 ignored.</p>

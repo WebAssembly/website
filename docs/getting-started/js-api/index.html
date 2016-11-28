@@ -70,14 +70,16 @@
 </code></pre>
 </div>
 
-<p>To actually demonstrate this in action, we first need to introduce another piece of the JS API:
-Function imports and exports
-Like ES6 modules, WebAssembly modules can import and export functions (and, we’ll see later, other types of objects too).  We can see a simple example of both in this module which imports a function <code class="highlighter-rouge">i</code> from module <code class="highlighter-rouge">imports</code> and exports a function <code class="highlighter-rouge">e</code>:</p>
+<p>To actually demonstrate this in action, we first need to introduce another piece of the JS API:</p>
+
+<h2 id="function-imports-and-exports">Function imports and exports</h2>
+
+<p>Like ES6 modules, WebAssembly modules can import and export functions (and, we’ll see later, other types of objects too).  We can see a simple example of both in this module which imports a function <code class="highlighter-rouge">i</code> from module <code class="highlighter-rouge">imports</code> and exports a function <code class="highlighter-rouge">e</code>:</p>
 
 <pre><code class="language-lisp">;; simple.wasm
 (module
-  (func $i (import “imports” “i”) (param i32))
-  (func (export “e”)
+  (func $i (import "imports" "i") (param i32))
+  (func (export "e")
     i32.const 42
     call $i))
 </code></pre>
@@ -98,9 +100,11 @@ Like ES6 modules, WebAssembly modules can import and export functions (and, we�
 </code></pre>
 </div>
 
-<p>The last line calls our exported WebAssembly function which, in turn, calls our imported JS function which ultimately executes <code class="highlighter-rouge">console.log(42)</code>.
-Memory
-<a href="/docs/semantics/#linear-memory">Linear memory</a> is another important WebAssembly building block that is typically used to represent the entire heap of a compiled C/C++ application.  From a JavaScript perspective, linear memory (henceforth, just “memory”) can be thought of as a resizable <code class="highlighter-rouge">ArrayBuffer</code> that is carefully optimized for low-overhead sandboxing of loads and stores.</p>
+<p>The last line calls our exported WebAssembly function which, in turn, calls our imported JS function which ultimately executes <code class="highlighter-rouge">console.log(42)</code>.</p>
+
+<h2 id="memory">Memory</h2>
+
+<p><a href="/docs/semantics/#linear-memory">Linear memory</a> is another important WebAssembly building block that is typically used to represent the entire heap of a compiled C/C++ application.  From a JavaScript perspective, linear memory (henceforth, just “memory”) can be thought of as a resizable <code class="highlighter-rouge">ArrayBuffer</code> that is carefully optimized for low-overhead sandboxing of loads and stores.</p>
 
 <p>Memories can be created from JavaScript by supplying their initial size and, optionally, their maximum size:</p>
 
@@ -131,11 +135,11 @@ Memory
 <p>For example, let’s take a WebAssembly module that sums an array of integers (replacing the body of the function with “…”):</p>
 
 <pre><code class="language-lisp">(module
-  (memory (export “mem”) 1)
-  (func (export “accumulate”) (param $ptr i32) (param $length i32) …))
+  (memory (export "mem") 1)
+  (func (export "accumulate") (param $ptr i32) (param $length i32) …))
 </code></pre>
 
-<p>Since this module <em>exports</em> its memory, given an <code class="highlighter-rouge">Instance</code> of this module <code class="highlighter-rouge">i</code>, we can use the <code class="highlighter-rouge">buffer</code> getter to populate an input array directly in the instance’s linear memory as follows:</p>
+<p>Since this module <em>exports</em> its memory, given an <code class="highlighter-rouge">Instance</code> of this module called <code class="highlighter-rouge">instance</code>, we can use its exports’ <code class="highlighter-rouge">mem</code> getter to create and populate an input array directly in the instance’s linear memory, as follows:</p>
 
 <div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">i32</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Uint32Array</span><span class="p">(</span><span class="nx">instance</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">mem</span><span class="p">);</span>
 <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
