@@ -135,7 +135,7 @@ declared initial length are always in-bounds, accesses above the declared
 maximum length are always out-of-bounds and if initial equals maximum, the
 length is fixed. In the MVP, every memory is a <a href="../semantics/#linear-memory">default memory</a>
 and thus there may be at most one linear memory import or linear memory
-section.</p>
+definition.</p>
 
 <p>A <em>table import</em> includes the same set of fields defined in the 
 <a href="#table-section">Table section</a>: <em>element type</em>, <em>initial
@@ -143,7 +143,7 @@ length</em> and optional <em>maximum length</em>. As with the linear memory sect
 host environment must ensure only WebAssembly tables are imported with
 exactly-matching element type, greater-or-equal initial length, and
 less-or-equal maximum length. In the MVP, every table is a <a href="../semantics/#table">default table</a>
-and thus there may be at most one table import or table section.</p>
+and thus there may be at most one table import or table definition.</p>
 
 <p>Since the WebAssembly spec does not define how import names are interpreted:</p>
 
@@ -237,13 +237,13 @@ to allow <em>explicitly</em> sharing state between module instances.</p>
 <h2 id="module-start-function">Module start function</h2>
 
 <p>If the module has a start node defined, the function it refers should be called
-by the loader after the instance is initialized and before the exported functions
-are called.</p>
+by the loader after the instance is initialized, including its Memory and Table
+though Data and Element sections, and before the exported functions are callable.</p>
 
 <ul>
   <li>The start function must not take any arguments or return anything</li>
-  <li>The function is identified by <a href="#function-index-space">function index</a> and can also be
-exported</li>
+  <li>The function is identified by <a href="#function-index-space">function index</a>, can be
+an import, and can also be exported</li>
   <li>There can only be at most one start node per module</li>
 </ul>
 
@@ -281,8 +281,8 @@ expected to call the module function indexed 42. This number is the function ind
 
 <p>The <em>linear memory section</em> provides an internal definition of one
 <a href="../semantics/#linear-memory">linear memory</a>. In the MVP, every memory is a
-default memory and thus there may be at most one linear memory import or linear
-memory section.</p>
+default memory and there may be at most one linear memory import or linear
+memory definition.</p>
 
 <p>Each linear memory section declares an <em>initial</em> <a href="../semantics/#linear-memory">memory size</a>
 (which may be subsequently increased by <a href="../semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a>) and an
@@ -310,7 +310,7 @@ value (defining the length of the given segment). The <code class="highlighter-r
 
 <p>The <em>table section</em> contains zero or more definitions of distinct 
 <a href="../semantics/#table">tables</a>. In the MVP, every table is a 
-default table and thus there may be at most one table import or table section.</p>
+default table and there may be at most one table import or table definition.</p>
 
 <p>Each table definition declares an <em>element type</em>, <em>initial length</em>, and
 optional <em>maximum length</em>.</p>

@@ -336,8 +336,8 @@ In the MVP, only one type is available:</p>
   <tbody>
     <tr>
       <td>flags</td>
-      <td><code class="highlighter-rouge">varuint32</code></td>
-      <td>bit <code class="highlighter-rouge">0x1</code> is set if the maximum field is present</td>
+      <td><code class="highlighter-rouge">varuint1</code></td>
+      <td>set if the maximum field is present</td>
     </tr>
     <tr>
       <td>initial</td>
@@ -354,7 +354,7 @@ In the MVP, only one type is available:</p>
   </tbody>
 </table>
 
-<p>Note: In the <a href="../future-features/#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, the “flags” field may be extended, e.g., to include a flag for sharing between threads.</p>
+<p>Note: In the <a href="../future-features/#threads">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, the “flags” field may be changed to <code class="highlighter-rouge">varuint32</code>, e.g., to include a flag for sharing between threads.</p>
 
 <h3 id="init_expr"><code class="highlighter-rouge">init_expr</code></h3>
 <p>The encoding of an <a href="../modules/#initializer-expression">initializer expression</a>
@@ -396,11 +396,11 @@ section.</p>
 </table>
 
 <p>The module preamble is followed by a sequence of sections.
-Each section is identified by a 1-byte <em>section code</em> that encodes either a known section or a user-defined section.
+Each section is identified by a 1-byte <em>section code</em> that encodes either a known section or a custom section.
 The section length and payload data then follow.
-Known sections have non-zero ids, while unknown sections have a <code class="highlighter-rouge">0</code> id followed by an identifying string as
+Known sections have non-zero ids, while custom sections have a <code class="highlighter-rouge">0</code> id followed by an identifying string as
 part of the payload.
-Unknown sections are ignored by the WebAssembly implementation, and thus validation errors within them do not
+Custom sections are ignored by the WebAssembly implementation, and thus validation errors within them do not
 invalidate a module.</p>
 
 <table>
@@ -446,7 +446,7 @@ invalidate a module.</p>
 </table>
 
 <p>Each known section is optional and may appear at most once.
-Unknown sections all have the same <code class="highlighter-rouge">id</code>, and can be named non-uniquely (all bytes composing their names can be identical).
+Custom sections all have the same <code class="highlighter-rouge">id</code>, and can be named non-uniquely (all bytes composing their names can be identical).
 Known sections from this list may not appear out of order.
 The content of each section is encoded in its <code class="highlighter-rouge">payload_data</code>.</p>
 
@@ -1079,11 +1079,11 @@ into the linear memory.</p>
 
 <h3 id="name-section">Name section</h3>
 
-<p>User-defined section string: <code class="highlighter-rouge">"name"</code></p>
+<p>Custom section <code class="highlighter-rouge">name</code> field: <code class="highlighter-rouge">"name"</code></p>
 
-<p>The names section does not change execution semantics, and thus is not allocated a section code.
-It is encoded as an unknown section (id <code class="highlighter-rouge">0</code>) followed by the identification string <code class="highlighter-rouge">"name"</code>.
-Like all unknown sections, a validation error in this section does not cause validation of the module to fail.
+<p>The names section is a <a href="#high-level-structure">custom section</a>. 
+It is therefore encoded with id <code class="highlighter-rouge">0</code> followed by the name string <code class="highlighter-rouge">"name"</code>.
+Like all custom sections, a validation error in this section does not cause validation of the module to fail.
 The name section may appear only once, and only after the <a href="#Data-section">Data section</a>.
 The expectation is that, when a binary WebAssembly module is viewed in a browser or other development
 environment, the names in this section will be used as the names of functions

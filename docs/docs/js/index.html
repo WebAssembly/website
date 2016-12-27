@@ -66,6 +66,12 @@ enclosing caller.</p>
 call WebAssembly exports after a trap has been handled, traps do not, in
 general, prevent future execution.</p>
 
+<h2 id="stack-overflow">Stack Overflow</h2>
+
+<p>Whenever a <a href="../semantics/#stack-overflow">stack overflow</a> is happening in
+WebAssembly code, the same exception is thrown as for a stack overflow in
+JavaScript.</p>
+
 <h2 id="the-webassembly-object">The <code class="highlighter-rouge">WebAssembly</code> object</h2>
 
 <p>The <code class="highlighter-rouge">WebAssembly</code> object is the initial value of the <code class="highlighter-rouge">WebAssembly</code> property of
@@ -93,6 +99,9 @@ and has the following properties:</p>
   <li>
 <code class="highlighter-rouge">WebAssembly.CompileError</code> : a <a href="http://tc39.github.io/ecma262/#sec-nativeerror-object-structure">NativeError</a>
  which indicates an error during WebAssembly decoding or validation</li>
+  <li>
+<code class="highlighter-rouge">WebAssembly.LinkError</code> : a <a href="http://tc39.github.io/ecma262/#sec-nativeerror-object-structure">NativeError</a>
+ which indicates an error during WebAssembly instantiating a module (other than traps from the start function)</li>
   <li>
 <code class="highlighter-rouge">WebAssembly.RuntimeError</code> : a <a href="http://tc39.github.io/ecma262/#sec-nativeerror-object-structure">NativeError</a>
  which is thrown whenever WebAssembly specifies a <a href="#traps">trap</a>.</li>
@@ -169,7 +178,7 @@ On success, the <code class="highlighter-rouge">Promise</code> is <a href="http:
 with a plain JavaScript object pair <code class="highlighter-rouge"><span class="p">{</span><span class="err">module,</span><span class="w"> </span><span class="err">instance</span><span class="p">}</span></code> containing the resulting
 <code class="highlighter-rouge">WebAssembly.Module</code> and <code class="highlighter-rouge">WebAssembly.Instance</code>. On failure, the <code class="highlighter-rouge">Promise</code> is
 <a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a 
-<code class="highlighter-rouge">WebAssembly.CompileError</code>.</p>
+<code class="highlighter-rouge">WebAssembly.CompileError</code>, <code class="highlighter-rouge">WebAssembly.LinkError</code>, or <code class="highlighter-rouge">WebAssembly.RuntimeError</code>, depending on the cause of failure.</p>
 
 <p>The asynchronous compilation is logically performed on a copy of the state of
 the given <code class="highlighter-rouge">BufferSource</code> captured during the call to <code class="highlighter-rouge">instantiate</code>; subsequent mutations
@@ -188,7 +197,7 @@ from <code class="highlighter-rouge">moduleObject</code> and <code class="highli
 On success, the <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
 with the resulting <code class="highlighter-rouge">WebAssembly.Instance</code> object. On failure, the <code class="highlighter-rouge">Promise</code> is
 <a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a 
-<code class="highlighter-rouge">WebAssembly.CompileError</code>.</p>
+<code class="highlighter-rouge">WebAssembly.CompileError</code>, <code class="highlighter-rouge">WebAssembly.LinkError</code>, or <code class="highlighter-rouge">WebAssembly.RuntimeError</code>, depending on the cause of failure.</p>
 
 <h2 id="webassemblymodule-objects">
 <code class="highlighter-rouge">WebAssembly.Module</code> Objects</h2>
@@ -241,7 +250,7 @@ the validated <code class="highlighter-rouge">Ast.module</code>.</li>
 </code></pre>
 </div>
 
-<p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code> instance, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
+<p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
 
 <p>This function returns an <code class="highlighter-rouge">Array</code> produced by mapping each
@@ -261,7 +270,7 @@ and <code class="highlighter-rouge">e.ekind</code> is mapped to one of the Strin
 </code></pre>
 </div>
 
-<p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code> instance, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
+<p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
 
 <p>This function returns an <code class="highlighter-rouge">Array</code> produced by mapping each
@@ -272,6 +281,26 @@ to the Object <code class="highlighter-rouge"><span class="p">{</span><span clas
 <code class="highlighter-rouge">i.ikind</code> is mapped to one of the String values <code class="highlighter-rouge">"function"</code>, <code class="highlighter-rouge">"table"</code>, <code class="highlighter-rouge">"memory"</code>, <code class="highlighter-rouge">"global"</code>.</p>
 
 <p>Note: other fields like <code class="highlighter-rouge">signature</code> may be added in the future.</p>
+
+<h3 id="webassemblymodulecustomsections"><code class="highlighter-rouge">WebAssembly.Module.customSections</code></h3>
+
+<p>The <code class="highlighter-rouge">customSections</code> function has the signature:</p>
+
+<div class="highlighter-rouge">
+<pre class="highlight"><code>Array customSections(moduleObject, sectionName)
+</code></pre>
+</div>
+
+<p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
+is thrown.</p>
+
+<p>Let <code class="highlighter-rouge">sectionNameString</code> be the result of <a href="https://tc39.github.io/ecma262/#sec-tostring"><code class="highlighter-rouge">ToString</code></a>(<code class="highlighter-rouge">sectionName</code>).</p>
+
+<p>This function returns an <code class="highlighter-rouge">Array</code> produced by mapping each
+<a href="../binary-encoding/#high-level-structure">custom section</a> (i.e., section with
+<code class="highlighter-rouge">id</code> 0) whose <code class="highlighter-rouge">name</code> field (<a href="../web/#names">decoded as UTF-8</a>) is equal to
+<code class="highlighter-rouge">sectionNameString</code> to an <code class="highlighter-rouge">ArrayBuffer</code> containing a copy of the section’s
+<code class="highlighter-rouge">payload_data</code>. (Note: <code class="highlighter-rouge">payload_data</code> does not include <code class="highlighter-rouge">name</code> or <code class="highlighter-rouge">name_len</code>.)</p>
 
 <h3 id="structured-clone-of-a-webassemblymodule">Structured Clone of a <code class="highlighter-rouge">WebAssembly.Module</code>
 </h3>
@@ -303,14 +332,6 @@ internal slot:</p>
 which is the WebAssembly spec definition of an instance</li>
 </ul>
 
-<p>as well as one plain data property (configurable, writable, enumerable)
-added by the constructor:</p>
-
-<ul>
-  <li>exports : a <a href="http://tc39.github.io/ecma262/#sec-module-namespace-objects">Module Namespace Object</a>
-</li>
-</ul>
-
 <h3 id="webassemblyinstance-constructor">
 <code class="highlighter-rouge">WebAssembly.Instance</code> Constructor</h3>
 
@@ -325,7 +346,7 @@ added by the constructor:</p>
 exception is thrown (i.e., this
 constructor cannot be called as a function without <code class="highlighter-rouge">new</code>).</p>
 
-<p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code> instance, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
+<p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
 
 <p>Let <code class="highlighter-rouge">module</code> be the <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L176"><code class="highlighter-rouge">Ast.module</code></a>
@@ -352,10 +373,10 @@ is thrown.</p>
   <li>Let <code class="highlighter-rouge">v</code> be the value of performing <a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">o</code>, <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L171"><code class="highlighter-rouge">i.item_name</code></a>)</li>
   <li>If <code class="highlighter-rouge">i</code> is a function import:</li>
   <li>If <a href="https://tc39.github.io/ecma262/#sec-iscallable"><code class="highlighter-rouge">IsCallable(v)</code></a> is <code class="highlighter-rouge">false</code>,
-throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
+throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
   <li>If <code class="highlighter-rouge">v</code> is an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a>:
     1. If the signature of <code class="highlighter-rouge">v</code> does not match the signature of <code class="highlighter-rouge">i</code>, throw a 
-  <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.
+  <code class="highlighter-rouge">WebAssembly.LinkError</code>.
     1. Let <code class="highlighter-rouge">closure</code> be <code class="highlighter-rouge">v.[[Closure]]</code>.</li>
   <li>Otherwise:
     1. Let <code class="highlighter-rouge">closure</code> be a new <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L9">host function</a>
@@ -366,17 +387,19 @@ throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-
   <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">funcs</code>.</li>
   <li>Append <code class="highlighter-rouge">closure</code> to <code class="highlighter-rouge">imports</code>.</li>
   <li>If <code class="highlighter-rouge">i</code> is a global import:</li>
-  <li>If <code class="highlighter-rouge">i</code> is not an immutable global, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
-  <li>If <code class="highlighter-rouge">Type(v)</code> is not Number, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
+  <li>
+<a href="https://tc39.github.io/ecma262/#assert">Assert</a>: the global is immutable
+by MVP validation constraint.</li>
+  <li>If <code class="highlighter-rouge">Type(v)</code> is not Number, throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
   <li>Append <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a><code class="highlighter-rouge">(v)</code> to <code class="highlighter-rouge">imports</code>.</li>
   <li>If <code class="highlighter-rouge">i</code> is a memory import:</li>
   <li>If <code class="highlighter-rouge">v</code> is not a <a href="#webassemblymemory-objects"><code class="highlighter-rouge">WebAssembly.Memory</code> object</a>,
- throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
+ throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
   <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">memories</code>.</li>
   <li>Append <code class="highlighter-rouge">v.[[Memory]]</code> to <code class="highlighter-rouge">imports</code>.</li>
   <li>Otherwise (<code class="highlighter-rouge">i</code> is a table import):</li>
   <li>If <code class="highlighter-rouge">v</code> is not a <a href="#webassemblytable-objects"><code class="highlighter-rouge">WebAssembly.Table</code> object</a>,
-throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
+throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
   <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">tables</code>.</li>
   <li>Append <code class="highlighter-rouge">v.[[Table]]</code> to <code class="highlighter-rouge">imports</code>.</li>
 </ol>
@@ -385,7 +408,30 @@ throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-
 <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L17"><code class="highlighter-rouge">instance</code></a>
 by calling
 <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/eval.ml#L416"><code class="highlighter-rouge">Eval.init</code></a>
-given <code class="highlighter-rouge">module</code> and <code class="highlighter-rouge">imports</code>.</p>
+given <code class="highlighter-rouge">module</code> and <code class="highlighter-rouge">imports</code>.
+If this terminates with a <code class="highlighter-rouge">Link</code> error, throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>; if it causes a trap, throw a <code class="highlighter-rouge">WebAssembly.RuntimeError</code>; all other exceptions are propagated to the caller.
+Among other things, this function performs the following observable steps:</p>
+
+<ul>
+  <li>
+    <p>If, after evaluating the <code class="highlighter-rouge">offset</code> <a href="../modules/#initializer-expression">initializer expression</a>
+of every <a href="../modules/#data-section">Data</a> and <a href="../modules/#elements-section">Element</a>
+Segment, any of the segments do not fit in their respective Memory or Table, throw a 
+<code class="highlighter-rouge">WebAssembly.LinkError</code>.</p>
+  </li>
+  <li>
+    <p>Apply all Data and Element segments to their respective Memory or Table in the
+order in which they appear in the module. Segments may overlap and, if they do,
+the final value is the last value written in order. Note: there should be no
+errors possible that would cause this operation to fail partway through. After
+this operation completes, elements of <code class="highlighter-rouge">instance</code> are visible and callable
+through <a href="../modules/#imports">imported Tables</a>, even if <code class="highlighter-rouge">start</code> fails.</p>
+  </li>
+  <li>
+    <p>If a <a href="../modules/#module-start-function"><code class="highlighter-rouge">start</code></a> is present, it is evaluated.
+Any errors thrown by <code class="highlighter-rouge">start</code> are propagated to the caller.</p>
+  </li>
+</ul>
 
 <p>Let <code class="highlighter-rouge">exports</code> be a list of (string, JS value) pairs that is mapped from 
 each <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L24">external</a> value <code class="highlighter-rouge">e</code> in <code class="highlighter-rouge">instance.exports</code> as follows:</p>
@@ -439,67 +485,31 @@ by MVP validation constraint.</li>
   <li>Or they are identical host functions (i.e., each host function value created from a JavaScript function is considered fresh).</li>
 </ul>
 
-<p>Let <code class="highlighter-rouge">moduleRecord</code> be a new <a href="#webassembly-module-record">WebAssembly Module Record</a>
-(given <code class="highlighter-rouge">exports</code>).</p>
-
-<p>Let <code class="highlighter-rouge">exportStrings</code> be the projected list of only the first (string) components
-of <code class="highlighter-rouge">exports</code>. Let <code class="highlighter-rouge">moduleNamespace</code> be the result of calling 
-<a href="http://tc39.github.io/ecma262/#sec-modulenamespacecreate"><code class="highlighter-rouge">ModuleNamespaceCreate(moduleRecord, exportStrings)</code></a>.
-Set <code class="highlighter-rouge">moduleRecord.[[Namespace]]</code> to <code class="highlighter-rouge">moduleNamespace</code>.</p>
+<p>Let <code class="highlighter-rouge">exportsObject</code> be a new <a href="https://tc39.github.io/ecma262/#sec-object.freeze">frozen</a>
+plain JS object with [[Prototype]] set to Null and with properties defined
+by mapping each export in <code class="highlighter-rouge">exports</code> to an enumerable, non-writable,
+non-configurable data property. Note: the validity and uniqueness checks
+performed during <a href="#webassemblymodule-constructor">module compilation</a> ensure
+that each property name is valid and no properties are defined twice.</p>
 
 <p>Let <code class="highlighter-rouge">instanceObject</code> be a new <code class="highlighter-rouge">WebAssembly.Instance</code> object setting
-<code class="highlighter-rouge">[[Instance]]</code> to <code class="highlighter-rouge">instance</code> and <code class="highlighter-rouge">exports</code> to <code class="highlighter-rouge">moduleNamespace</code>.</p>
+the internal <code class="highlighter-rouge">[[Instance]]</code> slot to <code class="highlighter-rouge">instance</code>.</p>
 
-<p>If, after evaluating the <code class="highlighter-rouge">offset</code> <a href="../modules/#initializer-expression">initializer expression</a>
-of every <a href="../modules/#data-section">Data</a> and <a href="../modules/#elements-section">Element</a>
-Segment, any of the segments do not fit in their respective Memory or Table, throw a 
-<a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>.</p>
-
-<p>Apply all Data and Element segments to their respective Memory or Table in the
-order in which they appear in the module. Segments may overlap and, if they do,
-the final value is the last value written in order. Note: there should be no
-errors possible that would cause this operation to fail partway through. After
-this operation completes, elements of <code class="highlighter-rouge">instance</code> are visible and callable
-through <a href="../modules/#imports">imported Tables</a>, even if <code class="highlighter-rouge">start</code> fails.</p>
-
-<p>If a <a href="../modules/#module-start-function"><code class="highlighter-rouge">start</code></a> is present, it is evaluated
-given <code class="highlighter-rouge">instance</code>. Any errors thrown by <code class="highlighter-rouge">start</code> are propagated to the caller.</p>
+<p>Perform <a href="https://tc39.github.io/ecma262/#sec-createdataproperty"><code class="highlighter-rouge">CreateDataProperty</code></a>(<code class="highlighter-rouge">instance</code>, <code class="highlighter-rouge">"exports"</code>, <code class="highlighter-rouge">exportsObject</code>).</p>
 
 <p>Return <code class="highlighter-rouge">instanceObject</code>.</p>
 
-<h3 id="webassembly-module-record">WebAssembly Module Record</h3>
-
-<p><a href="http://tc39.github.io/ecma262/#sec-abstract-module-records">Abstract Module Record</a>
-is a spec-internal concept used to define ES6 modules. This abstract class currently
-has one concrete subclass, <a href="http://tc39.github.io/ecma262/#sec-source-text-module-records">Source Text Module Record</a>
-which corresponds to a normal ES6 module. These interfaces are used to define the
-<a href="https://html.spec.whatwg.org/multipage/webappapis.html#integration-with-the-javascript-module-system">process of loading a module on the Web</a>.</p>
-
-<p>When WebAssembly gets <a href="../modules/#integration-with-es6-modules">ES6 Module integration</a>,
-a new <em>WebAssembly Module Record</em> subclass would be added which would specify
-the right thing to do for WebAssembly modules as part of the overall loading process.</p>
-
-<p>Until then, the specification of <a href="http://tc39.github.io/ecma262/#sec-module-namespace-exotic-objects">Module Namespace Exotic Objects</a>,
-(used for the <code class="highlighter-rouge">WebAssembly.Instance</code> <code class="highlighter-rouge">exports</code> property) still needs to refer to <em>some</em>
-vestigial Module Record as part of the specification of the
-<a href="http://tc39.github.io/ecma262/#sec-module-namespace-exotic-objects-get-p-receiver">[[Get]]</a>
-method.</p>
-
-<p>More work is needed to flesh out the precise spec interaction here, but the basic
-idea is to create a <a href="http://tc39.github.io/ecma262/#sec-module-environment-records">Module Environment Record</a>
-from <code class="highlighter-rouge">exports</code> as the [[Environment]] of a new WebAssembly Module Record.</p>
-
 <h2 id="exported-function-exotic-objects">Exported Function Exotic Objects</h2>
 
-<p>Functions exported by WebAssembly modules are reflected in JS via a new kind
-of <em>Exported Function</em> 
-<a href="http://tc39.github.io/ecma262/#sec-built-in-exotic-object-internal-methods-and-slots">Exotic Object</a>.
+<p>A function with <a href="../modules/#function-index-space">function index</a> <code class="highlighter-rouge">index</code>
+from an <code class="highlighter-rouge">Instance</code> <code class="highlighter-rouge">inst</code> is reflected to JS via a new kind of <em>Exported
+Function</em> <a href="http://tc39.github.io/ecma262/#sec-built-in-exotic-object-internal-methods-and-slots">Exotic Object</a>.
 Like <a href="http://tc39.github.io/ecma262/#sec-bound-function-exotic-objects">Bound Function</a> Exotic Object,
 Exported Functions do not have the normal function internal slots but instead have:</p>
 
 <ul>
   <li>[[Closure]] : the <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7">closure</a>
-representing the function</li>
+(<code class="highlighter-rouge">index</code>, <code class="highlighter-rouge">inst</code>)</li>
 </ul>
 
 <p>as well as the internal slots required of all builtin functions:</p>
@@ -519,7 +529,7 @@ representing the function</li>
 
 <ul>
   <li>the <code class="highlighter-rouge">length</code> property is set to the exported function’s signature’s arity</li>
-  <li>the <code class="highlighter-rouge">name</code> is set to <code class="highlighter-rouge">index</code> as a Number value</li>
+  <li>the <code class="highlighter-rouge">name</code> is set to <a href="https://tc39.github.io/ecma262/#sec-tostring"><code class="highlighter-rouge">ToString</code></a>(<code class="highlighter-rouge">index</code>)</li>
 </ul>
 
 <p>WebAssembly Exported Functions have a <code class="highlighter-rouge">[[Call]](this, argValues)</code> method defined as:</p>
@@ -575,6 +585,7 @@ is thrown.</p>
 
 <p>If <a href="http://tc39.github.io/ecma262/#sec-hasproperty"><code class="highlighter-rouge">HasProperty</code></a>(<code class="highlighter-rouge">"maximum"</code>),
 then let <code class="highlighter-rouge">maximum</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">memoryDescriptor</code>, <code class="highlighter-rouge">"maximum"</code>)).
+If <code class="highlighter-rouge">maximum</code> is smaller than <code class="highlighter-rouge">initial</code>, then throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>.
 Otherwise, let <code class="highlighter-rouge">maximum</code> be <code class="highlighter-rouge">None</code>.</p>
 
 <p>Let <code class="highlighter-rouge">memory</code> be the result of calling 
@@ -680,6 +691,7 @@ is thrown.
 
 <p>If <a href="http://tc39.github.io/ecma262/#sec-hasproperty"><code class="highlighter-rouge">HasProperty</code></a>(<code class="highlighter-rouge">"maximum"</code>),
 then let <code class="highlighter-rouge">maximum</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"maximum"</code>)).
+If <code class="highlighter-rouge">maximum</code> is smaller than <code class="highlighter-rouge">initial</code>, then throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>.
 Otherwise, let <code class="highlighter-rouge">maximum</code> be None.</p>
 
 <p>Let <code class="highlighter-rouge">table</code> be the result of calling 

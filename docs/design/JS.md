@@ -23,6 +23,12 @@ Because JavaScript exceptions can be handled, and JavaScript can continue to
 call WebAssembly exports after a trap has been handled, traps do not, in
 general, prevent future execution.
 
+## Stack Overflow
+
+Whenever a [stack overflow](Semantics.md#stack-overflow) is happening in
+WebAssembly code, the same exception is thrown as for a stack overflow in
+JavaScript.
+
 ## The `WebAssembly` object
 
 The `WebAssembly` object is the initial value of the `WebAssembly` property of
@@ -40,6 +46,8 @@ The following intrinsic objects are added:
 * `WebAssembly.Table` : the [`WebAssembly.Table` constructor](#webassemblytable-constructor)
 * `WebAssembly.CompileError` : a [NativeError](http://tc39.github.io/ecma262/#sec-nativeerror-object-structure)
    which indicates an error during WebAssembly decoding or validation
+* `WebAssembly.LinkError` : a [NativeError](http://tc39.github.io/ecma262/#sec-nativeerror-object-structure)
+   which indicates an error during WebAssembly instantiating a module (other than traps from the start function)
 * `WebAssembly.RuntimeError` : a [NativeError](http://tc39.github.io/ecma262/#sec-nativeerror-object-structure)
    which is thrown whenever WebAssembly specifies a [trap](#traps).
 
@@ -111,7 +119,7 @@ On success, the `Promise` is [fulfilled](http://tc39.github.io/ecma262/#sec-fulf
 with a plain JavaScript object pair `{module, instance}` containing the resulting
 `WebAssembly.Module` and `WebAssembly.Instance`. On failure, the `Promise` is
 [rejected](http://tc39.github.io/ecma262/#sec-rejectpromise) with a 
-`WebAssembly.CompileError`.
+`WebAssembly.CompileError`, `WebAssembly.LinkError`, or `WebAssembly.RuntimeError`, depending on the cause of failure.
 
 The asynchronous compilation is logically performed on a copy of the state of
 the given `BufferSource` captured during the call to `instantiate`; subsequent mutations
@@ -129,7 +137,7 @@ from `moduleObject` and `importObject` as described in the
 On success, the `Promise` is [fulfilled](http://tc39.github.io/ecma262/#sec-fulfillpromise)
 with the resulting `WebAssembly.Instance` object. On failure, the `Promise` is
 [rejected](http://tc39.github.io/ecma262/#sec-rejectpromise) with a 
-`WebAssembly.CompileError`.
+`WebAssembly.CompileError`, `WebAssembly.LinkError`, or `WebAssembly.RuntimeError`, depending on the cause of failure.
 
 ## `WebAssembly.Module` Objects
 
@@ -174,7 +182,7 @@ The `exports` function has the signature:
 Array exports(moduleObject)
 ```
 
-If `moduleObject` is not a `WebAssembly.Module` instance, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
+If `moduleObject` is not a `WebAssembly.Module`, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
 is thrown.
 
 This function returns an `Array` produced by mapping each
@@ -193,7 +201,7 @@ The `imports` function has the signature:
 Array imports(moduleObject)
 ```
 
-If `moduleObject` is not a `WebAssembly.Module` instance, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
+If `moduleObject` is not a `WebAssembly.Module`, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
 is thrown.
 
 This function returns an `Array` produced by mapping each
@@ -204,6 +212,25 @@ to the Object `{ module: String(i.module_name), name: String(i.item_name), kind:
 `i.ikind` is mapped to one of the String values `"function"`, `"table"`, `"memory"`, `"global"`.
 
 Note: other fields like `signature` may be added in the future.
+
+### `WebAssembly.Module.customSections`
+
+The `customSections` function has the signature:
+
+```
+Array customSections(moduleObject, sectionName)
+```
+
+If `moduleObject` is not a `WebAssembly.Module`, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
+is thrown.
+
+Let `sectionNameString` be the result of [`ToString`](https://tc39.github.io/ecma262/#sec-tostring)(`sectionName`).
+
+This function returns an `Array` produced by mapping each
+[custom section](BinaryEncoding.md#high-level-structure) (i.e., section with
+`id` 0) whose `name` field ([decoded as UTF-8](Web.md#names)) is equal to
+`sectionNameString` to an `ArrayBuffer` containing a copy of the section's
+`payload_data`. (Note: `payload_data` does not include `name` or `name_len`.)
 
 ### Structured Clone of a `WebAssembly.Module`
 
@@ -231,11 +258,6 @@ internal slot:
 * [[Instance]] : an [`Instance.instance`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L17)
   which is the WebAssembly spec definition of an instance
 
-as well as one plain data property (configurable, writable, enumerable)
-added by the constructor:
-
-* exports : a [Module Namespace Object](http://tc39.github.io/ecma262/#sec-module-namespace-objects)
-
 ### `WebAssembly.Instance` Constructor
 
 The `WebAssembly.Instance` constructor has the signature:
@@ -248,7 +270,7 @@ If the NewTarget is `undefined`, a [`TypeError`](https://tc39.github.io/ecma262/
 exception is thrown (i.e., this
 constructor cannot be called as a function without `new`).
 
-If `moduleObject` is not a `WebAssembly.Module` instance, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
+If `moduleObject` is not a `WebAssembly.Module`, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
 is thrown.
 
 Let `module` be the [`Ast.module`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L176)
@@ -274,10 +296,10 @@ For each [`import`](https://github.com/WebAssembly/spec/blob/master/interpreter/
 1. Let `v` be the value of performing [`Get`](http://tc39.github.io/ecma262/#sec-get-o-p)(`o`, [`i.item_name`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L171))
 1. If `i` is a function import:
   1. If [`IsCallable(v)`](https://tc39.github.io/ecma262/#sec-iscallable) is `false`,
-     throw a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
+     throw a `WebAssembly.LinkError`.
   1. If `v` is an [Exported Function Exotic Object](#exported-function-exotic-objects):
     1. If the signature of `v` does not match the signature of `i`, throw a 
-       [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
+       `WebAssembly.LinkError`.
     1. Let `closure` be `v.[[Closure]]`.
   1. Otherwise:
     1. Let `closure` be a new [host function](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L9)
@@ -288,17 +310,18 @@ For each [`import`](https://github.com/WebAssembly/spec/blob/master/interpreter/
   1. Append `v` to `funcs`.
   1. Append `closure` to `imports`.
 1. If `i` is a global import:
-  1. If `i` is not an immutable global, throw a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
-  1. If `Type(v)` is not Number, throw a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
+  1. [Assert](https://tc39.github.io/ecma262/#assert): the global is immutable
+     by MVP validation constraint.
+  1. If `Type(v)` is not Number, throw a `WebAssembly.LinkError`.
   1. Append [`ToWebAssemblyValue`](#towebassemblyvalue)`(v)` to `imports`.
 1. If `i` is a memory import:
   1. If `v` is not a [`WebAssembly.Memory` object](#webassemblymemory-objects),
-      throw a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
+      throw a `WebAssembly.LinkError`.
   1. Append `v` to `memories`.
   1. Append `v.[[Memory]]` to `imports`.
 1. Otherwise (`i` is a table import):
   1. If `v` is not a [`WebAssembly.Table` object](#webassemblytable-objects),
-     throw a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
+     throw a `WebAssembly.LinkError`.
   1. Append `v` to `tables`.
   1. Append `v.[[Table]]` to `imports`.
 
@@ -307,6 +330,23 @@ Let `instance` be the result of creating a new
 by calling
 [`Eval.init`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/eval.ml#L416)
 given `module` and `imports`.
+If this terminates with a `Link` error, throw a `WebAssembly.LinkError`; if it causes a trap, throw a `WebAssembly.RuntimeError`; all other exceptions are propagated to the caller.
+Among other things, this function performs the following observable steps:
+
+* If, after evaluating the `offset` [initializer expression](Modules.md#initializer-expression)
+  of every [Data](Modules.md#data-section) and [Element](Modules.md#elements-section)
+  Segment, any of the segments do not fit in their respective Memory or Table, throw a 
+  `WebAssembly.LinkError`.
+
+* Apply all Data and Element segments to their respective Memory or Table in the
+  order in which they appear in the module. Segments may overlap and, if they do,
+  the final value is the last value written in order. Note: there should be no
+  errors possible that would cause this operation to fail partway through. After
+  this operation completes, elements of `instance` are visible and callable
+  through [imported Tables](Modules.md#imports), even if `start` fails.
+
+* If a [`start`](Modules.md#module-start-function) is present, it is evaluated.
+  Any errors thrown by `start` are propagated to the caller.
 
 Let `exports` be a list of (string, JS value) pairs that is mapped from 
 each [external](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L24) value `e` in `instance.exports` as follows:
@@ -352,66 +392,30 @@ Note: For the purpose of the above algorithm, two [closure](https://github.com/W
 * Either they are both WebAssembly functions for the same instance and referring to the same function definition.
 * Or they are identical host functions (i.e., each host function value created from a JavaScript function is considered fresh).
 
-Let `moduleRecord` be a new [WebAssembly Module Record](#webassembly-module-record)
-(given `exports`).
-
-Let `exportStrings` be the projected list of only the first (string) components
-of `exports`. Let `moduleNamespace` be the result of calling 
-[`ModuleNamespaceCreate(moduleRecord, exportStrings)`](http://tc39.github.io/ecma262/#sec-modulenamespacecreate).
-Set `moduleRecord.[[Namespace]]` to `moduleNamespace`.
+Let `exportsObject` be a new [frozen](https://tc39.github.io/ecma262/#sec-object.freeze)
+plain JS object with [[Prototype]] set to Null and with properties defined
+by mapping each export in `exports` to an enumerable, non-writable,
+non-configurable data property. Note: the validity and uniqueness checks
+performed during [module compilation](#webassemblymodule-constructor) ensure
+that each property name is valid and no properties are defined twice.
 
 Let `instanceObject` be a new `WebAssembly.Instance` object setting
-`[[Instance]]` to `instance` and `exports` to `moduleNamespace`.
+the internal `[[Instance]]` slot to `instance`.
 
-If, after evaluating the `offset` [initializer expression](Modules.md#initializer-expression)
-of every [Data](Modules.md#data-section) and [Element](Modules.md#elements-section)
-Segment, any of the segments do not fit in their respective Memory or Table, throw a 
-[`RangeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror).
-
-Apply all Data and Element segments to their respective Memory or Table in the
-order in which they appear in the module. Segments may overlap and, if they do,
-the final value is the last value written in order. Note: there should be no
-errors possible that would cause this operation to fail partway through. After
-this operation completes, elements of `instance` are visible and callable
-through [imported Tables](Modules.md#imports), even if `start` fails.
-
-If a [`start`](Modules.md#module-start-function) is present, it is evaluated
-given `instance`. Any errors thrown by `start` are propagated to the caller.
+Perform [`CreateDataProperty`](https://tc39.github.io/ecma262/#sec-createdataproperty)(`instance`, `"exports"`, `exportsObject`).
 
 Return `instanceObject`.
 
-### WebAssembly Module Record
-
-[Abstract Module Record](http://tc39.github.io/ecma262/#sec-abstract-module-records)
-is a spec-internal concept used to define ES6 modules. This abstract class currently
-has one concrete subclass, [Source Text Module Record](http://tc39.github.io/ecma262/#sec-source-text-module-records)
-which corresponds to a normal ES6 module. These interfaces are used to define the
-[process of loading a module on the Web](https://html.spec.whatwg.org/multipage/webappapis.html#integration-with-the-javascript-module-system).
-
-When WebAssembly gets [ES6 Module integration](Modules.md#integration-with-es6-modules),
-a new *WebAssembly Module Record* subclass would be added which would specify
-the right thing to do for WebAssembly modules as part of the overall loading process.
-
-Until then, the specification of [Module Namespace Exotic Objects](http://tc39.github.io/ecma262/#sec-module-namespace-exotic-objects),
-(used for the `WebAssembly.Instance` `exports` property) still needs to refer to *some*
-vestigial Module Record as part of the specification of the
-[\[\[Get\]\]](http://tc39.github.io/ecma262/#sec-module-namespace-exotic-objects-get-p-receiver)
-method.
-
-More work is needed to flesh out the precise spec interaction here, but the basic
-idea is to create a [Module Environment Record](http://tc39.github.io/ecma262/#sec-module-environment-records)
-from `exports` as the [[Environment]] of a new WebAssembly Module Record.
-
 ## Exported Function Exotic Objects
 
-Functions exported by WebAssembly modules are reflected in JS via a new kind
-of *Exported Function* 
-[Exotic Object](http://tc39.github.io/ecma262/#sec-built-in-exotic-object-internal-methods-and-slots).
+A function with [function index](Modules.md#function-index-space) `index`
+from an `Instance` `inst` is reflected to JS via a new kind of *Exported
+Function* [Exotic Object](http://tc39.github.io/ecma262/#sec-built-in-exotic-object-internal-methods-and-slots).
 Like [Bound Function](http://tc39.github.io/ecma262/#sec-bound-function-exotic-objects) Exotic Object,
 Exported Functions do not have the normal function internal slots but instead have:
 
  * [[Closure]] : the [closure](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7)
-   representing the function
+   (`index`, `inst`)
 
 as well as the internal slots required of all builtin functions:
 
@@ -423,7 +427,7 @@ as well as the internal slots required of all builtin functions:
 Exported Functions also have the following data properties:
 
 * the `length` property is set to the exported function's signature's arity 
-* the `name` is set to `index` as a Number value
+* the `name` is set to [`ToString`](https://tc39.github.io/ecma262/#sec-tostring)(`index`)
 
 WebAssembly Exported Functions have a `[[Call]](this, argValues)` method defined as:
 
@@ -470,6 +474,7 @@ Let `initial` be [`ToNonWrappingUint32`](#tononwrappinguint32)([`Get`](http://tc
 
 If [`HasProperty`](http://tc39.github.io/ecma262/#sec-hasproperty)(`"maximum"`),
 then let `maximum` be [`ToNonWrappingUint32`](#tononwrappinguint32)([`Get`](http://tc39.github.io/ecma262/#sec-get-o-p)(`memoryDescriptor`, `"maximum"`)).
+If `maximum` is smaller than `initial`, then throw a [`RangeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror).
 Otherwise, let `maximum` be `None`.
 
 Let `memory` be the result of calling 
@@ -567,6 +572,7 @@ Let `initial` be [`ToNonWrappingUint32`](#tononwrappinguint32)([`Get`](http://tc
 
 If [`HasProperty`](http://tc39.github.io/ecma262/#sec-hasproperty)(`"maximum"`),
 then let `maximum` be [`ToNonWrappingUint32`](#tononwrappinguint32)([`Get`](http://tc39.github.io/ecma262/#sec-get-o-p)(`tableDescriptor`, `"maximum"`)).
+If `maximum` is smaller than `initial`, then throw a [`RangeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror).
 Otherwise, let `maximum` be None.
 
 Let `table` be the result of calling 
