@@ -5,6 +5,7 @@ Project overview for WebAssembly: [webassembly.org](http://webassembly.org)
 ## Dependencies
 
 - Ruby >= 2.0.0
+- [Bundler](http://bundler.io/)
 
 ## Building the site
 
