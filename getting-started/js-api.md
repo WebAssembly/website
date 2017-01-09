@@ -134,7 +134,7 @@ Since this module *exports* its memory, given an `Instance` of this module calle
 var i32 = new Uint32Array(instance.exports.mem);
 for (var i = 0; i < 10; i++)
   i32[i] = i;
-var sum = i.exports.accumulate(0, 10);
+var sum = instance.exports.accumulate(0, 10);
 ```
 
 
