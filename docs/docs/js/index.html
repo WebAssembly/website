@@ -302,6 +302,9 @@ is thrown.</p>
 <code class="highlighter-rouge">sectionNameString</code> to an <code class="highlighter-rouge">ArrayBuffer</code> containing a copy of the section’s
 <code class="highlighter-rouge">payload_data</code>. (Note: <code class="highlighter-rouge">payload_data</code> does not include <code class="highlighter-rouge">name</code> or <code class="highlighter-rouge">name_len</code>.)</p>
 
+<p>The <code class="highlighter-rouge">Array</code> is populated in the same order as that in which custom sections
+appeared in the WebAssembly binary.</p>
+
 <h3 id="structured-clone-of-a-webassemblymodule">Structured Clone of a <code class="highlighter-rouge">WebAssembly.Module</code>
 </h3>
 
@@ -402,6 +405,13 @@ by MVP validation constraint.</li>
 throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
   <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">tables</code>.</li>
   <li>Append <code class="highlighter-rouge">v.[[Table]]</code> to <code class="highlighter-rouge">imports</code>.</li>
+  <li>For each index <code class="highlighter-rouge">i</code> of <code class="highlighter-rouge">v.[[Table]]</code>:
+    1. Let <code class="highlighter-rouge">e</code> be the <code class="highlighter-rouge">i</code>the element of <code class="highlighter-rouge">v.[[Table]]</code>.
+    1. If <code class="highlighter-rouge">e</code> is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7"><code class="highlighter-rouge">closure</code></a> <code class="highlighter-rouge">c</code>:
+    <ol>
+      <li>Append the <code class="highlighter-rouge">i</code>th element of <code class="highlighter-rouge">v.[[Values]]</code> to <code class="highlighter-rouge">funcs</code>.</li>
+    </ol>
+  </li>
 </ol>
 
 <p>Let <code class="highlighter-rouge">instance</code> be the result of creating a new
@@ -425,13 +435,41 @@ order in which they appear in the module. Segments may overlap and, if they do,
 the final value is the last value written in order. Note: there should be no
 errors possible that would cause this operation to fail partway through. After
 this operation completes, elements of <code class="highlighter-rouge">instance</code> are visible and callable
-through <a href="../modules/#imports">imported Tables</a>, even if <code class="highlighter-rouge">start</code> fails.</p>
+through <a href="../modules/#imports">imported tables</a>, even if <code class="highlighter-rouge">start</code> fails.</p>
   </li>
   <li>
     <p>If a <a href="../modules/#module-start-function"><code class="highlighter-rouge">start</code></a> is present, it is evaluated.
 Any errors thrown by <code class="highlighter-rouge">start</code> are propagated to the caller.</p>
   </li>
 </ul>
+
+<p>The following steps are performed <em>before</em> the <code class="highlighter-rouge">start</code> function executes:</p>
+
+<ol>
+  <li>For each table ‘t’ in <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L17"><code class="highlighter-rouge">instance.tables</code></a>:</li>
+  <li>If there is no element in <code class="highlighter-rouge">tables</code> whose <code class="highlighter-rouge">table.[[Table]]</code> is <code class="highlighter-rouge">t</code>:
+    1. Let <code class="highlighter-rouge">table</code> be a new <code class="highlighter-rouge">WebAssembly.Table</code> object with [[Table]] set to <code class="highlighter-rouge">t</code> and [[Values]] set to a new list of the same length all whose entries are <code class="highlighter-rouge">null</code>.
+    1. Append <code class="highlighter-rouge">table</code> to <code class="highlighter-rouge">tables</code>.</li>
+  <li>Otherwise:
+    1. Let <code class="highlighter-rouge">table</code> be the element in <code class="highlighter-rouge">tables</code> whose <code class="highlighter-rouge">table.[[Table]]</code> is <code class="highlighter-rouge">t</code>
+</li>
+  <li>(Note: At most one <code class="highlighter-rouge">WebAssembly.Table</code> object is created for any table, so the above <code class="highlighter-rouge">table</code> is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import, the original object will be found.)</li>
+  <li>For each index <code class="highlighter-rouge">i</code> of <code class="highlighter-rouge">t</code>:
+    1. Let <code class="highlighter-rouge">c</code> be the <code class="highlighter-rouge">i</code>th element of <code class="highlighter-rouge">t</code>
+    1. If <code class="highlighter-rouge">c</code> is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7"><code class="highlighter-rouge">closure</code></a> <code class="highlighter-rouge">c</code>:
+    <ol>
+      <li>If there is an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> in <code class="highlighter-rouge">funcs</code> whose <code class="highlighter-rouge">[[Closure]]</code> equals <code class="highlighter-rouge">c</code>:</li>
+      <li>Let <code class="highlighter-rouge">func</code> be that function object.</li>
+      <li>(Note: At most one wrapper is created for any closure, so <code class="highlighter-rouge">func</code> is uniquely determined. Moreover, if the item was an import that is already an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a>, then the original function object will be found. For imports that are regular JS functions, a new wrapper will be created.)</li>
+      <li>Otherwise:</li>
+      <li>Let <code class="highlighter-rouge">func</code> be an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> created from <code class="highlighter-rouge">c</code>.</li>
+      <li>Append <code class="highlighter-rouge">func</code> to <code class="highlighter-rouge">funcs</code>.</li>
+      <li>Set the <code class="highlighter-rouge">i</code>th element of <code class="highlighter-rouge">table.[[Values]]</code> to <code class="highlighter-rouge">func</code>.</li>
+    </ol>
+  </li>
+</ol>
+
+<p>(Note: The table and element function objects created by the above steps are only observable for tables that are either imported or exported.)</p>
 
 <p>Let <code class="highlighter-rouge">exports</code> be a list of (string, JS value) pairs that is mapped from 
 each <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L24">external</a> value <code class="highlighter-rouge">e</code> in <code class="highlighter-rouge">instance.exports</code> as follows:</p>
@@ -457,25 +495,8 @@ by MVP validation constraint.</li>
     1. Append <code class="highlighter-rouge">memory</code> to <code class="highlighter-rouge">memories</code>.
     1. Return <code class="highlighter-rouge">memory</code>.</li>
   <li>Otherwise <code class="highlighter-rouge">e</code> must be a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L13">table</a> <code class="highlighter-rouge">t</code>:</li>
-  <li>If there is an element <code class="highlighter-rouge">table</code> in <code class="highlighter-rouge">tables</code> whose <code class="highlighter-rouge">table.[[Table]]</code> is <code class="highlighter-rouge">t</code>, then return <code class="highlighter-rouge">table</code>.</li>
-  <li>(Note: At most one <code class="highlighter-rouge">WebAssembly.Table</code> object is created for any table, so the above <code class="highlighter-rouge">table</code> is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import, the original object will be found.)</li>
-  <li>Otherwise:
-    1. Let <code class="highlighter-rouge">values</code> be a list of JS values that is mapped from <code class="highlighter-rouge">t</code>’s elements as follows:
-    <ol>
-      <li>For an element that is <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/table.mli#L8"><code class="highlighter-rouge">uninitialized</code></a>:</li>
-      <li>Return <code class="highlighter-rouge">null</code>.</li>
-      <li>For an element that is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7"><code class="highlighter-rouge">closure</code></a> <code class="highlighter-rouge">c</code>:</li>
-      <li>If there is an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> <code class="highlighter-rouge">func</code> in <code class="highlighter-rouge">funcs</code> whose <code class="highlighter-rouge">func.[[Closure]]</code> equals <code class="highlighter-rouge">c</code>, then return <code class="highlighter-rouge">func</code>.</li>
-      <li>(Note: At most one wrapper is created for a any closure, so <code class="highlighter-rouge">func</code> is uniquely determined. Moreover, if the item was an import that is already an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a>, then the original function object will be found. For imports that are regular JS functions, a new wrapper will be created.)</li>
-      <li>Otherwise:
-     1. Let <code class="highlighter-rouge">func</code> be an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a> created from <code class="highlighter-rouge">c</code>.
-     1. Append <code class="highlighter-rouge">func</code> to <code class="highlighter-rouge">funcs</code>.
-     1. Return <code class="highlighter-rouge">func</code>.
-    1. Let <code class="highlighter-rouge">table</code> be a new <code class="highlighter-rouge">WebAssembly.Table</code> object with [[Table]] set to <code class="highlighter-rouge">t</code> and [[Values]] set to <code class="highlighter-rouge">values</code>.
-    1. Append <code class="highlighter-rouge">table</code> to <code class="highlighter-rouge">tables</code>.
-    1. Return <code class="highlighter-rouge">table</code>.</li>
-    </ol>
-  </li>
+  <li>Assert: There is an element <code class="highlighter-rouge">table</code> in <code class="highlighter-rouge">tables</code> whose <code class="highlighter-rouge">table.[[Table]]</code> is <code class="highlighter-rouge">t</code>.</li>
+  <li>Return that <code class="highlighter-rouge">table</code>.</li>
 </ol>
 
 <p>Note: For the purpose of the above algorithm, two <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7">closure</a> values are considered equal if and only if:</p>
@@ -489,7 +510,7 @@ by MVP validation constraint.</li>
 plain JS object with [[Prototype]] set to Null and with properties defined
 by mapping each export in <code class="highlighter-rouge">exports</code> to an enumerable, non-writable,
 non-configurable data property. Note: the validity and uniqueness checks
-performed during <a href="#webassemblymodule-constructor">module compilation</a> ensure
+performed during <a href="#webassemblymodule-constructor">module validation</a> ensure
 that each property name is valid and no properties are defined twice.</p>
 
 <p>Let <code class="highlighter-rouge">instanceObject</code> be a new <code class="highlighter-rouge">WebAssembly.Instance</code> object setting
@@ -628,10 +649,12 @@ is thrown.</p>
 
 <p>Let <code class="highlighter-rouge">d</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<code class="highlighter-rouge">delta</code>).</p>
 
-<p>Let <code class="highlighter-rouge">ret</code> be the result of performing a
-<a href="../semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> operation given delta <code class="highlighter-rouge">d</code>.</p>
+<p>Let <code class="highlighter-rouge">ret</code> be the current size of memory in pages (before resizing).</p>
 
-<p>If <code class="highlighter-rouge">ret</code> is <code class="highlighter-rouge">-1</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a> is thrown.</p>
+<p>Perform <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/memory.mli#L27"><code class="highlighter-rouge">Memory.grow</code></a>
+with delta <code class="highlighter-rouge">d</code>. On failure, a 
+<a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>
+is thrown.</p>
 
 <p>Perform <a href="http://tc39.github.io/ecma262/#sec-detacharraybuffer"><code class="highlighter-rouge">DetachArrayBuffer</code></a>(<code class="highlighter-rouge">M.[[BufferObject]]</code>).</p>
 
@@ -641,7 +664,7 @@ aliases <code class="highlighter-rouge">M.[[Memory]]</code> and whose
 <a href="http://tc39.github.io/ecma262/#sec-properties-of-the-arraybuffer-prototype-object">[[ArrayBufferByteLength]]</a>
 is set to the new byte length of <code class="highlighter-rouge">M.[[Memory]]</code>.</p>
 
-<p>Return <a href="#ToJSValue"><code class="highlighter-rouge">ToJSValue</code></a>(<code class="highlighter-rouge">ret</code>).</p>
+<p>Return <code class="highlighter-rouge">ret</code> as a Number value.</p>
 
 <h3 id="webassemblymemoryprototypebuffer"><code class="highlighter-rouge">WebAssembly.Memory.prototype.buffer</code></h3>
 
@@ -716,9 +739,27 @@ is thrown.</p>
 
 <h3 id="webassemblytableprototypegrow"><code class="highlighter-rouge">WebAssembly.Table.prototype.grow</code></h3>
 
-<p>This method calls <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/table.ml#L79"><code class="highlighter-rouge">Table.grow</code></a>, having performed
-<a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a> on the first argument.
-On failure, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a> is thrown.</p>
+<p>The <code class="highlighter-rouge">grow</code> method has the signature:</p>
+
+<div class="highlighter-rouge">
+<pre class="highlight"><code>grow(delta)
+</code></pre>
+</div>
+
+<p>Let <code class="highlighter-rouge">T</code> be the <code class="highlighter-rouge">this</code> value. If <code class="highlighter-rouge">T</code> is not a <code class="highlighter-rouge">WebAssembly.Table</code>,
+a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
+is thrown.</p>
+
+<p>Let <code class="highlighter-rouge">d</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<code class="highlighter-rouge">delta</code>).</p>
+
+<p>Let <code class="highlighter-rouge">ret</code> be the current length of the table (before resizing).</p>
+
+<p>Perform <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/table.ml#L40"><code class="highlighter-rouge">Table.grow</code></a>,
+with delta <code class="highlighter-rouge">d</code>. On failure, a
+<a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>
+is thrown.</p>
+
+<p>Return <code class="highlighter-rouge">ret</code> as a Number value.</p>
 
 <h3 id="webassemblytableprototypeget"><code class="highlighter-rouge">WebAssembly.Table.prototype.get</code></h3>
 
@@ -822,38 +863,30 @@ is thrown.</p>
 <p>Given <code class="highlighter-rouge">demo.was</code> (encoded to <code class="highlighter-rouge">demo.wasm</code>):</p>
 
 <pre><code class="language-lisp">(module
-    (import $i1 "m" "import1")
-    (import $i2 "import2" "")
-    (func $main (call_import $i1))
+    (import $i1 "js" "import1")
+    (import $i2 "js" "import2")
+    (func $main (call $i1))
     (start $main)
-    (func $f (call_import $i2))
-    (export "f" $f)
+    (func (export "f") (call $i2))
 )
 </code></pre>
 
 <p>and the following JavaScript, run in a browser:</p>
 
 <div class="language-javascript highlighter-rouge">
-<pre class="highlight"><code><span class="nx">fetch</span><span class="p">(</span><span class="s1">'demo.wasm'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span>
+<pre class="highlight"><code><span class="kd">var</span> <span class="nx">importObj</span> <span class="o">=</span> <span class="p">{</span><span class="na">js</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">import1</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"hello,"</span><span class="p">),</span>
+    <span class="na">import2</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"world!"</span><span class="p">)</span>
+<span class="p">}};</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="s1">'demo.wasm'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span>
     <span class="nx">response</span><span class="p">.</span><span class="nx">arrayBuffer</span><span class="p">()</span>
 <span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">buffer</span> <span class="o">=&gt;</span>
-    <span class="nx">WebAssembly</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">buffer</span><span class="p">)</span>
-<span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">module</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">importObj</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="na">m</span><span class="p">:</span> <span class="p">{</span><span class="na">import1</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"hello, "</span><span class="p">)},</span>
-        <span class="na">import2</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"world!\n"</span><span class="p">)</span>
-    <span class="p">};</span>
-    <span class="kd">var</span> <span class="nx">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebAssembly</span><span class="p">.</span><span class="nx">Instance</span><span class="p">(</span><span class="nx">module</span><span class="p">,</span> <span class="nx">importObj</span><span class="p">);</span> <span class="c1">// "hello, "</span>
-    <span class="nx">instance</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">f</span><span class="p">();</span> <span class="c1">// "world!"</span>
-<span class="p">});</span>
+    <span class="nx">WebAssembly</span><span class="p">.</span><span class="nx">instantiate</span><span class="p">(</span><span class="nx">buffer</span><span class="p">,</span> <span class="nx">importObj</span><span class="p">)</span>
+<span class="p">).</span><span class="nx">then</span><span class="p">(({</span><span class="nx">module</span><span class="p">,</span> <span class="nx">instance</span><span class="p">})</span> <span class="o">=&gt;</span>
+    <span class="nx">instance</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">f</span><span class="p">()</span>
+<span class="p">);</span>
 </code></pre>
 </div>
-
-<h2 id="todo">TODO</h2>
-
-<ul>
-  <li>JS API for cyclic imports</li>
-</ul>
 
 
       </div>
