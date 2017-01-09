@@ -689,7 +689,7 @@ Return `i`.
 
 ## Sample API Usage
 
-Given `demo.was` (encoded to `demo.wasm`):
+Given `demo.wast` (encoded to `demo.wasm`):
 
 ```lisp
 (module
