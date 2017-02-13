@@ -22,14 +22,31 @@ Install gem dependencies:
 $ bundle install
 ```
 
-Build with Jekyll or serve local preview:
+Build the pages with Jekyll:
 
 ```
-$ bundle exec jekyll build
-$ bundle exec jekyll serve
+$ make pages
 ```
 
-> You must run `bundle exec jekyll build` after every change and include the `docs` directory in your commit!
+Build the HTML test cases (this needs an OCaml environment):
+
+```
+$ make tests
+```
+
+Or build both in one command:
+
+```
+$ make
+```
+
+Serve the pages and tests locally:
+
+```
+$ make serve
+```
+
+> You must run `make` after every change and include the `docs` directory in your commit!
 
 ## Publishing
 

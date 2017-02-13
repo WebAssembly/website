@@ -5,12 +5,14 @@ exclude: [
   LICENSE,
   Gemfile,
   Gemfile.lock,
+  Makefile,
   design/LICENSE,
   design/Contributing.md,
   design/README.md,
   design/tools,
   docs,
-  vendor
+  vendor,
+  spec/
 ]
 
 destination: docs

@@ -1,3 +1,6 @@
 [submodule "docs"]
 	path = design
 	url = https://github.com/WebAssembly/design
+[submodule "spec"]
+	path = spec
+	url = https://github.com/WebAssembly/spec
