@@ -24,6 +24,14 @@ Building Emscripten from source is automated via the Emscripten SDK. The require
     $ ./emsdk install sdk-incoming-64bit binaryen-master-64bit
     $ ./emsdk activate sdk-incoming-64bit binaryen-master-64bit
 
+<div markdown="1" class="flash flash-warn">
+Note that for the browser preview you may have to install from the `master` branch instead of the `incoming` branch:
+
+    $ ./emsdk install sdk-master-64bit binaryen-master-64bit
+    $ ./emsdk activate sdk-master-64bit binaryen-master-64bit
+
+</div>
+
 After these steps, the installation is complete. To enter an Emscripten compiler environment in the current command line prompt, type
 
     $ source ./emsdk_env.sh
