@@ -53,6 +53,6 @@ $ <b>emcc hello.c -s WASM=1 -o hello.html</b>
 
 To serve the compiled files over HTTP, we can use the `emrun` web server provided with the Emscripten SDK:
 
-    $ emrun --no_browser --port 8080 .
+    $ emrun --browser=false --port 8080 .
 
 Once the HTTP server is running, you can <a href="http://localhost:8080/hello.html" target="_blank">open it in your browser</a>. If you see "Hello, world!" printed to the Emscripten console, then congratulations! You've successfully compiled to WebAssembly!
