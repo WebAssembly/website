@@ -97,6 +97,8 @@ window.addEventListener('resize', softFullscreenResizeWebGLRenderTarget);
         version = String(0xc);
     } else if (WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x0d, 0x00, 0x00, 0x00))) {
         version = String(0xd);
+    } else if (WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00))) {
+        version = String(0x1);
     }
   }
 
