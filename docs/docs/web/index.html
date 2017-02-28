@@ -65,6 +65,109 @@ and retrieve compiled modules from offline storage, instantiate compiled modules
 with JavaScript imports, call the exported functions of instantiated modules,
 alias the exported memory of instantiated modules, etc.</p>
 
+<p>The Web embedding includes additional methods useful in that context.
+Non-web embeddings are not required to support these additional methods.</p>
+
+<h3 id="additional-web-embedding-api">Additional Web Embedding API</h3>
+
+<h4 id="webassemblycompile"><code class="highlighter-rouge">WebAssembly.compile</code></h4>
+
+<p><img class="emoji" title=":cyclone:" alt=":cyclone:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f300.png" height="20" width="20" align="absmiddle"> Added for milestone 2, developers must feature detect.</p>
+
+<p>In Web embeddings, the following overloads are added (in addition to the core
+JS API method of the same name).</p>
+
+<div class="highlighter-rouge">
+<pre class="highlight"><code>Promise&lt;WebAssembly.Module&gt; compile(Response source)
+
+Promise&lt;WebAssembly.Module&gt; compile(Promise&lt;Response&gt; source)
+</code></pre>
+</div>
+
+<p>Developers can set the argument <code class="highlighter-rouge">source</code> with either a promise that resolves
+with a
+<a href="https://fetch.spec.whatwg.org/#response-class"><code class="highlighter-rouge">Response</code></a>
+object or a
+<a href="https://fetch.spec.whatwg.org/#response-class"><code class="highlighter-rouge">Response</code></a>
+object (which is automatically cast to a
+promise).
+If when unwrapped that <code class="highlighter-rouge">Promise</code> is not a <code class="highlighter-rouge">Response</code> object, then the returned <code class="highlighter-rouge">Promise</code> is
+<a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a>
+with a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.
+Renderer-side
+security checks about tainting for cross-origin content are tied to the types
+of filtered responses defined in
+<a href="https://fetch.spec.whatwg.org/#concept-fetch"><code class="highlighter-rouge">Fetch</code></a>.</p>
+
+<p>This function starts an asynchronous task to compile a <code class="highlighter-rouge">WebAssembly.Module</code>
+as described in the <a href="#webassemblymodule-constructor"><code class="highlighter-rouge">WebAssembly.Module</code> constructor</a>.
+On success, the <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
+with the resulting <code class="highlighter-rouge">WebAssembly.Module</code> object. On failure, the <code class="highlighter-rouge">Promise</code> is
+<a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a
+<code class="highlighter-rouge">WebAssembly.CompileError</code>.</p>
+
+<p>The <code class="highlighter-rouge">Promise&lt;Response&gt;</code> is used as the source of the bytes to compile.
+MIME type information is
+<a href="https://fetch.spec.whatwg.org/#concept-header-extract-mime-type"><code class="highlighter-rouge">extracted</code></a>
+from the <code class="highlighter-rouge">Response</code>, WebAssembly <code class="highlighter-rouge">source</code> data must have a MIME type of <code class="highlighter-rouge">application/wasm</code>,
+extra parameters are not allowed (including empty <code class="highlighter-rouge">application/wasm;</code>).
+MIME type mismatch or <code class="highlighter-rouge">opaque</code> response types
+<a href="http://tc39.github.io/ecma262/#sec-rejectpromise">reject</a> the Promise with a
+<code class="highlighter-rouge">WebAssembly.CompileError</code>.</p>
+
+<h4 id="webassemblyinstantiate"><code class="highlighter-rouge">WebAssembly.instantiate</code></h4>
+
+<p><img class="emoji" title=":cyclone:" alt=":cyclone:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f300.png" height="20" width="20" align="absmiddle"> Added for milestone 2, developers must feature detect.</p>
+
+<p>In Web embeddings, the following overloads are added (in addition to the core
+JS API method of the same name).</p>
+
+<div class="highlighter-rouge">
+<pre class="highlight"><code>Promise&lt;{module:WebAssembly.Module, instance:WebAssembly.Instance}&gt;
+  instantiate(Response source [, importObject])
+
+Promise&lt;{module:WebAssembly.Module, instance:WebAssembly.Instance}&gt;
+  instantiate(Promise&lt;Response&gt; source [, importObject])
+</code></pre>
+</div>
+
+<p>Developers can set the argument <code class="highlighter-rouge">source</code> with either a promise that resolves
+with a
+<a href="https://fetch.spec.whatwg.org/#response-class"><code class="highlighter-rouge">Response</code></a>
+object or a
+<a href="https://fetch.spec.whatwg.org/#response-class"><code class="highlighter-rouge">Response</code></a>
+object (which is automatically cast to a
+promise).
+If when unwrapped that <code class="highlighter-rouge">Promise</code> is not a <code class="highlighter-rouge">Response</code> object, then the returned <code class="highlighter-rouge">Promise</code> is
+<a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a>
+with a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.
+Renderer-side
+security checks about tainting for cross-origin content are tied to the types
+of filtered responses defined in
+<a href="https://fetch.spec.whatwg.org/#concept-fetch"><code class="highlighter-rouge">Fetch</code></a>.</p>
+
+<p>This function starts an asynchronous task that first compiles a <code class="highlighter-rouge">WebAssembly.Module</code>
+based on bytes from <code class="highlighter-rouge">source</code> as described in
+the <a href="#webassemblymodule-constructor"><code class="highlighter-rouge">WebAssembly.Module</code> constructor</a>
+and then instantiate the resulting <code class="highlighter-rouge">Module</code> with <code class="highlighter-rouge">importObject</code> as described in the
+<a href="#webassemblyinstance-constructor"><code class="highlighter-rouge">WebAssembly.Instance</code> constructor</a>.
+On success, the <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
+with a plain JavaScript object pair <code class="highlighter-rouge"><span class="p">{</span><span class="err">module,</span><span class="w"> </span><span class="err">instance</span><span class="p">}</span></code> containing the resulting
+<code class="highlighter-rouge">WebAssembly.Module</code> and <code class="highlighter-rouge">WebAssembly.Instance</code>. The 2 properties <code class="highlighter-rouge">module</code> and <code class="highlighter-rouge">instance</code> of the returned pair are  configurable, enumerable and writable.</p>
+
+<p>On failure, the <code class="highlighter-rouge">Promise</code> is
+<a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a
+<code class="highlighter-rouge">WebAssembly.CompileError</code>, <code class="highlighter-rouge">WebAssembly.LinkError</code>, or <code class="highlighter-rouge">WebAssembly.RuntimeError</code>, depending on the cause of failure.</p>
+
+<p>The <code class="highlighter-rouge">Promise&lt;Response&gt;</code> is used as the source of the bytes to compile.
+MIME type information is
+<a href="https://fetch.spec.whatwg.org/#concept-header-extract-mime-type"><code class="highlighter-rouge">extracted</code></a>
+from the <code class="highlighter-rouge">Response</code>, WebAssembly <code class="highlighter-rouge">source</code> data must have a MIME type of <code class="highlighter-rouge">application/wasm</code>,
+extra parameters are not allowed (including empty <code class="highlighter-rouge">application/wasm;</code>).
+MIME type mismatch or <code class="highlighter-rouge">opaque</code> response types
+<a href="http://tc39.github.io/ecma262/#sec-rejectpromise">reject</a> the Promise with a
+<code class="highlighter-rouge">WebAssembly.CompileError</code>.</p>
+
 <h2 id="modules">Modules</h2>
 
 <p>WebAssembly’s <a href="../modules/">modules</a> allow for natural <a href="../modules/#integration-with-es6-modules">integration with

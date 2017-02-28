@@ -36,6 +36,13 @@ the global object. Like the `Math` and `JSON` objects, the `WebAssembly` object
 is a plain JS object (not a constructor or function) that acts like a namespace
 and has the following properties:
 
+### `WebAssembly [ @@toStringTag ]` Property
+
+The initial value of the [`@@toStringTag`](https://tc39.github.io/ecma262/#sec-well-known-symbols)
+property is the String value `"WebAssembly"`.
+
+This property has the attributes { [[Writable]]: `false`, [[Enumerable]]: `false`, [[Configurable]]: `true` }.
+
 ### Constructor Properties of the `WebAssembly` object
 
 The following intrinsic objects are added:
@@ -81,7 +88,7 @@ If the given `bytes` argument is not a
 the returned `Promise` is [rejected](http://tc39.github.io/ecma262/#sec-rejectpromise)
 with a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
 
-Otherwise, this function starts an asychronous task to compile a `WebAssembly.Module`
+Otherwise, this function starts an asynchronous task to compile a `WebAssembly.Module`
 as described in the [`WebAssembly.Module` constructor](#webassemblymodule-constructor).
 On success, the `Promise` is [fulfilled](http://tc39.github.io/ecma262/#sec-fulfillpromise)
 with the resulting `WebAssembly.Module` object. On failure, the `Promise` is 
@@ -117,7 +124,9 @@ and then instantiate the resulting `Module` with `importObject` as described in 
 [`WebAssembly.Instance` constructor](#webassemblyinstance-constructor).
 On success, the `Promise` is [fulfilled](http://tc39.github.io/ecma262/#sec-fulfillpromise)
 with a plain JavaScript object pair `{module, instance}` containing the resulting
-`WebAssembly.Module` and `WebAssembly.Instance`. On failure, the `Promise` is
+`WebAssembly.Module` and `WebAssembly.Instance`. The 2 properties `module` and `instance` of the returned pair are  configurable, enumerable and writable. 
+
+On failure, the `Promise` is
 [rejected](http://tc39.github.io/ecma262/#sec-rejectpromise) with a 
 `WebAssembly.CompileError`, `WebAssembly.LinkError`, or `WebAssembly.RuntimeError`, depending on the cause of failure.
 
@@ -174,6 +183,13 @@ Otherwise, this function performs synchronous compilation of the `BufferSource`:
    the validated `Ast.module`.
 1. On failure, a new `WebAssembly.CompileError` is thrown.
 
+### `WebAssembly.Module.prototype [ @@toStringTag ]` Property
+
+The initial value of the [`@@toStringTag`](https://tc39.github.io/ecma262/#sec-well-known-symbols)
+property is the String value `"WebAssembly.Module"`.
+
+This property has the attributes { [[Writable]]: `false`, [[Enumerable]]: `false`, [[Configurable]]: `true` }.
+
 ### `WebAssembly.Module.exports`
 
 The `exports` function has the signature:
@@ -185,13 +201,15 @@ Array exports(moduleObject)
 If `moduleObject` is not a `WebAssembly.Module`, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
 is thrown.
 
-This function returns an `Array` produced by mapping each
+This function returns a new `Array` every time it is called. Each such `Array` is produced by mapping each
 [`Ast.export`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L152)
 `e` of [moduleObject.[[Module]].exports](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L187)
 to the Object `{ name: String(e.name), kind: e.ekind }` where `e.name` is [decoded as UTF8](Web.md#names)
 and `e.ekind` is mapped to one of the String values `"function"`, `"table"`, `"memory"`, `"global"`.
 
 Note: other fields like `signature` may be added in the future.
+
+The returned `Array` is populated in the same order exports appear in the WebAssembly binary's exports table.
 
 ### `WebAssembly.Module.imports`
 
@@ -204,7 +222,7 @@ Array imports(moduleObject)
 If `moduleObject` is not a `WebAssembly.Module`, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
 is thrown.
 
-This function returns an `Array` produced by mapping each
+This function returns a new `Array` every time it is called. Each such `Array` is produced by mapping each
 [`Ast.import`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L167)
 `i` of [moduleObject.[[Module]].imports](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L203)
 to the Object `{ module: String(i.module_name), name: String(i.item_name), kind: i.ikind }` where
@@ -212,6 +230,8 @@ to the Object `{ module: String(i.module_name), name: String(i.item_name), kind:
 `i.ikind` is mapped to one of the String values `"function"`, `"table"`, `"memory"`, `"global"`.
 
 Note: other fields like `signature` may be added in the future.
+
+The returned `Array` is populated in the same order imports appear in the WebAssembly binary's imports table.
 
 ### `WebAssembly.Module.customSections`
 
@@ -226,14 +246,13 @@ is thrown.
 
 Let `sectionNameString` be the result of [`ToString`](https://tc39.github.io/ecma262/#sec-tostring)(`sectionName`).
 
-This function returns an `Array` produced by mapping each
+This function returns a new `Array` every time it is called. Each such `Array` is produced by mapping each
 [custom section](BinaryEncoding.md#high-level-structure) (i.e., section with
 `id` 0) whose `name` field ([decoded as UTF-8](Web.md#names)) is equal to
 `sectionNameString` to an `ArrayBuffer` containing a copy of the section's
-`payload_data`. (Note: `payload_data` does not include `name` or `name_len`.)
+`payload_data`. (Note: `payload_data` does not include `name` or `name_len`.).
 
-The `Array` is populated in the same order as that in which custom sections
-appeared in the WebAssembly binary.
+The `Array` is populated in the same order custom sections appear in the WebAssembly binary.
 
 ### Structured Clone of a `WebAssembly.Module`
 
@@ -301,30 +320,41 @@ For each [`import`](https://github.com/WebAssembly/spec/blob/master/interpreter/
   1. If [`IsCallable(v)`](https://tc39.github.io/ecma262/#sec-iscallable) is `false`,
      throw a `WebAssembly.LinkError`.
   1. If `v` is an [Exported Function Exotic Object](#exported-function-exotic-objects):
-    1. If the signature of `v` does not match the signature of `i`, throw a 
-       `WebAssembly.LinkError`.
+    1. (The signature of `v.[[Closure]]` is checked against the import's declared
+       [`func_type`](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md#func_type)
+       by `Eval.init` below.)
     1. Let `closure` be `v.[[Closure]]`.
   1. Otherwise:
     1. Let `closure` be a new [host function](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L9)
-       of the given signature
-       which calls `v` by coercing WebAssembly arguments to JavaScript arguments
-       via [`ToJSValue`](#tojsvalue) and returns the result, if any, by coercing
-       via [`ToWebAssemblyValue`](#towebassemblyvalue).
+       of the given signature:
+      1. If the signature contains an `i64` (as argument or result), the host
+         function immediately throws a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
+         when called.
+      1. Otherwise, the host function calls `v` with an `undefined` receiver
+         and WebAssembly arguments coerced to JavaScript arguments
+         via [`ToJSValue`](#tojsvalue). The result is returned by coercing
+         via [`ToWebAssemblyValue`](#towebassemblyvalue).
   1. Append `v` to `funcs`.
   1. Append `closure` to `imports`.
 1. If `i` is a global import:
   1. [Assert](https://tc39.github.io/ecma262/#assert): the global is immutable
      by MVP validation constraint.
-  1. If `Type(v)` is not Number, throw a `WebAssembly.LinkError`.
+  1. If the `global_type` of `i` is `i64` or `Type(v)` is not Number, throw a `WebAssembly.LinkError`.
   1. Append [`ToWebAssemblyValue`](#towebassemblyvalue)`(v)` to `imports`.
 1. If `i` is a memory import:
   1. If `v` is not a [`WebAssembly.Memory` object](#webassemblymemory-objects),
       throw a `WebAssembly.LinkError`.
+  1. (The imported `Memory`'s `length` and `maximum` properties are checked against the import's declared
+      [`memory_type`](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md#memory_type)
+      by `Eval.init` below.)
   1. Append `v` to `memories`.
   1. Append `v.[[Memory]]` to `imports`.
 1. Otherwise (`i` is a table import):
   1. If `v` is not a [`WebAssembly.Table` object](#webassemblytable-objects),
      throw a `WebAssembly.LinkError`.
+  1. (The imported `Table`'s `length`, `maximum` and `element` properties are checked against the import's declared
+      [`table_type`](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md#table_type)
+      by `Eval.init` below.)
   1. Append `v` to `tables`.
   1. Append `v.[[Table]]` to `imports`.
   1. For each index `i` of `v.[[Table]]`:
@@ -390,6 +420,7 @@ each [external](https://github.com/WebAssembly/spec/blob/master/interpreter/spec
 1. If `e` is a [global](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L15) `v`:
   1. [Assert](https://tc39.github.io/ecma262/#assert): the global is immutable
      by MVP validation constraint.
+  1. If `v` is an `i64`, throw a `WebAssembly.LinkError`.
   1. Return [`ToJSValue`](#tojsvalue)`(v)`.
 1. If `e` is a [memory](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L14) `m`:
   1. If there is an element `memory` in `memories` whose `memory.[[Memory]]` is `m`, then return `memory`.
@@ -421,6 +452,13 @@ Perform [`CreateDataProperty`](https://tc39.github.io/ecma262/#sec-createdatapro
 
 Return `instanceObject`.
 
+### `WebAssembly.Instance.prototype [ @@toStringTag ]` Property
+
+The initial value of the [`@@toStringTag`](https://tc39.github.io/ecma262/#sec-well-known-symbols)
+property is the String value `"WebAssembly.Instance"`.
+
+This property has the attributes { [[Writable]]: `false`, [[Enumerable]]: `false`, [[Configurable]]: `true` }.
+
 ## Exported Function Exotic Objects
 
 A function with [function index](Modules.md#function-index-space) `index`
@@ -446,8 +484,13 @@ Exported Functions also have the following data properties:
 
 WebAssembly Exported Functions have a `[[Call]](this, argValues)` method defined as:
 
+1. Let `sig` be the [`function type`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/eval.ml#L106)
+   of the function's [[Closure]].
+1. If `sig` contains an `i64` (as argument or result), a
+   [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
+   is thrown each time the [[Call]] method is invoked.
 1. Let `args` be an empty list of coerced values.
-1. Let `inArity` be the number of arguments and `outArity` be the number of results in the [`function type`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/eval.ml#L106) of the function's [[Closure]].
+1. Let `inArity` be the number of arguments and `outArity` be the number of results in `sig`.
 1. For all values `v` in `argValues`, in the order of their appearance:
   1. If the length of`args` is less than `inArity`, append [`ToWebAssemblyValue`](#towebassemblyvalue)`(v)` to `args`.
 1. While the length of `args` is less than `inArity`, append [`ToWebAssemblyValue`](#towebassemblyvalue)`(undefined)` to `args`.
@@ -516,6 +559,13 @@ the detachment performed by [`m.grow`](#webassemblymemoryprototypegrow) shall th
 
 Return a new `WebAssembly.Memory` instance with [[Memory]] set to `m` and
 [[BufferObject]] set to `buffer`.
+
+### `WebAssembly.Memory.prototype [ @@toStringTag ]` Property
+
+The initial value of the [`@@toStringTag`](https://tc39.github.io/ecma262/#sec-well-known-symbols)
+property is the String value `"WebAssembly.Memory"`.
+
+This property has the attributes { [[Writable]]: `false`, [[Enumerable]]: `false`, [[Configurable]]: `true` }.
 
 ### `WebAssembly.Memory.prototype.grow`
 
@@ -588,9 +638,9 @@ is thrown.
 Let `initial` be [`ToNonWrappingUint32`](#tononwrappinguint32)([`Get`](http://tc39.github.io/ecma262/#sec-get-o-p)(`tableDescriptor`, `"initial"`)).
 
 If [`HasProperty`](http://tc39.github.io/ecma262/#sec-hasproperty)(`"maximum"`),
-then let `maximum` be [`ToNonWrappingUint32`](#tononwrappinguint32)([`Get`](http://tc39.github.io/ecma262/#sec-get-o-p)(`tableDescriptor`, `"maximum"`)).
-If `maximum` is smaller than `initial`, then throw a [`RangeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror).
-Otherwise, let `maximum` be None.
+then let `maximum` be [`ToNonWrappingUint32`](#tononwrappinguint32)([`Get`](http://tc39.github.io/ecma262/#sec-get-o-p)(`tableDescriptor`, `"maximum"`)). Otherwise, let `maximum` be None.
+
+If `maximum` is not None and is smaller than `initial`, then throw a [`RangeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror).
 
 Let `table` be the result of calling 
 [`Table.create`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/table.ml#L68)
@@ -679,14 +729,22 @@ Set `T.[[Values]][i]` to `value`.
 
 Return `undefined`.
 
+### `WebAssembly.Table.prototype [ @@toStringTag ]` Property
+
+The initial value of the [`@@toStringTag`](https://tc39.github.io/ecma262/#sec-well-known-symbols)
+property is the String value `"WebAssembly.Table"`.
+
+This property has the attributes { [[Writable]]: `false`, [[Enumerable]]: `false`, [[Configurable]]: `true` }.
+
 ## ToJSValue
 
 To coerce a WebAssembly [`value`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/values.ml#L9)
 to a JavaScript value:
 
+Assert: the WebAssembly value's type is not `i64`.
+
 1. given a WebAssembly `i32` is interpreted as a signed integer, converted (losslessly) to an
   IEEE754 double and then returned as a JavaScript Number
-1. given a WebAssembly `i64`, throw a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
 1. given a WebAssembly `f32` (single-precision IEEE754), convert (losslessly) to
    a IEEE754 double, [possibly canonicalize NaN](http://tc39.github.io/ecma262/#sec-setvalueinbuffer),
    and return as a JavaScript Number
@@ -700,8 +758,9 @@ If the WebAssembly value is optional, then given `None`, return JavaScript value
 
 To coerce a JavaScript value to a given WebAssembly [`value type`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/types.ml#L3),
 
+Assert: the target value type is not `i64`.
+
 1. coerce to `i32` via [`ToInt32(v)`](http://tc39.github.io/ecma262/#sec-toint32)
-1. for `i64`, throw a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
 1. coerce to `f32` by first applying [`ToNumber(v)`](http://tc39.github.io/ecma262/#sec-tonumber)
    and then converting the resulting IEEE754 64-bit double to a 32-bit float using `roundTiesToEven`
 1. coerce to `f64` via [`ToNumber(v)`](http://tc39.github.io/ecma262/#sec-tonumber)
@@ -727,8 +786,8 @@ Given `demo.was` (encoded to `demo.wasm`):
 
 ```lisp
 (module
-    (import $i1 "js" "import1")
-    (import $i2 "js" "import2")
+    (import "js" "import1" (func $i1))
+    (import "js" "import2" (func $i2))
     (func $main (call $i1))
     (start $main)
     (func (export "f") (call $i2))

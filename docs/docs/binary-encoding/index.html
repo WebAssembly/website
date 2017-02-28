@@ -100,6 +100,15 @@ represented by <em>at most</em> ceil(<em>N</em>/7) bytes that may contain paddin
 
 <p>Note: Currently, the only sizes used are <code class="highlighter-rouge">varint7</code>, <code class="highlighter-rouge">varint32</code> and <code class="highlighter-rouge">varint64</code>.</p>
 
+<h2 id="instruction-opcodes">Instruction Opcodes</h2>
+
+<p>In the MVP, the opcodes of <a href="../semantics/">instructions</a> are all encoded in a
+single byte since there are fewer than 256 opcodes. Future features like
+<a href="../future-features/#fixed-width-simd">SIMD</a> and <a href="../future-features/#threads">atomics</a>
+will bring the total count above 256 and so an extension scheme will be
+necessary, designating one or more single-byte values as prefixes for multi-byte
+opcodes.</p>
+
 <h2 id="language-types">Language Types</h2>
 
 <p>All types are distinguished by a negative <code class="highlighter-rouge">varint7</code> values that is the first byte of their encoding (representing a type constructor):</p>
@@ -399,9 +408,7 @@ section.</p>
 Each section is identified by a 1-byte <em>section code</em> that encodes either a known section or a custom section.
 The section length and payload data then follow.
 Known sections have non-zero ids, while custom sections have a <code class="highlighter-rouge">0</code> id followed by an identifying string as
-part of the payload.
-Custom sections are ignored by the WebAssembly implementation, and thus validation errors within them do not
-invalidate a module.</p>
+part of the payload.</p>
 
 <table>
   <thead>
@@ -445,10 +452,15 @@ invalidate a module.</p>
   </tbody>
 </table>
 
-<p>Each known section is optional and may appear at most once.
-Custom sections all have the same <code class="highlighter-rouge">id</code>, and can be named non-uniquely (all bytes composing their names can be identical).
-Known sections from this list may not appear out of order.
-The content of each section is encoded in its <code class="highlighter-rouge">payload_data</code>.</p>
+<p>Each known section is optional and may appear at most once. Custom sections all have the same <code class="highlighter-rouge">id</code> (0), and can be named non-uniquely (all bytes composing their names may be identical).</p>
+
+<p>Custom sections are intended to be used for debugging information, future evolution, or third party extensions. For MVP, we use a specific custom section (the <a href="#name-section">Name Section</a>) for debugging information.</p>
+
+<p>If a WebAssembly implementation interprets the payload of any custom section during module validation or compilation, errors in that payload must not invalidate the module.</p>
+
+<p>Known sections from the list below may not appear out of order, while custom sections may be interspersed before, between, as well as after any of the elements of the list, in any order. Certain custom sections may have their own ordering and cardinality requirements. For example, the <a href="#name-section">Name section</a> is expected to appear at most once, immediately after the Data section. Violation of such requirements may at most cause an implementatin to ignore the section, while not invalidating the module.</p>
+
+<p>The content of each section is encoded in its <code class="highlighter-rouge">payload_data</code>.</p>
 
 <table>
   <thead>
@@ -1081,13 +1093,77 @@ into the linear memory.</p>
 
 <p>Custom section <code class="highlighter-rouge">name</code> field: <code class="highlighter-rouge">"name"</code></p>
 
-<p>The names section is a <a href="#high-level-structure">custom section</a>. 
+<p>The name section is a <a href="#high-level-structure">custom section</a>. 
 It is therefore encoded with id <code class="highlighter-rouge">0</code> followed by the name string <code class="highlighter-rouge">"name"</code>.
-Like all custom sections, a validation error in this section does not cause validation of the module to fail.
-The name section may appear only once, and only after the <a href="#Data-section">Data section</a>.
+Like all custom sections, this section being malformed does not cause the validation of the module to fail. It is up to the implementation how it handles a malformed or partially malformed name section. The wasm implementation is also free to choose to read and process this section lazily, after the module has been instantiated, should debugging be required.</p>
+
+<p>The name section may appear only once, and only after the <a href="#Data-section">Data section</a>.
 The expectation is that, when a binary WebAssembly module is viewed in a browser or other development
-environment, the names in this section will be used as the names of functions
+environment, the data in this section will be used as the names of functions
 and locals in the <a href="../text-format/">text format</a>.</p>
+
+<p>The name section contains a sequence of name subsections:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name_type</td>
+      <td><code class="highlighter-rouge">varuint7</code></td>
+      <td>code identifying type of name contained in this subsection</td>
+    </tr>
+    <tr>
+      <td>name_payload_len</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>size of this subsection in bytes</td>
+    </tr>
+    <tr>
+      <td>name_payload_data</td>
+      <td><code class="highlighter-rouge">bytes</code></td>
+      <td>content of this section, of length <code class="highlighter-rouge">name_payload_len</code>
+</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Since name subsections have a given length, unknown or unwanted names types can
+be skipped over by an engine. The current list of valid <code class="highlighter-rouge">name_type</code> codes are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name Type</th>
+      <th>Code</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="#function-names">Function</a></td>
+      <td><code class="highlighter-rouge">1</code></td>
+      <td>Assigns names to functions</td>
+    </tr>
+    <tr>
+      <td><a href="#local-names">Local</a></td>
+      <td><code class="highlighter-rouge">2</code></td>
+      <td>Assigns names to locals in functions</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>When present, name subsections must appear in this order and at most once. The
+end of the last subsection must coincide with the last byte of the name
+section to be a well-formed name section.</p>
+
+<h4 id="name-map">Name Map</h4>
+
+<p>In the following subsections, a <code class="highlighter-rouge">name_map</code> is encoded as:</p>
 
 <table>
   <thead>
@@ -1101,23 +1177,58 @@ and locals in the <a href="../text-format/">text format</a>.</p>
     <tr>
       <td>count</td>
       <td><code class="highlighter-rouge">varuint32</code></td>
-      <td>count of entries to follow</td>
+      <td>number of <code class="highlighter-rouge">naming</code> in names</td>
     </tr>
     <tr>
-      <td>entries</td>
-      <td><code class="highlighter-rouge">function_names*</code></td>
-      <td>sequence of names</td>
+      <td>names</td>
+      <td><code class="highlighter-rouge">naming*</code></td>
+      <td>sequence of <code class="highlighter-rouge">naming</code> sorted by index</td>
     </tr>
   </tbody>
 </table>
 
-<p>The sequence of <code class="highlighter-rouge">function_names</code> assigns names to the corresponding
-<a href="../modules/#function-index-space">function index</a>. (Note: this assigns names to both
-imported and module-defined functions.) The count may be greater or less than
-the actual number of functions.</p>
+<p>where a <code class="highlighter-rouge">naming</code> is encoded as:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>index</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>the index which is being named</td>
+    </tr>
+    <tr>
+      <td>name_len</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>number of bytes in name_str</td>
+    </tr>
+    <tr>
+      <td>name_str</td>
+      <td><code class="highlighter-rouge">bytes</code></td>
+      <td>binary encoding of the name</td>
+    </tr>
+  </tbody>
+</table>
 
 <h4 id="function-names">Function names</h4>
 
+<p>The function names subsection is a <code class="highlighter-rouge">name_map</code> which assigns names to
+a subset of the <a href="../modules/#function-index-space">function index space</a>
+(both imports and module-defined).</p>
+
+<h4 id="local-names">Local names</h4>
+
+<p>The local names subsection assigns <code class="highlighter-rouge">name_map</code>s to a subset of functions in the
+<a href="../modules/#function-index-space">function index space</a> (both imports and
+module-defined). The <code class="highlighter-rouge">name_map</code> for a given function assigns names to a
+subset of local variable indices.</p>
+
 <table>
   <thead>
     <tr>
@@ -1128,32 +1239,19 @@ the actual number of functions.</p>
   </thead>
   <tbody>
     <tr>
-      <td>fun_name_len</td>
+      <td>count</td>
       <td><code class="highlighter-rouge">varuint32</code></td>
-      <td>string length, in bytes</td>
+      <td>count of <code class="highlighter-rouge">local_names</code> in funcs</td>
     </tr>
     <tr>
-      <td>fun_name_str</td>
-      <td><code class="highlighter-rouge">bytes</code></td>
-      <td>valid utf8 encoding</td>
-    </tr>
-    <tr>
-      <td>local_count</td>
-      <td><code class="highlighter-rouge">varuint32</code></td>
-      <td>count of local names to follow</td>
-    </tr>
-    <tr>
-      <td>local_names</td>
-      <td><code class="highlighter-rouge">local_name*</code></td>
-      <td>sequence of local names</td>
+      <td>funcs</td>
+      <td><code class="highlighter-rouge">local_names*</code></td>
+      <td>sequence of <code class="highlighter-rouge">local_names</code> sorted by index</td>
     </tr>
   </tbody>
 </table>
 
-<p>The sequence of <code class="highlighter-rouge">local_name</code> assigns names to the corresponding local index. The
-count may be greater or less than the actual number of locals.</p>
-
-<h4 id="local-name">Local name</h4>
+<p>where a <code class="highlighter-rouge">local_name</code> is encoded as:</p>
 
 <table>
   <thead>
@@ -1165,14 +1263,14 @@ count may be greater or less than the actual number of locals.</p>
   </thead>
   <tbody>
     <tr>
-      <td>local_name_len</td>
+      <td>index</td>
       <td><code class="highlighter-rouge">varuint32</code></td>
-      <td>string length, in bytes</td>
+      <td>the index of the function whose locals are being named</td>
     </tr>
     <tr>
-      <td>local_name_str</td>
-      <td><code class="highlighter-rouge">bytes</code></td>
-      <td>valid utf8 encoding</td>
+      <td>local_map</td>
+      <td><code class="highlighter-rouge">name_map</code></td>
+      <td>assignment of names to local indices</td>
     </tr>
   </tbody>
 </table>
@@ -1180,7 +1278,9 @@ count may be greater or less than the actual number of locals.</p>
 <h1 id="function-bodies">Function Bodies</h1>
 
 <p>Function bodies consist of a sequence of local variable declarations followed by 
-<a href="../semantics/">bytecode instructions</a>. Each function body must end with the <code class="highlighter-rouge">end</code> opcode.</p>
+<a href="../semantics/">bytecode instructions</a>. Instructions are encoded as an
+<a href="#instruction-opcodes">opcode</a> followed by zero or more <em>immediates</em> as defined
+by the tables below. Each function body must end with the <code class="highlighter-rouge">end</code> opcode.</p>
 
 <table>
   <thead>

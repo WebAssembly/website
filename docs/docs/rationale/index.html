@@ -393,10 +393,63 @@ WebAssembly measurably penalizes one’s performance by enforcing determinism
 which that language doesn’t care about, but which another language may want.</li>
 </ul>
 
-<h2 id="nan-bit-pattern-propagation">NaN bit pattern propagation</h2>
+<h2 id="nan-bit-pattern-nondeterminism">NaN bit-pattern nondeterminism.</h2>
 
-<p>In general, WebAssembly’s floating point operations provide the guarantee that
-if all NaNs passed to an operation are “canonical”, the result is “canonical”,
+<p>NaNs produced by floating-point instructions in WebAssembly have
+nondeterministic bit patterns in most circumstances. The bit pattern of a NaN
+is not usually significant, however there are a few ways that it can be
+observed:</p>
+<ul>
+  <li>a <code class="highlighter-rouge">reinterpret</code> conversion to an integer type</li>
+  <li>a <code class="highlighter-rouge">store</code> to linear memory followed by a load with a different type or index</li>
+  <li>a NaN stored to an imported or exported global variable or linear memory may
+be observed by the outside environment</li>
+  <li>a NaN passed to a <code class="highlighter-rouge">call</code> or <code class="highlighter-rouge">call_indirect</code> to an imported function may
+be observed by the outside environment</li>
+  <li>a return value of an exported function may be observed by the outside
+environment</li>
+  <li>
+<code class="highlighter-rouge">copysign</code> can be used to copy the sign bit onto a non-NaN value, where
+it then be observed</li>
+</ul>
+
+<p>The motivation for nondeterminism in NaN bit patterns is that popular platforms
+have differing behavior. IEEE 754-2008 makes some recommendations, but has few
+hard requirements in this area, and in practice there is significant divergence,
+for example:</p>
+<ul>
+  <li>When an instruction with no NaN inputs produces a NaN output, x86 produces
+a NaN with the sign bit set, while ARM and others produce a NaN with it
+unset.</li>
+  <li>When an instruction has multiple NaN inputs, x86 always returns the first
+NaN (converted to a quiet NaN if needed), while ARMv8 returns the first
+signaling NaN (converted to a quiet NaN) if one is present, and otherwise
+returns the first quiet NaN.</li>
+  <li>Some hardware architectures have found that returning one of the input NaNs
+has a cost, and prefer to return a NaN with a fixed bit pattern instead.</li>
+  <li>LLVM (used in some WebAssembly implementations) doesn’t guarantee that it
+won’t commute <code class="highlighter-rouge">fadd</code>, <code class="highlighter-rouge">fmul</code> and other instructions, so it’s not possible
+to rely on the “first” NaN being preserved as such.</li>
+  <li>IEEE 754-2008 itself recommends architectures use NaN bits to provide
+architecture-specific debugging facilities.</li>
+</ul>
+
+<p>IEEE 754-2008 6.2 says that instructions returning a NaN <em>should</em> return one of
+their input NaNs. In WebAssembly, implementations may do this, however they are
+not required to. Since IEEE 754-2008 states this as a “should” (as opposed to a
+“shall”), it isn’t a requirement for IEEE 754-2008 conformance.</p>
+
+<p>An alternative design would be to require engines to always “canonicalize”
+NaNs whenever their bits could be observed. This would eliminate the
+nondeterminism and provide slightly better portability, since it would hide
+hardware-specific NaN propagation behavior. However, it is theorized that this
+would add an unacceptable amount of overhead, and that the benefit is marginal
+since most programs are unaffected by this issue.</p>
+
+<h2 id="support-for-nan-boxing">Support for NaN-boxing.</h2>
+
+<p>In general, WebAssembly’s floating point instructions provide the guarantee that
+if all NaNs passed to an instruction are “canonical”, the result is “canonical”,
 where canonical means the most significant bit of the fraction field is 1, and
 the trailing bits are all 0.</p>
 
@@ -404,12 +457,20 @@ the trailing bits are all 0.</p>
 NaN-boxing, because they don’t have to canonicalize the output of an arithmetic
 instruction if they know the inputs are canonical.</p>
 
-<p>When the inputs are non-canonical, the resulting NaN is nondeterministic, to
-accomodate a variety of known hardware behaviors: returning one of the input
-NaNs, returning a canonical NaN, or bitwise-or’ing the input NaNs together.</p>
+<p>When one or more of the inputs of an instruction are non-canonical NaNs, the
+resulting NaN bit pattern is nondeterministic. This is intended to accommodate
+the diversity in NaN behavior among popular hardware architectures.</p>
 
-<p>The sign bit of generated NaNs is always nondeterministic since x86 generates
-NaNs with it set to 1 while other architectures generate NaNs with it set to 0.</p>
+<p>Note that the sign bit is still nondeterministic in a canonical NaN. This is
+also to accommodate popular hardware architectures; for example, x86 generates
+NaNs with the sign bit set to 1 while other architectures generate NaNs with it
+set to 0. And as above, the cost of canonicalizing NaNs is believed to be
+greater than the benefit.</p>
+
+<p>NaNs generated by JS or other entities in the external environment are not
+required to be canonical, so exported function arguments, imported function
+return values, and values stored in exported variables or memory may be
+non-canonical.</p>
 
 <h2 id="integer-operations">Integer operations</h2>
 

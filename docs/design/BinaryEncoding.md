@@ -53,6 +53,15 @@ represented by _at most_ ceil(_N_/7) bytes that may contain padding `0x80` or `0
 
 Note: Currently, the only sizes used are `varint7`, `varint32` and `varint64`.
 
+## Instruction Opcodes
+
+In the MVP, the opcodes of [instructions](Semantics.md) are all encoded in a
+single byte since there are fewer than 256 opcodes. Future features like
+[SIMD](FutureFeatures.md#fixed-width-simd) and [atomics](FutureFeatures.md#threads)
+will bring the total count above 256 and so an extension scheme will be
+necessary, designating one or more single-byte values as prefixes for multi-byte
+opcodes.
+
 ## Language Types
 
 All types are distinguished by a negative `varint7` values that is the first byte of their encoding (representing a type constructor):
@@ -181,8 +190,6 @@ Each section is identified by a 1-byte *section code* that encodes either a know
 The section length and payload data then follow.
 Known sections have non-zero ids, while custom sections have a `0` id followed by an identifying string as
 part of the payload.
-Custom sections are ignored by the WebAssembly implementation, and thus validation errors within them do not
-invalidate a module.
 
 | Field | Type | Description |
 | ----- |  ----- | ----- |
@@ -192,9 +199,14 @@ invalidate a module.
 | name | `bytes` ? | section name string, present if `id == 0` |
 | payload_data  | `bytes` | content of this section, of length `payload_len - sizeof(name) - sizeof(name_len)` |
 
-Each known section is optional and may appear at most once.
-Custom sections all have the same `id`, and can be named non-uniquely (all bytes composing their names can be identical).
-Known sections from this list may not appear out of order.
+Each known section is optional and may appear at most once. Custom sections all have the same `id` (0), and can be named non-uniquely (all bytes composing their names may be identical).
+
+Custom sections are intended to be used for debugging information, future evolution, or third party extensions. For MVP, we use a specific custom section (the [Name Section](#name-section)) for debugging information. 
+
+If a WebAssembly implementation interprets the payload of any custom section during module validation or compilation, errors in that payload must not invalidate the module.
+
+Known sections from the list below may not appear out of order, while custom sections may be interspersed before, between, as well as after any of the elements of the list, in any order. Certain custom sections may have their own ordering and cardinality requirements. For example, the [Name section](#name-section) is expected to appear at most once, immediately after the Data section. Violation of such requirements may at most cause an implementatin to ignore the section, while not invalidating the module.
+
 The content of each section is encoded in its `payload_data`.
 
 | Section Name | Code | Description |
@@ -415,48 +427,83 @@ a `data_segment` is:
 
 Custom section `name` field: `"name"`
 
-The names section is a [custom section](#high-level-structure). 
+The name section is a [custom section](#high-level-structure). 
 It is therefore encoded with id `0` followed by the name string `"name"`.
-Like all custom sections, a validation error in this section does not cause validation of the module to fail.
+Like all custom sections, this section being malformed does not cause the validation of the module to fail. It is up to the implementation how it handles a malformed or partially malformed name section. The wasm implementation is also free to choose to read and process this section lazily, after the module has been instantiated, should debugging be required.
+
 The name section may appear only once, and only after the [Data section](#Data-section).
 The expectation is that, when a binary WebAssembly module is viewed in a browser or other development
-environment, the names in this section will be used as the names of functions
+environment, the data in this section will be used as the names of functions
 and locals in the [text format](TextFormat.md).
+
+The name section contains a sequence of name subsections:
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| count | `varuint32` | count of entries to follow |
-| entries | `function_names*` | sequence of names |
+| name_type | `varuint7` | code identifying type of name contained in this subsection |
+| name_payload_len | `varuint32` | size of this subsection in bytes |
+| name_payload_data | `bytes` | content of this section, of length `name_payload_len` |
 
-The sequence of `function_names` assigns names to the corresponding
-[function index](Modules.md#function-index-space). (Note: this assigns names to both
-imported and module-defined functions.) The count may be greater or less than
-the actual number of functions.
+Since name subsections have a given length, unknown or unwanted names types can
+be skipped over by an engine. The current list of valid `name_type` codes are:
+
+| Name Type | Code | Description |
+| --------- | ---- | ----------- |
+| [Function](#function-names) | `1` | Assigns names to functions |
+| [Local](#local-names) | `2` | Assigns names to locals in functions |
+
+When present, name subsections must appear in this order and at most once. The
+end of the last subsection must coincide with the last byte of the name
+section to be a well-formed name section.
+
+#### Name Map
+
+In the following subsections, a `name_map` is encoded as:
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| count | `varuint32` | number of `naming` in names |
+| names | `naming*` | sequence of `naming` sorted by index |
+
+where a `naming` is encoded as:
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| index | `varuint32` | the index which is being named |
+| name_len | `varuint32` | number of bytes in name_str |
+| name_str | `bytes` | binary encoding of the name |
 
 #### Function names
 
+The function names subsection is a `name_map` which assigns names to
+a subset of the [function index space](Modules.md#function-index-space)
+(both imports and module-defined).
+
+#### Local names
+
+The local names subsection assigns `name_map`s to a subset of functions in the
+[function index space](Modules.md#function-index-space) (both imports and
+module-defined). The `name_map` for a given function assigns names to a
+subset of local variable indices.
+
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| fun_name_len | `varuint32` | string length, in bytes |
-| fun_name_str | `bytes` | valid utf8 encoding |
-| local_count | `varuint32` | count of local names to follow |
-| local_names | `local_name*` | sequence of local names |
+| count | `varuint32` | count of `local_names` in funcs |
+| funcs | `local_names*` | sequence of `local_names` sorted by index |
 
-The sequence of `local_name` assigns names to the corresponding local index. The
-count may be greater or less than the actual number of locals.
-
-#### Local name
+where a `local_name` is encoded as:
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| local_name_len | `varuint32` | string length, in bytes |
-| local_name_str | `bytes` | valid utf8 encoding |
-
+| index | `varuint32` | the index of the function whose locals are being named |
+| local_map | `name_map` | assignment of names to local indices |
 
 # Function Bodies
 
 Function bodies consist of a sequence of local variable declarations followed by 
-[bytecode instructions](Semantics.md). Each function body must end with the `end` opcode.
+[bytecode instructions](Semantics.md). Instructions are encoded as an
+[opcode](#instruction-opcodes) followed by zero or more *immediates* as defined
+by the tables below. Each function body must end with the `end` opcode.
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |

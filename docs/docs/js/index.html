@@ -79,6 +79,14 @@ the global object. Like the <code class="highlighter-rouge">Math</code> and <cod
 is a plain JS object (not a constructor or function) that acts like a namespace
 and has the following properties:</p>
 
+<h3 id="webassembly--tostringtag--property">
+<code class="highlighter-rouge">WebAssembly [ @@toStringTag ]</code> Property</h3>
+
+<p>The initial value of the <a href="https://tc39.github.io/ecma262/#sec-well-known-symbols"><code class="highlighter-rouge">@@toStringTag</code></a>
+property is the String value <code class="highlighter-rouge">"WebAssembly"</code>.</p>
+
+<p>This property has the attributes { [[Writable]]: <code class="highlighter-rouge">false</code>, [[Enumerable]]: <code class="highlighter-rouge">false</code>, [[Configurable]]: <code class="highlighter-rouge">true</code> }.</p>
+
 <h3 id="constructor-properties-of-the-webassembly-object">Constructor Properties of the <code class="highlighter-rouge">WebAssembly</code> object</h3>
 
 <p>The following intrinsic objects are added:</p>
@@ -139,7 +147,7 @@ specification</a> and returns <code class="highlighter-rouge">true</code> if val
 the returned <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a>
 with a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</p>
 
-<p>Otherwise, this function starts an asychronous task to compile a <code class="highlighter-rouge">WebAssembly.Module</code>
+<p>Otherwise, this function starts an asynchronous task to compile a <code class="highlighter-rouge">WebAssembly.Module</code>
 as described in the <a href="#webassemblymodule-constructor"><code class="highlighter-rouge">WebAssembly.Module</code> constructor</a>.
 On success, the <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
 with the resulting <code class="highlighter-rouge">WebAssembly.Module</code> object. On failure, the <code class="highlighter-rouge">Promise</code> is 
@@ -176,7 +184,9 @@ and then instantiate the resulting <code class="highlighter-rouge">Module</code>
 <a href="#webassemblyinstance-constructor"><code class="highlighter-rouge">WebAssembly.Instance</code> constructor</a>.
 On success, the <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
 with a plain JavaScript object pair <code class="highlighter-rouge"><span class="p">{</span><span class="err">module,</span><span class="w"> </span><span class="err">instance</span><span class="p">}</span></code> containing the resulting
-<code class="highlighter-rouge">WebAssembly.Module</code> and <code class="highlighter-rouge">WebAssembly.Instance</code>. On failure, the <code class="highlighter-rouge">Promise</code> is
+<code class="highlighter-rouge">WebAssembly.Module</code> and <code class="highlighter-rouge">WebAssembly.Instance</code>. The 2 properties <code class="highlighter-rouge">module</code> and <code class="highlighter-rouge">instance</code> of the returned pair are  configurable, enumerable and writable.</p>
+
+<p>On failure, the <code class="highlighter-rouge">Promise</code> is
 <a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a 
 <code class="highlighter-rouge">WebAssembly.CompileError</code>, <code class="highlighter-rouge">WebAssembly.LinkError</code>, or <code class="highlighter-rouge">WebAssembly.RuntimeError</code>, depending on the cause of failure.</p>
 
@@ -241,6 +251,14 @@ the validated <code class="highlighter-rouge">Ast.module</code>.</li>
   <li>On failure, a new <code class="highlighter-rouge">WebAssembly.CompileError</code> is thrown.</li>
 </ol>
 
+<h3 id="webassemblymoduleprototype--tostringtag--property">
+<code class="highlighter-rouge">WebAssembly.Module.prototype [ @@toStringTag ]</code> Property</h3>
+
+<p>The initial value of the <a href="https://tc39.github.io/ecma262/#sec-well-known-symbols"><code class="highlighter-rouge">@@toStringTag</code></a>
+property is the String value <code class="highlighter-rouge">"WebAssembly.Module"</code>.</p>
+
+<p>This property has the attributes { [[Writable]]: <code class="highlighter-rouge">false</code>, [[Enumerable]]: <code class="highlighter-rouge">false</code>, [[Configurable]]: <code class="highlighter-rouge">true</code> }.</p>
+
 <h3 id="webassemblymoduleexports"><code class="highlighter-rouge">WebAssembly.Module.exports</code></h3>
 
 <p>The <code class="highlighter-rouge">exports</code> function has the signature:</p>
@@ -253,13 +271,15 @@ the validated <code class="highlighter-rouge">Ast.module</code>.</li>
 <p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
 
-<p>This function returns an <code class="highlighter-rouge">Array</code> produced by mapping each
+<p>This function returns a new <code class="highlighter-rouge">Array</code> every time it is called. Each such <code class="highlighter-rouge">Array</code> is produced by mapping each
 <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L152"><code class="highlighter-rouge">Ast.export</code></a>
 <code class="highlighter-rouge">e</code> of <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L187">moduleObject.[[Module]].exports</a>
 to the Object <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">name:</span><span class="w"> </span><span class="err">String(e.name),</span><span class="w"> </span><span class="err">kind:</span><span class="w"> </span><span class="err">e.ekind</span><span class="w"> </span><span class="p">}</span></code> where <code class="highlighter-rouge">e.name</code> is <a href="../web/#names">decoded as UTF8</a>
 and <code class="highlighter-rouge">e.ekind</code> is mapped to one of the String values <code class="highlighter-rouge">"function"</code>, <code class="highlighter-rouge">"table"</code>, <code class="highlighter-rouge">"memory"</code>, <code class="highlighter-rouge">"global"</code>.</p>
 
 <p>Note: other fields like <code class="highlighter-rouge">signature</code> may be added in the future.</p>
+
+<p>The returned <code class="highlighter-rouge">Array</code> is populated in the same order exports appear in the WebAssembly binary’s exports table.</p>
 
 <h3 id="webassemblymoduleimports"><code class="highlighter-rouge">WebAssembly.Module.imports</code></h3>
 
@@ -273,7 +293,7 @@ and <code class="highlighter-rouge">e.ekind</code> is mapped to one of the Strin
 <p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
 
-<p>This function returns an <code class="highlighter-rouge">Array</code> produced by mapping each
+<p>This function returns a new <code class="highlighter-rouge">Array</code> every time it is called. Each such <code class="highlighter-rouge">Array</code> is produced by mapping each
 <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L167"><code class="highlighter-rouge">Ast.import</code></a>
 <code class="highlighter-rouge">i</code> of <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L203">moduleObject.[[Module]].imports</a>
 to the Object <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">module:</span><span class="w"> </span><span class="err">String(i.module_name),</span><span class="w"> </span><span class="err">name:</span><span class="w"> </span><span class="err">String(i.item_name),</span><span class="w"> </span><span class="err">kind:</span><span class="w"> </span><span class="err">i.ikind</span><span class="w"> </span><span class="p">}</span></code> where
@@ -281,6 +301,8 @@ to the Object <code class="highlighter-rouge"><span class="p">{</span><span clas
 <code class="highlighter-rouge">i.ikind</code> is mapped to one of the String values <code class="highlighter-rouge">"function"</code>, <code class="highlighter-rouge">"table"</code>, <code class="highlighter-rouge">"memory"</code>, <code class="highlighter-rouge">"global"</code>.</p>
 
 <p>Note: other fields like <code class="highlighter-rouge">signature</code> may be added in the future.</p>
+
+<p>The returned <code class="highlighter-rouge">Array</code> is populated in the same order imports appear in the WebAssembly binary’s imports table.</p>
 
 <h3 id="webassemblymodulecustomsections"><code class="highlighter-rouge">WebAssembly.Module.customSections</code></h3>
 
@@ -296,14 +318,13 @@ is thrown.</p>
 
 <p>Let <code class="highlighter-rouge">sectionNameString</code> be the result of <a href="https://tc39.github.io/ecma262/#sec-tostring"><code class="highlighter-rouge">ToString</code></a>(<code class="highlighter-rouge">sectionName</code>).</p>
 
-<p>This function returns an <code class="highlighter-rouge">Array</code> produced by mapping each
+<p>This function returns a new <code class="highlighter-rouge">Array</code> every time it is called. Each such <code class="highlighter-rouge">Array</code> is produced by mapping each
 <a href="../binary-encoding/#high-level-structure">custom section</a> (i.e., section with
 <code class="highlighter-rouge">id</code> 0) whose <code class="highlighter-rouge">name</code> field (<a href="../web/#names">decoded as UTF-8</a>) is equal to
 <code class="highlighter-rouge">sectionNameString</code> to an <code class="highlighter-rouge">ArrayBuffer</code> containing a copy of the section’s
-<code class="highlighter-rouge">payload_data</code>. (Note: <code class="highlighter-rouge">payload_data</code> does not include <code class="highlighter-rouge">name</code> or <code class="highlighter-rouge">name_len</code>.)</p>
+<code class="highlighter-rouge">payload_data</code>. (Note: <code class="highlighter-rouge">payload_data</code> does not include <code class="highlighter-rouge">name</code> or <code class="highlighter-rouge">name_len</code>.).</p>
 
-<p>The <code class="highlighter-rouge">Array</code> is populated in the same order as that in which custom sections
-appeared in the WebAssembly binary.</p>
+<p>The <code class="highlighter-rouge">Array</code> is populated in the same order custom sections appear in the WebAssembly binary.</p>
 
 <h3 id="structured-clone-of-a-webassemblymodule">Structured Clone of a <code class="highlighter-rouge">WebAssembly.Module</code>
 </h3>
@@ -378,31 +399,45 @@ is thrown.</p>
   <li>If <a href="https://tc39.github.io/ecma262/#sec-iscallable"><code class="highlighter-rouge">IsCallable(v)</code></a> is <code class="highlighter-rouge">false</code>,
 throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
   <li>If <code class="highlighter-rouge">v</code> is an <a href="#exported-function-exotic-objects">Exported Function Exotic Object</a>:
-    1. If the signature of <code class="highlighter-rouge">v</code> does not match the signature of <code class="highlighter-rouge">i</code>, throw a 
-  <code class="highlighter-rouge">WebAssembly.LinkError</code>.
+    1. (The signature of <code class="highlighter-rouge">v.[[Closure]]</code> is checked against the import’s declared
+  <a href="https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md#func_type"><code class="highlighter-rouge">func_type</code></a>
+  by <code class="highlighter-rouge">Eval.init</code> below.)
     1. Let <code class="highlighter-rouge">closure</code> be <code class="highlighter-rouge">v.[[Closure]]</code>.</li>
   <li>Otherwise:
     1. Let <code class="highlighter-rouge">closure</code> be a new <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L9">host function</a>
-  of the given signature
-  which calls <code class="highlighter-rouge">v</code> by coercing WebAssembly arguments to JavaScript arguments
-  via <a href="#tojsvalue"><code class="highlighter-rouge">ToJSValue</code></a> and returns the result, if any, by coercing
-  via <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a>.</li>
+  of the given signature:
+    <ol>
+      <li>If the signature contains an <code class="highlighter-rouge">i64</code> (as argument or result), the host
+function immediately throws a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
+when called.</li>
+      <li>Otherwise, the host function calls <code class="highlighter-rouge">v</code> with an <code class="highlighter-rouge">undefined</code> receiver
+and WebAssembly arguments coerced to JavaScript arguments
+via <a href="#tojsvalue"><code class="highlighter-rouge">ToJSValue</code></a>. The result is returned by coercing
+via <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a>.</li>
+    </ol>
+  </li>
   <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">funcs</code>.</li>
   <li>Append <code class="highlighter-rouge">closure</code> to <code class="highlighter-rouge">imports</code>.</li>
   <li>If <code class="highlighter-rouge">i</code> is a global import:</li>
   <li>
 <a href="https://tc39.github.io/ecma262/#assert">Assert</a>: the global is immutable
 by MVP validation constraint.</li>
-  <li>If <code class="highlighter-rouge">Type(v)</code> is not Number, throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
+  <li>If the <code class="highlighter-rouge">global_type</code> of <code class="highlighter-rouge">i</code> is <code class="highlighter-rouge">i64</code> or <code class="highlighter-rouge">Type(v)</code> is not Number, throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
   <li>Append <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a><code class="highlighter-rouge">(v)</code> to <code class="highlighter-rouge">imports</code>.</li>
   <li>If <code class="highlighter-rouge">i</code> is a memory import:</li>
   <li>If <code class="highlighter-rouge">v</code> is not a <a href="#webassemblymemory-objects"><code class="highlighter-rouge">WebAssembly.Memory</code> object</a>,
  throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
+  <li>(The imported <code class="highlighter-rouge">Memory</code>’s <code class="highlighter-rouge">length</code> and <code class="highlighter-rouge">maximum</code> properties are checked against the import’s declared
+ <a href="https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md#memory_type"><code class="highlighter-rouge">memory_type</code></a>
+ by <code class="highlighter-rouge">Eval.init</code> below.)</li>
   <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">memories</code>.</li>
   <li>Append <code class="highlighter-rouge">v.[[Memory]]</code> to <code class="highlighter-rouge">imports</code>.</li>
   <li>Otherwise (<code class="highlighter-rouge">i</code> is a table import):</li>
   <li>If <code class="highlighter-rouge">v</code> is not a <a href="#webassemblytable-objects"><code class="highlighter-rouge">WebAssembly.Table</code> object</a>,
 throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
+  <li>(The imported <code class="highlighter-rouge">Table</code>’s <code class="highlighter-rouge">length</code>, <code class="highlighter-rouge">maximum</code> and <code class="highlighter-rouge">element</code> properties are checked against the import’s declared
+ <a href="https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md#table_type"><code class="highlighter-rouge">table_type</code></a>
+ by <code class="highlighter-rouge">Eval.init</code> below.)</li>
   <li>Append <code class="highlighter-rouge">v</code> to <code class="highlighter-rouge">tables</code>.</li>
   <li>Append <code class="highlighter-rouge">v.[[Table]]</code> to <code class="highlighter-rouge">imports</code>.</li>
   <li>For each index <code class="highlighter-rouge">i</code> of <code class="highlighter-rouge">v.[[Table]]</code>:
@@ -486,6 +521,7 @@ each <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/i
   <li>
 <a href="https://tc39.github.io/ecma262/#assert">Assert</a>: the global is immutable
 by MVP validation constraint.</li>
+  <li>If <code class="highlighter-rouge">v</code> is an <code class="highlighter-rouge">i64</code>, throw a <code class="highlighter-rouge">WebAssembly.LinkError</code>.</li>
   <li>Return <a href="#tojsvalue"><code class="highlighter-rouge">ToJSValue</code></a><code class="highlighter-rouge">(v)</code>.</li>
   <li>If <code class="highlighter-rouge">e</code> is a <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L14">memory</a> <code class="highlighter-rouge">m</code>:</li>
   <li>If there is an element <code class="highlighter-rouge">memory</code> in <code class="highlighter-rouge">memories</code> whose <code class="highlighter-rouge">memory.[[Memory]]</code> is <code class="highlighter-rouge">m</code>, then return <code class="highlighter-rouge">memory</code>.</li>
@@ -519,6 +555,14 @@ the internal <code class="highlighter-rouge">[[Instance]]</code> slot to <code c
 <p>Perform <a href="https://tc39.github.io/ecma262/#sec-createdataproperty"><code class="highlighter-rouge">CreateDataProperty</code></a>(<code class="highlighter-rouge">instance</code>, <code class="highlighter-rouge">"exports"</code>, <code class="highlighter-rouge">exportsObject</code>).</p>
 
 <p>Return <code class="highlighter-rouge">instanceObject</code>.</p>
+
+<h3 id="webassemblyinstanceprototype--tostringtag--property">
+<code class="highlighter-rouge">WebAssembly.Instance.prototype [ @@toStringTag ]</code> Property</h3>
+
+<p>The initial value of the <a href="https://tc39.github.io/ecma262/#sec-well-known-symbols"><code class="highlighter-rouge">@@toStringTag</code></a>
+property is the String value <code class="highlighter-rouge">"WebAssembly.Instance"</code>.</p>
+
+<p>This property has the attributes { [[Writable]]: <code class="highlighter-rouge">false</code>, [[Enumerable]]: <code class="highlighter-rouge">false</code>, [[Configurable]]: <code class="highlighter-rouge">true</code> }.</p>
 
 <h2 id="exported-function-exotic-objects">Exported Function Exotic Objects</h2>
 
@@ -556,8 +600,13 @@ Exported Functions do not have the normal function internal slots but instead ha
 <p>WebAssembly Exported Functions have a <code class="highlighter-rouge">[[Call]](this, argValues)</code> method defined as:</p>
 
 <ol>
+  <li>Let <code class="highlighter-rouge">sig</code> be the <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/eval.ml#L106"><code class="highlighter-rouge">function type</code></a>
+of the function’s [[Closure]].</li>
+  <li>If <code class="highlighter-rouge">sig</code> contains an <code class="highlighter-rouge">i64</code> (as argument or result), a
+<a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
+is thrown each time the [[Call]] method is invoked.</li>
   <li>Let <code class="highlighter-rouge">args</code> be an empty list of coerced values.</li>
-  <li>Let <code class="highlighter-rouge">inArity</code> be the number of arguments and <code class="highlighter-rouge">outArity</code> be the number of results in the <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/eval.ml#L106"><code class="highlighter-rouge">function type</code></a> of the function’s [[Closure]].</li>
+  <li>Let <code class="highlighter-rouge">inArity</code> be the number of arguments and <code class="highlighter-rouge">outArity</code> be the number of results in <code class="highlighter-rouge">sig</code>.</li>
   <li>For all values <code class="highlighter-rouge">v</code> in <code class="highlighter-rouge">argValues</code>, in the order of their appearance:</li>
   <li>If the length of<code class="highlighter-rouge">args</code> is less than <code class="highlighter-rouge">inArity</code>, append <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a><code class="highlighter-rouge">(v)</code> to <code class="highlighter-rouge">args</code>.</li>
   <li>While the length of <code class="highlighter-rouge">args</code> is less than <code class="highlighter-rouge">inArity</code>, append <a href="#towebassemblyvalue"><code class="highlighter-rouge">ToWebAssemblyValue</code></a><code class="highlighter-rouge">(undefined)</code> to <code class="highlighter-rouge">args</code>.</li>
@@ -633,6 +682,14 @@ the detachment performed by <a href="#webassemblymemoryprototypegrow"><code clas
 
 <p>Return a new <code class="highlighter-rouge">WebAssembly.Memory</code> instance with [[Memory]] set to <code class="highlighter-rouge">m</code> and
 [[BufferObject]] set to <code class="highlighter-rouge">buffer</code>.</p>
+
+<h3 id="webassemblymemoryprototype--tostringtag--property">
+<code class="highlighter-rouge">WebAssembly.Memory.prototype [ @@toStringTag ]</code> Property</h3>
+
+<p>The initial value of the <a href="https://tc39.github.io/ecma262/#sec-well-known-symbols"><code class="highlighter-rouge">@@toStringTag</code></a>
+property is the String value <code class="highlighter-rouge">"WebAssembly.Memory"</code>.</p>
+
+<p>This property has the attributes { [[Writable]]: <code class="highlighter-rouge">false</code>, [[Enumerable]]: <code class="highlighter-rouge">false</code>, [[Configurable]]: <code class="highlighter-rouge">true</code> }.</p>
 
 <h3 id="webassemblymemoryprototypegrow"><code class="highlighter-rouge">WebAssembly.Memory.prototype.grow</code></h3>
 
@@ -713,9 +770,9 @@ is thrown.
 <p>Let <code class="highlighter-rouge">initial</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"initial"</code>)).</p>
 
 <p>If <a href="http://tc39.github.io/ecma262/#sec-hasproperty"><code class="highlighter-rouge">HasProperty</code></a>(<code class="highlighter-rouge">"maximum"</code>),
-then let <code class="highlighter-rouge">maximum</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"maximum"</code>)).
-If <code class="highlighter-rouge">maximum</code> is smaller than <code class="highlighter-rouge">initial</code>, then throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>.
-Otherwise, let <code class="highlighter-rouge">maximum</code> be None.</p>
+then let <code class="highlighter-rouge">maximum</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"maximum"</code>)). Otherwise, let <code class="highlighter-rouge">maximum</code> be None.</p>
+
+<p>If <code class="highlighter-rouge">maximum</code> is not None and is smaller than <code class="highlighter-rouge">initial</code>, then throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>.</p>
 
 <p>Let <code class="highlighter-rouge">table</code> be the result of calling 
 <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/table.ml#L68"><code class="highlighter-rouge">Table.create</code></a>
@@ -807,16 +864,24 @@ otherwise, let <code class="highlighter-rouge">elem</code> be <code class="highl
 
 <p>Return <code class="highlighter-rouge">undefined</code>.</p>
 
+<h3 id="webassemblytableprototype--tostringtag--property">
+<code class="highlighter-rouge">WebAssembly.Table.prototype [ @@toStringTag ]</code> Property</h3>
+
+<p>The initial value of the <a href="https://tc39.github.io/ecma262/#sec-well-known-symbols"><code class="highlighter-rouge">@@toStringTag</code></a>
+property is the String value <code class="highlighter-rouge">"WebAssembly.Table"</code>.</p>
+
+<p>This property has the attributes { [[Writable]]: <code class="highlighter-rouge">false</code>, [[Enumerable]]: <code class="highlighter-rouge">false</code>, [[Configurable]]: <code class="highlighter-rouge">true</code> }.</p>
+
 <h2 id="tojsvalue">ToJSValue</h2>
 
 <p>To coerce a WebAssembly <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/values.ml#L9"><code class="highlighter-rouge">value</code></a>
 to a JavaScript value:</p>
 
+<p>Assert: the WebAssembly value’s type is not <code class="highlighter-rouge">i64</code>.</p>
+
 <ol>
   <li>given a WebAssembly <code class="highlighter-rouge">i32</code> is interpreted as a signed integer, converted (losslessly) to an
   IEEE754 double and then returned as a JavaScript Number</li>
-  <li>given a WebAssembly <code class="highlighter-rouge">i64</code>, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
-</li>
   <li>given a WebAssembly <code class="highlighter-rouge">f32</code> (single-precision IEEE754), convert (losslessly) to
 a IEEE754 double, <a href="http://tc39.github.io/ecma262/#sec-setvalueinbuffer">possibly canonicalize NaN</a>,
 and return as a JavaScript Number</li>
@@ -831,10 +896,10 @@ and return as a JavaScript Number</li>
 
 <p>To coerce a JavaScript value to a given WebAssembly <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/types.ml#L3"><code class="highlighter-rouge">value type</code></a>,</p>
 
+<p>Assert: the target value type is not <code class="highlighter-rouge">i64</code>.</p>
+
 <ol>
   <li>coerce to <code class="highlighter-rouge">i32</code> via <a href="http://tc39.github.io/ecma262/#sec-toint32"><code class="highlighter-rouge">ToInt32(v)</code></a>
-</li>
-  <li>for <code class="highlighter-rouge">i64</code>, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 </li>
   <li>coerce to <code class="highlighter-rouge">f32</code> by first applying <a href="http://tc39.github.io/ecma262/#sec-tonumber"><code class="highlighter-rouge">ToNumber(v)</code></a>
 and then converting the resulting IEEE754 64-bit double to a 32-bit float using <code class="highlighter-rouge">roundTiesToEven</code>
@@ -863,8 +928,8 @@ is thrown.</p>
 <p>Given <code class="highlighter-rouge">demo.was</code> (encoded to <code class="highlighter-rouge">demo.wasm</code>):</p>
 
 <pre><code class="language-lisp">(module
-    (import $i1 "js" "import1")
-    (import $i2 "js" "import2")
+    (import "js" "import1" (func $i1))
+    (import "js" "import2" (func $i2))
     (func $main (call $i1))
     (start $main)
     (func (export "f") (call $i2))

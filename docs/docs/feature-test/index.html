@@ -112,7 +112,8 @@ correctness but an alternative strategy existed that did not rely on
 the application to test <code class="highlighter-rouge">(has_feature "mprotect")</code> to avoid calling the
 <code class="highlighter-rouge">abort()</code>. The <code class="highlighter-rouge">has_feature</code> query could be exposed to C++ code via
 the existing <code class="highlighter-rouge">__builtin_cpu_supports</code>.</li>
-  <li>[SIMD]]<a href="../future-features/#fixed-width-simd">future simd</a> - When SIMD operators have a good-enough
+  <li>
+<a href="../future-features/#fixed-width-simd">SIMD</a> - When SIMD operators have a good-enough
 polyfill, e.g., <code class="highlighter-rouge">f32x4.fma</code> via <code class="highlighter-rouge">f32x4.mul</code>/<code class="highlighter-rouge">add</code>, Strategy 2 could be used 
 (similar to the <code class="highlighter-rouge">i32.min_s</code> example above). However, when a SIMD feature has no
 efficient polyfill (e.g., <code class="highlighter-rouge">f64x2</code>, which introduces both operators <em>and</em>

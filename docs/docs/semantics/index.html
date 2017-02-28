@@ -914,6 +914,23 @@ This trap is intended to be impossible for user code to catch or handle, even in
 handle some other kinds of traps or exceptions.</li>
 </ul>
 
+<h2 id="validation">Validation</h2>
+
+<p>A module binary must be <em>validated</em> before it is compiled.
+Validation ensures that the module is well-defined and that its code cannot exhibit any undefined behavior.
+In particular, along with some runtime checks, this ensures that no program can access or corrupt memory it does not own.</p>
+
+<p>Validation of code is mostly defined in terms of type-checking the use of the operand stack.
+It sequentially checks for each instruction that the expected operands can be popped from the stack and tracks which new operands are pushed onto it. At the start of a function the stack is empty; at its end it must match the return type of the function. In addition, instructions inside a <code class="highlighter-rouge">block</code> (or <code class="highlighter-rouge">loop</code> or <code class="highlighter-rouge">if</code>) cannot consume operands pushed outside. At the end of the block the remaining inner operands must match the block signature.</p>
+
+<p>A special case is unconditional control transfers (<code class="highlighter-rouge">br</code>, <code class="highlighter-rouge">br_table</code>, <code class="highlighter-rouge">return</code>, <code class="highlighter-rouge">unreachable</code>), because execution never proceeds after them.
+The stack after such an instruction is unconstrained, and thus said to be <em>polymorphic</em>.
+The following instructions still must type-check,
+but conceptually, values of any type can be popped off a polymorphic stack for the sake of checking consecutive instructions.
+A polymorphic stack also matches any possible signature at the end of a block or function.
+After the end of a block, the stack is determined by the block signature and the stack before the block.</p>
+
+<p>The details of validation are currently defined by the <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/valid.ml#L162">spec interpreter</a>.</p>
 
       </div>
       <div class="col-xs-12 col-lg-3">
