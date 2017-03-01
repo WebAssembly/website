@@ -7,7 +7,7 @@ permalink: demo/
 <div markdown="1" id="wasm-fail" class="flash flash-error flash-hide">
   Uh-oh! WebAssembly isn't enabled in this browser. To get an early preview of this experimental technology, at your own risk:
 
-  - on [Chrome Canary](https://www.google.com/chrome/browser/canary.html), open `chrome://flags/#enable-webassembly` and enable the switch.
+  - on [Chrome Canary](https://www.google.com/chrome/browser/canary.html)
   - on [Firefox Nightly](https://nightly.mozilla.org/), open `about:config` and set `javascript.options.wasm` to `true`.
 
   See a [preview](http://blogs.windows.com/msedgedev/2016/03/15/previewing-webassembly-experiments) of [Microsoft Edge](https://www.microsoft.com/en-us/windows/microsoft-edge) support and follow [Safari](http://www.apple.com/safari/) support on WebKit's [feature status](https://webkit.org/status/#specification-webassembly) page.
