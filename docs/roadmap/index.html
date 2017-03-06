@@ -31,7 +31,7 @@
     <div class="container">
       <div class="banner-update-icon"></div>
       <span class="banner-update-date"></span>
-      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+      <span>The initial version of WebAssembly has reached cross-browser consensus. <a href="/roadmap/">Learn more</a></span>
     </div>
   </section>
   
@@ -40,26 +40,20 @@
   <div class="container-narrow">  
   <h1 id="roadmap">Roadmap</h1>
 
-<h2 id="current-status">Current Status</h2>
+<h2 id="webassembly-consensus">WebAssembly Consensus</h2>
 
-<p>The <a href="https://w3.org/community/webassembly/">WebAssembly Community Group</a> has an initial 
-(<a href="https://github.com/WebAssembly/design/blob/master/MVP.md">MVP</a>)
-binary format release candidate and JavaScript API which are
-implemented in several browsers. The CG is now soliciting feedback from the
-broader community as part of a <em>Browser Preview</em> period. The tentative goal of
-the CG is for the Browser Preview to conclude in Q1 2017, though significant
-findings during the Browser Preview could potentially extend the duration. When
-the Browser Preview concludes, the CG will produce a draft specification of WebAssembly and browser vendors can start to ship conforming implementations on-by-default.</p>
+<p>WebAssembly CG members representing four browsers, Chrome, Edge, Firefox, and WebKit, have reached consensus that the design of the initial (<a href="/docs/mvp/">MVP</a>) WebAssembly API and binary format is complete to the extent that no further design work is possible without implementation experience and significant usage. This marks the end of the Browser Preview and signals that browsers can begin shipping WebAssembly on-by-default. From this point forward, future features will be designed to ensure backwards compatibility.</p>
 
-<p>Developers should be aware that between the Browser Preview and public launch of WebAssembly, there will be at least one breaking change which will require developers to update their toolchain and binaries. These changes will be announced ahead of time and are listed
-<a href="#planned-changes-before-release">below</a>.</p>
+<p>This consensus includes a <a href="/docs/js/">JavaScript API</a> and <a href="/docs/binary-encoding/">binary format</a> accompanied by a <a href="https://github.com/WebAssembly/spec/tree/master/interpreter">reference interpreter</a>. You can test out WebAssembly today using the Emscripten toolchain by following the <a href="/getting-started/developers-guide/">developer’s guide</a> and reading more on <a href="https://developer.mozilla.org/en-US/docs/WebAssembly">MDN</a>. You can also explore a variety of other <a href="/getting-started/advanced-tools/">advanced tools</a>.</p>
 
 <p>See <a href="/getting-started/developers-guide/">Getting Started</a> to start experimenting and
 <a href="/community/feedback/">Feedback</a> for how and where to direct feedback.</p>
 
+<p>See this message on the community group <a href="https://lists.w3.org/Archives/Public/public-webassembly/2017Feb/0002.html">mailing list</a>.</p>
+
 <h2 id="next-steps">Next Steps</h2>
 
-<p>In addition to processing feedback during the Browser Preview, the WebAssembly community group and contributors plan to:</p>
+<p>The WebAssembly community group and contributors plan to:</p>
 
 <ul>
   <li>distill the <a href="https://github.com/webassembly/design">design</a>
@@ -69,20 +63,19 @@ repo</li>
   <li>propose a new charter for a W3C WebAssembly Working Group</li>
   <li>graduate the <a href="https://github.com/llvm-mirror/llvm/tree/master/test/CodeGen/WebAssembly">WebAssembly LLVM backend</a> from experimental to stable (and update Emscripten)</li>
   <li>prototype additional WebAssembly integration into browser developer tools</li>
-  <li>finalize a WebAssembly <a href="https://github.com/WebAssembly/design/issues/112">logo</a></li>
   <li>Start work on <a href="/docs/future-features/">post-MVP features</a></li>
-  <li>Create a publicly-runnable conformance test suite</li>
 </ul>
 
-<h2 id="planned-changes-before-release">Planned Changes Before Release</h2>
+<h2 id="changes-since-the-browser-preview">Changes Since the Browser Preview</h2>
 
 <ul>
-  <li>At the end of the Browser Preview period, the
-	<a href="/docs/binary-encoding/#high-level-structure">binary version</a>
-	will be reset to <code class="highlighter-rouge">0x1</code> (at which point the version will be frozen and all new features will be added in a backwards-compatible manner, and be detected through feature-testing).</li>
+  <li>The <a href="/docs/binary-encoding/#high-level-structure">binary version</a>
+  of WebAssembly has been frozen at <code class="highlighter-rouge">0x1</code> (from this point forward
+  all new features will be added in a backwards-compatible manner,
+  and be detected through feature-testing). To update your
+  WebAssembly modules, upgrade to the latest version of Emscripten 
+  and recompile.</li>
 </ul>
-
-<p>As we receive significant user feedback, other items may be added here, or to the <a href="/docs/future-features/">future features</a> list.</p>
 
 <h2 id="past-milestones">Past Milestones</h2>
 
@@ -91,6 +84,8 @@ repo</li>
   <li>June 2015 - The first <a href="https://github.com/WebAssembly/design/issues/150">public announcement</a> [<a href="https://blogs.msdn.microsoft.com/mikeholman/2015/06/17/working-on-the-future-of-compile-to-web-applications/">1</a>][<a href="https://blog.mozilla.org/luke/2015/06/17/webassembly/">2</a>]</li>
   <li>March 2016 - Definition of core feature with multiple interoperable implementations [<a href="https://blogs.windows.com/msedgedev/2016/03/15/previewing-webassembly-experiments">1</a>] [<a href="https://v8project.blogspot.com/2016/03/experimental-support-for-webassembly.html">2</a>] [<a href="https://hacks.mozilla.org/2016/03/a-webassembly-milestone/">3</a>]</li>
   <li>October 2016 - Browser Preview announced with multiple interoperable implementations [<a href="https://blogs.windows.com/msedgedev/2016/10/31/webassembly-browser-preview/">1</a>] [<a href="http://v8project.blogspot.com/2016/10/webassembly-browser-preview.html">2</a>] [<a href="https://hacks.mozilla.org/2016/10/webassembly-browser-preview">3</a>]</li>
+  <li>February 2017 - Official <a href="https://github.com/WebAssembly/design/issues/980">logo</a> chosen</li>
+  <li>March 2017 - <a href="https://lists.w3.org/Archives/Public/public-webassembly/2017Feb/0002.html">Cross-browser consensus</a> and end of Browser Preview</li>
 </ul>
 
   </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>Angry Bots Demo - WebAssembly</title>
+  <title>Tanks! Demo - WebAssembly</title>
   <link rel="stylesheet" type="text/css" href="/css/custom.css">
 </head>
 
@@ -31,43 +31,37 @@
     <div class="container">
       <div class="banner-update-icon"></div>
       <span class="banner-update-date"></span>
-      <span>WebAssembly has reached the Browser Preview milestone. <a href="/roadmap/">Learn more</a></span>
+      <span>The initial version of WebAssembly has reached cross-browser consensus. <a href="/roadmap/">Learn more</a></span>
     </div>
   </section>
   
 
 <section>
   <div class="container-narrow">  
-  <h1 id="angry-bots-demo">Angry Bots Demo</h1>
-<div id="wasm-fail" class="flash flash-error flash-hide">
-  <p>Uh-oh! WebAssembly isn’t enabled in this browser. To get an early preview of this experimental technology, at your own risk:</p>
+  <h1 id="tanks-demo">Tanks! Demo</h1>
 
-  <ul>
-    <li>on <a href="https://www.google.com/chrome/browser/canary.html">Chrome Canary</a>, open <code class="highlighter-rouge">chrome://flags/#enable-webassembly</code> and enable the switch.</li>
-    <li>on <a href="https://nightly.mozilla.org/">Firefox Nightly</a>, open <code class="highlighter-rouge">about:config</code> and set <code class="highlighter-rouge">javascript.options.wasm</code> to <code class="highlighter-rouge">true</code>.</li>
-  </ul>
-
-  <p>See a <a href="http://blogs.windows.com/msedgedev/2016/03/15/previewing-webassembly-experiments">preview</a> of <a href="https://www.microsoft.com/en-us/windows/microsoft-edge">Microsoft Edge</a> support and follow <a href="http://www.apple.com/safari/">Safari</a> support on WebKit’s <a href="https://webkit.org/status/#specification-webassembly">feature status</a> page.</p>
+<p><a href="Tanks/"><img src="screenshot.jpg" alt="" /></a></p>
+<div id="play-wasm" class="btn-block">
+  <a class="btn btn-primary" href="Tanks/" role="button">Play WebAssembly</a>
+</div>
+<div id="play-asm" class="btn-block hide-btn-block">
+  <a class="btn hide-asm-support" href="Tanks/" role="button">Play asm.js fallback</a>
+  <span class="btn-comment btn-comment-error hide-asm-support">Your browser doesn't support WebAssembly yet. <a href="/roadmap/">Learn more</a></span>
 </div>
 
-<p><a href="AngryBots/"><img src="screenshot.jpg" alt="" /></a>
-<a class="btn btn-primary" id="play-wasm" href="AngryBots/" role="button">Play WebAssembly</a>
-<a class="btn" href="http://beta.unity3d.com/jonas/AngryBots/" role="button">Play asm.js fallback</a></p>
-
-<p>This is an experimental demo of Angry Bots, a Unity game which has been ported to WebAssembly. Fight robots and explore a 3D space station with realistic environmental effects in this top-down shooter. Movement is controlled by W, A, S, D or the arrow keys and aiming &amp; firing is controlled by the mouse.</p>
+<p>This is a demo of <a href="https://unity3d.com/learn/tutorials/projects/tanks-tutorial">Tanks!, a Unity tutorial game</a> which has been exported to WebAssembly. Drive a tank around the sandbox and shoot the enemy tank. Movement is controlled by W, A, S, D keys and firing is controlled by the spacebar.</p>
 
 <script type="text/javascript">
 (function() {
-  var support = (typeof Wasm === 'object') || (typeof WebAssembly === 'object');
+  // detect WebAssembly support
+  var support = (typeof WebAssembly === 'object');
+  
+  // toggle button wasm/asm.js button visibility
   if (!support) {
-    var flash = document.getElementById('wasm-fail');
-    flash.className = flash.className.replace(/(?:^|\s)flash-hide(?!\S)/, '');
-    var button = document.getElementById('play-wasm');
-    button.className += ' disabled';
-    button.href = 'javascript:;';
-    var link = document.getElementById('pic-link');
-    link.className += ' noclick';
-    link.href = 'javascript:;';
+    var wasmButton = document.getElementById('play-wasm');
+    wasmButton.className += ' hide-btn-block';
+    var asmButton = document.getElementById('play-asm');
+    asmButton.className = asmButton.className.replace(/(?:^|\s)hide-btn-block(?!\S)/, '');
   }
 })();
 </script>

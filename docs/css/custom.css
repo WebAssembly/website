@@ -1524,6 +1524,28 @@ header {
     border: none;
 }
 
+.btn-comment {
+    padding: 6px 12px;
+    font-size: .9em;
+    color: #f44336;
+}
+
+.btn-comment a {
+    text-decoration: underline;
+}
+
+.btn-comment.btn-comment-error, .btn-comment.btn-comment-error a {
+    color: #f44336;
+}
+
+.btn-block {
+    margin-bottom: 1em;
+}
+
+.hide-btn-block {
+    display: none;
+}
+
 .noclick {
   pointer-events: none;
 }
@@ -1642,12 +1664,12 @@ header {
 }
 
 .banner-update {
-    background-color: #6797e2;
+    background-color: #4db380;
     color: #fff;
 }
 
 .banner-update a {
-    color: #bfd7ff;
+    color: #baffdd;
     text-decoration: none;
 }
 
@@ -1684,10 +1706,6 @@ header {
 
 .flash.flash-error a {
     color: #f44336;
-}
-
-.flash-hide {
-    display: none;
 }
 
 .lead {

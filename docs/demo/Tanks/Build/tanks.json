@@ -1,0 +1,11 @@
+{
+"TOTAL_MEMORY": 50331648,
+"dataUrl": "tanks.data.unityweb",
+"wasmCodeUrl": "tanks.wasm.code.unityweb",
+"wasmFrameworkUrl": "tanks.wasm.framework.unityweb",
+"asmCodeUrl": "tanks.asm.code.unityweb",
+"asmMemoryUrl": "tanks.asm.memory.unityweb",
+"asmFrameworkUrl": "tanks.asm.framework.unityweb",
+"splashScreenStyle": "Dark",
+"backgroundColor": "#222C36"
+}
