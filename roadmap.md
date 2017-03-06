@@ -7,7 +7,7 @@ layout: default
 
 WebAssembly CG members representing four browsers, Chrome, Edge, Firefox, and WebKit, have reached consensus that the design of the initial ([MVP](/docs/mvp/)) WebAssembly API and binary format is complete to the extent that no further design work is possible without implementation experience and significant usage. This marks the end of the Browser Preview and signals that browsers can begin shipping WebAssembly on-by-default. From this point forward, future features will be designed to ensure backwards compatibility.
 
-This consensus includes a [JavaScript API](/docs/js/) and [binary format](/docs/binary-encoding/) accompanied by a [reference interpreter](https://github.com/WebAssembly/spec/tree/master/interpreter). You can test out WebAssembly today using the Emscripten toolchain by following the [developer’s guide](/getting-started/developers-guide/) and reading more on [MDN](https://developer.mozilla.org/en-US/docs/WebAssembly).
+This consensus includes a [JavaScript API](/docs/js/) and [binary format](/docs/binary-encoding/) accompanied by a [reference interpreter](https://github.com/WebAssembly/spec/tree/master/interpreter). You can test out WebAssembly today using the Emscripten toolchain by following the [developer’s guide](/getting-started/developers-guide/) and reading more on [MDN](https://developer.mozilla.org/en-US/docs/WebAssembly). You can also explore a variety of other [advanced tools](/getting-started/advanced-tools/).
 
 See [Getting Started](/getting-started/developers-guide/) to start experimenting and
 [Feedback](/community/feedback/) for how and where to direct feedback.

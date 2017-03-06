@@ -14,7 +14,7 @@ permalink: demo/
   <span class="btn-comment btn-comment-error hide-asm-support">Your browser doesn't support WebAssembly yet. <a href="/roadmap/">Learn more</a></span>
 </div>
 
-This is a demo of Tanks!, a Unity tutorial game which has been ported to WebAssembly. Drive a tank around the sandbox and shoot the enemy tank. Movement is controlled by W, A, S, D keys and firing is controlled by the spacebar.
+This is a demo of [Tanks!, a Unity tutorial game](https://unity3d.com/learn/tutorials/projects/tanks-tutorial) which has been exported to WebAssembly. Drive a tank around the sandbox and shoot the enemy tank. Movement is controlled by W, A, S, D keys and firing is controlled by the spacebar.
 
 <script type="text/javascript" >
 (function() {
