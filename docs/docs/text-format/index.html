@@ -43,14 +43,42 @@
       <div class="col-xs-12 col-lg-9 col-pop">
         <h1 id="text-format">Text Format</h1>
 
-<p>WebAssembly does not yet have a standardized text format that encodes function
-bodies in addition to module structure, data segments and other program
-metadata in a way that is eqivalent to the <a href="../binary-encoding/">binary format</a>.
-WebAssembly does, however, have a specified
-<a href="#linear-bytecode">textual representation</a> of function bodies which should be displayed in browsers and other tools when <a href="#debug-symbol-integration">debugging</a>
+<p>WebAssembly will define a standardized text format
+that encodes a WebAssembly module with all its contained definitions
+in a way that is equivalent to the <a href="../binary-encoding/">binary format</a>.
+This format will use <a href="https://en.wikipedia.org/wiki/S-expression">S-expressions</a> (avoiding syntax bikeshed discussions) to express modules and definitions while allowing a <a href="#linear-instructions">linear representation</a> for the code in function bodies.
+This format is understood by tools and used in browsers when <a href="#debug-symbol-integration">debugging</a>
 modules.</p>
 
-<h1 id="linear-bytecode">Linear bytecode</h1>
+<p>The format will be close to <a href="https://github.com/WebAssembly/spec/tree/master/interpreter/#s-expression-syntax">this grammar</a>,
+which provides a raw syntax in direct correspondence with the binary format
+as well as some syntactic sugar on top.
+Examples can be found in the WebAssembly <a href="https://github.com/WebAssembly/spec/tree/master/test/core/">test suite</a>.</p>
+
+<p>The following tools currently understand this format:</p>
+
+<ul>
+  <li>
+<a href="https://github.com/WebAssembly/spec/tree/master/interpreter/">specification interpreter</a> consumes an s-expression syntax.</li>
+  <li>
+<a href="https://github.com/WebAssembly/wabt">wabt</a> consumes compatible s-expressions.</li>
+  <li>
+<a href="https://github.com/WebAssembly/binaryen">binaryen</a> can consume compatible s-expressions.</li>
+  <li>
+<a href="https://github.com/llvm-mirror/llvm/tree/master/test/CodeGen/WebAssembly">LLVM backend</a> (the <code class="highlighter-rouge">CHECK:</code> parts of these tests) emits compatible s-expressions.</li>
+  <li>
+    <p><a href="https://github.com/AndrewScheidecker/WAVM/tree/master/Test">WAVM backend</a> consumes compatible s-expressions.</p>
+
+  </li>
+</ul>
+
+<p>The recommended file extension for WebAssembly code in textual format is <code class="highlighter-rouge">.wat</code>.</p>
+
+<p><strong>Note:</strong> The <code class="highlighter-rouge">.wast</code> format understood by some of the listed tools is a superset of the <code class="highlighter-rouge">.wat</code> format that is intended for writing test scripts.
+Besides the definition of modules such scripts can contain assertions and other commands as defined by a <a href="https://github.com/WebAssembly/spec/tree/master/interpreter/#scripts">grammar extension</a>.
+These extensions are <em>not</em> part of the official text format, which may only contain a single module.</p>
+
+<h1 id="linear-instructions">Linear instructions</h1>
 
 <p>WebAssembly function bodies encode bytecode instructions which have specified canonical opcode names. A linear presentation of these sequences of instructions allows a direct human-readable order-preserving presentation of the binary format. This format is suitable for opcode by opcode inspection of a WebAssembly program and can readily be related to the <a href="../semantics/">semantics</a> of the format.</p>
 
@@ -102,34 +130,6 @@ end</pre></td>
   </tr>
 </table>
 
-<h1 id="tool-conventions">Tool conventions</h1>
-
-<p>Most WebAssembly tools currently use <a href="https://en.wikipedia.org/wiki/S-expression">s-expressions</a> to represent modules in a
-textual format. Although the s-expression format is not an official text format,
-it is a tooling convention because it allows for the representation of function
-signatures, declarations, and other metadata and it doesn’t have much of a
-syntax to speak of (avoiding syntax bikeshed discussions).</p>
-
-<p>Here are some of these prototypes. Keep in mind that these <em>aren’t</em> official,
-and the final standard format may look entirely different:</p>
-
-<ul>
-  <li>
-<a href="https://github.com/WebAssembly/spec/tree/master/interpreter/test">Prototype specification</a> consumes an s-expression syntax.</li>
-  <li>
-<a href="https://github.com/AndrewScheidecker/WAVM/tree/master/Test">WAVM backend</a> consumes compatible s-expressions.</li>
-  <li>
-<a href="https://github.com/WebAssembly/wabt">wabt</a> consumes compatible s-expressions.</li>
-  <li>
-<a href="https://github.com/llvm-mirror/llvm/tree/master/test/CodeGen/WebAssembly">LLVM backend</a> (the <code class="highlighter-rouge">CHECK:</code> parts of these tests) emits compatible s-expressions.</li>
-  <li>
-<a href="https://github.com/WebAssembly/ilwasm">ilwasm</a> emits compatible s-expressions.</li>
-  <li>
-    <p><a href="https://github.com/WebAssembly/binaryen">binaryen</a> can consume compatible s-expressions.</p>
-
-  </li>
-</ul>
-
 <h2 id="debug-symbol-integration">Debug symbol integration</h2>
 
 <p>The binary format inherently strips names from functions, locals, globals, etc,
@@ -139,10 +139,9 @@ story, a lightweight, optional “debug symbol” global section may be defined
 which associates names with each indexed entity and, when present, these names
 will be used in the text format projected from a binary WebAssembly module.</p>
 
-<h1 id="future-design">Future design</h1>
-<h2 id="unicorn"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></h2>
+<h1 id="design-considerations">Design considerations</h1>
 
-<p>An official text format for WebAssembly needs to
+<p>The text format for WebAssembly needs to
 be able to represent any well-structured module unambiguously.
 In addition to function bodies and their instruction sequences, it also needs a
 way of encoding declarations, function
@@ -164,8 +163,6 @@ cases:</p>
   <li>Presentation in browser development tools when source maps aren’t present (which is necessarily the case with <a href="../mvp/">the Minimum Viable Product (MVP)</a>).</li>
   <li>Writing WebAssembly code directly for reasons including pedagogical, experimental, debugging, optimization, and testing of the spec itself.</li>
 </ul>
-
-<h2 id="additional-design-considerations">Additional design considerations</h2>
 
 <p>There is no requirement to use JavaScript syntax; this format is not intended to be evaluated or translated directly into JavaScript. There may also be substantive reasons to use notation that is different than JavaScript (for example, WebAssembly has a 64-bit integer type, and it should be represented in the text format, since that is the natural thing to do for WebAssembly, regardless of JavaScript not having such a type). On the other hand, when there are no substantive reasons and the options are basically bikeshedding, then it does make sense for the text format to match existing conventions on the Web (for example, curly braces, as in JavaScript and CSS).</p>
 

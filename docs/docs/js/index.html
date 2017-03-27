@@ -180,8 +180,9 @@ with a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-t
 
 <p>This function starts an asynchronous task that first compiles a <code class="highlighter-rouge">WebAssembly.Module</code>
 from <code class="highlighter-rouge">bytes</code> as described in the <a href="#webassemblymodule-constructor"><code class="highlighter-rouge">WebAssembly.Module</code> constructor</a>
-and then instantiate the resulting <code class="highlighter-rouge">Module</code> with <code class="highlighter-rouge">importObject</code> as described in the
-<a href="#webassemblyinstance-constructor"><code class="highlighter-rouge">WebAssembly.Instance</code> constructor</a>.
+and then queue a task to instantiate the resulting <code class="highlighter-rouge">Module</code> with <code class="highlighter-rouge">importObject</code> as described in the
+<a href="#webassemblyinstance-constructor"><code class="highlighter-rouge">WebAssembly.Instance</code> constructor</a>. After the instantiation task runs
+and before any subsequent steps are taken, other unspecified asynchronous tasks may be run.
 On success, the <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
 with a plain JavaScript object pair <code class="highlighter-rouge"><span class="p">{</span><span class="err">module,</span><span class="w"> </span><span class="err">instance</span><span class="p">}</span></code> containing the resulting
 <code class="highlighter-rouge">WebAssembly.Module</code> and <code class="highlighter-rouge">WebAssembly.Instance</code>. The 2 properties <code class="highlighter-rouge">module</code> and <code class="highlighter-rouge">instance</code> of the returned pair are  configurable, enumerable and writable.</p>
@@ -201,9 +202,10 @@ of the <code class="highlighter-rouge">BufferSource</code> after <code class="hi
 
 <p>This description applies if the first argument is a <code class="highlighter-rouge">WebAssembly.Module</code> instance.</p>
 
-<p>This function starts an asynchronous task that instantiates a <code class="highlighter-rouge">WebAssembly.Instance</code>
+<p>This function asynchronously queues a task that instantiates a <code class="highlighter-rouge">WebAssembly.Instance</code>
 from <code class="highlighter-rouge">moduleObject</code> and <code class="highlighter-rouge">importObject</code> as described in the
-<a href="#webassemblyinstance-constructor"><code class="highlighter-rouge">WebAssembly.Instance</code> constructor</a>.
+<a href="#webassemblyinstance-constructor"><code class="highlighter-rouge">WebAssembly.Instance</code> constructor</a>. After the instantiation task runs
+and before any subsequent steps are taken, other unspecified asynchronous tasks may be run.
 On success, the <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
 with the resulting <code class="highlighter-rouge">WebAssembly.Instance</code> object. On failure, the <code class="highlighter-rouge">Promise</code> is
 <a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a 
