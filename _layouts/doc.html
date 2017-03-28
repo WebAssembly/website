@@ -9,11 +9,9 @@
         <h6 class="side-title">Documentation</h6>
         <nav class="side-nav">
         {% assign sorted = site.pages | sort:"weight"  %}
-        {% for page in sorted %}
-          {% if page.type == "doc" %}
-          <a class="side-nav-item" href="{{ page.url }}">{{ page.title }}</a>
-          {% endif %}
-        {% endfor %}
+        {% for page in sorted %}{% if page.type == "doc" %}
+        <a class="side-nav-item" href="{{ page.url }}">{{ page.title }}</a>
+        {% endif %}{% endfor %}
         </nav>
       </div>
     </div>
