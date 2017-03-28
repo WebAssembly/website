@@ -8,7 +8,8 @@ exclude: [
   design/LICENSE,
   design/Contributing.md,
   design/README.md,
-  design/tools
+  design/tools,
+  docs
 ]
 
 destination: docs
