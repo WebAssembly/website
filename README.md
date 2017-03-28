@@ -45,6 +45,5 @@ The static site should be configured to build to the `docs` directory. The `docs
 - The `defaults` section of `_config.yml` adds default values to the YAML frontmatter of documents from the `design` repo. In particular, it specifies that all `.md` files in the design submodule should be labelled as type `doc` and given layout `doc.html`. It also manually moves a few docs into the `community` tree where they fit the site organization better.
 - `auto_titles.rb` adds a `title` value to YAML frontmatter by looking for the first header tag in the source files. It also orders the design docs based on a hardcoded list.
 - `emoji.rb` replaces `.md` emoji signifiers of the form `:unicorn:` and emoji unicode characters with image elements which are more accessible.
-- `fix_header_ids.rb` monkey-patches the `kramdown` Markdown converter to obey GitHub Flavored Markdown's conventions in generating HTML `id` attributes from the contents of headers.
 - `link_converter.rb` turns the `design` repo's links (e.g. `[threads](FutureFeatures.md#threads)`) into their respective locations on this website (e.g. `[threads](/docs/future-features/#threads)`).
 - `underscore_paths.rb` rewrites Jekyll page permalinks to convert `/design/FutureFeatures/` to `/docs/future-features/`.
