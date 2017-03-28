@@ -9,7 +9,8 @@ exclude: [
   design/Contributing.md,
   design/README.md,
   design/tools,
-  docs
+  docs,
+  vendor
 ]
 
 destination: docs
