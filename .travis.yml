@@ -1,5 +1,5 @@
 language: ruby
 rvm:
-  - 2.4
+  - 2.2
 build:
   - bundle exec jekyll build --destination=_docs && diff -arq docs _docs
