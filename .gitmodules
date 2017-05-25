@@ -1,4 +1,4 @@
 [submodule "docs"]
 	path = design
-	url = https://github.com/WebAssembly/design
+	url = https://github.com/WebAssembly-cn/design
 	branch = cn
