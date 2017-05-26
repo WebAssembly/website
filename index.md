@@ -1,18 +1,21 @@
 ---
 layout: default
-lead: WebAssembly or <i>wasm</i> is a new portable, size- and load-time-efficient format suitable for compilation to the web.
+lead: WebAssembly / <i>wasm</i> 提供一种便携的，体积小加载速度快的格式，它适合编译后再Web中运行。
 ---
+
 <div class="flash flash-warn">
-  WebAssembly is currently being designed as an open standard by a <a href="https://www.w3.org/community/webassembly/">W3C Community Group</a> that includes representatives from all major browsers.
+  WebAssembly 现在被<a href="https://www.w3.org/community/webassembly/">W3C 社区组</a> 设计为开放标准，成员包括所有主流浏览器的代表。
 </div>
 <div class="row">
   <div class="bubble col-xs-12 col-md-6">
-    <h3>Efficient and fast</h3>
-    <p>The wasm <a href="/docs/semantics/">stack machine</a> is designed to be encoded in a size- and load-time-efficient <a href="/docs/binary-encoding/">binary format</a>. WebAssembly aims to execute at native speed by taking advantage of <a href="/docs/portability/#assumptions-for-efficient-execution">common hardware capabilities</a> available on a wide range of platforms.</p>
+    <h3>高效 快速</h3>
+    <p>Wasm的 <a href="/docs/semantics/">stack machine</a> 被设计成<a href="/docs/binary-encoding/">二进制格式</a>，它的体积更小，加载时间更快。 WebAssembly 使用可用的广泛平台的<a href="/docs/portability/#assumptions-for-efficient-execution">通用硬件功能</a>来实现原声的执行速度</p>
   </div>
   <div class="bubble col-xs-12 col-md-6">
-    <h3>Safe</h3>
-    <p>WebAssembly describes a memory-safe, sandboxed <a href="/docs/semantics/#linear-memory">execution environment</a> that may even be implemented inside existing JavaScript virtual machines. When <a href="/docs/web/">embedded in the web</a>, WebAssembly will enforce the same-origin and permissions security policies of the browser.</p>
+    <h3>安全</h3>
+    <p>
+    WebAssembly描述了一个内存安全的沙盒 <a href="/docs/semantics/#linear-memory">执行环境</a>，甚至可以在现有的JavaScript虚拟机中实现。在<a href="/docs/web/">web环境中</a>，WebAssembly将会严格遵守同源和权限安全策略。
+    </p>
   </div>
 </div>
 <div class="row">
