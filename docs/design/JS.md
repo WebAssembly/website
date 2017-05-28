@@ -7,6 +7,8 @@ be loaded and run directly from an HTML `<script type='module'>` tag—and
 any other Web API that loads ES6 modules via URL—as part of 
 [ES6 Module integration](Modules.md#integration-with-es6-modules).)
 
+WebAssembly JS API declaration file for TypeScript can be found [here](https://github.com/01alchemist/webassembly-types/blob/master/webassembly.d.ts) which enable autocompletion and make TypeScript compiler happy.
+
 ## Traps
 
 Whenever WebAssembly semantics specify a [trap](Semantics.md#traps),
@@ -111,12 +113,19 @@ If neither of the following overloads match, then the returned `Promise` is
 with a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
 
 ```
-Promise<{module:WebAssembly.Module, instance:WebAssembly.Instance}>
+dictionary WebAssemblyInstantiatedSource {
+   required WebAssembly.Module module;
+   required WebAssembly.Instance instance;
+};
+
+Promise<WebAssemblyInstantiatedSource>
   instantiate(BufferSource bytes [, importObject])
 ```
 
-This description applies if the first argument is a 
-[`BufferSource`](https://heycam.github.io/webidl/#common-BufferSource).
+If the given `bytes` argument is not a
+[`BufferSource`](https://heycam.github.io/webidl/#common-BufferSource),
+the returned `Promise` is [rejected](http://tc39.github.io/ecma262/#sec-rejectpromise)
+with a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
 
 This function starts an asynchronous task that first compiles a `WebAssembly.Module`
 from `bytes` as described in the [`WebAssembly.Module` constructor](#webassemblymodule-constructor)
@@ -281,6 +290,7 @@ internal slot:
 
 * [[Instance]] : an [`Instance.instance`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L17)
   which is the WebAssembly spec definition of an instance
+ * [[Exports]] : the exports object created during instantiation
 
 ### `WebAssembly.Instance` Constructor
 
@@ -307,6 +317,12 @@ is thrown. If the list of
 is not empty and `Type(importObject)` is not Object, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
 is thrown.
 
+Note: Imported JavaScript functions are wrapped as [host function](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L9) values in the following algorithm. For the purpose of the algorithm, a _new_ [host function](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L9) value is always generated fresh and considered distinct from any other previously created host function value, including those wrapping the same JavaScript function object.
+Consequently, two [closure](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7) values are considered equal if and only if:
+
+* Either they are both WebAssembly functions for the same instance and referring to the same function definition.
+* Or they are the same host function value.
+
 Let `funcs`, `memories` and `tables` be initially-empty lists of callable JavaScript objects, `WebAssembly.Memory` objects and `WebAssembly.Table` objects, respectively.
 
 Let `imports` be an initially-empty list of [`external`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L11) values.
@@ -319,16 +335,16 @@ For each [`import`](https://github.com/WebAssembly/spec/blob/master/interpreter/
 1. If `Type(o)` is not Object, throw a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
 1. Let `v` be the value of performing [`Get`](http://tc39.github.io/ecma262/#sec-get-o-p)(`o`, [`i.item_name`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L171))
 1. If `i` is a function import:
-  1. If [`IsCallable(v)`](https://tc39.github.io/ecma262/#sec-iscallable) is `false`,
-     throw a `WebAssembly.LinkError`.
-  1. If `v` is an [Exported Function Exotic Object](#exported-function-exotic-objects):
-    1. (The signature of `v.[[Closure]]` is checked against the import's declared
-       [`func_type`](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md#func_type)
-       by `Eval.init` below.)
-    1. Let `closure` be `v.[[Closure]]`.
-  1. Otherwise:
-    1. Let `closure` be a new [host function](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L9)
-       of the given signature:
+   1. If [`IsCallable(v)`](https://tc39.github.io/ecma262/#sec-iscallable) is `false`,
+      throw a `WebAssembly.LinkError`.
+   1. If `v` is an [Exported Function Exotic Object](#exported-function-exotic-objects):
+      1. (The signature of `v.[[Closure]]` is checked against the import's declared
+         [`func_type`](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md#func_type)
+         by `Eval.init` below.)
+      1. Let `closure` be `v.[[Closure]]`.
+   1. Otherwise:
+      1. Let `closure` be a new [host function](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L9) value
+         of the given signature and the following behavior:
       1. If the signature contains an `i64` (as argument or result), the host
          function immediately throws a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
          when called.
@@ -336,32 +352,32 @@ For each [`import`](https://github.com/WebAssembly/spec/blob/master/interpreter/
          and WebAssembly arguments coerced to JavaScript arguments
          via [`ToJSValue`](#tojsvalue). The result is returned by coercing
          via [`ToWebAssemblyValue`](#towebassemblyvalue).
-  1. Append `v` to `funcs`.
-  1. Append `closure` to `imports`.
+   1. Append `v` to `funcs`.
+   1. Append `closure` to `imports`.
 1. If `i` is a global import:
-  1. [Assert](https://tc39.github.io/ecma262/#assert): the global is immutable
-     by MVP validation constraint.
-  1. If the `global_type` of `i` is `i64` or `Type(v)` is not Number, throw a `WebAssembly.LinkError`.
-  1. Append [`ToWebAssemblyValue`](#towebassemblyvalue)`(v)` to `imports`.
+   1. [Assert](https://tc39.github.io/ecma262/#assert): the global is immutable
+      by MVP validation constraint.
+   1. If the `global_type` of `i` is `i64` or `Type(v)` is not Number, throw a `WebAssembly.LinkError`.
+   1. Append [`ToWebAssemblyValue`](#towebassemblyvalue)`(v)` to `imports`.
 1. If `i` is a memory import:
-  1. If `v` is not a [`WebAssembly.Memory` object](#webassemblymemory-objects),
+   1. If `v` is not a [`WebAssembly.Memory` object](#webassemblymemory-objects),
       throw a `WebAssembly.LinkError`.
-  1. (The imported `Memory`'s `length` and `maximum` properties are checked against the import's declared
+   1. (The imported `Memory`'s `length` and `maximum` properties are checked against the import's declared
       [`memory_type`](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md#memory_type)
       by `Eval.init` below.)
-  1. Append `v` to `memories`.
-  1. Append `v.[[Memory]]` to `imports`.
+   1. Append `v` to `memories`.
+   1. Append `v.[[Memory]]` to `imports`.
 1. Otherwise (`i` is a table import):
-  1. If `v` is not a [`WebAssembly.Table` object](#webassemblytable-objects),
-     throw a `WebAssembly.LinkError`.
-  1. (The imported `Table`'s `length`, `maximum` and `element` properties are checked against the import's declared
+   1. If `v` is not a [`WebAssembly.Table` object](#webassemblytable-objects),
+      throw a `WebAssembly.LinkError`.
+   1. (The imported `Table`'s `length`, `maximum` and `element` properties are checked against the import's declared
       [`table_type`](https://github.com/WebAssembly/design/blob/master/BinaryEncoding.md#table_type)
       by `Eval.init` below.)
-  1. Append `v` to `tables`.
-  1. Append `v.[[Table]]` to `imports`.
-  1. For each index `i` of `v.[[Table]]`:
-    1. Let `e` be the `i`the element of `v.[[Table]]`.
-    1. If `e` is a [`closure`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7) `c`:
+   1. Append `v` to `tables`.
+   1. Append `v.[[Table]]` to `imports`.
+   1. For each index `i` of `v.[[Table]]`:
+      1. Let `e` be the `i`the element of `v.[[Table]]`.
+   1. If `e` is a [`closure`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7) `c`:
       1. Append the `i`th element of `v.[[Values]]` to `funcs`.
 
 Let `instance` be the result of creating a new
@@ -390,22 +406,22 @@ Among other things, this function performs the following observable steps:
 The following steps are performed _before_ the `start` function executes:
 
 1. For each table 't' in [`instance.tables`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L17):
-  1. If there is no element in `tables` whose `table.[[Table]]` is `t`:
-    1. Let `table` be a new `WebAssembly.Table` object with [[Table]] set to `t` and [[Values]] set to a new list of the same length all whose entries are `null`.
-    1. Append `table` to `tables`.
-  1. Otherwise:
-    1. Let `table` be the element in `tables` whose `table.[[Table]]` is `t`
-  1. (Note: At most one `WebAssembly.Table` object is created for any table, so the above `table` is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import, the original object will be found.)
-  1. For each index `i` of `t`:
-    1. Let `c` be the `i`th element of `t`
-    1. If `c` is a [`closure`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7) `c`:
-      1. If there is an [Exported Function Exotic Object](#exported-function-exotic-objects) in `funcs` whose `[[Closure]]` equals `c`:
-        1. Let `func` be that function object.
-      1. (Note: At most one wrapper is created for any closure, so `func` is uniquely determined. Moreover, if the item was an import that is already an [Exported Function Exotic Object](#exported-function-exotic-objects), then the original function object will be found. For imports that are regular JS functions, a new wrapper will be created.)
-      1. Otherwise:
-        1. Let `func` be an [Exported Function Exotic Object](#exported-function-exotic-objects) created from `c`.
-        1. Append `func` to `funcs`.
-      1. Set the `i`th element of `table.[[Values]]` to `func`.
+   1. If there is no element in `tables` whose `table.[[Table]]` is `t`:
+      1. Let `table` be a new `WebAssembly.Table` object with [[Table]] set to `t` and [[Values]] set to a new list of the same length all whose entries are `null`.
+      1. Append `table` to `tables`.
+   1. Otherwise:
+      1. Let `table` be the element in `tables` whose `table.[[Table]]` is `t`
+   1. (Note: At most one `WebAssembly.Table` object is created for any table, so the above `table` is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import, the original object will be found.)
+   1. For each index `i` of `t`:
+      1. Let `c` be the `i`th element of `t`
+      1. If `c` is a [`closure`](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7) `c`:
+         1. If there is an [Exported Function Exotic Object](#exported-function-exotic-objects) in `funcs` whose `[[Closure]]` equals `c`:
+            1. Let `func` be that function object.
+         1. (Note: At most one wrapper is created for any closure, so `func` is uniquely determined. Moreover, if the item was an import that is already an [Exported Function Exotic Object](#exported-function-exotic-objects), then the original function object will be found. For imports that are regular JS functions, a new wrapper will be created.)
+         1. Otherwise:
+            1. Let `func` be an [Exported Function Exotic Object](#exported-function-exotic-objects) created from `c`.
+            1. Append `func` to `funcs`.
+         1. Set the `i`th element of `table.[[Values]]` to `func`.
 
 (Note: The table and element function objects created by the above steps are only observable for tables that are either imported or exported.)
 
@@ -413,32 +429,27 @@ Let `exports` be a list of (string, JS value) pairs that is mapped from
 each [external](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L24) value `e` in `instance.exports` as follows:
 
 1. If `e` is a [closure](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L12) `c`:
-  1. If there is an [Exported Function Exotic Object](#exported-function-exotic-objects) `func` in `funcs` whose `func.[[Closure]]` equals `c`, then return `func`.
-  1. (Note: At most one wrapper is created for any closure, so `func` is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import that is already an [Exported Function Exotic Object](#exported-function-exotic-objects), then the original function object will be found. For imports that are regular JS functions, a new wrapper will be created.)
-  1. Otherwise:
-    1. Let `func` be an [Exported Function Exotic Object](#exported-function-exotic-objects) created from `c`.
-    1. Append `func` to `funcs`.
-    1. Return `func`.
+   1. If there is an [Exported Function Exotic Object](#exported-function-exotic-objects) `func` in `funcs` whose `func.[[Closure]]` equals `c`, then return `func`.
+   1. (Note: At most one wrapper is created for any closure, so `func` is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import that is already an [Exported Function Exotic Object](#exported-function-exotic-objects), then the original function object will be found. For imports that are regular JS functions, a new wrapper will be created.)
+   1. Otherwise:
+      1. Let `func` be an [Exported Function Exotic Object](#exported-function-exotic-objects) created from `c`.
+      1. Append `func` to `funcs`.
+      1. Return `func`.
 1. If `e` is a [global](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L15) `v`:
-  1. [Assert](https://tc39.github.io/ecma262/#assert): the global is immutable
-     by MVP validation constraint.
-  1. If `v` is an `i64`, throw a `WebAssembly.LinkError`.
-  1. Return [`ToJSValue`](#tojsvalue)`(v)`.
+   1. [Assert](https://tc39.github.io/ecma262/#assert): the global is immutable
+      by MVP validation constraint.
+   1. If `v` is an `i64`, throw a `WebAssembly.LinkError`.
+   1. Return [`ToJSValue`](#tojsvalue)`(v)`.
 1. If `e` is a [memory](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L14) `m`:
-  1. If there is an element `memory` in `memories` whose `memory.[[Memory]]` is `m`, then return `memory`.
-  1. (Note: At most one `WebAssembly.Memory` object is created for any memory, so the above `memory` is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import, the original object will be found.)
-  1. Otherwise:
-    1. Let `memory` be a new `WebAssembly.Memory` object created via [`CreateMemoryObject`](#creatememoryobject) from `m`.
-    1. Append `memory` to `memories`.
-    1. Return `memory`.
+   1. If there is an element `memory` in `memories` whose `memory.[[Memory]]` is `m`, then return `memory`.
+   1. (Note: At most one `WebAssembly.Memory` object is created for any memory, so the above `memory` is unique, even if there are multiple occurrances in the list. Moreover, if the item was an import, the original object will be found.)
+   1. Otherwise:
+      1. Let `memory` be a new `WebAssembly.Memory` object created via [`CreateMemoryObject`](#creatememoryobject) from `m`.
+      1. Append `memory` to `memories`.
+      1. Return `memory`.
 1. Otherwise `e` must be a [table](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L13) `t`:
-  1. Assert: There is an element `table` in `tables` whose `table.[[Table]]` is `t`.
-  1. Return that `table`.
-
-Note: For the purpose of the above algorithm, two [closure](https://github.com/WebAssembly/spec/blob/master/interpreter/spec/instance.ml#L7) values are considered equal if and only if:
-
-* Either they are both WebAssembly functions for the same instance and referring to the same function definition.
-* Or they are identical host functions (i.e., each host function value created from a JavaScript function is considered fresh).
+   1. Assert: There is an element `table` in `tables` whose `table.[[Table]]` is `t`.
+   1. Return that `table`.
 
 Let `exportsObject` be a new [frozen](https://tc39.github.io/ecma262/#sec-object.freeze)
 plain JS object with [[Prototype]] set to Null and with properties defined
@@ -448,9 +459,8 @@ performed during [module validation](#webassemblymodule-constructor) ensure
 that each property name is valid and no properties are defined twice.
 
 Let `instanceObject` be a new `WebAssembly.Instance` object setting
-the internal `[[Instance]]` slot to `instance`.
-
-Perform [`CreateDataProperty`](https://tc39.github.io/ecma262/#sec-createdataproperty)(`instance`, `"exports"`, `exportsObject`).
+the internal `[[Instance]]` slot to `instance` and the `[[Exports]]` slot to
+`exportsObject`.
 
 Return `instanceObject`.
 
@@ -460,6 +470,16 @@ The initial value of the [`@@toStringTag`](https://tc39.github.io/ecma262/#sec-w
 property is the String value `"WebAssembly.Instance"`.
 
 This property has the attributes { [[Writable]]: `false`, [[Enumerable]]: `false`, [[Configurable]]: `true` }.
+
+### `WebAssembly.Instance.prototype.exports` property
+
+This is an accessor property whose [[Set]] is Undefined and whose [[Get]]
+accessor function performs the following steps:
+
+Let `T` be the `this` value. If `T` is not a `WebAssembly.Instance`, a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror)
+is thrown.
+
+Return `T.[[Exports]]`.
 
 ## Exported Function Exotic Objects
 

@@ -195,8 +195,8 @@ part of the payload.
 | ----- |  ----- | ----- |
 | id | `varuint7` | section code |
 | payload_len  | `varuint32` | size of this section in bytes |
-| name_len | `varuint32` ? | length of the section name in bytes, present if `id == 0` |
-| name | `bytes` ? | section name string, present if `id == 0` |
+| name_len | `varuint32` ? | length of `name` in bytes, present if `id == 0` |
+| name | `bytes` ? | section name: valid UTF-8 byte sequence, present if `id == 0` |
 | payload_data  | `bytes` | content of this section, of length `payload_len - sizeof(name) - sizeof(name_len)` |
 
 Each known section is optional and may appear at most once. Custom sections all have the same `id` (0), and can be named non-uniquely (all bytes composing their names may be identical).
@@ -205,7 +205,7 @@ Custom sections are intended to be used for debugging information, future evolut
 
 If a WebAssembly implementation interprets the payload of any custom section during module validation or compilation, errors in that payload must not invalidate the module.
 
-Known sections from the list below may not appear out of order, while custom sections may be interspersed before, between, as well as after any of the elements of the list, in any order. Certain custom sections may have their own ordering and cardinality requirements. For example, the [Name section](#name-section) is expected to appear at most once, immediately after the Data section. Violation of such requirements may at most cause an implementatin to ignore the section, while not invalidating the module.
+Known sections from the list below may not appear out of order, while custom sections may be interspersed before, between, as well as after any of the elements of the list, in any order. Certain custom sections may have their own ordering and cardinality requirements. For example, the [Name section](#name-section) is expected to appear at most once, immediately after the Data section. Violation of such requirements may at most cause an implementation to ignore the section, while not invalidating the module.
 
 The content of each section is encoded in its `payload_data`.
 
@@ -234,7 +234,7 @@ The type section declares all function signatures that will be used in the modul
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | count | `varuint32` | count of type entries to follow |
-| entries | `func_type*` | repeated type entries as described below |
+| entries | `func_type*` | repeated type entries as described [above](#func_type) |
 
 Note: In the [future :unicorn:][future types],
 this section may contain other forms of type entries as well, which can be distinguished by the `form` field of the type encoding.
@@ -252,10 +252,10 @@ The import section declares all imports that will be used in the module.
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| module_len | `varuint32` | module string length |
-| module_str | `bytes` | module string of `module_len` bytes |
-| field_len | `varuint32` | field name length |
-| field_str | `bytes` | field name string of `field_len` bytes |
+| module_len | `varuint32` | length of `module_str` in bytes |
+| module_str | `bytes` | module name: valid UTF-8 byte sequence |
+| field_len | `varuint32` | length of `field_str` in bytes |
+| field_str | `bytes` | field name: valid UTF-8 byte sequence |
 | kind | `external_kind` | the kind of definition being imported |
 
 Followed by, if the `kind` is `Function`:
@@ -301,7 +301,7 @@ The encoding of a [Table section](Modules.md#table-section):
 | Field | Type | Description |
 | ----- |  ----- | ----- |
 | count | `varuint32` | indicating the number of tables defined by the module |
-| entries | `table_type*` | repeated `table_type` entries as described below |
+| entries | `table_type*` | repeated `table_type` entries as described [above](#table_type) |
 
 In the MVP, the number of tables must be no more than 1.
 
@@ -314,7 +314,7 @@ The encoding of a [Memory section](Modules.md#linear-memory-section):
 | Field | Type | Description |
 | ----- |  ----- | ----- |
 | count | `varuint32` | indicating the number of memories defined by the module |
-| entries | `memory_type*` | repeated `memory_type` entries as described below |
+| entries | `memory_type*` | repeated `memory_type` entries as described [above](#memory_type) |
 
 Note that the initial/maximum fields are specified in units of 
 [WebAssembly pages](Semantics.md#linear-memory).
@@ -355,8 +355,8 @@ The encoding of the [Export section](Modules.md#exports):
 
 | Field | Type | Description |
 | ----- | ---- | ----------- |
-| field_len | `varuint32` | field name string length |
-| field_str | `bytes` | field name string of `field_len` bytes |
+| field_len | `varuint32` | length of `field_str` in bytes |
+| field_str | `bytes` | field name: valid UTF-8 byte sequence |
 | kind | `external_kind` | the kind of definition being exported |
 | index | `varuint32` | the index into the corresponding [index space](Modules.md) |
 
@@ -449,8 +449,10 @@ be skipped over by an engine. The current list of valid `name_type` codes are:
 
 | Name Type | Code | Description |
 | --------- | ---- | ----------- |
+| [Module](#module-name) | `0` | Assigns a name to the module |
 | [Function](#function-names) | `1` | Assigns names to functions |
 | [Local](#local-names) | `2` | Assigns names to locals in functions |
+
 
 When present, name subsections must appear in this order and at most once. The
 end of the last subsection must coincide with the last byte of the name
@@ -470,8 +472,8 @@ where a `naming` is encoded as:
 | Field | Type | Description |
 | ----- | ---- | ----------- |
 | index | `varuint32` | the index which is being named |
-| name_len | `varuint32` | number of bytes in name_str |
-| name_str | `bytes` | binary encoding of the name |
+| name_len | `varuint32` | length of `name_str` in bytes |
+| name_str | `bytes` | UTF-8 encoding of the name |
 
 #### Function names
 
@@ -497,6 +499,16 @@ where a `local_name` is encoded as:
 | ----- | ---- | ----------- |
 | index | `varuint32` | the index of the function whose locals are being named |
 | local_map | `name_map` | assignment of names to local indices |
+
+#### Module name
+
+The module name subsection assigns a name to the module itself. It simply
+consists of a single string:
+
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| name_len | `varuint32` | length of `name_str` in bytes |
+| name_str | `bytes` | UTF-8 encoding of the name |
 
 # Function Bodies
 

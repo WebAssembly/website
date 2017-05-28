@@ -105,7 +105,8 @@ table operators in the
 allow modules to share code and data while still allowing separate compilation
 and caching.</p>
 
-<p>All imports include two opaque names: a <em>module name</em> and an <em>export name</em>. The
+<p>All imports include two opaque names: a <em>module name</em> and an <em>export name</em>,
+which are required to be <a href="https://encoding.spec.whatwg.org/#utf-8-decode-without-bom-or-fail">valid UTF-8</a>. The
 interpretation of these names is up to the host environment but designed to
 allow a host environments, like the <a href="../web/">Web</a>, to support a two-level
 namespace.</p>
@@ -167,7 +168,8 @@ native <code class="highlighter-rouge">syscall</code>. For example, a shell envi
 
 <p>A module can declare a sequence of <strong>exports</strong> which are returned at
 instantiation time to the host environment. Each export has three fields:
-a <em>name</em>, whose meaning is defined by the host environment, a <em>type</em>,
+a <em>name</em>, which is required to be <a href="https://encoding.spec.whatwg.org/#utf-8-decode-without-bom-or-fail">valid UTF-8</a>,
+whose meaning is defined by the host environment, a <em>type</em>,
 indicating whether the export is a function, global, memory or table, and
 an <em>index</em> into the type’s corresponding <a href="../modules/">index space</a>.</p>
 

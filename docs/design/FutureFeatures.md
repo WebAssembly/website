@@ -1,12 +1,26 @@
 # Features to add after the MVP
 
 These are features that make sense in the context of the
-[high-level goals](HighLevelGoals.md) of WebAssembly but won't be part of the
+[high-level goals](HighLevelGoals.md) of WebAssembly but weren't part of the
 initial [Minimum Viable Product](MVP.md) release.
 
-We expect several essential features to be standardized immediately after the
-MVP. Others will be prioritized based on developer feedback, and all will be
-available under [feature tests](FeatureTest.md).
+**Note:** we are in the process of migrating all post-MVP featues to tracking
+issues.
+
+## Tracking Issues
+
+| Feature          | Tracking issue | Status      |
+|------------------|----------------|-------------|
+| Threads          | [1073][]       | in progress |
+| Fixed-width SIMD | [1075][]       | in progress |
+
+  [1073]: https://github.com/WebAssembly/design/issues/1073
+  [1075]: https://github.com/WebAssembly/design/issues/1075
+
+
+## Legacy Future Features
+
+**Note:** these will soon move to tracking issues.
 
 :star: = Essential features we want to prioritize adding shortly after
 the [MVP](MVP.md).
@@ -17,44 +31,6 @@ the [MVP](MVP.md).
 #### :star: :star: :star:
 
 This is covered in the [tooling](Tooling.md) section.
-
-### Threads
-#### :star: :star:
-
-Provide low-level buildings blocks for pthreads-style shared memory: shared
-memory between threads, atomics and futexes (or [synchronic][]).
-
-New atomic memory operators, including loads/stores annotated with their atomic
-ordering property, will follow the [C++11 memory model][], similarly to the
-[PNaCl atomic support][] and the [SharedArrayBuffer][] proposal. Regular loads
-and stores will be bound by a happens-before relationship to atomic operators
-in the same thread of execution, which themselves synchronize-with atomics in
-other threads. Following these rules, regular load/store operators can still be
-elided, duplicated, and split up. This guarantees that data-race free code
-executes as if it were sequentially consistent. Even when there are data races,
-WebAssembly will ensure that the [nondeterminism](Nondeterminism.md) remains
-limited and local.
-
-Modules can have thread-local variables that are disjoint from linear memory
-and can thus be represented efficiently by the engine.
-
-  [synchronic]: http://wg21.link/n4195
-  [C++11 memory model]: http://www.hboehm.info/c++mm/
-  [PNaCl atomic support]: https://developer.chrome.com/native-client/reference/pnacl-c-cpp-language-support#memory-model-and-atomics
-  [SharedArrayBuffer]: https://github.com/tc39/ecmascript_sharedmem
-
-### Fixed-width SIMD
-#### :star:
-
-Support fixed-width SIMD vectors, initially only for 128-bit wide vectors as
-demonstrated in [PNaCl's SIMD][] and [SIMD.js][].
-
-SIMD adds new local types (e.g., `f32x4`) so it has to be part of the core
-semantics. SIMD operators (e.g., `f32x4.add`) could be either builtin
-operators (no different from `i32.add`) or exports of a builtin SIMD module.
-
-  [PNaCl's SIMD]: https://developer.chrome.com/native-client/reference/pnacl-c-cpp-language-support#portable-simd-vectors
-  [SIMD.js]: https://github.com/tc39/ecmascript_simd
 
 ### Zero-cost Exception Handling
 #### :star:
@@ -472,44 +448,9 @@ lighter-weight alternative to load-time polyfilling (approach 2 in
 were to be standardized and performed natively such that no user-space translation 
 pass was otherwise necessary.
 
-### Mutable global variables
+### Array globals 
 
-In the MVP, there are no global variables; C/C++ global variables are stored in
-linear memory and thus accessed through normal
-[linear memory operators](Semantics.md#linear-memory-operators).
-[Dynamic linking](DynamicLinking.md) will add some form of immutable global
-variable analogous to "symbols" in native binaries. In some cases, though,
-it may be useful to have a fully mutable global variable which lives outside
-linear memory. This would allow more aggressive compiler optimizations (due to
-better alias information). If globals are additionally allowed array types,
-significant portions of memory could be moved out of linear memory which could
-reduce fragmentation issues. Languages like Fortran which limit aliasing would be
-one use case. C/C++ compilers could also determine that some global variables never
-have their address taken.
-
-### Streaming Compilation
-
-The WebAssembly binary format is designed to allow streaming decoding,
-validation and compilation. In the MVP, however, the only way to compile
-WebAssembly in a browser is through [JS API](JS.md) functions which
-require all code to be available in an `ArrayBuffer` before compilation
-can begin.
-
-There are two future features that would allow streaming compilation
-of WebAssembly in browsers:
-
-* [ES6 Module integration](Modules.md#integration-with-es6-modules) would allow
-  the browser's network layer to feed a stream directly into the engine.
-* The asynchronous [`WebAssembly.compile`](JS.md#wasmcompile) function could be 
-  extended to accept a readable stream (as defined by the 
-  [Streams API](https://streams.spec.whatwg.org))
-  which would allow the engine to compile the stream as chunks became available,
-  fulfilling the promise when the stream was complete. Readable streams
-  can come from not just the network (via [`fetch`](http://fetch.spec.whatwg.org/)),
-  but also JS stream writers and likely other future Web APIs. Thus, this feature
-  would enable Web apps to perform their own (["layer 1"](BinaryEncoding.md))
-  custom compression (on top of the spec-defined binary format, under generic
-  HTTP `Content-Encoding` compression).
+If globals are allowed array types, significant portions of memory could be moved out of linear memory which could reduce fragmentation issues. Languages like Fortran which limit aliasing would be one use case. C/C++ compilers could also determine that some global variables never have their address taken.
 
 ### Multiple Return
 
@@ -561,3 +502,22 @@ static signature validation check. This could be improved by allowing:
   check of a call to a heterogeneous table;
 * any other specific GC reference type, effectively allowing WebAssembly code
   to implement a variety of rooting API schemes.
+
+### Memset and Memcpy Operators
+
+Copying and clearing large memory regions is very common, and making these
+operations fast is architecture dependent. Although this can be done in the MVP
+via `i32.load` and `i32.store`, this requires more bytes of code and forces VMs
+to recognize the loops as well. The following operators can be added to improve
+performance:
+
+* `move_memory`: Copy data from a source memory region to destination region;
+   these regions may overlap: the copy is performed as if the source region was 
+   first copied to a temporary buffer, then the temporary buffer is copied to
+   the destination region
+* `set_memory`: Set all bytes in a memory region to a given byte
+
+We expect that WebAssembly producers will use these operations when the region
+size is known to be large, and will use loads/stores otherwise.
+
+TODO: determine how these operations interact w/ shared memory.

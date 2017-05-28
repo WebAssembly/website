@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: http://gems.ruby-china.org/
   specs:
     activesupport (4.2.8)
       i18n (~> 0.7)
@@ -89,4 +89,4 @@ DEPENDENCIES
   nokogiri (~> 1.7)
 
 BUNDLED WITH
-   1.14.6
+   1.15.0
