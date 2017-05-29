@@ -14,28 +14,28 @@ module AutoTitles
     # TODO:s3ththompson avoid hard-coding titles
     def assign_weight(title)
       order = [
-        "WebAssembly 高级目标",
+        "WebAssembly High-Level Goals",
         "JavaScript API",
-        "二进制编码",
-        "文本格式",
-        "语义",
-        "模块",
+        "Binary Encoding",
+        "Text Format",
+        "Semantics",
+        "Modules",
         "FAQ",
-        "设计原理",
-        "最小可行产品（MVP）",
-        "MVP后将要添加的特性",
-        "可移植性",
-        "安全",
-        "WebAssembly中的不确定性",
-        "用例",
-        "C/C++ 开发者引导",
-        "Web 模式",
-        "Non-Web 模式",
-        "特性测试",
-        "工具支持",
-        "GC / DOM / Web API 整合 :unicorn:",
-        "JIT 和 优化库",
-        "动态链接"
+        "Design Rationale",
+        "Minimum Viable Product",
+        "Features to add after the MVP",
+        "Portability",
+        "Security",
+        "Nondeterminism in WebAssembly",
+        "Use Cases",
+        "Guide for C/C++ developers",
+        "Web Embedding",
+        "Non-Web Embeddings",
+        "Feature Test",
+        "Tooling support",
+        "GC / DOM / Web API Integration :unicorn:",
+        "JIT and Optimization Library",
+        "Dynamic linking"
       ]
       if order.include?(title)
         order.index(title)

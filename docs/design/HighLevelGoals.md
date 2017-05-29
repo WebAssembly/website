@@ -1,4 +1,4 @@
-# WebAssembly High-Level Goals
+# WebAssembly 高级目标
 
 1. Define a [portable](Portability.md), size- and load-time-efficient
    [binary format](MVP.md#binary-format) to serve as a compilation target which
