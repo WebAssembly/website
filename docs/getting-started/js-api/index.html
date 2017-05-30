@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>Understanding the JS API - WebAssembly 中文网</title>
+  <title>理解 JS API - WebAssembly 中文网</title>
   <link rel="stylesheet" type="text/css" href="/css/custom.css">
   <meta name="keywords" content="wsam,WebAssembly中国,wsam中文">
   <meta mame="description" content="WebAssembly 中文网是一个依附于WebAssembly官网内容的开源中文社区">
@@ -43,29 +43,29 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12 col-lg-9 col-pop">
-        <h1 id="understanding-the-js-api">Understanding the JS API</h1>
+        <h1 id="理解-js-api">理解 JS API</h1>
 
-<p><em>We assume here that you already have a .wasm module, whether <a href="/getting-started/developers-guide/">compiled from a C/C++ program</a> or <a href="/getting-started/advanced-tools/#wabt-the-webassembly-binary-toolkit">assembled directly from s-exprs</a>.</em></p>
+<p><em>我们假定现在您已经有了一个 .wasm 模块了，不管是<a href="/getting-started/developers-guide/">是通过 C/C++ 程序编译</a> 还是 <a href="/getting-started/advanced-tools/#wabt-the-webassembly-binary-toolkit">通过 S 表达式编写</a>。</em></p>
 
-<h2 id="loading-and-running">Loading and running</h2>
+<h2 id="加载运行">加载/运行</h2>
 
-<p>While there are <a href="/docs/future-features/">future plans</a> to allow WebAssembly modules to be loaded just like ES6 modules (using <code class="highlighter-rouge">&lt;script type='module'&gt;</code>), WebAssembly must currently be loaded and compiled by JavaScript.  For basic loading, there are three steps:</p>
+<p>在<a href="/docs/future-features/">未来计划</a>中，WebAssembly 模块可以使用 ES6 模块(使用<code class="highlighter-rouge">&lt;script type="module"&gt;</code>)加载，WebAssembly 目前只能通过 JavaScript 来加载和编译。基础的加载，只需要3步：</p>
 
 <ul>
-  <li>Get the <code class="highlighter-rouge">.wasm</code> bytes into a typed array or <code class="highlighter-rouge">ArrayBuffer</code></li>
-  <li>Compile the bytes into a <code class="highlighter-rouge">WebAssembly.Module</code></li>
-  <li>Instantiate the <code class="highlighter-rouge">WebAssembly.Module</code> with imports to get the callable exports</li>
+  <li>获取 <code class="highlighter-rouge">.wasm</code> 二进制文件，将它转换成类型数组或者 <code class="highlighter-rouge">ArrayBuffer</code></li>
+  <li>将二级制数据编译成一个 <code class="highlighter-rouge">WebAssembly.Module</code></li>
+  <li>使用 imports 实例化这个 <code class="highlighter-rouge">WebAssembly.Module</code>，获取 exports。</li>
 </ul>
 
-<p>Let’s talk about these steps in more detail.</p>
+<p>让我们来讨论一下这几个步骤的更多详情：</p>
 
-<p>For the first step there are many ways to get a typed array or <code class="highlighter-rouge">ArrayBuffer</code> of bytes: over the network, using XHR or fetch, from a <code class="highlighter-rouge">File</code> retrieved from IndexedDB, or even synthesized directly in JavaScript.</p>
+<p>第一步，我们有很多方式获取二进制文件的类型数组或 <code class="highlighter-rouge">ArrayBuffer</code>：通过网络，使用 XHR 或者 fetch，从 <code class="highlighter-rouge">文件</code>获取，从 IndexedDB获取，或者直接在 JavaScript 合成。</p>
 
-<p>The next step is to compile the bytes using the async function <code class="highlighter-rouge">WebAssembly.compile</code> which returns a Promise that resolves to a <code class="highlighter-rouge">WebAssembly.Module</code>.  A <code class="highlighter-rouge">Module</code> object is stateless and supports <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm">structured cloning</a> which means that the compiled code can be stored in IndexedDB and/or shared between windows and workers via <code class="highlighter-rouge">postMessage</code>.</p>
+<p>接下来的步骤是编译这个二进制文件，通过一个异步方法 <code class="highlighter-rouge">WebAssembly.conpile</code>，将会返回一个 Promise，resolve 一个 <code class="highlighter-rouge">WebAssembly.module</code>。<code class="highlighter-rouge">Module</code>对象是无状态的，它支持<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm">克隆实例</a>，也就是说，编译的代码可以被存储在 IndexedDB 或者在多个窗口和worker之间通过 <code class="highlighter-rouge">postMessage</code> 传输。</p>
 
-<p>The last step is to <em>instantiate</em> the <code class="highlighter-rouge">Module</code> by constructing a new <code class="highlighter-rouge">WebAssembly.Instance</code> passing in a <code class="highlighter-rouge">Module</code> and any imports requested by the <code class="highlighter-rouge">Module</code>.  <code class="highlighter-rouge">Instance</code> objects are like <a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">function closures</a>, pairing code with environment and are not structured cloneable.</p>
+<p>最后一步是 <em>实例化</em> 这个 <code class="highlighter-rouge">Module</code>，通过实例化一个新的 <code class="highlighter-rouge">WebAssembly.Instance</code>，传输 imports 和 <code class="highlighter-rouge">Module</code> 当做参数。<code class="highlighter-rouge">Instance</code> 对象像<a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">函数闭包</a>一样，代码与环境结合，不能克隆。</p>
 
-<p>We can combine these last two steps into one <code class="highlighter-rouge">instantiate</code> operation that takes both bytes and imports and asynchronously returns an <code class="highlighter-rouge">Instance</code>:</p>
+<p>我们可以合并最后两步，在一个 <code class="highlighter-rouge">instantiate</code> 操作里面，它需要二进制代码和 imports，并且异步返回一个<code class="highlighter-rouge">Instance</code>：</p>
 
 <div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">instantiate</span><span class="p">(</span><span class="nx">bytes</span><span class="p">,</span> <span class="nx">imports</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">WebAssembly</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">bytes</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">m</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nx">WebAssembly</span><span class="p">.</span><span class="nx">Instance</span><span class="p">(</span><span class="nx">m</span><span class="p">,</span> <span class="nx">imports</span><span class="p">));</span>
@@ -73,11 +73,11 @@
 </code></pre>
 </div>
 
-<p>To actually demonstrate this in action, we first need to introduce another piece of the JS API:</p>
+<p>为了实际证明这一点，我们首先需要介绍另外一个JS API：</p>
 
-<h2 id="function-imports-and-exports">Function imports and exports</h2>
+<h2 id="方法的-imports-和-exports">方法的 imports 和 exports</h2>
 
-<p>Like ES6 modules, WebAssembly modules can import and export functions (and, we’ll see later, other types of objects too).  We can see a simple example of both in this module which imports a function <code class="highlighter-rouge">i</code> from module <code class="highlighter-rouge">imports</code> and exports a function <code class="highlighter-rouge">e</code>:</p>
+<p>像 ES6 模块一样， WebAssembly 模块可以通过 import 和 export 来导出和引入函数（我们一会可以看到，其它类型的对象也可以）。我们可以看一个简单的例子，包括 exports 和 imports，引入了 <code class="highlighter-rouge">i</code> 函数，输出了 <code class="highlighter-rouge">e</code> 函数。</p>
 
 <pre><code class="language-lisp">;; simple.wasm
 (module
@@ -87,15 +87,15 @@
     call $i))
 </code></pre>
 
-<p>(Here, instead of writing the module in C/C++ and compiling to WebAssembly, we write the module directly in the <a href="/docs/text-format/">text format</a> which can be <a href="/getting-started/advanced-tools/#wabt-the-webassembly-binary-toolkit">assembled</a> directly into the binary file <code class="highlighter-rouge">simple.wasm</code>.)</p>
+<p>（这里，我们不通过 C/C++ 来编译成 WebAssembly，我们直接使用<a href="/docs/text-format/">文本格式</a>，它可以直接被<a href="/getting-started/advanced-tools/#wabt-the-webassembly-binary-toolkit">转换</a>成二进制文件，<code class="highlighter-rouge">simple.masm</code>）</p>
 
-<p>Looking at this module we can see a few things.  First, WebAssembly imports have a two-level namespace; in this case the import with the internal name <code class="highlighter-rouge">$i</code> is imported from <code class="highlighter-rouge">imports.i</code>.  Similarly, we must reflect this two-level namespace in the import object passed to <code class="highlighter-rouge">instantiate</code>:</p>
+<p>从这个模块中我们可以发现。第一，WebAssembly 引入了一个有两个层级的命名空间；在这个例子中，通过我们创建的对象中的 <code class="highlighter-rouge">importObject.imports.i</code>，引入了一个 <code class="highlighter-rouge">$i</code> 方法。同样的，我们必须提供一个两级的命名空间作为 import 对象传递给 <code class="highlighter-rouge">instantiate</code>。</p>
 
 <div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">importObject</span> <span class="o">=</span> <span class="p">{</span> <span class="na">imports</span><span class="p">:</span> <span class="p">{</span> <span class="na">i</span><span class="p">:</span> <span class="nx">arg</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">arg</span><span class="p">)</span> <span class="p">}</span> <span class="p">};</span>
 </code></pre>
 </div>
 
-<p>Putting together everything in this section and the last, we can fetch, compile and instantiate our module with the simple promise chain:</p>
+<p>将之前讲的内容整合起来，我们可以获取，编译并且实例化一个模块通过简单的 promise 链：</p>
 
 <div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">fetch</span><span class="p">(</span><span class="s1">'simple.wasm'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">arrayBuffer</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">bytes</span> <span class="o">=&gt;</span> <span class="nx">instantiate</span><span class="p">(</span><span class="nx">bytes</span><span class="p">,</span> <span class="nx">importObject</span><span class="p">))</span>
@@ -103,46 +103,46 @@
 </code></pre>
 </div>
 
-<p>The last line calls our exported WebAssembly function which, in turn, calls our imported JS function which ultimately executes <code class="highlighter-rouge">console.log(42)</code>.</p>
+<p>上面 JS 代码的最后一行调用了我们 WebAssembly export 的函数，这个函数最后调用了我们通过 <code class="highlighter-rouge">importObject</code> 传递给 WebAssembly 的 <code class="highlighter-rouge">$i</code> 函数，所以，其实是调用了我们所写 <code class="highlighter-rouge">imports.i</code> 这个方法，执行了 <code class="highlighter-rouge">console.log(42)</code>。</p>
 
 <h2 id="memory">Memory</h2>
 
-<p><a href="/docs/semantics/#linear-memory">Linear memory</a> is another important WebAssembly building block that is typically used to represent the entire heap of a compiled C/C++ application.  From a JavaScript perspective, linear memory (henceforth, just “memory”) can be thought of as a resizable <code class="highlighter-rouge">ArrayBuffer</code> that is carefully optimized for low-overhead sandboxing of loads and stores.</p>
+<p><a href="/docs/semantics/#linear-memory">Linear memory</a> 是 WebAssembly 的另外一种构建块，通常用于表示编译的 C/C++ 应用程序的整个堆。从 JavaScript 的角度，linear memory（后面称作 memory）可以被认为是一个可以调整大小的 <code class="highlighter-rouge">ArrayBuffer</code>，它是通过尽心优化的，用于负载和存储的低开销沙箱。</p>
 
-<p>Memories can be created from JavaScript by supplying their initial size and, optionally, their maximum size:</p>
+<p>Memories 可以被 JavaScript 创建，需要提供出初始大小和最大的大小这些选项。</p>
 
 <div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">memory</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebAssembly</span><span class="p">.</span><span class="nx">Memory</span><span class="p">({</span><span class="na">initial</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="na">maximum</span><span class="p">:</span><span class="mi">100</span><span class="p">});</span>
 </code></pre>
 </div>
 
-<p>The first important thing to notice is that the unit of <code class="highlighter-rouge">initial</code> and <code class="highlighter-rouge">maximum</code> is <em>WebAssembly pages</em> which are fixed to be 64KiB.  Thus, <code class="highlighter-rouge">memory</code> above has an initial size of 10 pages, or 640KiB and a maximum size of 6.4MiB.</p>
+<p>首先要注意的是，“initial” 和 “maximum” 的单位是 <em>WebAssembly pages</em>，它固定为64KiB。这样，上面的 <code class="highlighter-rouge">memory</code> 默认就是 10 pages，640Kib，最大的尺寸是6.4MiB。</p>
 
-<p>Since most byte-range operations in JavaScript already operate on <code class="highlighter-rouge">ArrayBuffer</code> and typed arrays, rather than defining a whole new set of incompatible operations, <code class="highlighter-rouge">WebAssembly.Memory</code> exposes its bytes by simply providing a <code class="highlighter-rouge">buffer</code> getter that returns an <code class="highlighter-rouge">ArrayBuffer</code>.  For example, to write <code class="highlighter-rouge">42</code> directly into the first word of linear memory:</p>
+<p>在 JavaScript 中大多数的字节操作都是在 <code class="highlighter-rouge">ArrayBuffer</code> 和 类型数组里面，而不是建立了一套新的不兼容的操作方式，<code class="highlighter-rouge">WebAssembly.Memory</code> 通过简单的提供一个返回 <code class="highlighter-rouge">ArrayBuffer</code> 的 <code class="highlighter-rouge">buffer</code> getter 来返回字节码。比如，将 42 写入 linear memory 的第一个位置。</p>
 
 <div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="k">new</span> <span class="nx">Uint32Array</span><span class="p">(</span><span class="nx">memory</span><span class="p">.</span><span class="nx">buffer</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
 </code></pre>
 </div>
 
-<p>Once created, a memory can be grown by calls to <code class="highlighter-rouge">Memory.prototype.grow</code>, where again the argument is specified in units of WebAssembly pages:</p>
+<p>一旦被创建，可以通过 <code class="highlighter-rouge">Momory.Prototype.grow</code> 进行扩充，还是以 WebAssembly pages 为单位当做参数。</p>
 
 <div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">memory</span><span class="p">.</span><span class="nx">grow</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
 </code></pre>
 </div>
 
-<p>If a <code class="highlighter-rouge">maximum</code> is supplied upon creation, attempts to grow past this <code class="highlighter-rouge">maximum</code> will throw a <code class="highlighter-rouge">RangeError</code> exception.  The engines takes advantage of this supplied upper-bounds to reserve memory ahead of time which can make resizing more efficient.</p>
+<p>如果 <code class="highlighter-rouge">maximum</code> 供不应求了，通过 grow 增加的尺寸大于 <code class="highlighter-rouge">maximum</code>，就会抛出 <code class="highlighter-rouge">RangeError</code> 异常。引擎利用这个提供的上限来提前预留内存，这样可以使调整大小更有效率。</p>
 
-<p>Since an <code class="highlighter-rouge">ArrayBuffer</code>’s <code class="highlighter-rouge">byteLength</code> is immutable, after a successful <code class="highlighter-rouge">Memory.grow</code> operation, the<code class="highlighter-rouge">buffer</code> getter will return a <em>new</em> <code class="highlighter-rouge">ArrayBuffer</code> object (with the new <code class="highlighter-rouge">byteLength</code>) and any previous <code class="highlighter-rouge">ArrayBuffer</code> objects become “detached” (zero length, many operations throw).</p>
+<p>当 <code class="highlighter-rouge">ArrayBuffer</code> 的 <code class="highlighter-rouge">byteLength</code> 变化的时候，<code class="highlighter-rouge">Memory.grow</code> 操作成功后，<code class="highlighter-rouge">bugger</code> getter 将会返回一个 <em>新的</em> <code class="highlighter-rouge">ArrayBuffer</code> 对象(新的<code class="highlighter-rouge">byteLength</code>)，之前的 <code class="highlighter-rouge">ArrayBuffer</code> 对象变成“detached”（长度0，将被丢弃）。</p>
 
-<p>Just like functions, linear memories can be defined inside a module or imported.  Similarly, a module may also optionally export its memory.  This means that JavaScript can get access to the memory of a WebAssembly instance either by creating a <code class="highlighter-rouge">new WebAssembly.Memory</code> and passing it in as an import <em>or</em> by receiving a <code class="highlighter-rouge">Memory</code> export.</p>
+<p>就像函数一样，linear memories 可以被定义在模块内或被引入。同样，一个模块还可以选择性的导出它的 memory。也就是说，JavaScript 创建<code class="highlighter-rouge">新的 WebAssembly.Memory</code>，并且将它通过 import 对象传递给WebAssembly模块，<em>或者</em> JavaScript 接收一个 WebAssembly 模块的 <code class="highlighter-rouge">Memory</code> export，实现 memory 的传递。</p>
 
-<p>For example, let’s take a WebAssembly module that sums an array of integers (replacing the body of the function with “…”):</p>
+<p>比如，让我们写一个将数组相加的 WebAssembly 模块（函数体用“…”代替）</p>
 
 <pre><code class="language-lisp">(module
   (memory (export "mem") 1)
   (func (export "accumulate") (param $ptr i32) (param $length i32) …))
 </code></pre>
 
-<p>Since this module <em>exports</em> its memory, given an <code class="highlighter-rouge">Instance</code> of this module called <code class="highlighter-rouge">instance</code>, we can use its exports’ <code class="highlighter-rouge">mem</code> getter to create and populate an input array directly in the instance’s linear memory, as follows:</p>
+<p>当这个模块 <em>exports</em> 这个memory，我们将这个模块的 <code class="highlighter-rouge">Instance</code> 命名为 <code class="highlighter-rouge">instance</code>，我们可以通过导出的 <code class="highlighter-rouge">mem</code> getter 直接传递 array 到实例的 linear memory 中，就像这样：</p>
 
 <div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">i32</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Uint32Array</span><span class="p">(</span><span class="nx">instance</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">mem</span><span class="p">);</span>
 <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
@@ -151,11 +151,11 @@
 </code></pre>
 </div>
 
-<p>Memory <em>imports</em> work just like function imports, only <code class="highlighter-rouge">Memory</code> objects are passed as values instead of JS functions.  Memory imports are useful for two reasons:</p>
+<p>Memory 的 <em>导出</em> 和方法的的导出是一样的，只不多 <code class="highlighter-rouge">Memory</code> 对象是用值来代替了JS函数。Memory 的导出是非常有用的：</p>
 
 <ul>
-  <li>They allow JavaScript to fetch and create the initial contents of memory before or concurrent with module compilation.</li>
-  <li>They allow a single <code class="highlighter-rouge">Memory</code> object to be imported by multiple instances, which is a critical building block for implementing <a href="/docs/dynamic-linking">dynamic linking</a> in WebAssembly.</li>
+  <li>它允许 JavaScript 在模块编译之前或模块编译时去获取并创建初始内存内容。</li>
+  <li>它允许一个简单的 <code class="highlighter-rouge">Memory</code> 对象被多个实例引入，这是在 WebAssembly 中实现<a href="/docs/dynamic-linking">动态链接</a>的关键。</li>
 </ul>
 
       </div>
