@@ -30,7 +30,7 @@ WebAssembly 由很多工具来支持开发者构建处理源文件输出二进�
 
 使用 **wasm2wast** 和 **wast2wasm** 可以掌控 WebAssembly 的二进制代码，开发者可以通过工具来操作修改 WebAssembly 的二进制代码。
 
-#### wasm-interp 工具
+### wasm-interp 工具
 
 这个工具是个可以让 WebAssembly 二进制代码在命令行中运行的翻译器。它实现了基于堆栈机的解释器，直接解释 WebAssembly 二进制文件。和浏览器将 WebAssembly 二进制通过JIT转换成目标机器的原生代码不一样的是，他不需要加载时间。
 
