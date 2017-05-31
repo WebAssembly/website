@@ -27,29 +27,28 @@ Non-web embeddings are not required to support these additional methods.
 
 ### Additional Web Embedding API
 
-#### `WebAssembly.compile`
+#### `WebAssembly.compileStreaming`
 
 :cyclone: Added for milestone 2, developers must feature detect.
 
-In Web embeddings, the following overloads are added (in addition to the core
-JS API method of the same name).
+In Web embeddings, the following methods are added.
 
 ```
-Promise<WebAssembly.Module> compile(Response source)
-
-Promise<WebAssembly.Module> compile(Promise<Response> source)
+Promise<WebAssembly.Module> compileStreaming(source)
 ```
 
-Developers can set the argument `source` with either a promise that resolves
-with a
+`source` is unconditionally passed through the built-in value
+of `Promise.resolve`.
+If the result is not a `Response` object, then the returned `Promise` is
+[rejected](http://tc39.github.io/ecma262/#sec-rejectpromise)
+with a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
+This allows developers to pass either a promise that resolves
+to a
 [`Response`](https://fetch.spec.whatwg.org/#response-class)
 object or a
 [`Response`](https://fetch.spec.whatwg.org/#response-class)
 object (which is automatically cast to a
-promise).
-If when unwrapped that `Promise` is not a `Response` object, then the returned `Promise` is
-[rejected](http://tc39.github.io/ecma262/#sec-rejectpromise)
-with a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
+promise) for the `source`.
 Renderer-side
 security checks about tainting for cross-origin content are tied to the types
 of filtered responses defined in
@@ -60,42 +59,47 @@ as described in the [`WebAssembly.Module` constructor](#webassemblymodule-constr
 On success, the `Promise` is [fulfilled](http://tc39.github.io/ecma262/#sec-fulfillpromise)
 with the resulting `WebAssembly.Module` object. On failure, the `Promise` is
 [rejected](http://tc39.github.io/ecma262/#sec-rejectpromise) with a
-`WebAssembly.CompileError`.
+`WebAssembly.CompileError` or `TypeError`, depending on the type of failure.
 
-The `Promise<Response>` is used as the source of the bytes to compile.
+The resolved `Response` is used as the source of the bytes to compile.
 MIME type information is
 [`extracted`](https://fetch.spec.whatwg.org/#concept-header-extract-mime-type)
 from the `Response`, WebAssembly `source` data must have a MIME type of `application/wasm`,
 extra parameters are not allowed (including empty `application/wasm;`).
-MIME type mismatch or `opaque` response types
-[reject](http://tc39.github.io/ecma262/#sec-rejectpromise) the Promise with a
-`WebAssembly.CompileError`.
+A MIME type mismatch, a response whose
+[type](https://fetch.spec.whatwg.org/#concept-response-type) is not "basic", "cors", or
+"default", or a response whose status is not an
+[ok status](https://fetch.spec.whatwg.org/#ok-status), must cause the Promise to be
+[rejected](http://tc39.github.io/ecma262/#sec-rejectpromise) with a
+`TypeError`.
 
-#### `WebAssembly.instantiate`
+#### `WebAssembly.instantiateStreaming`
 
 :cyclone: Added for milestone 2, developers must feature detect.
 
-In Web embeddings, the following overloads are added (in addition to the core
-JS API method of the same name).
+In Web embeddings, the following methods are added.
 
 ```
-Promise<{module:WebAssembly.Module, instance:WebAssembly.Instance}>
-  instantiate(Response source [, importObject])
+dictionary WebAssemblyInstantiatedSource {
+   required WebAssembly.Module module;
+   required WebAssembly.Instance instance;
+};
 
-Promise<{module:WebAssembly.Module, instance:WebAssembly.Instance}>
-  instantiate(Promise<Response> source [, importObject])
+Promise<InstantiatedSource> instantiateStreaming(source [, importObject])
 ```
 
-Developers can set the argument `source` with either a promise that resolves
-with a
+`source` is unconditionally passed through the built-in value
+of `Promise.resolve`.
+If the result is not a `Response` object, then the returned `Promise` is
+[rejected](http://tc39.github.io/ecma262/#sec-rejectpromise)
+with a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
+This allows developers to pass either a promise that resolves
+to a
 [`Response`](https://fetch.spec.whatwg.org/#response-class)
 object or a
 [`Response`](https://fetch.spec.whatwg.org/#response-class)
 object (which is automatically cast to a
-promise).
-If when unwrapped that `Promise` is not a `Response` object, then the returned `Promise` is
-[rejected](http://tc39.github.io/ecma262/#sec-rejectpromise)
-with a [`TypeError`](https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror).
+promise) for the `source`.
 Renderer-side
 security checks about tainting for cross-origin content are tied to the types
 of filtered responses defined in
@@ -112,16 +116,86 @@ with a plain JavaScript object pair `{module, instance}` containing the resultin
 
 On failure, the `Promise` is
 [rejected](http://tc39.github.io/ecma262/#sec-rejectpromise) with a
-`WebAssembly.CompileError`, `WebAssembly.LinkError`, or `WebAssembly.RuntimeError`, depending on the cause of failure.
+`TypeError`, `WebAssembly.CompileError`, `WebAssembly.LinkError`, or `WebAssembly.RuntimeError`,
+depending on the cause of failure.
 
-The `Promise<Response>` is used as the source of the bytes to compile.
+The resolved `Response` is used as the source of the bytes to compile.
 MIME type information is
 [`extracted`](https://fetch.spec.whatwg.org/#concept-header-extract-mime-type)
 from the `Response`, WebAssembly `source` data must have a MIME type of `application/wasm`,
 extra parameters are not allowed (including empty `application/wasm;`).
-MIME type mismatch or `opaque` response types
-[reject](http://tc39.github.io/ecma262/#sec-rejectpromise) the Promise with a
-`WebAssembly.CompileError`.
+A MIME type mismatch, a response whose
+[type](https://fetch.spec.whatwg.org/#concept-response-type) is not "basic", "cors", or
+"default", or a response whose status is not an
+[ok status](https://fetch.spec.whatwg.org/#ok-status), must cause the Promise to be
+[rejected](http://tc39.github.io/ecma262/#sec-rejectpromise) with a
+`TypeError`.
+
+## Developer-facing display conventions
+
+Browsers, JavaScript engines, and offline tools have common ways of referring to
+JavaScript artifacts and language constructs. For example, locations in
+JavaScript source code are printed in stack traces or error messages, and are
+represented naturally as decimal-format lines and columns in text files. Names
+of functions and variables are taken directly from the sources. Therefore (for
+example) even though the exact format of Error.stack strings does not always
+match, the locations are easily understandable and the same across browsers.
+
+To achive the same goal of a common representations for WebAssembly constructs, the
+following conventions are adopted.
+
+A WebAssembly location is a reference to a particular instruction in the binary, and may be
+displayed by a browser or engine in similar contexts as JavaScript source locations.
+It has the following format:
+
+`${url}:wasm-function[${funcIndex}]:${pcOffset}`
+
+Where
+* `${url}` is the URL associated with the module, if applicable (see notes).
+* `${funcIndex}` is an index in the [function index space](Modules.md#function-index-space).
+* `${pcOffset}` is the offset in the module binary of the first byte
+  of the instruction, printed in hexadecimal with lower-case digits,
+  with a leading `0x` prefix.
+
+Notes:
+* The URL field may be interpreted differently depending on the
+context. When the response-based
+instantiation [API](#additional-web-embedding-api) is used in a
+browser, the associated URL should be used; or when the
+ArrayBuffer-based instantiation
+[API](JS.md#webassemblyinstantiate) is used, the browser should represent
+the location of the API call. This kind of instantiation is analagous to
+executing JavaScript using `eval`; therefore if the browser has an existing
+method to represent the location of the `eval` call it can use a similar
+one for `WebAssembly.instantiate`. For example if the browser uses
+`foo.js line 10 > eval` or `eval at bar (foo.js:10:3)` for `eval`, it could
+use `foo.js line 10 > WebAssembly.instantiate` or
+`WebAssembly.instantiate at bar (foo.js:10:3)`, respectively.
+Offline tools may use a filename instead.
+* Using hexadecimal for module offsets matches common conventions in native tools
+such as objdump (where addresses are printed in hex) and makes them visually
+distinct from JavaScript line numbers. Other numbers are represented in decimal.
+
+While the `name` property of [exported WebAssembly functions](JS.md#exported-function-exotic-objects)
+is specified by the JS API, synthesized function names are also
+displayed in other contexts like devtool callstacks and `Error.stack`.
+If a WebAssembly module contains a ["name" section](BinaryEncoding.md#name-section),
+these names should be used to synthesize a function name as follows:
+* If a function name subsection is present, the displayed name should
+  be `${module_name}.${function_name}` or `${function_name}`, depending
+  on whether the module name is present.
+* Otherwise, the output can be context-dependent:
+  * If the function name is shown alongside its location in a
+    stack trace, then just the module name (if present) or an empty string
+    can be used (because the function index is already in the location).
+  * Otherwise, `${module_name}.wasm-function[${funcIndex}]` or 
+    `wasm-function[${funcIndex}]` should be used to convey the function index.
+
+Note that this document does not specify the full format of strings such as
+stack frame representations; this allows engines to continue using their
+existing formats for JavaScript (which existing code may already be depending
+on) while still printing WebAssembly frames in a format consistent with
+JavaScript.
 
 ## Modules
 
@@ -130,14 +204,11 @@ the ES6 module system](Modules.md#integration-with-es6-modules).
 
 ### Names
 
-A WebAssembly module imports and exports functions. WebAssembly names functions
-using arbitrary-length byte sequences. Any 8-bit values are permitted in a
-WebAssembly name, including the null byte and byte sequences that don't
-correspond to any Unicode code point regardless of encoding. The most natural
-Web representation of a mapping of function names to functions is a JS object
-in which each function is a property. Property names in JS are UTF-16 encoded
-strings. A WebAssembly module may fail validation on the Web if it imports or
-exports functions whose names do not transcode cleanly to UTF-16 according to
+A WebAssembly module can have imports and exports, which are identified using
+UTF-8 byte sequences. The most natural Web representation of a mapping of export
+names to exports is a JS object in which each export is a property with a name
+encoded in UTF-16. A WebAssembly module fails validation on the Web if it has
+imports or exports whose names do not transcode cleanly to UTF-16 according to
 the following conversion algorithm, assuming that the WebAssembly name is in a
 `Uint8Array` called `array`:
 

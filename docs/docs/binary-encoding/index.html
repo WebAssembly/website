@@ -185,11 +185,11 @@ opcodes.</p>
 
 <h3 id="elem_type"><code class="highlighter-rouge">elem_type</code></h3>
 
-<p>A <code class="highlighter-rouge">varint7</code> indicating the types of elements in a <a href="../ast-semantics/#table">table</a>.
+<p>A <code class="highlighter-rouge">varint7</code> indicating the types of elements in a <a href="../semantics/#table">table</a>.
 In the MVP, only one type is available:</p>
 
 <ul>
-  <li><a href="../ast-semantics/#table"><code class="highlighter-rouge">anyfunc</code></a></li>
+  <li><a href="../semantics/#table"><code class="highlighter-rouge">anyfunc</code></a></li>
 </ul>
 
 <p>Note: In the <a href="../future-features/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, other element types may be allowed.</p>
@@ -434,14 +434,14 @@ part of the payload.</p>
       <td>name_len</td>
       <td>
 <code class="highlighter-rouge">varuint32</code> ?</td>
-      <td>length of the section name in bytes, present if <code class="highlighter-rouge">id == 0</code>
+      <td>length of <code class="highlighter-rouge">name</code> in bytes, present if <code class="highlighter-rouge">id == 0</code>
 </td>
     </tr>
     <tr>
       <td>name</td>
       <td>
 <code class="highlighter-rouge">bytes</code> ?</td>
-      <td>section name string, present if <code class="highlighter-rouge">id == 0</code>
+      <td>section name: valid UTF-8 byte sequence, present if <code class="highlighter-rouge">id == 0</code>
 </td>
     </tr>
     <tr>
@@ -459,7 +459,7 @@ part of the payload.</p>
 
 <p>If a WebAssembly implementation interprets the payload of any custom section during module validation or compilation, errors in that payload must not invalidate the module.</p>
 
-<p>Known sections from the list below may not appear out of order, while custom sections may be interspersed before, between, as well as after any of the elements of the list, in any order. Certain custom sections may have their own ordering and cardinality requirements. For example, the <a href="#name-section">Name section</a> is expected to appear at most once, immediately after the Data section. Violation of such requirements may at most cause an implementatin to ignore the section, while not invalidating the module.</p>
+<p>Known sections from the list below may not appear out of order, while custom sections may be interspersed before, between, as well as after any of the elements of the list, in any order. Certain custom sections may have their own ordering and cardinality requirements. For example, the <a href="#name-section">Name section</a> is expected to appear at most once, immediately after the Data section. Violation of such requirements may at most cause an implementation to ignore the section, while not invalidating the module.</p>
 
 <p>The content of each section is encoded in its <code class="highlighter-rouge">payload_data</code>.</p>
 
@@ -555,7 +555,8 @@ followed by zero sections).</p>
     <tr>
       <td>entries</td>
       <td><code class="highlighter-rouge">func_type*</code></td>
-      <td>repeated type entries as described below</td>
+      <td>repeated type entries as described <a href="#func_type">above</a>
+</td>
     </tr>
   </tbody>
 </table>
@@ -603,22 +604,22 @@ this section may contain other forms of type entries as well, which can be disti
     <tr>
       <td>module_len</td>
       <td><code class="highlighter-rouge">varuint32</code></td>
-      <td>module string length</td>
+      <td>length of <code class="highlighter-rouge">module_str</code> in bytes</td>
     </tr>
     <tr>
       <td>module_str</td>
       <td><code class="highlighter-rouge">bytes</code></td>
-      <td>module string of <code class="highlighter-rouge">module_len</code> bytes</td>
+      <td>module name: valid UTF-8 byte sequence</td>
     </tr>
     <tr>
       <td>field_len</td>
       <td><code class="highlighter-rouge">varuint32</code></td>
-      <td>field name length</td>
+      <td>length of <code class="highlighter-rouge">field_str</code> in bytes</td>
     </tr>
     <tr>
       <td>field_str</td>
       <td><code class="highlighter-rouge">bytes</code></td>
-      <td>field name string of <code class="highlighter-rouge">field_len</code> bytes</td>
+      <td>field name: valid UTF-8 byte sequence</td>
     </tr>
     <tr>
       <td>kind</td>
@@ -754,7 +755,8 @@ module (their definitions appear in the <a href="#code-section">code section</a>
     <tr>
       <td>entries</td>
       <td><code class="highlighter-rouge">table_type*</code></td>
-      <td>repeated <code class="highlighter-rouge">table_type</code> entries as described below</td>
+      <td>repeated <code class="highlighter-rouge">table_type</code> entries as described <a href="#table_type">above</a>
+</td>
     </tr>
   </tbody>
 </table>
@@ -784,7 +786,8 @@ module (their definitions appear in the <a href="#code-section">code section</a>
     <tr>
       <td>entries</td>
       <td><code class="highlighter-rouge">memory_type*</code></td>
-      <td>repeated <code class="highlighter-rouge">memory_type</code> entries as described below</td>
+      <td>repeated <code class="highlighter-rouge">memory_type</code> entries as described <a href="#memory_type">above</a>
+</td>
     </tr>
   </tbody>
 </table>
@@ -889,12 +892,12 @@ and with the given initializer.</p>
     <tr>
       <td>field_len</td>
       <td><code class="highlighter-rouge">varuint32</code></td>
-      <td>field name string length</td>
+      <td>length of <code class="highlighter-rouge">field_str</code> in bytes</td>
     </tr>
     <tr>
       <td>field_str</td>
       <td><code class="highlighter-rouge">bytes</code></td>
-      <td>field name string of <code class="highlighter-rouge">field_len</code> bytes</td>
+      <td>field name: valid UTF-8 byte sequence</td>
     </tr>
     <tr>
       <td>kind</td>
@@ -1146,6 +1149,11 @@ be skipped over by an engine. The current list of valid <code class="highlighter
   </thead>
   <tbody>
     <tr>
+      <td><a href="#module-name">Module</a></td>
+      <td><code class="highlighter-rouge">0</code></td>
+      <td>Assigns a name to the module</td>
+    </tr>
+    <tr>
       <td><a href="#function-names">Function</a></td>
       <td><code class="highlighter-rouge">1</code></td>
       <td>Assigns names to functions</td>
@@ -1207,12 +1215,12 @@ section to be a well-formed name section.</p>
     <tr>
       <td>name_len</td>
       <td><code class="highlighter-rouge">varuint32</code></td>
-      <td>number of bytes in name_str</td>
+      <td>length of <code class="highlighter-rouge">name_str</code> in bytes</td>
     </tr>
     <tr>
       <td>name_str</td>
       <td><code class="highlighter-rouge">bytes</code></td>
-      <td>binary encoding of the name</td>
+      <td>UTF-8 encoding of the name</td>
     </tr>
   </tbody>
 </table>
@@ -1272,6 +1280,33 @@ subset of local variable indices.</p>
       <td>local_map</td>
       <td><code class="highlighter-rouge">name_map</code></td>
       <td>assignment of names to local indices</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="module-name">Module name</h4>
+
+<p>The module name subsection assigns a name to the module itself. It simply
+consists of a single string:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>name_len</td>
+      <td><code class="highlighter-rouge">varuint32</code></td>
+      <td>length of <code class="highlighter-rouge">name_str</code> in bytes</td>
+    </tr>
+    <tr>
+      <td>name_str</td>
+      <td><code class="highlighter-rouge">bytes</code></td>
+      <td>UTF-8 encoding of the name</td>
     </tr>
   </tbody>
 </table>

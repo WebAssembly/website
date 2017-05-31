@@ -43,12 +43,54 @@
         <h1 id="features-to-add-after-the-mvp">Features to add after the MVP</h1>
 
 <p>These are features that make sense in the context of the
-<a href="../high-level-goals/">high-level goals</a> of WebAssembly but won’t be part of the
+<a href="../high-level-goals/">high-level goals</a> of WebAssembly but weren’t part of the
 initial <a href="../mvp/">Minimum Viable Product</a> release.</p>
 
-<p>We expect several essential features to be standardized immediately after the
-MVP. Others will be prioritized based on developer feedback, and all will be
-available under <a href="../feature-test/">feature tests</a>.</p>
+<p><strong>Note:</strong> we are in the process of migrating all post-MVP featues to tracking
+issues.</p>
+
+<h2 id="tracking-issues">Tracking Issues</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Feature</th>
+      <th>Tracking issue</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Specification</td>
+      <td><a href="https://github.com/WebAssembly/design/issues/1077">1077</a></td>
+      <td>in progress</td>
+    </tr>
+    <tr>
+      <td>Threads</td>
+      <td><a href="https://github.com/WebAssembly/design/issues/1073">1073</a></td>
+      <td>in progress</td>
+    </tr>
+    <tr>
+      <td>Fixed-width SIMD</td>
+      <td><a href="https://github.com/WebAssembly/design/issues/1075">1075</a></td>
+      <td>in progress</td>
+    </tr>
+    <tr>
+      <td>Exception handling</td>
+      <td><a href="https://github.com/WebAssembly/design/issues/1078">1078</a></td>
+      <td>in progress</td>
+    </tr>
+    <tr>
+      <td>Garbage collection</td>
+      <td><a href="https://github.com/WebAssembly/design/issues/1079">1079</a></td>
+      <td>in progress</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="legacy-future-features">Legacy Future Features</h2>
+
+<p><strong>Note:</strong> these will soon move to tracking issues.</p>
 
 <p><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> = Essential features we want to prioritize adding shortly after
 the <a href="../mvp/">MVP</a>.</p>
@@ -62,72 +104,8 @@ the <a href="../mvp/">MVP</a>.</p>
 
 <p>This is covered in the <a href="../tooling/">tooling</a> section.</p>
 
-<h3 id="threads">Threads</h3>
-<h4 id="star-star">
-<img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"> <img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle">
-</h4>
-
-<p>Provide low-level buildings blocks for pthreads-style shared memory: shared
-memory between threads, atomics and futexes (or <a href="http://wg21.link/n4195">synchronic</a>).</p>
-
-<p>New atomic memory operators, including loads/stores annotated with their atomic
-ordering property, will follow the <a href="http://www.hboehm.info/c++mm/">C++11 memory model</a>, similarly to the
-<a href="https://developer.chrome.com/native-client/reference/pnacl-c-cpp-language-support#memory-model-and-atomics">PNaCl atomic support</a> and the <a href="https://github.com/tc39/ecmascript_sharedmem">SharedArrayBuffer</a> proposal. Regular loads
-and stores will be bound by a happens-before relationship to atomic operators
-in the same thread of execution, which themselves synchronize-with atomics in
-other threads. Following these rules, regular load/store operators can still be
-elided, duplicated, and split up. This guarantees that data-race free code
-executes as if it were sequentially consistent. Even when there are data races,
-WebAssembly will ensure that the <a href="../nondeterminism/">nondeterminism</a> remains
-limited and local.</p>
-
-<p>Modules can have thread-local variables that are disjoint from linear memory
-and can thus be represented efficiently by the engine.</p>
-
-<h3 id="fixed-width-simd">Fixed-width SIMD</h3>
-<h4 id="star"><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"></h4>
-
-<p>Support fixed-width SIMD vectors, initially only for 128-bit wide vectors as
-demonstrated in <a href="https://developer.chrome.com/native-client/reference/pnacl-c-cpp-language-support#portable-simd-vectors">PNaCl’s SIMD</a> and <a href="https://github.com/tc39/ecmascript_simd">SIMD.js</a>.</p>
-
-<p>SIMD adds new local types (e.g., <code class="highlighter-rouge">f32x4</code>) so it has to be part of the core
-semantics. SIMD operators (e.g., <code class="highlighter-rouge">f32x4.add</code>) could be either builtin
-operators (no different from <code class="highlighter-rouge">i32.add</code>) or exports of a builtin SIMD module.</p>
-
-<h3 id="zero-cost-exception-handling">Zero-cost Exception Handling</h3>
-<h4 id="star-1"><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"></h4>
-
-<p>The WebAssembly MVP may support four no-exception
-modes for C++:</p>
-
-<ul>
-  <li>Compiler transforms <code class="highlighter-rouge">throw</code> to <code class="highlighter-rouge">abort()</code>.</li>
-  <li>Compiler-enforced <code class="highlighter-rouge">-fno-exceptions</code> mode (note <a href="https://blog.mozilla.org/nnethercote/2011/01/18/the-dangers-of-fno-exceptions">caveats</a>).</li>
-  <li>Compiler conversion of exceptions to branching at all callsites.</li>
-  <li>In a Web environment exception handling can be emulated using JavaScript
-exception handling, which can provide correct semantics but isn’t fast.</li>
-</ul>
-
-<p>These modes are suboptimal for code bases which rely on C++ exception handling,
-but are perfectly acceptable for C code, or for C++ code which avoids
-exceptions. This doesn’t prevent developers from using the C++ standard library:
-their code will function correctly (albeit slower at times) as long as it
-doesn’t encounter exceptional cases.</p>
-
-<p>Post-MVP, WebAssembly will gain support for developer access to stack unwinding,
-inspection, and limited manipulation. These are critical to supporting zero-cost
-exception handling by exposing <a href="https://extensiblewebmanifesto.org">low-level capabilities</a>.</p>
-
-<p>In turn, stack unwinding, inspection, and limited manipulation will be used to
-implement <code class="highlighter-rouge">setjmp</code>/<code class="highlighter-rouge">longjmp</code>. This can enable all of the defined behavior of
-<code class="highlighter-rouge">setjmp</code>/<code class="highlighter-rouge">longjmp</code>, namely unwinding the stack without calling C++
-destructors. It does not, however, allow the undefined behavior case of jumping
-forward to a stack that was already unwound which is sometimes used to implement
-coroutines. Coroutine support is being
-<a href="../future-features/#coroutines">considered separately</a>.</p>
-
 <h3 id="feature-testing">Feature Testing</h3>
-<h4 id="star-2"><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"></h4>
+<h4 id="star"><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"></h4>
 
 <p>Post-MVP, some form of feature-testing will be required. We don’t yet have the
 experience writing polyfills to know whether <code class="highlighter-rouge">has_feature</code> is the right
@@ -579,47 +557,9 @@ lighter-weight alternative to load-time polyfilling (approach 2 in
 were to be standardized and performed natively such that no user-space translation 
 pass was otherwise necessary.</p>
 
-<h3 id="mutable-global-variables">Mutable global variables</h3>
+<h3 id="array-globals">Array globals</h3>
 
-<p>In the MVP, there are no global variables; C/C++ global variables are stored in
-linear memory and thus accessed through normal
-<a href="../semantics/#linear-memory-operators">linear memory operators</a>.
-<a href="../dynamic-linking/">Dynamic linking</a> will add some form of immutable global
-variable analogous to “symbols” in native binaries. In some cases, though,
-it may be useful to have a fully mutable global variable which lives outside
-linear memory. This would allow more aggressive compiler optimizations (due to
-better alias information). If globals are additionally allowed array types,
-significant portions of memory could be moved out of linear memory which could
-reduce fragmentation issues. Languages like Fortran which limit aliasing would be
-one use case. C/C++ compilers could also determine that some global variables never
-have their address taken.</p>
-
-<h3 id="streaming-compilation">Streaming Compilation</h3>
-
-<p>The WebAssembly binary format is designed to allow streaming decoding,
-validation and compilation. In the MVP, however, the only way to compile
-WebAssembly in a browser is through <a href="../js/">JS API</a> functions which
-require all code to be available in an <code class="highlighter-rouge">ArrayBuffer</code> before compilation
-can begin.</p>
-
-<p>There are two future features that would allow streaming compilation
-of WebAssembly in browsers:</p>
-
-<ul>
-  <li>
-<a href="../modules/#integration-with-es6-modules">ES6 Module integration</a> would allow
-the browser’s network layer to feed a stream directly into the engine.</li>
-  <li>The asynchronous <a href="../js/#wasmcompile"><code class="highlighter-rouge">WebAssembly.compile</code></a> function could be 
-extended to accept a readable stream (as defined by the 
-<a href="https://streams.spec.whatwg.org">Streams API</a>)
-which would allow the engine to compile the stream as chunks became available,
-fulfilling the promise when the stream was complete. Readable streams
-can come from not just the network (via <a href="http://fetch.spec.whatwg.org/"><code class="highlighter-rouge">fetch</code></a>),
-but also JS stream writers and likely other future Web APIs. Thus, this feature
-would enable Web apps to perform their own (<a href="../binary-encoding/">“layer 1”</a>)
-custom compression (on top of the spec-defined binary format, under generic
-HTTP <code class="highlighter-rouge">Content-Encoding</code> compression).</li>
-</ul>
+<p>If globals are allowed array types, significant portions of memory could be moved out of linear memory which could reduce fragmentation issues. Languages like Fortran which limit aliasing would be one use case. C/C++ compilers could also determine that some global variables never have their address taken.</p>
 
 <h3 id="multiple-return">Multiple Return</h3>
 
@@ -679,6 +619,29 @@ check of a call to a heterogeneous table;</li>
   <li>any other specific GC reference type, effectively allowing WebAssembly code
 to implement a variety of rooting API schemes.</li>
 </ul>
+
+<h3 id="memset-and-memcpy-operators">Memset and Memcpy Operators</h3>
+
+<p>Copying and clearing large memory regions is very common, and making these
+operations fast is architecture dependent. Although this can be done in the MVP
+via <code class="highlighter-rouge">i32.load</code> and <code class="highlighter-rouge">i32.store</code>, this requires more bytes of code and forces VMs
+to recognize the loops as well. The following operators can be added to improve
+performance:</p>
+
+<ul>
+  <li>
+<code class="highlighter-rouge">move_memory</code>: Copy data from a source memory region to destination region;
+ these regions may overlap: the copy is performed as if the source region was 
+ first copied to a temporary buffer, then the temporary buffer is copied to
+ the destination region</li>
+  <li>
+<code class="highlighter-rouge">set_memory</code>: Set all bytes in a memory region to a given byte</li>
+</ul>
+
+<p>We expect that WebAssembly producers will use these operations when the region
+size is known to be large, and will use loads/stores otherwise.</p>
+
+<p>TODO: determine how these operations interact w/ shared memory.</p>
 
       </div>
       <div class="col-xs-12 col-lg-3">
