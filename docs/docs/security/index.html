@@ -12,10 +12,9 @@
 
 
 <body>
-  <header class="page-section-spacious">
-    <div class="container">
+  <header class="page-section">
+    <div class="container-narrow">
     <div class="site-logo">
-      <h1 class="title">WebAssembly 中文网</h1>
     </div>
     <nav class="site-nav">
       <a class="site-nav-item btn" href="/">概述</a>
@@ -32,7 +31,7 @@
     </div>
   </header>
   <section class="banner-update">
-    <div class="container">
+    <div class="container-narrow">
       <div class="banner-update-icon"></div>
       <span class="banner-update-date"></span>
       <span>多个浏览器已经达成对初始 WebAssembly 版本的一致意见 <a href="/roadmap/">查看更多</a></span>
@@ -216,7 +215,7 @@ emscripten) has a number of advantages over the default WebAssembly
 configuration. Not only does this better defend against code reuse attacks that
 leverage indirect function calls (2), but it also enhances the built-in function
 signature checks by operating at the C/C++ type level, which is semantically
-richer that the WebAssembly <a href="../ast-semantics/#types">type level</a>, which consists
+richer that the WebAssembly <a href="../semantics/#types">type level</a>, which consists
 of only four value types. Currently, enabling this feature has a small
 performance cost for each indirect call, because an integer range check is
 used to verify that the target index is trusted, but this will be eliminated in

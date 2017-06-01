@@ -12,10 +12,9 @@
 
 
 <body>
-  <header class="page-section-spacious">
-    <div class="container">
+  <header class="page-section">
+    <div class="container-narrow">
     <div class="site-logo">
-      <h1 class="title">WebAssembly 中文网</h1>
     </div>
     <nav class="site-nav">
       <a class="site-nav-item btn" href="/">概述</a>
@@ -32,7 +31,7 @@
     </div>
   </header>
   <section class="banner-update">
-    <div class="container">
+    <div class="container-narrow">
       <div class="banner-update-icon"></div>
       <span class="banner-update-date"></span>
       <span>多个浏览器已经达成对初始 WebAssembly 版本的一致意见 <a href="/roadmap/">查看更多</a></span>
@@ -65,6 +64,11 @@ issues.</p>
   </thead>
   <tbody>
     <tr>
+      <td>Specification</td>
+      <td><a href="https://github.com/WebAssembly/design/issues/1077">1077</a></td>
+      <td>in progress</td>
+    </tr>
+    <tr>
       <td>Threads</td>
       <td><a href="https://github.com/WebAssembly/design/issues/1073">1073</a></td>
       <td>in progress</td>
@@ -72,6 +76,16 @@ issues.</p>
     <tr>
       <td>Fixed-width SIMD</td>
       <td><a href="https://github.com/WebAssembly/design/issues/1075">1075</a></td>
+      <td>in progress</td>
+    </tr>
+    <tr>
+      <td>Exception handling</td>
+      <td><a href="https://github.com/WebAssembly/design/issues/1078">1078</a></td>
+      <td>in progress</td>
+    </tr>
+    <tr>
+      <td>Garbage collection</td>
+      <td><a href="https://github.com/WebAssembly/design/issues/1079">1079</a></td>
       <td>in progress</td>
     </tr>
   </tbody>
@@ -93,40 +107,8 @@ the <a href="../mvp/">MVP</a>.</p>
 
 <p>This is covered in the <a href="../tooling/">tooling</a> section.</p>
 
-<h3 id="zero-cost-exception-handling">Zero-cost Exception Handling</h3>
-<h4 id="star"><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"></h4>
-
-<p>The WebAssembly MVP may support four no-exception
-modes for C++:</p>
-
-<ul>
-  <li>Compiler transforms <code class="highlighter-rouge">throw</code> to <code class="highlighter-rouge">abort()</code>.</li>
-  <li>Compiler-enforced <code class="highlighter-rouge">-fno-exceptions</code> mode (note <a href="https://blog.mozilla.org/nnethercote/2011/01/18/the-dangers-of-fno-exceptions">caveats</a>).</li>
-  <li>Compiler conversion of exceptions to branching at all callsites.</li>
-  <li>In a Web environment exception handling can be emulated using JavaScript
-exception handling, which can provide correct semantics but isn’t fast.</li>
-</ul>
-
-<p>These modes are suboptimal for code bases which rely on C++ exception handling,
-but are perfectly acceptable for C code, or for C++ code which avoids
-exceptions. This doesn’t prevent developers from using the C++ standard library:
-their code will function correctly (albeit slower at times) as long as it
-doesn’t encounter exceptional cases.</p>
-
-<p>Post-MVP, WebAssembly will gain support for developer access to stack unwinding,
-inspection, and limited manipulation. These are critical to supporting zero-cost
-exception handling by exposing <a href="https://extensiblewebmanifesto.org">low-level capabilities</a>.</p>
-
-<p>In turn, stack unwinding, inspection, and limited manipulation will be used to
-implement <code class="highlighter-rouge">setjmp</code>/<code class="highlighter-rouge">longjmp</code>. This can enable all of the defined behavior of
-<code class="highlighter-rouge">setjmp</code>/<code class="highlighter-rouge">longjmp</code>, namely unwinding the stack without calling C++
-destructors. It does not, however, allow the undefined behavior case of jumping
-forward to a stack that was already unwound which is sometimes used to implement
-coroutines. Coroutine support is being
-<a href="../future-features/#coroutines">considered separately</a>.</p>
-
 <h3 id="feature-testing">Feature Testing</h3>
-<h4 id="star-1"><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"></h4>
+<h4 id="star"><img class="emoji" title=":star:" alt=":star:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2b50.png" height="20" width="20" align="absmiddle"></h4>
 
 <p>Post-MVP, some form of feature-testing will be required. We don’t yet have the
 experience writing polyfills to know whether <code class="highlighter-rouge">has_feature</code> is the right
