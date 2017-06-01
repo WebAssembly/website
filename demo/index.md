@@ -7,14 +7,14 @@ permalink: demo/
 
 [![](screenshot.jpg)](Tanks/)
 <div id="play-wasm" class="btn-block">
-  <a class="btn btn-primary" href="Tanks/" role="button">Play WebAssembly</a>
+  <a class="btn btn-primary" href="Tanks/" role="button">体验 WebAssembly</a>
 </div>
 <div id="play-asm" class="btn-block hide-btn-block">
-  <a class="btn hide-asm-support" href="Tanks/" role="button">Play asm.js fallback</a>
-  <span class="btn-comment btn-comment-error hide-asm-support">Your browser doesn't support WebAssembly yet. <a href="/roadmap/">Learn more</a></span>
+  <a class="btn hide-asm-support" href="Tanks/" role="button">体验 asm.js 降级版本</a>
+  <span class="btn-comment btn-comment-error hide-asm-support">你的浏览器不支持 WebAssembly. <a href="/roadmap/">查看更多</a></span>
 </div>
 
-This is a demo of [Tanks!, a Unity tutorial game](https://unity3d.com/learn/tutorials/projects/tanks-tutorial) which has been exported to WebAssembly. Drive tanks around the sandbox and shoot the enemy tank in this local multiplayer game. Blue Tank movement is controlled by W, A, S, D keys and firing by the spacebar. Red Tank movement is controlled by the arrow keys, and firing by Enter.
+这是 [坦克!, Unity 教程中的一个游戏](https://unity3d.com/learn/tutorials/projects/tanks-tutorial) 导出成 WebAssembly 的游戏. 操作坦克来击杀在这个地图中的其他坦克. 蓝色坦克通过W、S、A、D操作移动，空格键发射炮弹。红色弹可通过上、下、左、右移动，回车发射炮弹。
 
 <script type="text/javascript" >
 (function() {

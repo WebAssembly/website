@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://gems.ruby-china.org/'
 gem 'jekyll', '~> 3.4'
 group :jekyll_plugins do
   gem 'jekyll-optional-front-matter', '~> 0.1'
