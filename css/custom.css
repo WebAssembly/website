@@ -1434,11 +1434,12 @@ header {
     }
 }
 
-.site-nav {
-    margin-top: 20px;
+@media (min-width: 900px) {
+    .site-nav {
+        margin-top: 35px;
 
+    }
 }
-
 
 @media (max-width: 420px) {
     .site-nav {
@@ -1450,7 +1451,7 @@ header {
 @media (min-width: 900px) {
     .site-nav {
         float:right;
-        margin-top: -3px;
+        vertical-align: middle;
     }
 }
 
@@ -1578,6 +1579,7 @@ header {
     font-weight: normal;
 }
 
+
 .site-logo h1 {
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -1586,13 +1588,23 @@ header {
     font-weight: normal;
 }
 
-@media (min-width: 900px) {
     .site-logo {
+        background-image: url("webassembly.svg");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 180px;
+        height: 95px;
         float:left;
         margin-top: 0px
     }
-}
-
+@media (max-width: 420px) {
+    .site-logo {
+        width: 100%;
+        background-size: 50%;
+        margin-bottom: 5%;
+    }
+  }
 .page-section, section, header {
     padding: 12px;
 }
