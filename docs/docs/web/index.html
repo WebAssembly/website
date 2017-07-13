@@ -65,7 +65,7 @@ with JavaScript imports, call the exported functions of instantiated modules,
 alias the exported memory of instantiated modules, etc.</p>
 
 <p>The Web embedding includes additional methods useful in that context.
-Non-web embeddings are not required to support these additional methods.</p>
+In non-web embeddings, these APIs may not be present.</p>
 
 <h3 id="additional-web-embedding-api">Additional Web Embedding API</h3>
 
@@ -74,6 +74,8 @@ Non-web embeddings are not required to support these additional methods.</p>
 <p><img class="emoji" title=":cyclone:" alt=":cyclone:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f300.png" height="20" width="20" align="absmiddle"> Added for milestone 2, developers must feature detect.</p>
 
 <p>In Web embeddings, the following methods are added.</p>
+
+<p>Note that it is expected that <code class="highlighter-rouge">compileStreaming</code> and <code class="highlighter-rouge">instantiateStreaming</code> be either both present or both absent.</p>
 
 <div class="highlighter-rouge">
 <pre class="highlight"><code>Promise&lt;WebAssembly.Module&gt; compileStreaming(source)
@@ -351,8 +353,6 @@ and access JavaScript, DOM, and general WebIDL-defined objects.</p>
         <a class="side-nav-item" href="/docs/feature-test/">Feature Test</a>
         
         <a class="side-nav-item" href="/docs/tooling/">Tooling support</a>
-        
-        <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
         
         <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library</a>
         

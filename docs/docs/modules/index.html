@@ -182,61 +182,6 @@ linear memory bytes, table elements) is shared.</p>
 
 <p>In the MVP, only <em>immutable</em> global variables can be exported.</p>
 
-<h2 id="integration-with-es6-modules">Integration with ES6 modules</h2>
-
-<p>While ES6 defines how to parse, link and execute a module, ES6 does not
-define when this parsing/linking/execution occurs. An additional extension
-to the HTML spec is required to say when a script is parsed as a module instead
-of normal global code. This work is <a href="https://github.com/whatwg/loader/blob/master/roadmap.md">ongoing</a>.
-Currently, the following entry points for modules are being considered:</p>
-
-<ul>
-  <li>
-<code class="highlighter-rouge">&lt;script type="module"&gt;</code>;</li>
-  <li>an overload to the <code class="highlighter-rouge">Worker</code> constructor;</li>
-  <li>an overload to the <code class="highlighter-rouge">importScripts</code> Worker API;</li>
-</ul>
-
-<p>Additionally, an ES6 module can recursively import other modules via <code class="highlighter-rouge">import</code>
-statements.</p>
-
-<p>For WebAssembly/ES6 module integration, the idea is that all the above module
-entry points could also load WebAssembly modules simply by passing the URL of a
-WebAssembly module. The distinction of whether the module was WebAssembly or ES6
-code could be made by namespacing or by content sniffing the first bytes of the
-fetched resource (which, for WebAssembly, would be a non-ASCII—and thus
-illegal as JavaScript—<a href="https://en.wikipedia.org/wiki/Magic_number_%28programming%29">magic number</a>).
-Thus, the whole module-loading pipeline (resolving the name to a URL, fetching
-the URL, any other <a href="http://whatwg.github.io/loader/">loader hooks</a>) would be
-shared and only the final stage would fork into either the JavaScript parser or
-the WebAssembly decoder.</p>
-
-<p>Any non-builtin imports from within a WebAssembly module would be treated as
-if they were <code class="highlighter-rouge">import</code> statements of an ES6 module. If an ES6 module <code class="highlighter-rouge">import</code>ed
-a WebAssembly module, the WebAssembly module’s exports would be linked as if
-they were the exports of an ES6 module. Once parsing and linking phases
-were complete, a WebAssembly module would have its start function, defined
-by the start module option, called in place of executing the ES6 module
-top-level script. By default, multiple loads of the same module URL (in
-the same realm) reuse the same instance. It may be worthwhile in the future
-to consider extensions to allow applications to load/compile/link a module
-once and instantiate multiple times (each with a separate linear memory).</p>
-
-<p>This integration strategy should allow WebAssembly modules to be fairly
-interchangeable with ES6 modules (ignoring
-<a href="../future-features/#gc/dom-integration">GC/Web API <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> signature restrictions of the
-WebAssembly MVP) and thus it should be natural to compose a single application
-from both kinds of code. This goal motivates the
-<a href="../semantics/#linear-memory">semantic design</a> of giving each WebAssembly
-module its own disjoint linear memory. Otherwise, if all modules shared a single
-linear memory (all modules with the same realm? origin? window?—even the
-scope of “all” is a nuanced question), a single app using multiple
-independent libraries would have to hope that all the WebAssembly modules
-transitively used by those libraries “played well” together (e.g., explicitly
-shared <code class="highlighter-rouge">malloc</code> and coordinated global address ranges). Instead, the
-<a href="../dynamic-linking/">dynamic linking future feature</a> is intended
-to allow <em>explicitly</em> sharing state between module instances.</p>
-
 <h2 id="module-start-function">Module start function</h2>
 
 <p>If the module has a start node defined, the function it refers should be called
@@ -507,8 +452,6 @@ to the following nullary operators:</p>
         <a class="side-nav-item" href="/docs/feature-test/">Feature Test</a>
         
         <a class="side-nav-item" href="/docs/tooling/">Tooling support</a>
-        
-        <a class="side-nav-item" href="/docs/gc/">GC / DOM / Web API Integration <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
         
         <a class="side-nav-item" href="/docs/jit-library/">JIT and Optimization Library</a>
         
