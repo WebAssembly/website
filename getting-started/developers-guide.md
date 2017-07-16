@@ -32,6 +32,8 @@ This command adds relevant environment variables and directory entries to PATH t
 
 On Windows, replace `./emsdk` with just `emsdk`, and `source ./emsdk_env.sh` with `emsdk_env` above.
 
+If you are using Visual Studio 2017, `emsdk install` should append with arg `--vs2017`.
+
 ### Compile and run a simple program
 We now have a full toolchain we can use to compile a simple program to WebAssembly. There are a few remaining caveats, however:
 
