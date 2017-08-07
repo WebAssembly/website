@@ -1482,11 +1482,11 @@ header {
 }
 
 .btn.site-nav-item {
-    padding: 4px 8px;
+    padding: 2px 6px;
 }
 
 .btn.site-nav-item+.btn.site-nav-item {
-    margin-left: 4px;
+    margin-left: 1px;
 }
 
 .btn.btn-primary {
