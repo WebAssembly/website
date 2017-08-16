@@ -7,26 +7,33 @@ layout: getting-started
 This page provides step-by-step instructions to compile a simple program directly to WebAssembly.
 
 ### Prerequisites
-To compile to WebAssembly, we will at the moment need to compile LLVM from source. The following tools are needed as a prerequisite:
+To compile to WebAssembly, some prerequisite tools are needed:
 
 - Git. On Linux and OS X this is likely already present. On Windows download the [Git for Windows](https://git-scm.com/) installer.
 - CMake. On Linux and OS X, one can use package managers like `apt-get` or `brew`, on Windows download [CMake installer](https://cmake.org/download/).
 - Host system compiler. On Linux, [install GCC](http://askubuntu.com/questions/154402/install-gcc-on-ubuntu-12-04-lts). On OS X, [install Xcode](https://itunes.apple.com/us/app/xcode/id497799835). On Windows, install [Visual Studio 2015 Community with Update 3](https://www.visualstudio.com/downloads/) or newer.
 - Python 2.7.x. On Linux and OS X, this is most likely provided out of the box. See [here](https://wiki.python.org/moin/BeginnersGuide/Download) for instructions.
 
-After installing, make sure that `git`, `cmake` and `python` are accessible in PATH.
+After installing, make sure that `git`, `cmake` and `python` are accessible in PATH. Technically, CMake and a system compiler may not be needed if using a precompiled toolchain, but development options may be a bit limited without them.
 
-### Compile Emscripten from Source
-Building Emscripten from source is automated via the Emscripten SDK. The required steps are as follows.
+### Downloading or Compiling the Toolchain
+A precompiled toolchain to compile C/C++ to WebAssembly is easily obtained via GitHub.
 
     $ git clone https://github.com/juj/emsdk.git
     $ cd emsdk
-    $ ./emsdk install sdk-incoming-64bit binaryen-master-64bit
-    $ ./emsdk activate sdk-incoming-64bit binaryen-master-64bit
+    $ ./emsdk install latest
+    $ ./emsdk activate latest
 
-After these steps, the installation is complete. To enter an Emscripten compiler environment in the current command line prompt, type
+If you are running a Linux distribution for which Emscripten toolchain is not available precompiled (currently Ubuntu 16.04 works best), or if you want to build the whole toolchain from source, Emscripten SDK can also be used to drive the build. The required steps are as follows.
 
-    $ source ./emsdk_env.sh
+    $ git clone https://github.com/juj/emsdk.git
+    $ cd emsdk
+    $ ./emsdk install --build=Release sdk-incoming-64bit binaryen-master-64bit
+    $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
+
+After these steps, the installation is complete. To enter an Emscripten compiler environment in the current command line prompt after downloading a precompiled toolchain or building your own, type
+
+    $ source ./emsdk_env.sh --build=Release
 
 This command adds relevant environment variables and directory entries to PATH to set up the current terminal for easy access to the compiler tools.
 
