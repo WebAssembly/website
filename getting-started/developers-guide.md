@@ -16,13 +16,16 @@ To compile to WebAssembly, we will at the moment need to compile LLVM from sourc
 
 After installing, make sure that `git`, `cmake` and `python` are accessible in PATH.
 
-### Compile Emscripten from Source
-Building Emscripten from source is automated via the Emscripten SDK. The required steps are as follows.
+### Get Emscripten
+The [Emscripten SDK](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html) can fetch and set up Emscripten for you. The required steps are as follows.
 
     $ git clone https://github.com/juj/emsdk.git
     $ cd emsdk
-    $ ./emsdk install sdk-incoming-64bit binaryen-master-64bit
-    $ ./emsdk activate sdk-incoming-64bit binaryen-master-64bit
+    $ ./emsdk update
+    $ ./emsdk install latest
+    $ ./emsdk activate latest
+
+(Instead of using git to clone the emsdk repo, you can also download it from the Emscripten website in the link above.)
 
 After these steps, the installation is complete. To enter an Emscripten compiler environment in the current command line prompt, type
 
