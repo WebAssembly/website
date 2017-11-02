@@ -16,7 +16,9 @@ issues.
 | Fixed-width SIMD              | [1075][]       | in progress |
 | Exception handling            | [1078][]       | in progress |
 | Garbage collection            | [1079][]       | in progress |
-| ECMAScript module integration | [1087][]       | no started  |
+| Bulk memory operations        | [1114][]       | in progress |
+| Web Content Security Policy   | [1122][]       | in progress |
+| ECMAScript module integration | [1087][]       | not started |
 
   [1073]: https://github.com/WebAssembly/design/issues/1073
   [1075]: https://github.com/WebAssembly/design/issues/1075
@@ -24,6 +26,8 @@ issues.
   [1078]: https://github.com/WebAssembly/design/issues/1078
   [1079]: https://github.com/WebAssembly/design/issues/1079
   [1087]: https://github.com/WebAssembly/design/issues/1087
+  [1114]: https://github.com/WebAssembly/design/issues/1114
+  [1122]: https://github.com/WebAssembly/design/issues/1122
 
 
 ## Legacy Future Features
@@ -121,7 +125,7 @@ Options under consideration:
 
 ### GC/DOM Integration
 
-See [GC.md](GC.md).
+See issue [1079][].
 
 ### Linear memory bigger than 4 GiB
 
@@ -441,7 +445,7 @@ of supporting multiple return values from blocks / functions.
 The MVP limits modules to at most one memory and at most one table (the default
 ones) and there are only operators for accessing the default table and memory.
 
-After the MVP and after [GC reference types](GC.md) have been added, the default
+After the MVP and after [GC reference types](https://github.com/WebAssembly/design/issues/1079) have been added, the default
 limitation can be relaxed so that any number of tables and memories could be
 imported or internally defined and memories/tables could be passed around as
 parameters, return values and locals. New variants of `load`, `store`
@@ -462,7 +466,7 @@ see [JavaScript's `WebAssembly.Table` API](JS.md#webassemblytable-objects)).
 It would be useful to be able to do everything from within WebAssembly so, e.g.,
 it was possible to write a WebAssembly dynamic loader in WebAssembly. As a
 prerequisite, WebAssembly would need first-class support for 
-[GC references](GC.md) on the stack and in locals. Given that, the following
+[GC references](https://github.com/WebAssembly/design/issues/1079) on the stack and in locals. Given that, the following
 could be added:
 
 * `get_table`/`set_table`: get or set the table element at a given dynamic

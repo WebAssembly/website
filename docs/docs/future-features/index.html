@@ -87,9 +87,19 @@ issues.</p>
       <td>in progress</td>
     </tr>
     <tr>
+      <td>Bulk memory operations</td>
+      <td><a href="https://github.com/WebAssembly/design/issues/1114">1114</a></td>
+      <td>in progress</td>
+    </tr>
+    <tr>
+      <td>Web Content Security Policy</td>
+      <td><a href="https://github.com/WebAssembly/design/issues/1122">1122</a></td>
+      <td>in progress</td>
+    </tr>
+    <tr>
       <td>ECMAScript module integration</td>
       <td><a href="https://github.com/WebAssembly/design/issues/1087">1087</a></td>
-      <td>no started</td>
+      <td>not started</td>
     </tr>
   </tbody>
 </table>
@@ -203,7 +213,7 @@ languages.</li>
 
 <h3 id="gcdom-integration">GC/DOM Integration</h3>
 
-<p>See <a href="../gc/">GC.md</a>.</p>
+<p>See issue <a href="https://github.com/WebAssembly/design/issues/1079">1079</a>.</p>
 
 <h3 id="linear-memory-bigger-than-4-gib">Linear memory bigger than 4 GiB</h3>
 
@@ -580,7 +590,7 @@ of supporting multiple return values from blocks / functions.</p>
 <p>The MVP limits modules to at most one memory and at most one table (the default
 ones) and there are only operators for accessing the default table and memory.</p>
 
-<p>After the MVP and after <a href="../gc/">GC reference types</a> have been added, the default
+<p>After the MVP and after <a href="https://github.com/WebAssembly/design/issues/1079">GC reference types</a> have been added, the default
 limitation can be relaxed so that any number of tables and memories could be
 imported or internally defined and memories/tables could be passed around as
 parameters, return values and locals. New variants of <code class="highlighter-rouge">load</code>, <code class="highlighter-rouge">store</code>
@@ -601,7 +611,7 @@ see <a href="../js/#webassemblytable-objects">JavaScript’s <code class="highli
 It would be useful to be able to do everything from within WebAssembly so, e.g.,
 it was possible to write a WebAssembly dynamic loader in WebAssembly. As a
 prerequisite, WebAssembly would need first-class support for 
-<a href="../gc/">GC references</a> on the stack and in locals. Given that, the following
+<a href="https://github.com/WebAssembly/design/issues/1079">GC references</a> on the stack and in locals. Given that, the following
 could be added:</p>
 
 <ul>
