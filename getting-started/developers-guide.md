@@ -53,10 +53,12 @@ The commands below will create a simple "hello world" program and compile it. Th
 <pre>
 $ mkdir hello
 $ cd hello
-$ echo '#include &lt;stdio.h&gt;' &gt; hello.c
-$ echo 'int main(int argc, char ** argv) {' &gt;&gt; hello.c
-$ echo 'printf("Hello, world!\n");' &gt;&gt; hello.c
-$ echo '}' &gt;&gt; hello.c
+$ cat << EOF > hello.c
+#include &lt;stdio.h&gt;
+int main(int argc, char ** argv) {
+  printf("Hello, world!\n");
+}
+EOF
 $ <b>emcc hello.c -s WASM=1 -o hello.html</b>
 </pre>
 
