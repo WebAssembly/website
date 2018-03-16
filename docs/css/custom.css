@@ -1565,6 +1565,7 @@ header {
     padding-top: 5px;
     padding-bottom: 5px;
     padding-right: 10px;
+    transition: .5s ease;
 }
 
 .side-nav-item:hover {
