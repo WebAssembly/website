@@ -99,7 +99,7 @@ $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
 
 <ul>
   <li>We have to pass the linker flag <code class="highlighter-rouge">-s WASM=1</code> to <code class="highlighter-rouge">emcc</code> (otherwise by default <code class="highlighter-rouge">emcc</code> will emit asm.js).</li>
-  <li>If we want Emscripten to generate an HTML page that runs our program, in addition to the wasm binary and JavaScript wrapper, we have to specify an output filename with a <code class="highlighter-rouge">.html</code> extension.</li>
+  <li>If we want Emscripten to generate an HTML page that runs our program, in addition to the Wasm binary and JavaScript wrapper, we have to specify an output filename with a <code class="highlighter-rouge">.html</code> extension.</li>
   <li>Finally, to actually run the program, we cannot simply open the HTML file in a web browser because cross-origin requests are not supported for the <code class="highlighter-rouge">file</code> protocol scheme. We have to actually serve the output files over HTTP.</li>
 </ul>
 

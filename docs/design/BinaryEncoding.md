@@ -158,7 +158,7 @@ A packed tuple that describes the limits of a
 | Field | Type | Description |
 | ----- |  ----- | ----- |
 | flags | `varuint1` | `1` if the maximum field is present, `0` otherwise |
-| initial | `varuint32` | initial length (in units of table elements or wasm pages) |
+| initial | `varuint32` | initial length (in units of table elements or Wasm pages) |
 | maximum | `varuint32`? | only present if specified by `flags` |
 
 Note: In the [future :unicorn:][future threads], the "flags" field may be changed to `varuint32`, e.g., to include a flag for sharing between threads.

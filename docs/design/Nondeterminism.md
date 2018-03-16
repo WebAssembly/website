@@ -24,7 +24,7 @@ currently admits nondeterminism:
    nondeterministic.
  * Except when otherwise specified, when an arithmetic operator returns NaN,
    there is nondeterminism in determining the specific bits of the NaN. However,
-   wasm does still provide the guarantee that NaN values returned from an operation
+   Wasm does still provide the guarantee that NaN values returned from an operation
    will not have 1 bits in their fraction field that aren't set in any NaN values
    in the input operands, except for the most significant bit of the fraction field
    (which most operators set to 1).

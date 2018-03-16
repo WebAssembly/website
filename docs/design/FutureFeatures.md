@@ -479,7 +479,7 @@ Additionally, in the MVP, the only allowed element type of tables is a generic
 "anyfunc" type which simply means the element can be called but there is no
 static signature validation check. This could be improved by allowing:
 
-* functions with a particular signature, allowing wasm generators to use
+* functions with a particular signature, allowing Wasm generators to use
   multiple homogeneously-typed function tables (instead of a single
   heterogeneous function table) which eliminates the implied dynamic signature
   check of a call to a heterogeneous table;
