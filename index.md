@@ -1,6 +1,6 @@
 ---
 layout: default
-lead: WebAssembly or <i>wasm</i> is a new portable, size- and load-time-efficient format suitable for compilation to the web.
+lead: WebAssembly (abbreviated <i>Wasm</i>) is a binary format representing a stack-based virtual machine. Wasm is designed as a portable target for compilation of high-level languages like C/C++, enabling deployment on the web for client and server applications.
 ---
 <div class="flash flash-warn">
   WebAssembly is currently being designed as an open standard by a <a href="https://www.w3.org/community/webassembly/">W3C Community Group</a> that includes representatives from all major browsers.
