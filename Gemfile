@@ -5,5 +5,5 @@ group :jekyll_plugins do
   gem 'jemoji', '~> 0.8'
 end
 gem 'html-pipeline', '~> 2.5'
-gem 'nokogiri', '~> 1.7'
+gem 'nokogiri', '~> 1.8'
 gem 'html-proofer', '~> 3.6'
