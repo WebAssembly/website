@@ -207,8 +207,8 @@ libraries, each of which may, over time, include WebAssembly modules as
 implementation details.)</li>
   <li>Avoid <em>forcing</em> every developer using WebAssembly to understand their precise
 maximum heap usage.</li>
-  <li>When threading and shared memory are added to WebAssembly
-<a href="../future-features/#threads">post-MVP</a>, the design should not require memory growth
+  <li>When <a href="https://github.com/WebAssembly/design/issues/1073">threading and shared memory</a> are added to WebAssembly
+post-MVP, the design should not require memory growth
 to <code class="highlighter-rouge">realloc</code> since this implies significant implementation complexity,
 security hazards, and optimization challenges.</li>
 </ol>
@@ -243,7 +243,7 @@ any updates.</li>
 compilation. Any control flow–even irreducible–can be transformed into structured
 control flow with the
 <a href="https://github.com/kripken/emscripten/raw/master/docs/paper.pdf">Relooper</a>
-<a href="http://dl.acm.org/citation.cfm?id=2048224&amp;CFID=670868333&amp;CFTOKEN=46181900">algorithm</a>,
+<a href="https://dl.acm.org/citation.cfm?id=2048224&amp;CFID=670868333&amp;CFTOKEN=46181900">algorithm</a>,
 with guaranteed low code size overhead, and typically minimal throughput
 overhead (except for pathological cases of irreducible control
 flow). Alternative approaches can generate reducible control flow via node
@@ -349,7 +349,7 @@ of an expression with only one immediate use. Control flow instructions can then
 expressions with result values, thus allowing even more opportunities to further reduce
 <code class="highlighter-rouge">set_local</code>/<code class="highlighter-rouge">get_local</code> usage (which constitute 30-40% of total bytes in the
 <a href="https://github.com/WebAssembly/polyfill-prototype-1">polyfill prototype</a>).
-<code class="highlighter-rouge">br</code>-with-value and <code class="highlighter-rouge">if</code> constructs that return values can model also model <code class="highlighter-rouge">phis</code> which
+<code class="highlighter-rouge">br</code>-with-value and <code class="highlighter-rouge">if</code> constructs that return values can also model <code class="highlighter-rouge">phis</code> which
 appear in SSA representations of programs.</p>
 
 <h2 id="limited-local-nondeterminism">Limited Local Nondeterminism</h2>
@@ -535,7 +535,7 @@ from the combinations of possible feature configurations.</li>
 <ol>
   <li>
 <a href="../future-features/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, module authors may now use
-<a href="../future-features/#threads">Threading</a>
+<a href="https://github.com/WebAssembly/design/issues/1073">Threading</a>
 APIs in the browser. A developer wants to leverage multithreading in their
 module.</li>
 </ol>
@@ -556,7 +556,7 @@ MVP (with threads) code.</p>
 
 <ol>
   <li>
-    <p><a href="../future-features/#fixed-width-simd">SIMD</a> support is not universally
+    <p><a href="https://github.com/WebAssembly/design/issues/1075">SIMD</a> support is not universally
 equivalent on all targets. While polyfill variants of SIMD APIs are available,
 a developer prefers writing dedicated SIMD and non-SIMD versions of their
 compression algorithm, because the non-SIMD version performs better in
