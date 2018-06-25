@@ -35,10 +35,10 @@
       <div class="banner-update-icon"></div>
       <span class="banner-update-date"></span>
       <span>WebAssembly 1.0 has shipped in 4 major browser engines.
-         <img width="48px" src="/images/firefox.svg"> 
-         <img width="48px" src="/images/chrome.svg"> 
-         <img width="48px" src="/images/safari_48x48.png"> 
-         <img width="48px" src="/images/edge.svg"> 
+         <img width="48px" src="/images/firefox.svg">
+         <img width="48px" src="/images/chrome.svg">
+         <img width="48px" srcset="/images/safari_48x48.png, /images/safari_96x96.png 2x, /images/safari_144x144.png 3x" src="/images/safari_48x48.png">
+         <img width="48px" src="/images/edge.svg">
          ​<a href="/roadmap/">Learn more</a></span>
     </div>
   </section>
@@ -119,13 +119,13 @@ property is the String value <code class="highlighter-rouge">"WebAssembly"</code
 <code class="highlighter-rouge">WebAssembly.Table</code> : the <a href="#webassemblytable-constructor"><code class="highlighter-rouge">WebAssembly.Table</code> constructor</a>
 </li>
   <li>
-<code class="highlighter-rouge">WebAssembly.CompileError</code> : a <a href="http://tc39.github.io/ecma262/#sec-nativeerror-object-structure">NativeError</a>
+<code class="highlighter-rouge">WebAssembly.CompileError</code> : a <a href="https://tc39.github.io/ecma262/#sec-nativeerror-object-structure">NativeError</a>
  which indicates an error during WebAssembly decoding or validation</li>
   <li>
-<code class="highlighter-rouge">WebAssembly.LinkError</code> : a <a href="http://tc39.github.io/ecma262/#sec-nativeerror-object-structure">NativeError</a>
+<code class="highlighter-rouge">WebAssembly.LinkError</code> : a <a href="https://tc39.github.io/ecma262/#sec-nativeerror-object-structure">NativeError</a>
  which indicates an error during WebAssembly instantiating a module (other than traps from the start function)</li>
   <li>
-<code class="highlighter-rouge">WebAssembly.RuntimeError</code> : a <a href="http://tc39.github.io/ecma262/#sec-nativeerror-object-structure">NativeError</a>
+<code class="highlighter-rouge">WebAssembly.RuntimeError</code> : a <a href="https://tc39.github.io/ecma262/#sec-nativeerror-object-structure">NativeError</a>
  which is thrown whenever WebAssembly specifies a <a href="#traps">trap</a>.</li>
 </ul>
 
@@ -158,29 +158,25 @@ specification</a> and returns <code class="highlighter-rouge">true</code> if val
 
 <p>If the given <code class="highlighter-rouge">bytes</code> argument is not a
 <a href="https://heycam.github.io/webidl/#common-BufferSource"><code class="highlighter-rouge">BufferSource</code></a>,
-the returned <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a>
+the returned <code class="highlighter-rouge">Promise</code> is <a href="https://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a>
 with a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</p>
 
 <p>Otherwise, this function starts an asynchronous task to compile a <code class="highlighter-rouge">WebAssembly.Module</code>
 as described in the <a href="#webassemblymodule-constructor"><code class="highlighter-rouge">WebAssembly.Module</code> constructor</a>.
-On success, the <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
+On success, the <code class="highlighter-rouge">Promise</code> is <a href="https://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
 with the resulting <code class="highlighter-rouge">WebAssembly.Module</code> object. On failure, the <code class="highlighter-rouge">Promise</code> is 
-<a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a 
+<a href="https://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a 
 <code class="highlighter-rouge">WebAssembly.CompileError</code>.</p>
 
 <p>The asynchronous compilation is logically performed on a copy of the state of
 the given <code class="highlighter-rouge">BufferSource</code> captured during the call to <code class="highlighter-rouge">compile</code>; subsequent mutations
 of the <code class="highlighter-rouge">BufferSource</code> after <code class="highlighter-rouge">compile</code> return do not affect ongoing compilations.</p>
 
-<p>In the <a href="../future-features/#streaming-compilation">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, this function can be
-extended to accept a <a href="https://streams.spec.whatwg.org">stream</a>, thereby enabling
-asynchronous, background, streaming compilation.</p>
-
 <h4 id="webassemblyinstantiate"><code class="highlighter-rouge">WebAssembly.instantiate</code></h4>
 
 <p>The <code class="highlighter-rouge">instantiate</code> function is overloaded based on types of its arguments.
 If neither of the following overloads match, then the returned <code class="highlighter-rouge">Promise</code> is
-<a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a>
+<a href="https://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a>
 with a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</p>
 
 <div class="highlighter-rouge">
@@ -196,7 +192,7 @@ Promise&lt;WebAssemblyInstantiatedSource&gt;
 
 <p>If the given <code class="highlighter-rouge">bytes</code> argument is not a
 <a href="https://heycam.github.io/webidl/#common-BufferSource"><code class="highlighter-rouge">BufferSource</code></a>,
-the returned <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a>
+the returned <code class="highlighter-rouge">Promise</code> is <a href="https://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a>
 with a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</p>
 
 <p>This function starts an asynchronous task that first compiles a <code class="highlighter-rouge">WebAssembly.Module</code>
@@ -204,12 +200,12 @@ from <code class="highlighter-rouge">bytes</code> as described in the <a href="#
 and then queue a task to instantiate the resulting <code class="highlighter-rouge">Module</code> with <code class="highlighter-rouge">importObject</code> as described in the
 <a href="#webassemblyinstance-constructor"><code class="highlighter-rouge">WebAssembly.Instance</code> constructor</a>. After the instantiation task runs
 and before any subsequent steps are taken, other unspecified asynchronous tasks may be run.
-On success, the <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
+On success, the <code class="highlighter-rouge">Promise</code> is <a href="https://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
 with a plain JavaScript object pair <code class="highlighter-rouge"><span class="p">{</span><span class="err">module,</span><span class="w"> </span><span class="err">instance</span><span class="p">}</span></code> containing the resulting
 <code class="highlighter-rouge">WebAssembly.Module</code> and <code class="highlighter-rouge">WebAssembly.Instance</code>. The 2 properties <code class="highlighter-rouge">module</code> and <code class="highlighter-rouge">instance</code> of the returned pair are  configurable, enumerable and writable.</p>
 
 <p>On failure, the <code class="highlighter-rouge">Promise</code> is
-<a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a 
+<a href="https://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a 
 <code class="highlighter-rouge">WebAssembly.CompileError</code>, <code class="highlighter-rouge">WebAssembly.LinkError</code>, or <code class="highlighter-rouge">WebAssembly.RuntimeError</code>, depending on the cause of failure.</p>
 
 <p>The asynchronous compilation is logically performed on a copy of the state of
@@ -227,9 +223,9 @@ of the <code class="highlighter-rouge">BufferSource</code> after <code class="hi
 from <code class="highlighter-rouge">moduleObject</code> and <code class="highlighter-rouge">importObject</code> as described in the
 <a href="#webassemblyinstance-constructor"><code class="highlighter-rouge">WebAssembly.Instance</code> constructor</a>. After the instantiation task runs
 and before any subsequent steps are taken, other unspecified asynchronous tasks may be run.
-On success, the <code class="highlighter-rouge">Promise</code> is <a href="http://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
+On success, the <code class="highlighter-rouge">Promise</code> is <a href="https://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
 with the resulting <code class="highlighter-rouge">WebAssembly.Instance</code> object. On failure, the <code class="highlighter-rouge">Promise</code> is
-<a href="http://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a 
+<a href="https://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a> with a 
 <code class="highlighter-rouge">WebAssembly.CompileError</code>, <code class="highlighter-rouge">WebAssembly.LinkError</code>, or <code class="highlighter-rouge">WebAssembly.RuntimeError</code>, depending on the cause of failure.</p>
 
 <h2 id="webassemblymodule-objects">
@@ -371,7 +367,7 @@ sharing.</p>
 
 <p>A <code class="highlighter-rouge">WebAssembly.Instance</code> object represents the instantiation of a 
 <code class="highlighter-rouge">WebAssembly.Module</code> into a
-<a href="http://tc39.github.io/ecma262/#sec-code-realms">realm</a> and has one
+<a href="https://tc39.github.io/ecma262/#sec-code-realms">realm</a> and has one
 internal slot:</p>
 
 <ul>
@@ -424,9 +420,9 @@ Consequently, two <a href="https://github.com/WebAssembly/spec/blob/master/inter
 
 <ol>
   <li>Let <code class="highlighter-rouge">o</code> be the resultant value of performing
-<a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">importObject</code>, <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L170"><code class="highlighter-rouge">i.module_name</code></a>).</li>
+<a href="https://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">importObject</code>, <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L170"><code class="highlighter-rouge">i.module_name</code></a>).</li>
   <li>If <code class="highlighter-rouge">Type(o)</code> is not Object, throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</li>
-  <li>Let <code class="highlighter-rouge">v</code> be the value of performing <a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">o</code>, <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L171"><code class="highlighter-rouge">i.item_name</code></a>)</li>
+  <li>Let <code class="highlighter-rouge">v</code> be the value of performing <a href="https://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">o</code>, <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L171"><code class="highlighter-rouge">i.item_name</code></a>)</li>
   <li>If <code class="highlighter-rouge">i</code> is a function import:
     <ol>
       <li>If <a href="https://tc39.github.io/ecma262/#sec-iscallable"><code class="highlighter-rouge">IsCallable(v)</code></a> is <code class="highlighter-rouge">false</code>,
@@ -658,8 +654,8 @@ is thrown.</p>
 
 <p>A function with <a href="../modules/#function-index-space">function index</a> <code class="highlighter-rouge">index</code>
 from an <code class="highlighter-rouge">Instance</code> <code class="highlighter-rouge">inst</code> is reflected to JS via a new kind of <em>Exported
-Function</em> <a href="http://tc39.github.io/ecma262/#sec-built-in-exotic-object-internal-methods-and-slots">Exotic Object</a>.
-Like <a href="http://tc39.github.io/ecma262/#sec-bound-function-exotic-objects">Bound Function</a> Exotic Object,
+Function</em> <a href="https://tc39.github.io/ecma262/#sec-built-in-exotic-object-internal-methods-and-slots">Exotic Object</a>.
+Like <a href="https://tc39.github.io/ecma262/#sec-bound-function-exotic-objects">Bound Function</a> Exotic Object,
 Exported Functions do not have the normal function internal slots but instead have:</p>
 
 <ul>
@@ -670,13 +666,13 @@ Exported Functions do not have the normal function internal slots but instead ha
 <p>as well as the internal slots required of all builtin functions:</p>
 
 <ul>
-  <li>[[Prototype]] : <a href="http://tc39.github.io/ecma262/#sec-well-known-intrinsic-objects">%FunctionPrototype%</a>
+  <li>[[Prototype]] : <a href="https://tc39.github.io/ecma262/#sec-well-known-intrinsic-objects">%FunctionPrototype%</a>
 </li>
   <li>[[Extensible]] : <code class="highlighter-rouge">true</code>
 </li>
-  <li>[[Realm]] : the <a href="http://tc39.github.io/ecma262/#current-realm">current Realm Record</a>
+  <li>[[Realm]] : the <a href="https://tc39.github.io/ecma262/#current-realm">current Realm Record</a>
 </li>
-  <li>[[ScriptOrModule]] : <a href="http://tc39.github.io/ecma262/#sec-getactivescriptormodule"><code class="highlighter-rouge">GetActiveScriptOrModule</code></a>
+  <li>[[ScriptOrModule]] : <a href="https://tc39.github.io/ecma262/#sec-getactivescriptormodule"><code class="highlighter-rouge">GetActiveScriptOrModule</code></a>
 </li>
 </ul>
 
@@ -741,10 +737,10 @@ exception is thrown (i.e., this constructor cannot be called as a function witho
 <p>If <code class="highlighter-rouge">Type(memoryDescriptor)</code> is not Object, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
 
-<p>Let <code class="highlighter-rouge">initial</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">memoryDescriptor</code>, <code class="highlighter-rouge">"initial"</code>)).</p>
+<p>Let <code class="highlighter-rouge">initial</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="https://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">memoryDescriptor</code>, <code class="highlighter-rouge">"initial"</code>)).</p>
 
-<p>If <a href="http://tc39.github.io/ecma262/#sec-hasproperty"><code class="highlighter-rouge">HasProperty</code></a>(<code class="highlighter-rouge">"maximum"</code>),
-then let <code class="highlighter-rouge">maximum</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">memoryDescriptor</code>, <code class="highlighter-rouge">"maximum"</code>)).
+<p>If <a href="https://tc39.github.io/ecma262/#sec-hasproperty"><code class="highlighter-rouge">HasProperty</code></a>(<code class="highlighter-rouge">"maximum"</code>),
+then let <code class="highlighter-rouge">maximum</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="https://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">memoryDescriptor</code>, <code class="highlighter-rouge">"maximum"</code>)).
 If <code class="highlighter-rouge">maximum</code> is smaller than <code class="highlighter-rouge">initial</code>, then throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>.
 Otherwise, let <code class="highlighter-rouge">maximum</code> be <code class="highlighter-rouge">None</code>.</p>
 
@@ -761,12 +757,12 @@ specified in units of WebAssembly pages (64KiB).</p>
 <code class="highlighter-rouge">m</code>, to create a <code class="highlighter-rouge">WebAssembly.Memory</code>:</p>
 
 <p>Let <code class="highlighter-rouge">buffer</code> be a new <code class="highlighter-rouge">ArrayBuffer</code> whose
-<a href="http://tc39.github.io/ecma262/#sec-properties-of-the-arraybuffer-prototype-object">[[ArrayBufferData]]</a>
+<a href="https://tc39.github.io/ecma262/#sec-properties-of-the-arraybuffer-prototype-object">[[ArrayBufferData]]</a>
 aliases <code class="highlighter-rouge">m</code> and whose 
-<a href="http://tc39.github.io/ecma262/#sec-properties-of-the-arraybuffer-prototype-object">[[ArrayBufferByteLength]]</a>
+<a href="https://tc39.github.io/ecma262/#sec-properties-of-the-arraybuffer-prototype-object">[[ArrayBufferByteLength]]</a>
 is set to the byte length of <code class="highlighter-rouge">m</code>.</p>
 
-<p>Any attempts to <a href="http://tc39.github.io/ecma262/#sec-detacharraybuffer"><code class="highlighter-rouge">detach</code></a> <code class="highlighter-rouge">buffer</code> <em>other</em> than
+<p>Any attempts to <a href="https://tc39.github.io/ecma262/#sec-detacharraybuffer"><code class="highlighter-rouge">detach</code></a> <code class="highlighter-rouge">buffer</code> <em>other</em> than
 the detachment performed by <a href="#webassemblymemoryprototypegrow"><code class="highlighter-rouge">m.grow</code></a> shall throw a 
 <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a></p>
 
@@ -803,12 +799,12 @@ with delta <code class="highlighter-rouge">d</code>. On failure, a
 <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>
 is thrown.</p>
 
-<p>Perform <a href="http://tc39.github.io/ecma262/#sec-detacharraybuffer"><code class="highlighter-rouge">DetachArrayBuffer</code></a>(<code class="highlighter-rouge">M.[[BufferObject]]</code>).</p>
+<p>Perform <a href="https://tc39.github.io/ecma262/#sec-detacharraybuffer"><code class="highlighter-rouge">DetachArrayBuffer</code></a>(<code class="highlighter-rouge">M.[[BufferObject]]</code>).</p>
 
 <p>Assign to <code class="highlighter-rouge">M.[[BufferObject]]</code> a new <code class="highlighter-rouge">ArrayBuffer</code> whose
-<a href="http://tc39.github.io/ecma262/#sec-properties-of-the-arraybuffer-prototype-object">[[ArrayBufferData]]</a>
+<a href="https://tc39.github.io/ecma262/#sec-properties-of-the-arraybuffer-prototype-object">[[ArrayBufferData]]</a>
 aliases <code class="highlighter-rouge">M.[[Memory]]</code> and whose 
-<a href="http://tc39.github.io/ecma262/#sec-properties-of-the-arraybuffer-prototype-object">[[ArrayBufferByteLength]]</a>
+<a href="https://tc39.github.io/ecma262/#sec-properties-of-the-arraybuffer-prototype-object">[[ArrayBufferByteLength]]</a>
 is set to the new byte length of <code class="highlighter-rouge">M.[[Memory]]</code>.</p>
 
 <p>Return <code class="highlighter-rouge">ret</code> as a Number value.</p>
@@ -851,16 +847,16 @@ exception is thrown (i.e., this constructor cannot be called as a function witho
 <p>If <code class="highlighter-rouge">Type(tableDescriptor)</code> is not Object, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
 
-<p>Let <code class="highlighter-rouge">element</code> be the result of calling <a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"element"</code>).
+<p>Let <code class="highlighter-rouge">element</code> be the result of calling <a href="https://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"element"</code>).
 If <code class="highlighter-rouge">element</code> is not the string <code class="highlighter-rouge">"anyfunc"</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.
 (Note: this check is intended to be relaxed in the
 <a href="../future-features/#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> to allow different element types.)</p>
 
-<p>Let <code class="highlighter-rouge">initial</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"initial"</code>)).</p>
+<p>Let <code class="highlighter-rouge">initial</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="https://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"initial"</code>)).</p>
 
-<p>If <a href="http://tc39.github.io/ecma262/#sec-hasproperty"><code class="highlighter-rouge">HasProperty</code></a>(<code class="highlighter-rouge">"maximum"</code>),
-then let <code class="highlighter-rouge">maximum</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="http://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"maximum"</code>)). Otherwise, let <code class="highlighter-rouge">maximum</code> be None.</p>
+<p>If <a href="https://tc39.github.io/ecma262/#sec-hasproperty"><code class="highlighter-rouge">HasProperty</code></a>(<code class="highlighter-rouge">"maximum"</code>),
+then let <code class="highlighter-rouge">maximum</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="https://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"maximum"</code>)). Otherwise, let <code class="highlighter-rouge">maximum</code> be None.</p>
 
 <p>If <code class="highlighter-rouge">maximum</code> is not None and is smaller than <code class="highlighter-rouge">initial</code>, then throw a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>.</p>
 
@@ -973,9 +969,9 @@ to a JavaScript value:</p>
   <li>given a WebAssembly <code class="highlighter-rouge">i32</code> is interpreted as a signed integer, converted (losslessly) to an
   IEEE754 double and then returned as a JavaScript Number</li>
   <li>given a WebAssembly <code class="highlighter-rouge">f32</code> (single-precision IEEE754), convert (losslessly) to
-a IEEE754 double, <a href="http://tc39.github.io/ecma262/#sec-setvalueinbuffer">possibly canonicalize NaN</a>,
+a IEEE754 double, <a href="https://tc39.github.io/ecma262/#sec-setvalueinbuffer">possibly canonicalize NaN</a>,
 and return as a JavaScript Number</li>
-  <li>given a WebAssembly <code class="highlighter-rouge">f64</code>, <a href="http://tc39.github.io/ecma262/#sec-setvalueinbuffer">possibly canonicalize NaN</a>
+  <li>given a WebAssembly <code class="highlighter-rouge">f64</code>, <a href="https://tc39.github.io/ecma262/#sec-setvalueinbuffer">possibly canonicalize NaN</a>
 and return as a JavaScript Number</li>
 </ol>
 
@@ -989,12 +985,12 @@ and return as a JavaScript Number</li>
 <p>Assert: the target value type is not <code class="highlighter-rouge">i64</code>.</p>
 
 <ol>
-  <li>coerce to <code class="highlighter-rouge">i32</code> via <a href="http://tc39.github.io/ecma262/#sec-toint32"><code class="highlighter-rouge">ToInt32(v)</code></a>
+  <li>coerce to <code class="highlighter-rouge">i32</code> via <a href="https://tc39.github.io/ecma262/#sec-toint32"><code class="highlighter-rouge">ToInt32(v)</code></a>
 </li>
-  <li>coerce to <code class="highlighter-rouge">f32</code> by first applying <a href="http://tc39.github.io/ecma262/#sec-tonumber"><code class="highlighter-rouge">ToNumber(v)</code></a>
+  <li>coerce to <code class="highlighter-rouge">f32</code> by first applying <a href="https://tc39.github.io/ecma262/#sec-tonumber"><code class="highlighter-rouge">ToNumber(v)</code></a>
 and then converting the resulting IEEE754 64-bit double to a 32-bit float using <code class="highlighter-rouge">roundTiesToEven</code>
 </li>
-  <li>coerce to <code class="highlighter-rouge">f64</code> via <a href="http://tc39.github.io/ecma262/#sec-tonumber"><code class="highlighter-rouge">ToNumber(v)</code></a>
+  <li>coerce to <code class="highlighter-rouge">f64</code> via <a href="https://tc39.github.io/ecma262/#sec-tonumber"><code class="highlighter-rouge">ToNumber(v)</code></a>
 </li>
 </ol>
 
@@ -1005,7 +1001,7 @@ ignored.</p>
 
 <p>To convert a JavaScript value <code class="highlighter-rouge">v</code> to an unsigned integer in the range [0, <code class="highlighter-rouge">UINT32_MAX</code>]:</p>
 
-<p>Let <code class="highlighter-rouge">i</code> be <a href="http://tc39.github.io/ecma262/#sec-tointeger"><code class="highlighter-rouge">ToInteger</code></a>(<code class="highlighter-rouge">v</code>).</p>
+<p>Let <code class="highlighter-rouge">i</code> be <a href="https://tc39.github.io/ecma262/#sec-tointeger"><code class="highlighter-rouge">ToInteger</code></a>(<code class="highlighter-rouge">v</code>).</p>
 
 <p>If <code class="highlighter-rouge">i</code> is negative or greater than <code class="highlighter-rouge">UINT32_MAX</code>, 
 <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-rangeerror"><code class="highlighter-rouge">RangeError</code></a>

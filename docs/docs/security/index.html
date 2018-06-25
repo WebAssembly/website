@@ -35,10 +35,10 @@
       <div class="banner-update-icon"></div>
       <span class="banner-update-date"></span>
       <span>WebAssembly 1.0 has shipped in 4 major browser engines.
-         <img width="48px" src="/images/firefox.svg"> 
-         <img width="48px" src="/images/chrome.svg"> 
-         <img width="48px" src="/images/safari_48x48.png"> 
-         <img width="48px" src="/images/edge.svg"> 
+         <img width="48px" src="/images/firefox.svg">
+         <img width="48px" src="/images/chrome.svg">
+         <img width="48px" srcset="/images/safari_48x48.png, /images/safari_96x96.png 2x, /images/safari_144x144.png 3x" src="/images/safari_48x48.png">
+         <img width="48px" src="/images/edge.svg">
          ​<a href="/roadmap/">Learn more</a></span>
     </div>
   </section>
@@ -76,7 +76,7 @@ include the POSIX security model.</p>
 
 <p>The design of WebAssembly promotes safe programs by eliminating dangerous
 features from its execution semantics, while maintaining compatibility with
-programs written for <a href="../cand-c++/">C/C++</a>.</p>
+programs written for <a href="../c-and-c%2-b%2-b/">C/C++</a>.</p>
 
 <p>Modules must declare all accessible functions and their associated types
 at load time, even when <a href="../dynamic-linking/">dynamic linking</a> is used. This
@@ -121,7 +121,7 @@ support for <a href="../modules/#linear-memory-section">multiple linear memory s
 <p><a href="../semantics/#traps">Traps</a> are used to immediately terminate execution and
 signal abnormal behavior to the execution environment. In a browser, this is
 represented as a JavaScript exception. Support for
-<a href="../future-features/#trappingor-non-trapping-strategies">module-defined trap handlers</a>
+<a href="../future-features/#trapping-or-non-trapping-strategies">module-defined trap handlers</a>
 will be implemented in the future. Operations that can trap include:</p>
 
 <ul>
@@ -147,15 +147,15 @@ common mitigations such as <a href="https://en.wikipedia.org/wiki/Executable_spa
 <a href="https://en.wikipedia.org/wiki/Buffer_overflow_protection#Random_canaries">stack smashing protection</a> (SSP) are not needed by WebAssembly programs.</p>
 
 <p>Another common class of memory safety errors involves unsafe pointer usage and
-<a href="../cand-c++/#undefined-behavior">undefined behavior</a>. This includes dereferencing
-pointers to unallocated memory (e.g. <code class="highlighter-rouge">NULL</code>), or freed memory allocations. In
-WebAssembly, the semantics of pointers have been eliminated for function calls
-and variables with fixed static scope, allowing references to invalid indexes in
-any index space to trigger a validation error at load time, or at worst a trap
-at runtime. Accesses to linear memory are bounds-checked at the region level,
-potentially resulting in a trap at runtime. These memory region(s) are isolated
-from the internal memory of the runtime, and are set to zero by default unless
-otherwise initialized.</p>
+<a href="../c-and-c%2-b%2-b/#undefined-behavior">undefined behavior</a>. This includes
+dereferencing pointers to unallocated memory (e.g. <code class="highlighter-rouge">NULL</code>), or freed memory
+allocations. In WebAssembly, the semantics of pointers have been eliminated for
+function calls and variables with fixed static scope, allowing references to
+invalid indexes in any index space to trigger a validation error at load time,
+or at worst a trap at runtime. Accesses to linear memory are bounds-checked at
+the region level, potentially resulting in a trap at runtime. These memory
+region(s) are isolated from the internal memory of the runtime, and are set to
+zero by default unless otherwise initialized.</p>
 
 <p>Nevertheless, other classes of bugs are not obviated by the semantics of
 WebAssembly. Although attackers cannot perform direct code injection attacks,
@@ -166,7 +166,7 @@ in WebAssembly, because control-flow integrity ensures that call targets are
 valid functions declared at load time. Likewise, race conditions, such as
 <a href="https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use">time of check to time of use</a> (TOCTOU) vulnerabilities, are possible in
 WebAssembly, since no execution or scheduling guarantees are provided beyond
-in-order execution and <a href="../future-features/#threads">post-MVP atomic memory primitives
+in-order execution and <a href="https://github.com/WebAssembly/design/issues/1073">post-MVP atomic memory primitives
 <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.
 Similarly, <a href="https://en.wikipedia.org/wiki/Side-channel_attack">side channel attacks</a> can occur, such as timing attacks against
 modules. In the future, additional protections may be provided by runtimes or
@@ -210,7 +210,7 @@ instrumentation in the module. However, as discussed
 attacks with function-level granularity against indirect calls.</p>
 
 <h4 id="clangllvm-cfi">Clang/LLVM CFI</h4>
-<p>The Clang/LLVM compiler infrastructure includes a <a href="http://clang.llvm.org/docs/ControlFlowIntegrity.html">built-in implementation</a> of
+<p>The Clang/LLVM compiler infrastructure includes a <a href="https://clang.llvm.org/docs/ControlFlowIntegrity.html">built-in implementation</a> of
 fine-grained control flow integrity, which has been extended to support the
 WebAssembly target. It is available in Clang/LLVM 3.9+ with the
 <a href="https://github.com/WebAssembly/binaryen#cc-source--webassembly-llvm-backend--s2wasm--webassembly">new WebAssembly backend</a>.</p>

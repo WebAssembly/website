@@ -24,7 +24,7 @@ include the POSIX security model.
 
 The design of WebAssembly promotes safe programs by eliminating dangerous
 features from its execution semantics, while maintaining compatibility with
-programs written for [C/C++](CandC++.md).
+programs written for [C/C++](CAndC%2B%2B.md).
 
 Modules must declare all accessible functions and their associated types
 at load time, even when [dynamic linking](DynamicLinking.md) is used. This
@@ -58,13 +58,13 @@ compile time. This is an isolated memory region with fixed maximum size that is
 zero initialized by default. References to this memory are computed with
 infinite precision to avoid wrapping and simplify bounds checking. In the future,
 support for [multiple linear memory sections](Modules.md#linear-memory-section) and
-[finer-grained memory operations](FutureFeatures.md#finer-grained-control-over-memory)
+[finer-grained memory operations][future memory control]
 (e.g. shared memory, page protection, large pages, etc.) will be implemented.
 
 [Traps](Semantics.md#traps) are used to immediately terminate execution and
 signal abnormal behavior to the execution environment. In a browser, this is
 represented as a JavaScript exception. Support for
-[module-defined trap handlers](FutureFeatures.md#trappingor-non-trapping-strategies)
+[module-defined trap handlers][future trapping]
 will be implemented in the future. Operations that can trap include:
 
   * specifying an invalid index in any index space,
@@ -88,15 +88,15 @@ common mitigations such as [data execution prevention][] (DEP) and
 [stack smashing protection][] (SSP) are not needed by WebAssembly programs.
 
 Another common class of memory safety errors involves unsafe pointer usage and
-[undefined behavior](CandC++.md#undefined-behavior). This includes dereferencing
-pointers to unallocated memory (e.g. `NULL`), or freed memory allocations. In
-WebAssembly, the semantics of pointers have been eliminated for function calls
-and variables with fixed static scope, allowing references to invalid indexes in
-any index space to trigger a validation error at load time, or at worst a trap
-at runtime. Accesses to linear memory are bounds-checked at the region level,
-potentially resulting in a trap at runtime. These memory region(s) are isolated
-from the internal memory of the runtime, and are set to zero by default unless
-otherwise initialized.
+[undefined behavior](CAndC%2B%2B.md#undefined-behavior). This includes
+dereferencing pointers to unallocated memory (e.g. `NULL`), or freed memory
+allocations. In WebAssembly, the semantics of pointers have been eliminated for
+function calls and variables with fixed static scope, allowing references to
+invalid indexes in any index space to trigger a validation error at load time,
+or at worst a trap at runtime. Accesses to linear memory are bounds-checked at
+the region level, potentially resulting in a trap at runtime. These memory
+region(s) are isolated from the internal memory of the runtime, and are set to
+zero by default unless otherwise initialized.
 
 Nevertheless, other classes of bugs are not obviated by the semantics of
 WebAssembly. Although attackers cannot perform direct code injection attacks,
@@ -169,7 +169,7 @@ in WebAssembly.
 
   [address space layout randomization]: https://en.wikipedia.org/wiki/Address_space_layout_randomization
   [bounded pointers]: https://en.wikipedia.org/wiki/Bounded_pointer
-  [built-in implementation]: http://clang.llvm.org/docs/ControlFlowIntegrity.html
+  [built-in implementation]: https://clang.llvm.org/docs/ControlFlowIntegrity.html
   [control-flow integrity]: https://research.microsoft.com/apps/pubs/default.aspx?id=64250
   [data execution prevention]: https://en.wikipedia.org/wiki/Executable_space_protection
   [forward-edge control-flow integrity]: https://www.usenix.org/node/184460
@@ -180,4 +180,6 @@ in WebAssembly.
   [stack smashing protection]: https://en.wikipedia.org/wiki/Buffer_overflow_protection#Random_canaries
   [time of check to time of use]: https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use
 
-[future threads]: FutureFeatures.md#threads
+[future threads]: https://github.com/WebAssembly/design/issues/1073
+[future memory control]: FutureFeatures.md#finer-grained-control-over-memory
+[future trapping]: FutureFeatures.md#trapping-or-non-trapping-strategies

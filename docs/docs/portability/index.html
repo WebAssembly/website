@@ -34,10 +34,10 @@
       <div class="banner-update-icon"></div>
       <span class="banner-update-date"></span>
       <span>WebAssembly 1.0 has shipped in 4 major browser engines.
-        &nbsp;<img width="48px" src="/images/firefox.svg"/> 
-        &nbsp;<img width="48px" src="/images/chrome.svg"/> 
-        &nbsp;<img width="48px" src="/images/safari_48x48.png"/> 
-        &nbsp;<img width="48px" src="/images/edge.svg"/> 
+        &nbsp;<img width="48px" src="/images/firefox.svg"/>
+        &nbsp;<img width="48px" src="/images/chrome.svg"/>
+        &nbsp;<img width="48px" srcset="/images/safari_48x48.png, /images/safari_96x96.png 2x, /images/safari_144x144.png 3x" src="/images/safari_48x48.png"/>
+        &nbsp;<img width="48px" src="/images/edge.svg"/>
         &nbsp;&#8203;<a href="/roadmap/">Learn&nbsp;more</a></span>
     </div>
   </section>
@@ -111,6 +111,7 @@ a standard API (e.g., POSIX) and relying on the compiler and/or libraries to map
 the standard interface to the host environment’s available imports either at
 compile-time (via <code class="highlighter-rouge">#ifdef</code>) or run-time (via <a href="../feature-test/">feature detection</a>
 and dynamic <a href="../modules/">loading</a>/<a href="../dynamic-linking/">linking</a>).</p>
+
 
       </div>
       <div class="col-xs-12 col-lg-3">

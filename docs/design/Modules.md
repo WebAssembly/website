@@ -6,7 +6,7 @@ with a set of import values to produce an **instance**, which is an immutable
 tuple referencing all the state accessible to the running module. Multiple
 module instances can access the same shared state which is the basis for 
 [dynamic linking](DynamicLinking.md) in WebAssembly. WebAssembly modules
-are also meant to integrate with ES6 modules in the [future :unicorn:][future ES6 modules].
+are also meant to integrate with ES6 modules in the [future :unicorn:][future modules].
 
 A module contains the following sections:
 
@@ -48,7 +48,7 @@ In the future, other kinds of imports may be added. Imports are designed to
 allow modules to share code and data while still allowing separate compilation
 and caching.
 
-All imports include two opaque names: a *module name* and an *export name*,
+All imports include two opaque names: a *module name* and an *import name*,
 which are required to be [valid UTF-8]. The
 interpretation of these names is up to the host environment but designed to
 allow a host environments, like the [Web](Web.md), to support a two-level
@@ -327,8 +327,7 @@ to the following nullary operators:
 In the future, operators like `i32.add` could be added to allow more expressive
 `base + offset` load-time calculations.
 
-[future ES6 modules]: FutureFeatures.md#tracking-issues
+[future modules]: https://github.com/WebAssembly/design/issues/1087
 [future types]: FutureFeatures.md#more-table-operators-and-types
-[future dom]: FutureFeatures.md#gc/dom-integration
 [future multiple tables]: FutureFeatures.md#multiple-tables-and-memories
 [valid UTF-8]: https://encoding.spec.whatwg.org/#utf-8-decode-without-bom-or-fail

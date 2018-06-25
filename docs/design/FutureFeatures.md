@@ -9,16 +9,28 @@ issues.
 
 ## Tracking Issues
 
-| Feature                       | Tracking issue | Status      |
-|-------------------------------|----------------|-------------|
-| Specification                 | [1077][]       | in progress |
-| Threads                       | [1073][]       | in progress |
-| Fixed-width SIMD              | [1075][]       | in progress |
-| Exception handling            | [1078][]       | in progress |
-| Garbage collection            | [1079][]       | in progress |
-| Bulk memory operations        | [1114][]       | in progress |
-| Web Content Security Policy   | [1122][]       | in progress |
-| ECMAScript module integration | [1087][]       | not started |
+The Community Group and Working Group have adopted [a process document for proposal phases](https://github.com/WebAssembly/meetings/blob/master/process/phases.md). The following issues are currently being worked on.
+
+| Feature                                          | Tracking issue | Status      | Phase                        |
+|--------------------------------------------------|----------------|-------------|------------------------------|
+| Specification                                    | [1077][]       | in progress | Proposed spec text available |
+| Threads                                          | [1073][]       | in progress | Feature proposal             |
+| Fixed-width SIMD                                 | [1075][]       | in progress | Feature proposal             |
+| Exception handling                               | [1078][]       | in progress | Feature proposal             |
+| Garbage collection                               | [1079][]       | in progress | Feature proposal             |
+| Bulk memory operations                           | [1114][]       | in progress | Feature proposal             |
+| Web Content Security Policy                      | [1122][]       | in progress | Pre-proposal                 |
+| ECMAScript module integration                    | [1087][]       | in progress | Feature proposal             |
+| Tail Call                                        | [1144][]       | in progress | Feature proposal             |
+| Non-trapping float-to-int conversions            | [1143][]       | in progress | Implementation phase         |
+| Multi-value                                      | [1146][]       | in progress | Implementation phase         |
+| Host bindings                                    | [1148][]       | in progress | Feature proposal             |
+| Sign-extension operators                         | [1178][]       | in progress | Implementation phase         |
+| Import/Export Mutable Globals                    | [1179][]       | in progress | Implementation phase         |
+| Type Reflection for WebAssembly JavaScript API   | [1181][]       | in progress | Feature proposal             |
+| Unmanaged closures                               | [1182][]       | in progress | Feature proposal             |
+| JavaScript BigInt to WebAssembly i64 integration | [1186][]       | in progress | Proposed Spec Text Available |
+| Custom Annotation Syntax in the Text Format      | [1192][]       | in progress | Feature proposal             |
 
   [1073]: https://github.com/WebAssembly/design/issues/1073
   [1075]: https://github.com/WebAssembly/design/issues/1075
@@ -28,16 +40,22 @@ issues.
   [1087]: https://github.com/WebAssembly/design/issues/1087
   [1114]: https://github.com/WebAssembly/design/issues/1114
   [1122]: https://github.com/WebAssembly/design/issues/1122
+  [1143]: https://github.com/WebAssembly/design/issues/1143
+  [1144]: https://github.com/WebAssembly/design/issues/1144
+  [1146]: https://github.com/WebAssembly/design/issues/1146
+  [1148]: https://github.com/WebAssembly/design/issues/1148
+  [1178]: https://github.com/WebAssembly/design/issues/1178
+  [1179]: https://github.com/WebAssembly/design/issues/1179
+  [1181]: https://github.com/WebAssembly/design/issues/1181
+  [1182]: https://github.com/WebAssembly/design/issues/1182
+  [1186]: https://github.com/WebAssembly/design/issues/1186
+  [1192]: https://github.com/WebAssembly/design/issues/1192
 
 
-## Legacy Future Features
-
-**Note:** these will soon move to tracking issues.
+## On Deck for Immediate Design
 
 :star: = Essential features we want to prioritize adding shortly after
 the [MVP](MVP.md).
-
-## On Deck for Immediate Design
 
 ### Great tooling support
 #### :star: :star: :star:
@@ -123,10 +141,6 @@ Options under consideration:
   making it easier to support other languages, especially functional programming
   languages.
 
-### GC/DOM Integration
-
-See issue [1079][].
-
 ### Linear memory bigger than 4 GiB
 
 The WebAssembly MVP will support the wasm32 mode of WebAssembly, with linear
@@ -163,35 +177,7 @@ supporting both in the same instance in the future.
 Coroutines will [eventually be part of C++][] and is already popular in other
 programming languages that WebAssembly will support.
 
-  [eventually be part of C++]: http://wg21.link/n4499
-
-### Signature-restricted Proper Tail Calls
-
-See the [asm.js RFC][] for a full description of signature-restricted Proper
-Tail Calls (PTC).
-
-Useful properties of signature-restricted PTCs:
-
-* In most cases, can be compiled to a single jump.
-* Can express indirect `goto` via function-pointer calls.
-* Can be used as a compile target for languages with unrestricted PTCs; the code
-  generator can use a stack in the linear memory to effectively implement a custom call
-  ABI on top of signature-restricted PTCs.
-* An engine that wishes to perform aggressive optimization can fuse a graph of
-  PTCs into a single function.
-* To reduce compile time, a code generator can use PTCs to break up ultra-large
-  functions into smaller functions at low overhead using PTCs.
-* A compiler can exert some amount of control over register allocation via the
-  ordering of arguments in the PTC signature.
-
-  [asm.js RFC]: http://discourse.specifiction.org/t/request-for-comments-add-a-restricted-subset-of-proper-tail-calls-to-asm-js
- 
-### General-purpose Proper Tail Calls
-
-General-purpose Proper Tail Calls would have no signature restrictions, and
-therefore be more broadly usable than
-[Signature-restricted Proper Tail Calls](Semantics.md#signature-restricted-proper-tail-calls),
-though there would be some different performance characteristics.
+  [eventually be part of C++]: https://wg21.link/n4499
 
 ### Asynchronous Signals
 
@@ -399,7 +385,7 @@ When the application is prepared to handle overflow locally, it would be useful
 to have arithmetic operators which can indicate when overflow occurred. An
 example of this is the checked arithmetic builtins available in compilers such
 as
-[clang](http://clang.llvm.org/docs/LanguageExtensions.html#checked-arithmetic-builtins)
+[clang](https://clang.llvm.org/docs/LanguageExtensions.html#checked-arithmetic-builtins)
 and
 [GCC](https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html).
 If WebAssembly is made to support nodes with multiple return values, that could
@@ -411,14 +397,12 @@ arithmetic, or optimizing JavaScript Numbers to use int32 operators. Another fam
 includes compiling code that doesn't expect overflow to occur, but which wishes
 to have overflow detected and reported if it does happen. These use cases would
 ideally like to have overflow trap, and to allow them to
-[handle trap specially][]. Following the rule that explicitly signed and
+[handle trap specially][future trapping]. Following the rule that explicitly signed and
 unsigned operators trap whenever the result value can not be represented in the
 result type, it would be possible to add explicitly signed and unsigned versions
 of integer `add`, `sub`, and `mul`, which would trap on overflow. The main
 reason we haven't added these already is that they're not efficient for
 general-purpose use on several of today's popular hardware architectures.
-
-  [handle trap specially]: FutureFeatures.md#trapping-or-non-trapping-strategies
 
 ### Better feature testing support
 
@@ -435,17 +419,12 @@ pass was otherwise necessary.
 
 If globals are allowed array types, significant portions of memory could be moved out of linear memory which could reduce fragmentation issues. Languages like Fortran which limit aliasing would be one use case. C/C++ compilers could also determine that some global variables never have their address taken.
 
-### Multiple Return
-
-The stack based nature of WebAssembly lends itself to the possibility
-of supporting multiple return values from blocks / functions.
-
 ### Multiple Tables and Memories
 
 The MVP limits modules to at most one memory and at most one table (the default
 ones) and there are only operators for accessing the default table and memory.
 
-After the MVP and after [GC reference types](https://github.com/WebAssembly/design/issues/1079) have been added, the default
+After the MVP and after [GC reference types][future garbage collection] have been added, the default
 limitation can be relaxed so that any number of tables and memories could be
 imported or internally defined and memories/tables could be passed around as
 parameters, return values and locals. New variants of `load`, `store`
@@ -466,7 +445,7 @@ see [JavaScript's `WebAssembly.Table` API](JS.md#webassemblytable-objects)).
 It would be useful to be able to do everything from within WebAssembly so, e.g.,
 it was possible to write a WebAssembly dynamic loader in WebAssembly. As a
 prerequisite, WebAssembly would need first-class support for 
-[GC references](https://github.com/WebAssembly/design/issues/1079) on the stack and in locals. Given that, the following
+[GC references][future garbage collection] on the stack and in locals. Given that, the following
 could be added:
 
 * `get_table`/`set_table`: get or set the table element at a given dynamic
@@ -479,28 +458,58 @@ Additionally, in the MVP, the only allowed element type of tables is a generic
 "anyfunc" type which simply means the element can be called but there is no
 static signature validation check. This could be improved by allowing:
 
-* functions with a particular signature, allowing Wasm generators to use
+* functions with a particular signature, allowing wasm generators to use
   multiple homogeneously-typed function tables (instead of a single
   heterogeneous function table) which eliminates the implied dynamic signature
   check of a call to a heterogeneous table;
 * any other specific GC reference type, effectively allowing WebAssembly code
   to implement a variety of rooting API schemes.
 
+## Proposals moved to tacking issues
+
+These proposals have now moved to [tracking issues](#tracking-issues). The old
+links are preserved here for backwards compatibility.
+
+### GC/DOM Integration
+
+See issue [1079][].
+
 ### Memset and Memcpy Operators
 
-Copying and clearing large memory regions is very common, and making these
-operations fast is architecture dependent. Although this can be done in the MVP
-via `i32.load` and `i32.store`, this requires more bytes of code and forces VMs
-to recognize the loops as well. The following operators can be added to improve
-performance:
+See issue [1114][].
 
-* `move_memory`: Copy data from a source memory region to destination region;
-   these regions may overlap: the copy is performed as if the source region was 
-   first copied to a temporary buffer, then the temporary buffer is copied to
-   the destination region
-* `set_memory`: Set all bytes in a memory region to a given byte
+### Tail Calls
 
-We expect that WebAssembly producers will use these operations when the region
-size is known to be large, and will use loads/stores otherwise.
+See issue [1144][].
 
-TODO: determine how these operations interact w/ shared memory.
+#### Signature-restricted Proper Tail Calls
+
+See the [asm.js RFC][] for a full description of signature-restricted Proper
+Tail Calls (PTC).
+
+Useful properties of signature-restricted PTCs:
+
+* In most cases, can be compiled to a single jump.
+* Can express indirect `goto` via function-pointer calls.
+* Can be used as a compile target for languages with unrestricted PTCs; the code
+  generator can use a stack in the linear memory to effectively implement a custom call
+  ABI on top of signature-restricted PTCs.
+* An engine that wishes to perform aggressive optimization can fuse a graph of
+  PTCs into a single function.
+* To reduce compile time, a code generator can use PTCs to break up ultra-large
+  functions into smaller functions at low overhead using PTCs.
+* A compiler can exert some amount of control over register allocation via the
+  ordering of arguments in the PTC signature.
+
+  [asm.js RFC]: http://discourse.specifiction.org/t/request-for-comments-add-a-restricted-subset-of-proper-tail-calls-to-asm-js
+ 
+#### General-purpose Proper Tail Calls
+
+General-purpose Proper Tail Calls would have no signature restrictions, and
+therefore be more broadly usable than
+[Signature-restricted Proper Tail Calls](Semantics.md#signature-restricted-proper-tail-calls),
+though there would be some different performance characteristics.
+
+
+[future trapping]: FutureFeatures.md#trapping-or-non-trapping-strategies
+[future garbage collection]: https://github.com/WebAssembly/design/issues/1079

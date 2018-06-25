@@ -24,7 +24,7 @@ There are two main benefits WebAssembly provides:
 2. By avoiding the simultaneous asm.js constraints of [AOT][]-[compilability][]
    and good performance even on engines without
    [specific asm.js optimizations][], a new standard makes it *much easier* to
-   add the [features :unicorn:][future features] required to reach native
+   add the [features :unicorn:][future general] required to reach native
    levels of performance.
 
   [experiments]: BinaryEncoding.md#why-a-binary-encoding-instead-of-a-text-only-representation
@@ -96,10 +96,10 @@ reusing a modular C++ library can be as simple as [using a module from JavaScrip
 Beyond the MVP, another [high-level goal](HighLevelGoals.md)
 is to improve support for languages other than C/C++.  This includes [allowing WebAssembly code to
 allocate and access garbage-collected (JavaScript, DOM, Web API) objects
-:unicorn:][future dom].
+:unicorn:][future garbage collection].
 Even before GC support is added to WebAssembly, it is possible to compile a language's VM 
 to WebAssembly (assuming it's written in portable C/C++) and this has already been demonstrated 
-([1](http://ruby.dj), [2](https://kripken.github.io/lua.vm.js/lua.vm.js.html),
+([1](https://ruby.dj), [2](https://kripken.github.io/lua.vm.js/lua.vm.js.html),
 [3](https://syntensity.blogspot.com/2010/12/python-demo.html)).  However, "compile the VM" strategies 
 increase the size of distributed code, lose browser devtools integration, can have cross-language
 cycle-collection problems and miss optimizations that require integration with the browser.
@@ -178,14 +178,14 @@ together in a number of configurations:
   today) allowing developers to reuse popular WebAssembly libraries just like
   JavaScript libraries today.
 * When WebAssembly
-  [gains the ability to access garbage-collected objects :unicorn:][future dom],
+  [gains the ability to access garbage-collected objects :unicorn:][future garbage collection],
   those objects will be shared with JavaScript, and not live in a walled-off
   world of their own.
 
 
 ## Why not just use LLVM bitcode as a binary format?
 
-The [LLVM](http://llvm.org/) compiler infrastructure has a lot to recommend it:
+The [LLVM](https://llvm.org/) compiler infrastructure has a lot to recommend it:
 it has an existing intermediate representation (LLVM IR) and binary encoding
 format (bitcode). It has code generation backends targeting many architectures
 is actively developed and maintained by a large community. In fact
@@ -305,7 +305,7 @@ it, but fast-math flags are not believed to be important enough:
 
 ## What about `mmap`?
 
-The [`mmap`](http://pubs.opengroup.org/onlinepubs/009695399/functions/mmap.html)
+The [`mmap`](https://pubs.opengroup.org/onlinepubs/009695399/functions/mmap.html)
 syscall has many useful features. While these are all packed into one overloaded
 syscall in POSIX, WebAssembly unpacks this functionality into multiple
 operators:
@@ -379,18 +379,18 @@ those that motivated the development of the
 [x32 ABI](https://en.wikipedia.org/wiki/X32_ABI) for Linux.
 
 Even Knuth found it worthwhile to give us his opinion on this issue at point,
-[a flame about 64-bit pointers](http://www-cs-faculty.stanford.edu/~uno/news08.html).
+[a flame about 64-bit pointers](https://www-cs-faculty.stanford.edu/~uno/news08.html).
 
 ## Will I be able to access proprietary platform APIs (e.g. Android / iOS)?
 
 Yes but it will depend on the _WebAssembly embedder_. Inside a browser you'll 
 get access to the same HTML5 and other browser-specific APIs which are also 
-accessible through regular JavaScript. However, if a Wasm VM is provided as an 
+accessible through regular JavaScript. However, if a wasm VM is provided as an 
 [“app execution platform”](NonWeb.md) by a specific vendor, it might provide 
 access to [proprietary platform-specific APIs](Portability.md#api) of e.g. 
 Android / iOS. 
 
-[future features]: FutureFeatures.md
-[future dom]: FutureFeatures.md#gcdom-integration
+[future general]: FutureFeatures.md
+[future garbage collection]: https://github.com/WebAssembly/design/issues/1079
 [future floating point]: FutureFeatures.md#additional-floating-point-operators
 [future memory control]: FutureFeatures.md#finer-grained-control-over-memory
