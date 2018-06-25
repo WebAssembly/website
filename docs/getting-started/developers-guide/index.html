@@ -21,7 +21,7 @@
       <a class="site-nav-item btn" href="/getting-started/developers-guide/">Getting Started</a>
       
       
-      <a class="site-nav-item btn" href="/docs/high-level-goals/">Docs</a>
+      <a class="site-nav-item btn" href="">Docs</a>
       <a class="site-nav-item btn" href="https://webassembly.github.io/spec/">Spec</a>
       <a class="site-nav-item btn" href="/community/feedback/">Community</a>
       <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
@@ -51,6 +51,59 @@
 
 <p>This page provides step-by-step instructions to compile a simple program directly to WebAssembly.</p>
 
+<h2 id="windows-10-installation">Windows 10 installation</h2>
+<p>The easiest way to get set up on Windows 10 is to use one of the Linux subsystem installations available in the Microsoft Store.</p>
+
+<p>To get the installation working:</p>
+<ol>
+  <li>Install the Windows Subsystem for Linux using the instructions here: <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">https://docs.microsoft.com/en-us/windows/wsl/install-win10</a>.
+Any flavour of Linux should work, however these instructions assume you install the <a href="https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6?rtc=1">Ubuntu</a> Linux distribution.</li>
+  <li>After you’ve set up the Linux subsystem, from the Linux command line you need to install python 2.7. Type the following commands:
+    <ul>
+      <li>sudo apt update</li>
+      <li>sudo apt upgrade</li>
+      <li>sudo apt install python2.7 python-pip</li>
+    </ul>
+  </li>
+  <li>Install the Emscripten SDK by following the instructions below under the heading ‘Downloading the Toolchain’</li>
+</ol>
+
+<h2 id="windows-7-and-earlier-installation">Windows 7 and earlier installation</h2>
+<p>Windows versions prior to 10 don’t support the Linux susbsytem. To install on earlier versions of Windows do the following:</p>
+<ol>
+  <li>Go to the Emscripten SDK page at <a href="https://github.com/juj/emsdk">https://github.com/juj/emsdk</a></li>
+  <li>Click the ‘Clone or Download’ button</li>
+  <li>Choose the ‘Download ZIP’ option</li>
+  <li>Unpack the downloaded ZIP file somewhere on your file system</li>
+  <li>From a command shell, go into the directory where you unpacked the ZIP file using <b>cd “where-you-unpacked-the-zip”</b></li>
+  <li>Run these commands from the command line:
+    <ul>
+      <li>emsdk update</li>
+      <li>emsdk install latest</li>
+      <li>emsdk activate latest</li>
+      <li>emsdk_env.bat</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Note: If you are using Visual Studio 2017, <code class="highlighter-rouge">emsdk install</code> should be appended with the argument <code class="highlighter-rouge">--vs2017</code>.</p>
+
+<h2 id="mac-os-x-and-linux-installation">Mac OS X and Linux installation</h2>
+<p>If you’re on OS X or Linux, SDK installation should be straightfoward by opening a shell terminal and following the instructions below under the next heading ‘Downloading the Toolchain’.</p>
+
+<h2 id="downloading-the-toolchain">Downloading the Toolchain</h2>
+<p>A precompiled toolchain to compile C/C++ to WebAssembly is easily obtained via GitHub.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ git clone https://github.com/juj/emsdk.git
+$ cd emsdk
+$ ./emsdk install latest
+$ ./emsdk activate latest
+</code></pre>
+</div>
+
+<h2 id="compiling-the-toolchain-for-unsupported-linux-distributions-or-just-for-fun">Compiling the Toolchain for unsupported Linux distributions or just for fun</h2>
+<p>If you are running a Linux distribution for which Emscripten toolchain is not available precompiled (currently Ubuntu 16.04 works best), or if you want to build the whole toolchain from source, Emscripten SDK can also be used to drive the build. The required steps are as follows.</p>
+
 <h3 id="prerequisites">Prerequisites</h3>
 <p>To compile to WebAssembly, some prerequisite tools are needed:</p>
 
@@ -63,18 +116,6 @@
 
 <p>After installing, make sure that <code class="highlighter-rouge">git</code>, <code class="highlighter-rouge">cmake</code> and <code class="highlighter-rouge">python</code> are accessible in PATH. Technically, CMake and a system compiler may not be needed if using a precompiled toolchain, but development options may be a bit limited without them.</p>
 
-<h3 id="downloading-or-compiling-the-toolchain">Downloading or Compiling the Toolchain</h3>
-<p>A precompiled toolchain to compile C/C++ to WebAssembly is easily obtained via GitHub.</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code>$ git clone https://github.com/juj/emsdk.git
-$ cd emsdk
-$ ./emsdk install latest
-$ ./emsdk activate latest
-</code></pre>
-</div>
-
-<p>If you are running a Linux distribution for which Emscripten toolchain is not available precompiled (currently Ubuntu 16.04 works best), or if you want to build the whole toolchain from source, Emscripten SDK can also be used to drive the build. The required steps are as follows.</p>
-
 <div class="highlighter-rouge"><pre class="highlight"><code>$ git clone https://github.com/juj/emsdk.git
 $ cd emsdk
 $ ./emsdk install --build=Release sdk-incoming-64bit binaryen-master-64bit
@@ -82,7 +123,8 @@ $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
 </code></pre>
 </div>
 
-<p>After these steps, the installation is complete. To enter an Emscripten compiler environment in the current command line prompt after downloading a precompiled toolchain or building your own, type</p>
+<h2 id="environment-setup-after-installation-non-windows-7-installs">Environment setup after installation (non Windows 7 installs)</h2>
+<p>After installing or compiling the SDK, the installation is complete. To enter an Emscripten compiler environment in the current command line prompt after downloading a precompiled toolchain or building your own, type</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>$ source ./emsdk_env.sh --build=Release
 </code></pre>
@@ -90,11 +132,7 @@ $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
 
 <p>This command adds relevant environment variables and directory entries to PATH to set up the current terminal for easy access to the compiler tools.</p>
 
-<p>On Windows, replace <code class="highlighter-rouge">./emsdk</code> with just <code class="highlighter-rouge">emsdk</code>, and <code class="highlighter-rouge">source ./emsdk_env.sh</code> with <code class="highlighter-rouge">emsdk_env</code> above.</p>
-
-<p>If you are using Visual Studio 2017, <code class="highlighter-rouge">emsdk install</code> should append with arg <code class="highlighter-rouge">--vs2017</code>.</p>
-
-<h3 id="compile-and-run-a-simple-program">Compile and run a simple program</h3>
+<h2 id="compile-and-run-a-simple-program">Compile and run a simple program</h2>
 <p>We now have a full toolchain we can use to compile a simple program to WebAssembly. There are a few remaining caveats, however:</p>
 
 <ul>
