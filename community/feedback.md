@@ -6,22 +6,26 @@ layout: community
 
 We welcome community and developer feedback on all aspects of WebAssembly, including the high-level design, binary format, JS API, developer experience, and browser implementations.
 
+<!--
 <div class="flash flash-warn">
   We're especially interested in hearing from developers during the <a href="/roadmap/">Browser Preview</a> period, while WebAssembly is still implemented behind a flag.
 </div>
+-->
 
 Please contribute your feedback or issues in the following forums:
 
-  - High level design, binary format, and JS API feedback: [WebAssembly/design][]
+  - High level design feedback: [WebAssembly/design][]
+  - Specification bugs / suggestions: [WebAssembly/spec][]
+  - Test suite / reference interpreter issues: [WebAssembly/spec][]
   - Emscripten / Binaryen / LLVM issues: [WebAssembly/binaryen][]
   - WABT issues: [WebAssembly/wabt][]
   - V8 / Chrome bugs: [crbug.com/v8][]
   - SpiderMonkey / Firefox bugs: [bugzilla.mozilla.org][]
   - Chakra / Edge bugs: [Microsoft/ChakraCore][]
-  - Documentation typos / suggestions: [WebAssembly/design][]
   - Website bugs: [WebAssembly/website][]
 
 [WebAssembly/design]: https://github.com/WebAssembly/design
+[WebAssembly/spec]: https://github.com/WebAssembly/spec
 [WebAssembly/binaryen]: https://github.com/WebAssembly/binaryen
 [WebAssembly/wabt]: https://github.com/WebAssembly/wabt
 [crbug.com/v8]: https://bugs.chromium.org/p/v8/issues/entry?template=WASM%20issue
