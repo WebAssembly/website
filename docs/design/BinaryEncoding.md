@@ -64,7 +64,7 @@ opcodes.
 
 ## Language Types
 
-All types are distinguished by a negative `varint7` values that is the first byte of their encoding (representing a type constructor):
+All types are distinguished by a negative `varint7` value that is the first byte of their encoding (representing a type constructor):
 
 | Opcode | Type constructor |
 |--------|------------------|
