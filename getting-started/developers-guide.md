@@ -20,7 +20,7 @@ To get the installation working:
 
 ## Windows 7 and earlier installation
 Windows versions prior to 10 don't support the Linux susbsytem. To install on earlier versions of Windows do the following:
-1. Go to the Emscripten SDK page at [https://github.com/juj/emsdk](https://github.com/juj/emsdk)
+1. Go to the Emscripten SDK page at [https://github.com/emscripten-core/emsdk](https://github.com/emscripten-core/emsdk)
 2. Click the 'Clone or Download' button
 3. Choose the 'Download ZIP' option
 4. Unpack the downloaded ZIP file somewhere on your file system
@@ -39,7 +39,7 @@ If you're on OS X or Linux, SDK installation should be straightfoward by opening
 ## Downloading the Toolchain
 A precompiled toolchain to compile C/C++ to WebAssembly is easily obtained via GitHub.
 
-    $ git clone https://github.com/juj/emsdk.git
+    $ git clone https://github.com/emscripten-core/emsdk.git
     $ cd emsdk
     $ ./emsdk install latest
     $ ./emsdk activate latest
@@ -57,7 +57,7 @@ To compile to WebAssembly, some prerequisite tools are needed:
 
 After installing, make sure that `git`, `cmake` and `python` are accessible in PATH. Technically, CMake and a system compiler may not be needed if using a precompiled toolchain, but development options may be a bit limited without them.
 
-    $ git clone https://github.com/juj/emsdk.git
+    $ git clone https://github.com/emscripten-core/emsdk.git
     $ cd emsdk
     $ ./emsdk install --build=Release sdk-incoming-64bit binaryen-master-64bit
     $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit

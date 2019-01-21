@@ -71,7 +71,7 @@ Any flavour of Linux should work, however these instructions assume you install 
 <h2 id="windows-7-and-earlier-installation">Windows 7 and earlier installation</h2>
 <p>Windows versions prior to 10 don’t support the Linux susbsytem. To install on earlier versions of Windows do the following:</p>
 <ol>
-  <li>Go to the Emscripten SDK page at <a href="https://github.com/juj/emsdk">https://github.com/juj/emsdk</a></li>
+  <li>Go to the Emscripten SDK page at <a href="https://github.com/emscripten-core/emsdk">https://github.com/emscripten-core/emsdk</a></li>
   <li>Click the ‘Clone or Download’ button</li>
   <li>Choose the ‘Download ZIP’ option</li>
   <li>Unpack the downloaded ZIP file somewhere on your file system</li>
@@ -94,7 +94,7 @@ Any flavour of Linux should work, however these instructions assume you install 
 <h2 id="downloading-the-toolchain">Downloading the Toolchain</h2>
 <p>A precompiled toolchain to compile C/C++ to WebAssembly is easily obtained via GitHub.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/juj/emsdk.git
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/emscripten-core/emsdk.git
 $ cd emsdk
 $ ./emsdk install latest
 $ ./emsdk activate latest
@@ -115,7 +115,7 @@ $ ./emsdk activate latest
 
 <p>After installing, make sure that <code class="highlighter-rouge">git</code>, <code class="highlighter-rouge">cmake</code> and <code class="highlighter-rouge">python</code> are accessible in PATH. Technically, CMake and a system compiler may not be needed if using a precompiled toolchain, but development options may be a bit limited without them.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/juj/emsdk.git
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/emscripten-core/emsdk.git
 $ cd emsdk
 $ ./emsdk install --build=Release sdk-incoming-64bit binaryen-master-64bit
 $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
