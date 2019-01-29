@@ -1,6 +1,6 @@
 ---
 layout: default
-lead: WebAssembly (abbreviated <i>Wasm</i>) is a binary instruction format for a stack-based virtual machine. Wasm is designed as a portable target for compilation of high-level languages like C/C++/Rust, enabling deployment on the web for client and server applications.
+lead: WebAssembly (abbreviated <i>Wasm</i>) is a binary instruction format for a stack-based virtual machine. Wasm is designed as a portable target for compilation of high-level languages like C/C++/Rust/Go, enabling deployment on the web for client and server applications.
 ---
 <div class="flash flash-warn">
   Developer reference documentation for Wasm can be found on <a href="https://developer.mozilla.org/en-US/docs/WebAssembly">MDN's WebAssembly pages</a>.
