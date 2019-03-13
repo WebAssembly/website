@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>JavaScript API - WebAssembly</title>
@@ -54,7 +53,7 @@
 
 <p>In the <a href="../mvp/">MVP</a>, the only way to access WebAssembly on the Web is through
 an explicit JS API which is defined below.
-(In the <a href="../future-features/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, WebAssembly may also
+(In the <a href="../future-features/">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>, WebAssembly may also
 be loaded and run directly from an HTML <code class="highlighter-rouge">&lt;script type='module'&gt;</code> tag—and
 any other Web API that loads ES6 modules via URL—as part of 
 <a href="../modules/#integration-with-es6-modules">ES6 Module integration</a>.)</p>
@@ -137,10 +136,8 @@ property is the String value <code class="highlighter-rouge">"WebAssembly"</code
 
 <p>The <code class="highlighter-rouge">validate</code> function has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>Boolean validate(BufferSource bytes)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Boolean validate(BufferSource bytes)
+</code></pre></div></div>
 
 <p>If the given <code class="highlighter-rouge">bytes</code> argument is not a
 <a href="https://heycam.github.io/webidl/#common-BufferSource"><code class="highlighter-rouge">BufferSource</code></a>,
@@ -153,10 +150,8 @@ specification</a> and returns <code class="highlighter-rouge">true</code> if val
 
 <p>The <code class="highlighter-rouge">compile</code> function has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>Promise&lt;WebAssembly.Module&gt; compile(BufferSource bytes)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Promise&lt;WebAssembly.Module&gt; compile(BufferSource bytes)
+</code></pre></div></div>
 
 <p>If the given <code class="highlighter-rouge">bytes</code> argument is not a
 <a href="https://heycam.github.io/webidl/#common-BufferSource"><code class="highlighter-rouge">BufferSource</code></a>,
@@ -181,16 +176,14 @@ If neither of the following overloads match, then the returned <code class="high
 <a href="https://tc39.github.io/ecma262/#sec-rejectpromise">rejected</a>
 with a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>.</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>dictionary WebAssemblyInstantiatedSource {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dictionary WebAssemblyInstantiatedSource {
    required WebAssembly.Module module;
    required WebAssembly.Instance instance;
 };
 
 Promise&lt;WebAssemblyInstantiatedSource&gt;
   instantiate(BufferSource bytes [, importObject])
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>If the given <code class="highlighter-rouge">bytes</code> argument is not a
 <a href="https://heycam.github.io/webidl/#common-BufferSource"><code class="highlighter-rouge">BufferSource</code></a>,
@@ -203,7 +196,7 @@ and then queue a task to instantiate the resulting <code class="highlighter-roug
 <a href="#webassemblyinstance-constructor"><code class="highlighter-rouge">WebAssembly.Instance</code> constructor</a>. After the instantiation task runs
 and before any subsequent steps are taken, other unspecified asynchronous tasks may be run.
 On success, the <code class="highlighter-rouge">Promise</code> is <a href="https://tc39.github.io/ecma262/#sec-fulfillpromise">fulfilled</a>
-with a plain JavaScript object pair <code class="highlighter-rouge"><span class="p">{</span><span class="err">module,</span><span class="w"> </span><span class="err">instance</span><span class="p">}</span></code> containing the resulting
+with a plain JavaScript object pair <code class="highlighter-rouge">{module, instance}</code> containing the resulting
 <code class="highlighter-rouge">WebAssembly.Module</code> and <code class="highlighter-rouge">WebAssembly.Instance</code>. The 2 properties <code class="highlighter-rouge">module</code> and <code class="highlighter-rouge">instance</code> of the returned pair are  configurable, enumerable and writable.</p>
 
 <p>On failure, the <code class="highlighter-rouge">Promise</code> is
@@ -214,10 +207,8 @@ with a plain JavaScript object pair <code class="highlighter-rouge"><span class=
 the given <code class="highlighter-rouge">BufferSource</code> captured during the call to <code class="highlighter-rouge">instantiate</code>; subsequent mutations
 of the <code class="highlighter-rouge">BufferSource</code> after <code class="highlighter-rouge">instantiate</code> return do not affect ongoing compilations.</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>Promise&lt;WebAssembly.Instance&gt; instantiate(moduleObject [, importObject])
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Promise&lt;WebAssembly.Instance&gt; instantiate(moduleObject [, importObject])
+</code></pre></div></div>
 
 <p>This description applies if the first argument is a <code class="highlighter-rouge">WebAssembly.Module</code> instance.</p>
 
@@ -246,10 +237,8 @@ which is the spec definition of a module</li>
 
 <p>The <code class="highlighter-rouge">WebAssembly.Module</code> constructor has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>new Module(BufferSource bytes)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>new Module(BufferSource bytes)
+</code></pre></div></div>
 
 <p>If the NewTarget is <code class="highlighter-rouge">undefined</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 exception is thrown (i.e., this constructor cannot be called as a function without <code class="highlighter-rouge">new</code>).</p>
@@ -284,10 +273,8 @@ property is the String value <code class="highlighter-rouge">"WebAssembly.Module
 
 <p>The <code class="highlighter-rouge">exports</code> function has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>Array exports(moduleObject)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Array exports(moduleObject)
+</code></pre></div></div>
 
 <p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
@@ -295,7 +282,7 @@ is thrown.</p>
 <p>This function returns a new <code class="highlighter-rouge">Array</code> every time it is called. Each such <code class="highlighter-rouge">Array</code> is produced by mapping each
 <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L152"><code class="highlighter-rouge">Ast.export</code></a>
 <code class="highlighter-rouge">e</code> of <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L187">moduleObject.[[Module]].exports</a>
-to the Object <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">name:</span><span class="w"> </span><span class="err">String(e.name),</span><span class="w"> </span><span class="err">kind:</span><span class="w"> </span><span class="err">e.ekind</span><span class="w"> </span><span class="p">}</span></code> where <code class="highlighter-rouge">e.name</code> is <a href="../web/#names">decoded as UTF8</a>
+to the Object <code class="highlighter-rouge">{ name: String(e.name), kind: e.ekind }</code> where <code class="highlighter-rouge">e.name</code> is <a href="../web/#names">decoded as UTF8</a>
 and <code class="highlighter-rouge">e.ekind</code> is mapped to one of the String values <code class="highlighter-rouge">"function"</code>, <code class="highlighter-rouge">"table"</code>, <code class="highlighter-rouge">"memory"</code>, <code class="highlighter-rouge">"global"</code>.</p>
 
 <p>Note: other fields like <code class="highlighter-rouge">signature</code> may be added in the future.</p>
@@ -306,10 +293,8 @@ and <code class="highlighter-rouge">e.ekind</code> is mapped to one of the Strin
 
 <p>The <code class="highlighter-rouge">imports</code> function has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>Array imports(moduleObject)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Array imports(moduleObject)
+</code></pre></div></div>
 
 <p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
@@ -317,7 +302,7 @@ is thrown.</p>
 <p>This function returns a new <code class="highlighter-rouge">Array</code> every time it is called. Each such <code class="highlighter-rouge">Array</code> is produced by mapping each
 <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L167"><code class="highlighter-rouge">Ast.import</code></a>
 <code class="highlighter-rouge">i</code> of <a href="https://github.com/WebAssembly/spec/blob/master/interpreter/spec/ast.ml#L203">moduleObject.[[Module]].imports</a>
-to the Object <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">module:</span><span class="w"> </span><span class="err">String(i.module_name),</span><span class="w"> </span><span class="err">name:</span><span class="w"> </span><span class="err">String(i.item_name),</span><span class="w"> </span><span class="err">kind:</span><span class="w"> </span><span class="err">i.ikind</span><span class="w"> </span><span class="p">}</span></code> where
+to the Object <code class="highlighter-rouge">{ module: String(i.module_name), name: String(i.item_name), kind: i.ikind }</code> where
 <code class="highlighter-rouge">i.module_name</code> and <code class="highlighter-rouge">i.item_name</code> are  <a href="../web/#names">decoded as UTF8</a> and
 <code class="highlighter-rouge">i.ikind</code> is mapped to one of the String values <code class="highlighter-rouge">"function"</code>, <code class="highlighter-rouge">"table"</code>, <code class="highlighter-rouge">"memory"</code>, <code class="highlighter-rouge">"global"</code>.</p>
 
@@ -329,10 +314,8 @@ to the Object <code class="highlighter-rouge"><span class="p">{</span><span clas
 
 <p>The <code class="highlighter-rouge">customSections</code> function has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>Array customSections(moduleObject, sectionName)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Array customSections(moduleObject, sectionName)
+</code></pre></div></div>
 
 <p>If <code class="highlighter-rouge">moduleObject</code> is not a <code class="highlighter-rouge">WebAssembly.Module</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
@@ -383,10 +366,8 @@ which is the WebAssembly spec definition of an instance</li>
 
 <p>The <code class="highlighter-rouge">WebAssembly.Instance</code> constructor has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>new Instance(moduleObject [, importObject])
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>new Instance(moduleObject [, importObject])
+</code></pre></div></div>
 
 <p>If the NewTarget is <code class="highlighter-rouge">undefined</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 exception is thrown (i.e., this
@@ -728,10 +709,8 @@ matches the current byte length of [[Memory]]</li>
 
 <p>The <code class="highlighter-rouge">WebAssembly.Memory</code> constructor has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>new Memory(memoryDescriptor)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>new Memory(memoryDescriptor)
+</code></pre></div></div>
 
 <p>If the NewTarget is <code class="highlighter-rouge">undefined</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 exception is thrown (i.e., this constructor cannot be called as a function without <code class="highlighter-rouge">new</code>).</p>
@@ -783,10 +762,8 @@ property is the String value <code class="highlighter-rouge">"WebAssembly.Memory
 
 <p>The <code class="highlighter-rouge">grow</code> method has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>grow(delta)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grow(delta)
+</code></pre></div></div>
 
 <p>Let <code class="highlighter-rouge">M</code> be the <code class="highlighter-rouge">this</code> value. If <code class="highlighter-rouge">M</code> is not a <code class="highlighter-rouge">WebAssembly.Memory</code>,
 a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
@@ -838,10 +815,8 @@ which can be simultaneously referenced by multiple <code class="highlighter-roug
 
 <p>The <code class="highlighter-rouge">WebAssembly.Table</code> constructor has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>new Table(tableDescriptor)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>new Table(tableDescriptor)
+</code></pre></div></div>
 
 <p>If the NewTarget is <code class="highlighter-rouge">undefined</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 exception is thrown (i.e., this constructor cannot be called as a function without <code class="highlighter-rouge">new</code>).</p>
@@ -853,7 +828,7 @@ is thrown.</p>
 If <code class="highlighter-rouge">element</code> is not the string <code class="highlighter-rouge">"anyfunc"</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.
 (Note: this check is intended to be relaxed in the
-<a href="../future-features/#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> to allow different element types.)</p>
+<a href="../future-features/#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> to allow different element types.)</p>
 
 <p>Let <code class="highlighter-rouge">initial</code> be <a href="#tononwrappinguint32"><code class="highlighter-rouge">ToNonWrappingUint32</code></a>(<a href="https://tc39.github.io/ecma262/#sec-get-o-p"><code class="highlighter-rouge">Get</code></a>(<code class="highlighter-rouge">tableDescriptor</code>, <code class="highlighter-rouge">"initial"</code>)).</p>
 
@@ -886,10 +861,8 @@ is thrown.</p>
 
 <p>The <code class="highlighter-rouge">grow</code> method has the signature:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>grow(delta)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grow(delta)
+</code></pre></div></div>
 
 <p>Let <code class="highlighter-rouge">T</code> be the <code class="highlighter-rouge">this</code> value. If <code class="highlighter-rouge">T</code> is not a <code class="highlighter-rouge">WebAssembly.Table</code>,
 a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
@@ -910,10 +883,8 @@ is thrown.</p>
 
 <p>This method has the following signature</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>get(index)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>get(index)
+</code></pre></div></div>
 
 <p>Let <code class="highlighter-rouge">T</code> be the <code class="highlighter-rouge">this</code> value. If <code class="highlighter-rouge">T</code> is not a <code class="highlighter-rouge">WebAssembly.Table</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
@@ -928,10 +899,8 @@ is thrown.</p>
 
 <p>This method has the following signature</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>set(index, value)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set(index, value)
+</code></pre></div></div>
 
 <p>Let <code class="highlighter-rouge">T</code> be the <code class="highlighter-rouge">this</code> value. If <code class="highlighter-rouge">T</code> is not a <code class="highlighter-rouge">WebAssembly.Table</code>, a <a href="https://tc39.github.io/ecma262/#sec-native-error-types-used-in-this-standard-typeerror"><code class="highlighter-rouge">TypeError</code></a>
 is thrown.</p>
@@ -1026,8 +995,7 @@ is thrown.</p>
 
 <p>and the following JavaScript, run in a browser:</p>
 
-<div class="language-javascript highlighter-rouge">
-<pre class="highlight"><code><span class="kd">var</span> <span class="nx">importObj</span> <span class="o">=</span> <span class="p">{</span><span class="na">js</span><span class="p">:</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">importObj</span> <span class="o">=</span> <span class="p">{</span><span class="na">js</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">import1</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"hello,"</span><span class="p">),</span>
     <span class="na">import2</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"world!"</span><span class="p">)</span>
 <span class="p">}};</span>
@@ -1038,8 +1006,7 @@ is thrown.</p>
 <span class="p">).</span><span class="nx">then</span><span class="p">(({</span><span class="nx">module</span><span class="p">,</span> <span class="nx">instance</span><span class="p">})</span> <span class="o">=&gt;</span>
     <span class="nx">instance</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">f</span><span class="p">()</span>
 <span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 
       </div>

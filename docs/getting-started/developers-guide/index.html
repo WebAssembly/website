@@ -94,12 +94,11 @@ Any flavour of Linux should work, however these instructions assume you install 
 <h2 id="downloading-the-toolchain">Downloading the Toolchain</h2>
 <p>A precompiled toolchain to compile C/C++ to WebAssembly is easily obtained via GitHub.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ git clone https://github.com/juj/emsdk.git
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/juj/emsdk.git
 $ cd emsdk
 $ ./emsdk install latest
 $ ./emsdk activate latest
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="compiling-the-toolchain-for-unsupported-linux-distributions-or-just-for-fun">Compiling the Toolchain for unsupported Linux distributions or just for fun</h2>
 <p>If you are running a Linux distribution for which Emscripten toolchain is not available precompiled (currently Ubuntu 16.04 works best), or if you want to build the whole toolchain from source, Emscripten SDK can also be used to drive the build. The required steps are as follows.</p>
@@ -116,19 +115,17 @@ $ ./emsdk activate latest
 
 <p>After installing, make sure that <code class="highlighter-rouge">git</code>, <code class="highlighter-rouge">cmake</code> and <code class="highlighter-rouge">python</code> are accessible in PATH. Technically, CMake and a system compiler may not be needed if using a precompiled toolchain, but development options may be a bit limited without them.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ git clone https://github.com/juj/emsdk.git
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/juj/emsdk.git
 $ cd emsdk
 $ ./emsdk install --build=Release sdk-incoming-64bit binaryen-master-64bit
 $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="environment-setup-after-installation-non-windows-7-installs">Environment setup after installation (non Windows 7 installs)</h2>
 <p>After installing or compiling the SDK, the installation is complete. To enter an Emscripten compiler environment in the current command line prompt after downloading a precompiled toolchain or building your own, type</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ source ./emsdk_env.sh --build=Release
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ source ./emsdk_env.sh --build=Release
+</code></pre></div></div>
 
 <p>This command adds relevant environment variables and directory entries to PATH to set up the current terminal for easy access to the compiler tools.</p>
 
@@ -157,9 +154,8 @@ $ <b>emcc hello.c -s WASM=1 -o hello.html</b>
 
 <p>To serve the compiled files over HTTP, we can use the <code class="highlighter-rouge">emrun</code> web server provided with the Emscripten SDK:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$ emrun --no_browser --port 8080 .
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ emrun --no_browser --port 8080 .
+</code></pre></div></div>
 
 <p>Once the HTTP server is running, you can <a href="http://localhost:8080/hello.html" target="_blank">open it in your browser</a>. If you see “Hello, world!” printed to the Emscripten console, then congratulations! You’ve successfully compiled to WebAssembly!</p>
 

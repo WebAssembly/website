@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>Design Rationale - WebAssembly</title>
@@ -250,7 +249,7 @@ flow). Alternative approaches can generate reducible control flow via node
 splitting, which can reduce throughput overhead, at the cost of increasing
 code size (potentially very significantly in pathological cases).
 Also,
-<a href="../future-features/#more-expressive-control-flow">more expressive control flow constructs <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+<a href="../future-features/#more-expressive-control-flow">more expressive control flow constructs <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>
 may be added in the future.</p>
 
 <h2 id="nop">Nop</h2>
@@ -516,8 +515,8 @@ hardware platforms.</p>
 
 <ol>
   <li>
-<a href="../future-features/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
-<a href="../future-features/#additional-integer-operations"><code class="highlighter-rouge">i32.min_s</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> is introduced. A
+<a href="../future-features/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>,
+<a href="../future-features/#additional-integer-operations"><code class="highlighter-rouge">i32.min_s</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> is introduced. A
 WebAssembly developer updates their toolkit so that the compiler may leverage
 <code class="highlighter-rouge">i32.min_s</code>. The developer’s WebAssembly module works correctly both on
 execution environments at MVP, as well as those supporting <code class="highlighter-rouge">i32.min_s</code>.</li>
@@ -534,7 +533,7 @@ from the combinations of possible feature configurations.</li>
 
 <ol>
   <li>
-<a href="../future-features/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, module authors may now use
+<a href="../future-features/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>, module authors may now use
 <a href="https://github.com/WebAssembly/design/issues/1073">Threading</a>
 APIs in the browser. A developer wants to leverage multithreading in their
 module.</li>
@@ -676,12 +675,10 @@ In type system terms, the instruction can thus be said to be <em>polymorphic</em
 
 <p>Some of these properties are relevant to support certain compilation techniques without artificial complication for producers.
 As a small but representative example, consider a textbook one-pass compiler, which would often use something like the following scheme for compiling expressions:</p>
-<div class="highlighter-rouge">
-<pre class="highlight"><code>compile(A + B) = compile(A); compile(B); emit(i32.add)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>compile(A + B) = compile(A); compile(B); emit(i32.add)
 compile(A / B) = compile(A); compile(B); emit(dup i32.eqz (br_if $div_zero) drop i32.div)
 compile(A / 0) = compile(A); emit(br $div_zero)
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>The third case is a specialisation of the second, a simple optimisation.
 Without polymorphic typing of the <code class="highlighter-rouge">br</code> instruction, however, this simple scheme would not work, since <code class="highlighter-rouge">compile((x/0)+y)</code> would result in invalid code. Worse, it can lead to subtle compiler bugs.
 Similar situations arise in production compilers, for example, in the asm.js-to-wasm compilers that some of the WebAssembly VMs/tools are implementing.</p>

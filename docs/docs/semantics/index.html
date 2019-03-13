@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>Semantics - WebAssembly</title>
@@ -83,7 +82,7 @@ on all modern computers. Each operator has a corresponding simple instruction.</
 <p>The <a href="../rationale/">rationale</a> document details why WebAssembly is designed as
 detailed in this document.</p>
 
-<p><a href="../future-features/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> = Planned <a href="../future-features/">future</a> feature</p>
+<p><a href="../future-features/"><img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> = Planned <a href="../future-features/">future</a> feature</p>
 
 <h2 id="traps">Traps</h2>
 
@@ -112,7 +111,7 @@ expected that WebAssembly will add some form of stack-introspection
 functionality, in which case such optimizations would be directly observable.</p>
 
 <p>Support for explicit tail calls is planned in
-<a href="https://github.com/WebAssembly/design/issues/1144">the future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>,
+<a href="https://github.com/WebAssembly/design/issues/1144">the future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>,
 which would add an explicit tail-call operator with well-defined effects
 on stack introspection.</p>
 
@@ -160,7 +159,7 @@ variables, or other process memory.</p>
 linear memory which is the linear memory accessed by all the 
 <a href="#linear-memory-access">memory operators below</a>. In the MVP, there are <em>only</em>
 default linear memories but
-<a href="../future-features/#multiple-tables-and-memories">new memory operators <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+<a href="../future-features/#multiple-tables-and-memories">new memory operators <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>
 may be added after the MVP which can also access non-default memories.</p>
 
 <p>Linear memories (default or otherwise) can either be <a href="../modules/#imports">imported</a>
@@ -169,7 +168,7 @@ or definition, there is no difference when accessing a linear memory whether it
 was imported or defined internally.</p>
 
 <p>In the MVP, linear memory cannot be shared between threads of execution.
-The addition of <a href="https://github.com/WebAssembly/design/issues/1073">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> will allow this.</p>
+The addition of <a href="https://github.com/WebAssembly/design/issues/1073">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> will allow this.</p>
 
 <h3 id="linear-memory-accesses">Linear Memory Accesses</h3>
 
@@ -262,7 +261,7 @@ memory sizes are limited to 4 GiB (of course, actual sizes are further limited
 by <a href="../nondeterminism/">available resources</a>). In wasm64, address operands and
 offsets have type <code class="highlighter-rouge">i64</code>. The MVP only includes wasm32; subsequent versions
 will add support for wasm64 and thus
-<a href="../future-features/#linear-memory-bigger-than-4-gib">&gt;4 GiB linear memory <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
+<a href="../future-features/#linear-memory-bigger-than-4-gib">&gt;4 GiB linear memory <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>.</p>
 
 <h3 id="alignment">Alignment</h3>
 
@@ -306,7 +305,7 @@ bytes are out of bounds, none of the bytes are modified.</p>
 <p>In the MVP, linear memory can be resized by a <code class="highlighter-rouge">grow_memory</code> operator. The
 operand to this operator is in units of the WebAssembly page size,
 which is defined to be 64KiB (though large page support may be added in
-the <a href="../future-features/#large-page-support">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>).</p>
+the <a href="../future-features/#large-page-support">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>).</p>
 
 <ul>
   <li>
@@ -330,14 +329,14 @@ to perform a system allocation which may fail.</p>
 
 <p>As stated <a href="../semantics/#linear-memory">above</a>, linear memory is contiguous,
 meaning there are no “holes” in the linear address space. After the
-MVP, there are <a href="../future-features/#finer-grained-control-over-memory">future features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+MVP, there are <a href="../future-features/#finer-grained-control-over-memory">future features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>
 proposed to allow setting protection and creating mappings within the
 contiguous linear memory.</p>
 
 <p>In the MVP, memory can only be grown. After the MVP, a memory shrinking
 operator may be added. However, due to normal fragmentation, applications are
 instead expected release unused physical pages from the working set using the
-<a href="../future-features/#finer-grained-control-over-memory"><code class="highlighter-rouge">discard</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> future feature.</p>
+<a href="../future-features/#finer-grained-control-over-memory"><code class="highlighter-rouge">discard</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> future feature.</p>
 
 <p>The above operators operate on the <a href="#linear-memory">default linear memory</a>.</p>
 
@@ -379,7 +378,7 @@ this can only be done through the host environment (e.g., the <code class="highl
 <a href="../js/#webassemblytable-objects">JavaScript API</a>).</li>
 </ul>
 
-<p>These restrictions may be relaxed in the <a href="../future-features/#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
+<p>These restrictions may be relaxed in the <a href="../future-features/#more-table-operators-and-types">future <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>.</p>
 
 <h2 id="local-variables">Local variables</h2>
 
@@ -430,7 +429,7 @@ instantiation-time immutable values as a useful building block for
 
 <p>After the MVP, when <a href="../gc/">reference types</a> are added to the set of <a href="#types">value types</a>,
 global variables will be necessary to allow sharing reference types between
-<a href="https://github.com/WebAssembly/design/issues/1073">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> since shared linear memory cannot load or store
+<a href="https://github.com/WebAssembly/design/issues/1073">threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> since shared linear memory cannot load or store
 references.</p>
 
 <h2 id="control-constructs-and-instructions">Control constructs and instructions</h2>
@@ -699,7 +698,7 @@ supported.</li>
 </ul>
 
 <p>In the future, these limitations may be lifted, enabling
-<a href="../future-features/#full-ieee-754-2008-conformance">full IEEE 754-2008 support <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>.</p>
+<a href="../future-features/#full-ieee-754-2008-conformance">full IEEE 754-2008 support <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>.</p>
 
 <p>Note that not all operators required by IEEE 754-2008 are provided directly.
 However, WebAssembly includes enough functionality to support reasonable library

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>Web Embedding - WebAssembly</title>
@@ -83,12 +82,10 @@ In non-web embeddings, these APIs may not be present.</p>
 
 <h4 id="webassemblycompilestreaming"><code class="highlighter-rouge">WebAssembly.compileStreaming</code></h4>
 
-<p><img class="emoji" title=":cyclone:" alt=":cyclone:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f300.png" height="20" width="20" align="absmiddle"> Added for milestone 2, developers must feature detect.</p>
+<p><img class="emoji" title=":cyclone:" alt=":cyclone:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f300.png" height="20" width="20"> Added for milestone 2, developers must feature detect.</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>Promise&lt;WebAssembly.Module&gt; compileStreaming(source)
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Promise&lt;WebAssembly.Module&gt; compileStreaming(source)
+</code></pre></div></div>
 
 <p><em>This function accepts a <a href="https://fetch.spec.whatwg.org/#response-class"><code class="highlighter-rouge">Response</code></a> object, or a
 promise for one, and compiles the resulting bytes of the response. This compilation can be performed
@@ -128,17 +125,15 @@ stored in <em>reason</em>.</li>
 
 <h4 id="webassemblyinstantiatestreaming"><code class="highlighter-rouge">WebAssembly.instantiateStreaming</code></h4>
 
-<p><img class="emoji" title=":cyclone:" alt=":cyclone:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f300.png" height="20" width="20" align="absmiddle"> Added for milestone 2, developers must feature detect.</p>
+<p><img class="emoji" title=":cyclone:" alt=":cyclone:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f300.png" height="20" width="20"> Added for milestone 2, developers must feature detect.</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>dictionary WebAssemblyInstantiatedSource {
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dictionary WebAssemblyInstantiatedSource {
    required WebAssembly.Module module;
    required WebAssembly.Instance instance;
 };
 
 Promise&lt;InstantiatedSource&gt; instantiateStreaming(source [, importObject])
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><em>This function accepts a <a href="https://fetch.spec.whatwg.org/#response-class"><code class="highlighter-rouge">Response</code></a> object, or a
 promise for one, and compiles and instantiates the resulting bytes of the response. This compilation
@@ -406,16 +401,14 @@ imports or exports whose names do not transcode cleanly to UTF-16 according to
 the following conversion algorithm, assuming that the WebAssembly name is in a
 <code class="highlighter-rouge">Uint8Array</code> called <code class="highlighter-rouge">array</code>:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>function convertToJSString(array)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function convertToJSString(array)
 {
   var string = "";
   for (var i = 0; i &lt; array.length; ++i)
     string += String.fromCharCode(array[i]);
   return decodeURIComponent(escape(string));
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This performs the UTF8 decoding (<code class="highlighter-rouge">decodeURIComponent(escape(string))</code>) using
 a <a href="http://monsur.hossa.in/2012/07/20/utf-8-in-javascript.html">common JS idiom</a>.

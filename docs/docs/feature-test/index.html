@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>Feature Test - WebAssembly</title>
@@ -52,9 +51,9 @@
 
 <h1 id="feature-test">Feature Test</h1>
 
-<p><a href="../future-features/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>, applications will be able to query which features are
+<p><a href="../future-features/">Post-MVP <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>, applications will be able to query which features are
 supported via
-<a href="../future-features/#feature-testing"><code class="highlighter-rouge">has_feature</code> or a similar API <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>. This
+<a href="../future-features/#feature-testing"><code class="highlighter-rouge">has_feature</code> or a similar API <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>. This
 accounts for the pragmatic reality that features are shipped in different orders
 at different times by different engines.</p>
 
@@ -65,13 +64,11 @@ like.</p>
 module is validated ahead-of-time, the usual JavaScript feature detection
 pattern:</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>if (foo)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (foo)
     foo();
 else
     alternativeToFoo();
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>won’t work in WebAssembly (if <code class="highlighter-rouge">foo</code> isn’t supported, <code class="highlighter-rouge">foo()</code> will fail to
 validate).</p>
@@ -99,17 +96,17 @@ it can be constant-folded by WebAssembly engines.</p>
 
 <ul>
   <li>
-<a href="../future-features/#additional-integer-operators"><code class="highlighter-rouge">i32.min_s</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - Strategy 2
+<a href="../future-features/#additional-integer-operators"><code class="highlighter-rouge">i32.min_s</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> - Strategy 2
 could be used to translate <code class="highlighter-rouge">(i32.min_s lhs rhs)</code> into an equivalent expression
 that stores <code class="highlighter-rouge">lhs</code> and <code class="highlighter-rouge">rhs</code> in locals then uses <code class="highlighter-rouge">i32.lt_s</code> and <code class="highlighter-rouge">select</code>.</li>
   <li>
-<a href="https://github.com/WebAssembly/design/issues/1073">Threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - If an application uses <code class="highlighter-rouge">#ifdef</code> extensively
+<a href="https://github.com/WebAssembly/design/issues/1073">Threads <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> - If an application uses <code class="highlighter-rouge">#ifdef</code> extensively
 to produce thread-enabled/disabled builds, Strategy 1 would be appropriate.
 However, if the application was able to abstract use of threading to a few
 primitives, Strategy 2 could be used to patch in the right primitive 
 implementation.</li>
   <li>
-<a href="../future-features/#finer-grained-control-over-memory"><code class="highlighter-rouge">mprotect</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a> - If engines
+<a href="../future-features/#finer-grained-control-over-memory"><code class="highlighter-rouge">mprotect</code> <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> - If engines
 aren’t able to use OS signal handling to implement <code class="highlighter-rouge">mprotect</code> efficiently,
 <code class="highlighter-rouge">mprotect</code> may become a permanently optional feature. For uses of <code class="highlighter-rouge">mprotect</code>
 that are not necessary for correctness (but rather just catching bugs),
@@ -134,8 +131,7 @@ function (similar to the
 <a href="https://gcc.gnu.org/onlinedocs/gcc-4.7.2/gcc/Function-Attributes.html#index-g_t_0040code_007bifunc_007d-attribute-2529"><code class="highlighter-rouge">ifunc</code> attribute</a>,
 but without the callback):</p>
 
-<div class="highlighter-rouge">
-<pre class="highlight"><code>#include &lt;xmmintrin.h&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#include &lt;xmmintrin.h&gt;
 void foo(...) {
   __m128 x, y;           // -&gt; f32x4 locals
   ...
@@ -150,8 +146,7 @@ void foo_f64x2(...) __attribute__((optimizes("foo","f64x2"))) {
 }
 ...
 foo(...);                 // calls either foo or foo_f64x2
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>In this example, the toolchain could emit both <code class="highlighter-rouge">foo</code> and <code class="highlighter-rouge">foo_f64x2</code> as
 function definitions in the “specific layer” binary format. The load-time
@@ -160,7 +155,7 @@ polyfill would then replace <code class="highlighter-rouge">foo</code> with <cod
 coarser granularity substitution. Since this is all in userspace, the strategy
 can evolve over time.</p>
 
-<p>See also the <a href="../future-features/#feature-testing">better feature testing support <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f984.png" height="20" width="20" align="absmiddle"></a>
+<p>See also the <a href="../future-features/#feature-testing">better feature testing support <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>
 future feature.</p>
 
 
