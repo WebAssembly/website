@@ -1,5 +1,7 @@
 # Binary Encoding
 
+## Note: This document is no longer being updated. Please see the [normative documentation](http://webassembly.github.io/spec/core/binary/index.html).
+
 This document describes the [portable](Portability.md) binary encoding of the WebAssembly modules.
 
 The binary encoding is a dense representation of module information that enables
@@ -548,7 +550,7 @@ It is legal to have several entries with the same type.
 | type | `value_type` | type of the variables |
 
 
-## Control flow operators ([described here](Semantics.md#control-flow-structures))
+## Control flow operators ([described here](Semantics.md#control-constructs-and-instructions))
 
 | Name | Opcode | Immediates | Description |
 | ---- | ---- | ---- | ---- |
@@ -775,7 +777,7 @@ for [future :unicorn:][future multiple tables] use and must be 0 in the MVP.
 | `f64.max` | `0xa5` | | |
 | `f64.copysign` | `0xa6` | | |
 
-## Conversions ([described here](Semantics.md#datatype-conversions))
+## Conversions ([described here](Semantics.md#datatype-conversions-truncations-reinterpretations-promotions-and-demotions))
 
 | Name | Opcode | Immediate | Description |
 | ---- | ---- | ---- | ---- |
@@ -801,7 +803,7 @@ for [future :unicorn:][future multiple tables] use and must be 0 in the MVP.
 | `f64.convert_u/i64` | `0xba` | | |
 | `f64.promote/f32` | `0xbb` | | |
 
-## Reinterpretations ([described here](Semantics.md#datatype-conversions))
+## Reinterpretations ([described here](Semantics.md#datatype-conversions-truncations-reinterpretations-promotions-and-demotions))
 
 | Name | Opcode | Immediate | Description |
 | ---- | ---- | ---- | ---- |
