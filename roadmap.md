@@ -23,7 +23,7 @@ The WebAssembly community group and contributors plan to:
   into a single unified specification in the [spec](https://github.com/WebAssembly/spec)
   repo
 * propose a new charter for a W3C WebAssembly Working Group
-* graduate the [WebAssembly LLVM backend](https://github.com/llvm/llvm-project/tree/master/test/CodeGen/WebAssembly) from experimental to stable (and update Emscripten)
+* graduate the [WebAssembly LLVM backend](https://github.com/llvm/llvm-project/tree/master/llvm/test/CodeGen/WebAssembly) from experimental to stable (and update Emscripten)
 * prototype additional WebAssembly integration into browser developer tools
 * Start work on [post-MVP features](/docs/future-features/)
 
