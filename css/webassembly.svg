@@ -11,6 +11,7 @@
     </style>
   </defs>
   <title>web-assembly-logo</title>
+  <a href="/" xlink:href="/">
   <g id="Layer_2" data-name="Layer 2">
     <g id="Notch_-_Purple" data-name="Notch - Purple">
       <g>
@@ -32,4 +33,5 @@
       </g>
     </g>
   </g>
+  </a>
 </svg>
