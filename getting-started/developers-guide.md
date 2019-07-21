@@ -72,7 +72,6 @@ This command adds relevant environment variables and directory entries to PATH t
 ## Compile and run a simple program
 We now have a full toolchain we can use to compile a simple program to WebAssembly. There are a few remaining caveats, however:
 
-- We have to pass the linker flag `-s WASM=1` to `emcc` (otherwise by default `emcc` will emit asm.js).
 - If we want Emscripten to generate an HTML page that runs our program, in addition to the Wasm binary and JavaScript wrapper, we have to specify an output filename with a `.html` extension.
 - Finally, to actually run the program, we cannot simply open the HTML file in a web browser because cross-origin requests are not supported for the `file` protocol scheme. We have to actually serve the output files over HTTP.
 
@@ -87,7 +86,7 @@ int main(int argc, char ** argv) {
   printf("Hello, world!\n");
 }
 EOF
-$ <b>emcc hello.c -s WASM=1 -o hello.html</b>
+$ <b>emcc hello.c -o hello.html</b>
 </pre>
 
 To serve the compiled files over HTTP, we can use the `emrun` web server provided with the Emscripten SDK:
