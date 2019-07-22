@@ -132,7 +132,6 @@ $ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
 <p>We now have a full toolchain we can use to compile a simple program to WebAssembly. There are a few remaining caveats, however:</p>
 
 <ul>
-  <li>We have to pass the linker flag <code class="highlighter-rouge">-s WASM=1</code> to <code class="highlighter-rouge">emcc</code> (otherwise by default <code class="highlighter-rouge">emcc</code> will emit asm.js).</li>
   <li>If we want Emscripten to generate an HTML page that runs our program, in addition to the Wasm binary and JavaScript wrapper, we have to specify an output filename with a <code class="highlighter-rouge">.html</code> extension.</li>
   <li>Finally, to actually run the program, we cannot simply open the HTML file in a web browser because cross-origin requests are not supported for the <code class="highlighter-rouge">file</code> protocol scheme. We have to actually serve the output files over HTTP.</li>
 </ul>
@@ -148,7 +147,7 @@ int main(int argc, char ** argv) {
   printf("Hello, world!\n");
 }
 EOF
-$ <b>emcc hello.c -s WASM=1 -o hello.html</b>
+$ <b>emcc hello.c -o hello.html</b>
 </pre>
 
 <p>To serve the compiled files over HTTP, we can use the <code class="highlighter-rouge">emrun</code> web server provided with the Emscripten SDK:</p>
