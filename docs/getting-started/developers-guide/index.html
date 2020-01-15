@@ -50,46 +50,6 @@
 
 <p>This page provides step-by-step instructions to compile a simple program directly to WebAssembly.</p>
 
-<h2 id="windows-10-installation">Windows 10 installation</h2>
-<p>The easiest way to get set up on Windows 10 is to use one of the Linux subsystem installations available in the Microsoft Store.</p>
-
-<p>To get the installation working:</p>
-<ol>
-  <li>Install the Windows Subsystem for Linux using the instructions here: <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10">https://docs.microsoft.com/en-us/windows/wsl/install-win10</a>.
-Any flavour of Linux should work, however these instructions assume you install the <a href="https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6?rtc=1">Ubuntu</a> Linux distribution.</li>
-  <li>After you’ve set up the Linux subsystem, from the Linux command line you need to install python 2.7. Type the following commands:
-    <ul>
-      <li>sudo apt update</li>
-      <li>sudo apt upgrade</li>
-      <li>sudo apt install python2.7 python-pip</li>
-    </ul>
-  </li>
-  <li>Install the Emscripten SDK by following the instructions below under the heading ‘Downloading the Toolchain’</li>
-</ol>
-
-<h2 id="windows-7-and-earlier-installation">Windows 7 and earlier installation</h2>
-<p>Windows versions prior to 10 don’t support the Linux susbsytem. To install on earlier versions of Windows do the following:</p>
-<ol>
-  <li>Go to the Emscripten SDK page at <a href="https://github.com/emscripten-core/emsdk">https://github.com/emscripten-core/emsdk</a></li>
-  <li>Click the ‘Clone or Download’ button</li>
-  <li>Choose the ‘Download ZIP’ option</li>
-  <li>Unpack the downloaded ZIP file somewhere on your file system</li>
-  <li>From a command shell, go into the directory where you unpacked the ZIP file using <b>cd “where-you-unpacked-the-zip”</b></li>
-  <li>Run these commands from the command line:
-    <ul>
-      <li>emsdk update</li>
-      <li>emsdk install latest</li>
-      <li>emsdk activate latest</li>
-      <li>emsdk_env.bat</li>
-    </ul>
-  </li>
-</ol>
-
-<p>Note: If you are using Visual Studio 2017, <code class="highlighter-rouge">emsdk install</code> should be appended with the argument <code class="highlighter-rouge">--vs2017</code>.</p>
-
-<h2 id="mac-os-x-and-linux-installation">Mac OS X and Linux installation</h2>
-<p>If you’re on OS X or Linux, SDK installation should be straightfoward by opening a shell terminal and following the instructions below under the next heading ‘Downloading the Toolchain’.</p>
-
 <h2 id="downloading-the-toolchain">Downloading the Toolchain</h2>
 <p>A precompiled toolchain to compile C/C++ to WebAssembly is easily obtained via GitHub.</p>
 
@@ -103,7 +63,7 @@ $ ./emsdk activate latest
 <p>If you are running a Linux distribution for which Emscripten toolchain is not available precompiled (currently Ubuntu 16.04 works best), or if you want to build the whole toolchain from source, Emscripten SDK can also be used to drive the build. The required steps are as follows.</p>
 
 <h3 id="prerequisites">Prerequisites</h3>
-<p>To compile to WebAssembly, some prerequisite tools are needed:</p>
+<p>To compile the WebAssembly toolchain, some prerequisite tools are needed:</p>
 
 <ul>
   <li>Git. On Linux and OS X this is likely already present. On Windows download the <a href="https://git-scm.com/">Git for Windows</a> installer.</li>
