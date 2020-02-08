@@ -17,17 +17,17 @@ This toolkit supports conversion between the binary WebAssembly format into and 
 
 Note, that the S-expression format supported by WABT is not WebAssembly itself. It's one of many possible text formats that could represent the content of a WebAssembly file, so it's been developed as a convenient format for the purposes of decode and encode by WABT tools. Developers could easily build decoder/encoder implementations for any other textual format capable of expressing the WebAssembly stack machine semantics.
 
-### wasm2wast tool
+### wasm2wat tool
 
 This tool converts WebAssembly binary into S-expressions. It is a command line tool that takes a binary file as input and generates an output file containing the readable text.
 
 Developers could edit or manipulate the text file in some other way and convert it back into the binary format for things like trying out optimization algorithms, tracing, inserting debugging hooks, etc.
 
-### wast2wasm tool
+### wat2wasm tool
 
-This command line tool performs the inverse of **wasm2wast**, i.e. it converts the S-expression WAST file into a binary WebAssembly file.
+This command line tool performs the inverse of **wasm2wat**, i.e. it converts the S-expression WAT file into a binary WebAssembly file.
 
-Using **wasm2wast** and **wast2wasm** together allows lossless round tripping of WebAssembly binaries, and provides developers with a convenient way to manipulate the content of WebAssembly binaries using external tools.
+Using **wasm2wat** and **wat2wasm** together allows lossless round tripping of WebAssembly binaries, and provides developers with a convenient way to manipulate the content of WebAssembly binaries using external tools.
 
 #### wasm-interp tool
 
