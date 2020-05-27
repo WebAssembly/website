@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>Specifications - WebAssembly</title>
+  <link rel="stylesheet" type="text/css" href="/css/custom.css">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+</head>
+
+
+<body>
+  <header class="page-section">
+    <div class="container-narrow">
+    <div class="site-logo">
+    </div>
+    <nav class="site-nav">
+      <a class="site-nav-item btn" href="/">Overview</a>
+      <a class="site-nav-item btn" href="/getting-started/developers-guide/">Getting Started</a>
+      
+      
+      <a class="site-nav-item btn" href="/docs/high-level-goals/">Docs</a>
+      <a class="site-nav-item btn" href="/specs">Specs</a>
+      <a class="site-nav-item btn" href="/community/feedback/">Community</a>
+      <a class="site-nav-item btn" href="/roadmap/">Roadmap</a>
+      <a class="site-nav-item btn" href="/docs/faq/">FAQ</a>
+    </nav>
+    </div>
+  </header>
+  <section class="banner-update">
+    <div class="container-narrow">
+      <div class="banner-update-icon"></div>
+      <span class="banner-update-date"></span>
+      <span>WebAssembly 1.0 has shipped in 4 major browser engines.
+        &nbsp;<img width="48px" src="/images/firefox.svg"/>
+        &nbsp;<img width="48px" src="/images/chrome.svg"/>
+        &nbsp;<img width="48px" srcset="/images/safari_48x48.png, /images/safari_96x96.png 2x, /images/safari_144x144.png 3x" src="/images/safari_48x48.png"/>
+        &nbsp;<img width="48px" src="/images/edge.svg"/>
+        &nbsp;&#8203;<a href="/roadmap/">Learn&nbsp;more</a></span>
+    </div>
+  </section>
+  
+
+<section>
+  <div class="container-narrow">  
+  <h1 id="specifications">Specifications</h1>
+
+<ul>
+  <li><a href="https://github.com/WebAssembly/design">Design documents</a>: documents describing the design, goals and high-level overview of WebAssembly.</li>
+  <li><a href="https://webassembly.github.io/spec/core/">Core specification</a>: defines the semantics of WebAssembly modules independent from a concrete embedding. The WebAssembly core is specified in a single document.</li>
+  <li>Embedding interfaces:
+    <ul>
+      <li><a href="https://webassembly.github.io/spec/js-api/index.html">JavaScript API</a>: defines JavaScript classes and objects for accessing WebAssembly from within JavaScript, including methods for validation, compilation, instantiation, and classes for representing and manipulating imports and exports as JavaScript objects.</li>
+      <li><a href="https://webassembly.github.io/spec/web-api/index.html">Web API</a>: defines extensions to the JavaScript API made available specifically in web browsers, in particular, an interface for streaming compilation and instantiation from origin-bound <code class="highlighter-rouge">Response</code> types.</li>
+      <li><a href="https://github.com/WebAssembly/WASI/blob/master/phases/snapshot/docs.md">WASI API</a>: defines a modular system interface to run WebAssembly outside the web, providing access to things like files, network connections, clocks, and random numbers.</li>
+    </ul>
+  </li>
+  <li><a href="https://github.com/WebAssembly/tool-conventions">Tool conventions</a>: repository describing non-standard conventions useful for coordinating interoperability between tools working with WebAssembly. This includes conventions for linking schemes, debugging information, language ABIs and more.</li>
+</ul>
+
+  </div>
+</section>
+</body>
+</html>
+
