@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>Developer’s Guide - WebAssembly</title>
+  <title>I want to… - WebAssembly</title>
   <link rel="stylesheet" type="text/css" href="/css/custom.css">
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
@@ -46,76 +46,51 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12 col-lg-9 col-pop">
-        <h1 id="developers-guide">Developer’s Guide</h1>
-
-<p>This page provides step-by-step instructions to compile a simple program directly to WebAssembly.</p>
-
-<h2 id="downloading-the-toolchain">Downloading the Toolchain</h2>
-<p>A precompiled toolchain to compile C/C++ to WebAssembly is easily obtained via GitHub.</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/emscripten-core/emsdk.git
-$ cd emsdk
-$ ./emsdk install latest
-$ ./emsdk activate latest
-</code></pre></div></div>
-
-<h2 id="compiling-the-toolchain-for-unsupported-linux-distributions-or-just-for-fun">Compiling the Toolchain for unsupported Linux distributions or just for fun</h2>
-<p>If you are running a Linux distribution for which Emscripten toolchain is not available precompiled (currently Ubuntu 16.04 works best), or if you want to build the whole toolchain from source, Emscripten SDK can also be used to drive the build. The required steps are as follows.</p>
-
-<h3 id="prerequisites">Prerequisites</h3>
-<p>To compile the WebAssembly toolchain, some prerequisite tools are needed:</p>
+        <h1 id="i-want-to">I want to…</h1>
 
 <ul>
-  <li>Git. On Linux and OS X this is likely already present. On Windows download the <a href="https://git-scm.com/">Git for Windows</a> installer.</li>
-  <li>CMake. On Linux and OS X, one can use package managers like <code class="highlighter-rouge">apt-get</code> or <code class="highlighter-rouge">brew</code>, on Windows download <a href="https://cmake.org/download/">CMake installer</a>.</li>
-  <li>Host system compiler. On Linux, <a href="https://askubuntu.com/questions/154402/install-gcc-on-ubuntu-12-04-lts">install GCC</a>. On OS X, <a href="https://itunes.apple.com/us/app/xcode/id497799835">install Xcode</a>. On Windows, install <a href="https://www.visualstudio.com/downloads/">Visual Studio 2015 Community with Update 3</a> or newer.</li>
-  <li>Python 2.7.x. On Linux and OS X, this is most likely provided out of the box. See <a href="https://wiki.python.org/moin/BeginnersGuide/Download">here</a> for instructions.</li>
+  <li>Compile a WebAssembly module from…
+    <ul>
+      <li>C/C++
+        <ul>
+          <li><a href="https://developer.mozilla.org/en-US/docs/WebAssembly/C_to_wasm">starting from scratch</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/WebAssembly/existing_C_to_wasm">library that I want to port to the Web</a></li>
+        </ul>
+      </li>
+      <li><a href="https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm">Rust</a></li>
+      <li><a href="https://docs.assemblyscript.org/">AssemblyScript (a TypeScript-like syntax)</a></li>
+      <li><a href="https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&amp;tabs=visual-studio">C#</a></li>
+      <li><a href="https://fsbolero.io/docs/">F#</a></li>
+      <li>Go
+        <ul>
+          <li><a href="https://github.com/golang/go/wiki/WebAssembly#getting-started">with full language support</a></li>
+          <li><a href="https://tinygo.org/webassembly/webassembly/">targeting minimal size</a></li>
+        </ul>
+      </li>
+      <li><a href="https://kotlinlang.org/docs/reference/native-overview.html">Kotlin</a></li>
+      <li><a href="https://swiftwasm.org/">Swift</a></li>
+      <li><a href="https://wiki.dlang.org/Generating_WebAssembly_with_LDC">D</a></li>
+      <li><a href="https://wiki.freepascal.org/WebAssembly/Compiler">Pascal</a></li>
+    </ul>
+  </li>
+  <li>Use the compiled WebAssembly…
+    <ul>
+      <li><a href="https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running">from JavaScript code</a></li>
+      <li><a href="https://github.com/bytecodealliance/wasmtime/blob/master/docs/WASI-tutorial.md">as a CLI application</a></li>
+      <li><a href="https://nodejs.org/api/wasi.html">from Node.js (with access to system resources)</a></li>
+    </ul>
+  </li>
+  <li>Inspect WebAssembly…
+    <ul>
+      <li><a href="https://developers.google.com/web/updates/2019/12/webassembly">with Chrome DevTools</a></li>
+      <li><a href="https://hacks.mozilla.org/2019/09/debugging-webassembly-outside-of-the-browser/">with GDB / LLDB</a></li>
+      <li><a href="https://github.com/WebAssembly/wabt#running-wasm2wat">as a disassembled format</a></li>
+      <li><a href="https://v8.dev/blog/wasm-decompile">as a human-readable pseudo-code</a></li>
+    </ul>
+  </li>
 </ul>
 
-<p>After installing, make sure that <code class="highlighter-rouge">git</code>, <code class="highlighter-rouge">cmake</code> and <code class="highlighter-rouge">python</code> are accessible in PATH. Technically, CMake and a system compiler may not be needed if using a precompiled toolchain, but development options may be a bit limited without them.</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone https://github.com/emscripten-core/emsdk.git
-$ cd emsdk
-$ ./emsdk install --build=Release sdk-incoming-64bit binaryen-master-64bit
-$ ./emsdk activate --build=Release sdk-incoming-64bit binaryen-master-64bit
-</code></pre></div></div>
-
-<h2 id="environment-setup-after-installation-non-windows-7-installs">Environment setup after installation (non Windows 7 installs)</h2>
-<p>After installing or compiling the SDK, the installation is complete. To enter an Emscripten compiler environment in the current command line prompt after downloading a precompiled toolchain or building your own, type</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ source ./emsdk_env.sh --build=Release
-</code></pre></div></div>
-
-<p>This command adds relevant environment variables and directory entries to PATH to set up the current terminal for easy access to the compiler tools.</p>
-
-<h2 id="compile-and-run-a-simple-program">Compile and run a simple program</h2>
-<p>We now have a full toolchain we can use to compile a simple program to WebAssembly. There are a few remaining caveats, however:</p>
-
-<ul>
-  <li>If we want Emscripten to generate an HTML page that runs our program, in addition to the Wasm binary and JavaScript wrapper, we have to specify an output filename with a <code class="highlighter-rouge">.html</code> extension.</li>
-  <li>Finally, to actually run the program, we cannot simply open the HTML file in a web browser because cross-origin requests are not supported for the <code class="highlighter-rouge">file</code> protocol scheme. We have to actually serve the output files over HTTP.</li>
-</ul>
-
-<p>The commands below will create a simple “hello world” program and compile it. The compilation step is highlighted in bold.</p>
-
-<pre>
-$ mkdir hello
-$ cd hello
-$ cat &lt;&lt; EOF &gt; hello.c
-#include &lt;stdio.h&gt;
-int main(int argc, char ** argv) {
-  printf("Hello, world!\n");
-}
-EOF
-$ <b>emcc hello.c -o hello.html</b>
-</pre>
-
-<p>To serve the compiled files over HTTP, we can use the <code class="highlighter-rouge">emrun</code> web server provided with the Emscripten SDK:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ emrun --no_browser --port 8080 .
-</code></pre></div></div>
-
-<p>Once the HTTP server is running, you can <a href="http://localhost:8080/hello.html" target="_blank">open it in your browser</a>. If you see “Hello, world!” printed to the Emscripten console, then congratulations! You’ve successfully compiled to WebAssembly!</p>
+<p>Coming from a language or targeting an environment not listed here? Please <a href="https://github.com/WebAssembly/website">raise an issue</a>!</p>
 
       </div>
       <div class="col-xs-12 col-lg-3">
