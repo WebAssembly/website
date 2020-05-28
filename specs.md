@@ -3,7 +3,7 @@ layout: default
 ---
 # Specifications
 
-- [Design documents](https://github.com/WebAssembly/design): documents describing the design, goals and high-level overview of WebAssembly.
+- [Original design documents](https://github.com/WebAssembly/design): documents describing the design, goals and high-level overview of WebAssembly. Some of these documents are outdated by now.
 - [Core specification](https://webassembly.github.io/spec/core/): defines the semantics of WebAssembly modules independent from a concrete embedding. The WebAssembly core is specified in a single document.
 - Embedding interfaces:
   - [JavaScript API](https://webassembly.github.io/spec/js-api/index.html): defines JavaScript classes and objects for accessing WebAssembly from within JavaScript, including methods for validation, compilation, instantiation, and classes for representing and manipulating imports and exports as JavaScript objects.
