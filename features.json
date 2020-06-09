@@ -1,0 +1,123 @@
+{
+	"features": {
+		"bigInt": {
+			"description": "JavaScript BigInt to WebAssembly i64 integration",
+			"url": "https://github.com/WebAssembly/JS-BigInt-integration",
+			"phase": 3
+		},
+		"bulkMemory": {
+			"description": "Bulk memory operations",
+			"url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
+			"phase": 3
+		},
+		"exceptions": {
+			"description": "Exception handling",
+			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/Exceptions.md",
+			"phase": 2
+		},
+		"multiValue": {
+			"description": "Multi-value",
+			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md",
+			"phase": 4
+		},
+		"mutableGlobals": {
+			"description": "Import & export of mutable globals",
+			"url": "https://github.com/WebAssembly/mutable-global/blob/master/proposals/mutable-global/Overview.md",
+			"phase": 4
+		},
+		"referenceTypes": {
+			"description": "Reference types",
+			"url": "https://github.com/WebAssembly/reference-types/blob/master/proposals/reference-types/Overview.md",
+			"phase": 3
+		},
+		"saturatedFloatToInt": {
+			"description": "Non-trapping float-to-int conversions",
+			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md",
+			"phase": 4
+		},
+		"signExtensions": {
+			"description": "Sign-extension operations",
+			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/sign-extension-ops/Overview.md",
+			"phase": 4
+		},
+		"simd": {
+			"description": "Fixed-width SIMD",
+			"url": "https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md",
+			"phase": 3
+		},
+		"tailCall": {
+			"description": "Tail calls",
+			"url": "https://github.com/WebAssembly/tail-call/blob/master/proposals/tail-call/Overview.md",
+			"phase": 3
+		},
+		"threads": {
+			"description": "Threads and atomics",
+			"url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
+			"phase": 2
+		}
+	},
+	"browsers": {
+		"Chrome": {
+			"url": "https://www.google.com/chrome/",
+			"logo": "/images/chrome.svg",
+			"features": {
+				"bigInt": "#enable-experimental-webassembly-features",
+				"bulkMemory": true,
+				"multiValue": "#enable-experimental-webassembly-features",
+				"mutableGlobals": true,
+				"referenceTypes": "#enable-experimental-webassembly-features",
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"simd": "#enable-webassembly-simd",
+				"threads": true
+			}
+		},
+		"Firefox": {
+			"url": "https://www.mozilla.org/firefox/",
+			"logo": "/images/firefox.svg",
+			"features": {
+				"bigInt": "Nightly",
+				"bulkMemory": "javascript.options.shared_memory",
+				"multiValue": "Nightly",
+				"mutableGlobals": true,
+				"referenceTypes": "Nightly",
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"threads": "Nightly"
+			}
+		},
+		"Safari": {
+			"url": "https://www.apple.com/safari/",
+			"logo": "/images/safari_48x48.png",
+			"features": {
+				"multiValue": true,
+				"mutableGlobals": true
+			}
+		},
+		"Wasmtime": {
+			"url": "https://wasmtime.dev/",
+			"logo": "/images/bca.png",
+			"features": {
+				"bigInt": true,
+				"bulkMemory": "--enable-bulk-memory",
+				"multiValue": "--enable-multi-value",
+				"mutableGlobals": true,
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"simd": "--enable-simd"
+			}
+		},
+		"Wasmer": {
+			"url": "https://wasmer.io/",
+			"logo": "/images/wasmer.png",
+			"features": {
+				"bigInt": true,
+				"mutableGlobals": true,
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"simd": "--enable-simd",
+				"threads": "--enable-threads"
+			}
+		}
+	}
+}
