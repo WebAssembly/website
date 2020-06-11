@@ -3,7 +3,7 @@
 		"bigInt": {
 			"description": "JavaScript BigInt to WebAssembly i64 integration",
 			"url": "https://github.com/WebAssembly/JS-BigInt-integration",
-			"phase": 3
+			"phase": 4
 		},
 		"bulkMemory": {
 			"description": "Bulk memory operations",
@@ -60,6 +60,7 @@
 		"Chrome": {
 			"url": "https://www.google.com/chrome/",
 			"logo": "/images/chrome.svg",
+			"version": "83",
 			"features": {
 				"bigInt": "#enable-experimental-webassembly-features",
 				"bulkMemory": true,
@@ -75,6 +76,7 @@
 		"Firefox": {
 			"url": "https://www.mozilla.org/firefox/",
 			"logo": "/images/firefox.svg",
+			"version": "77",
 			"features": {
 				"bigInt": "Nightly",
 				"bulkMemory": "javascript.options.shared_memory",
@@ -89,6 +91,7 @@
 		"Safari": {
 			"url": "https://www.apple.com/safari/",
 			"logo": "/images/safari_48x48.png",
+			"version": "13.1",
 			"features": {
 				"multiValue": true,
 				"mutableGlobals": true
@@ -97,11 +100,13 @@
 		"Wasmtime": {
 			"url": "https://wasmtime.dev/",
 			"logo": "/images/bca.png",
+			"version": "0.17",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": "--enable-bulk-memory",
-				"multiValue": "--enable-multi-value",
+				"multiValue": true,
 				"mutableGlobals": true,
+				"referenceTypes": "--enable-reference-types",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "--enable-simd"
@@ -110,6 +115,7 @@
 		"Wasmer": {
 			"url": "https://wasmer.io/",
 			"logo": "/images/wasmer.png",
+			"version": "0.17",
 			"features": {
 				"bigInt": true,
 				"mutableGlobals": true,

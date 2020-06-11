@@ -1964,6 +1964,10 @@ pre code::before, pre code::after {
   cursor: default;
 }
 
+#feature-support>caption {
+  text-align: left;
+}
+
 #feature-support tr>* {
   text-align: center;
 }

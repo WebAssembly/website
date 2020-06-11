@@ -46,13 +46,13 @@
   <div class="container">
   <h1 id="roadmap">Roadmap</h1>
 
-<p>In November 2017, WebAssembly CG members representing four browsers, Chrome, Edge, Firefox, and WebKit, have reached consensus that the design of the initial (MVP) WebAssembly API and binary format is complete to the extent that no further design work is possible without implementation experience and significant usage.</p>
+<p>In November 2017, WebAssembly CG members representing four browsers, Chrome, Edge, Firefox, and WebKit, reached consensus that the design of the initial (MVP) WebAssembly API and binary format is complete to the extent that no further design work is possible without implementation experience and significant usage.</p>
 
 <p>After the initial release, WebAssembly has been gaining new features through the <a href="https://github.com/WebAssembly/meetings/blob/master/process/phases.md">standardization process</a>. For the complete list of current proposals and their respective stages, check out the <a href="https://github.com/WebAssembly/proposals"><code class="highlighter-rouge">WebAssembly/proposals</code> repo</a>.</p>
 
-<p>The table below aims to track implemented features in popular engines:</p>
-
-<table id="feature-support"></table>
+<table id="feature-support">
+  <caption>The table below aims to track implemented features in popular engines:</caption>
+</table>
 <script src="https://unpkg.com/wasm-feature-detect/dist/umd/index.js"></script>
 
 <script>
@@ -66,23 +66,29 @@
       return node;
     }
 
+    let tBody = document.createElement('tbody');
+
     table.append(
-      h('tr', {}, [
-        h('th'),
-        h('th', {}, ['Your browser']),
-        ...Object.entries(browsers).map(([name, { url, logo }]) =>
-          h('th', {}, [
-            h('a', { href: url }, [
-              h('img', { src: logo, width: 32, height: 32 }),
-              h('br'),
-              name
+      h('thead', {}, [
+        h('tr', {}, [
+          h('th'),
+          h('th', {}, ['Your browser']),
+          ...Object.entries(browsers).map(([name, { url, logo, version }]) =>
+            h('th', {}, [
+              h('a', { href: url }, [
+                h('img', { src: logo, width: 32, height: 32 }),
+                h('br'),
+                name,
+                h('sup', {}, [version]),
+              ])
             ])
-          ])
-        )
-      ])
+          )
+        ])
+      ]),
+      tBody
     );
 
-    for (let [name, { description, url }] of Object.entries(features)) {
+    for (let [name, { description, url, phase }] of Object.entries(features)) {
       let supportHTML = h('td');
       wasmFeatureDetect[name]()
         .then(
@@ -95,7 +101,7 @@
         .then(textContent => {
           supportHTML.textContent = textContent;
         });
-      table.append(
+      tBody.append(
         h('tr', {}, [
           h('th', {}, [h('a', { href: url }, [description])]),
           supportHTML,

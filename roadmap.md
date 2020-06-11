@@ -7,9 +7,9 @@ In November 2017, WebAssembly CG members representing four browsers, Chrome, Edg
 
 After the initial release, WebAssembly has been gaining new features through the [standardization process](https://github.com/WebAssembly/meetings/blob/master/process/phases.md). For the complete list of current proposals and their respective stages, check out the [`WebAssembly/proposals` repo](https://github.com/WebAssembly/proposals).
 
-The table below aims to track implemented features in popular engines:
-
-<table id="feature-support"></table>
+<table id="feature-support">
+  <caption>The table below aims to track implemented features in popular engines:</caption>
+</table>
 <script src="https://unpkg.com/wasm-feature-detect/dist/umd/index.js"></script>
 <script>
   (async () => {
@@ -22,23 +22,29 @@ The table below aims to track implemented features in popular engines:
       return node;
     }
 
+    let tBody = document.createElement('tbody');
+
     table.append(
-      h('tr', {}, [
-        h('th'),
-        h('th', {}, ['Your browser']),
-        ...Object.entries(browsers).map(([name, { url, logo }]) =>
-          h('th', {}, [
-            h('a', { href: url }, [
-              h('img', { src: logo, width: 32, height: 32 }),
-              h('br'),
-              name
+      h('thead', {}, [
+        h('tr', {}, [
+          h('th'),
+          h('th', {}, ['Your browser']),
+          ...Object.entries(browsers).map(([name, { url, logo, version }]) =>
+            h('th', {}, [
+              h('a', { href: url }, [
+                h('img', { src: logo, width: 32, height: 32 }),
+                h('br'),
+                name,
+                h('sup', {}, [version]),
+              ])
             ])
-          ])
-        )
-      ])
+          )
+        ])
+      ]),
+      tBody
     );
 
-    for (let [name, { description, url }] of Object.entries(features)) {
+    for (let [name, { description, url, phase }] of Object.entries(features)) {
       let supportHTML = h('td');
       wasmFeatureDetect[name]()
         .then(
@@ -51,7 +57,7 @@ The table below aims to track implemented features in popular engines:
         .then(textContent => {
           supportHTML.textContent = textContent;
         });
-      table.append(
+      tBody.append(
         h('tr', {}, [
           h('th', {}, [h('a', { href: url }, [description])]),
           supportHTML,
