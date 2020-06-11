@@ -1,7 +1,7 @@
 {
 	"features": {
 		"bigInt": {
-			"description": "JavaScript BigInt to WebAssembly i64 integration",
+			"description": "JS BigInt to Wasm i64 integration",
 			"url": "https://github.com/WebAssembly/JS-BigInt-integration",
 			"phase": 4
 		},
