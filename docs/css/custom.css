@@ -1968,6 +1968,10 @@ pre code::before, pre code::after {
   text-align: left;
 }
 
+#feature-support sup {
+  padding-left: 1pt;
+}
+
 #feature-support tr>* {
   text-align: center;
 }
