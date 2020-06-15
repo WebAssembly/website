@@ -1568,7 +1568,7 @@ header {
 }
 
 .side-nav-item:hover {
-	transform: translateX(5px);
+    transform: translateX(5px);
 }
 
 .side-title {
