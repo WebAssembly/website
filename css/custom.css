@@ -1564,13 +1564,11 @@ header {
     border-bottom: 1px solid #d2d2d2;
     padding-top: 5px;
     padding-bottom: 5px;
-    padding-right: 10px;
-    transition: .5s ease;
+    transition: transform .5s ease;
 }
 
 .side-nav-item:hover {
-    padding-left: 10px;
-    padding-right: 0px;
+	transform: translateX(5px);
 }
 
 .side-title {
