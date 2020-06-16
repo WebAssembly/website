@@ -1,8 +1,0 @@
-language: ruby
-rvm:
-  - 2.3
-before_install:
-  - gem update --system
-  - gem install bundler
-script:
-  - bundle exec jekyll build --destination=_docs && diff -arq docs _docs
