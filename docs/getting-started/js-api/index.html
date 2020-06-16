@@ -81,13 +81,13 @@
 
 <p>Like ES6 modules, WebAssembly modules can import and export functions (and, we’ll see later, other types of objects too).  We can see a simple example of both in this module which imports a function <code class="highlighter-rouge">i</code> from module <code class="highlighter-rouge">imports</code> and exports a function <code class="highlighter-rouge">e</code>:</p>
 
-<pre><code class="language-lisp">;; simple.wasm
-(module
-  (func $i (import "imports" "i") (param i32))
-  (func (export "e")
-    i32.const 42
-    call $i))
-</code></pre>
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">;; simple.wasm</span>
+<span class="p">(</span><span class="nv">module</span>
+  <span class="p">(</span><span class="nv">func</span> <span class="nv">$i</span> <span class="p">(</span><span class="nb">import</span> <span class="s">"imports"</span> <span class="s">"i"</span><span class="p">)</span> <span class="p">(</span><span class="nv">param</span> <span class="nv">i32</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">func</span> <span class="p">(</span><span class="nb">export</span> <span class="s">"e"</span><span class="p">)</span>
+    <span class="nv">i32.const</span> <span class="mi">42</span>
+    <span class="nv">call</span> <span class="nv">$i</span><span class="p">))</span>
+</code></pre></div></div>
 
 <p>(Here, instead of writing the module in C/C++ and compiling to WebAssembly, we write the module directly in the <a href="/docs/text-format/">text format</a> which can be <a href="/getting-started/advanced-tools/#wabt-the-webassembly-binary-toolkit">assembled</a> directly into the binary file <code class="highlighter-rouge">simple.wasm</code>.)</p>
 
@@ -98,7 +98,7 @@
 
 <p>Putting together everything in this section and the last, we can fetch, compile and instantiate our module with the simple promise chain:</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">fetch</span><span class="p">(</span><span class="s1">'simple.wasm'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">arrayBuffer</span><span class="p">())</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">simple.wasm</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span> <span class="nx">response</span><span class="p">.</span><span class="nx">arrayBuffer</span><span class="p">())</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">bytes</span> <span class="o">=&gt;</span> <span class="nx">instantiate</span><span class="p">(</span><span class="nx">bytes</span><span class="p">,</span> <span class="nx">importObject</span><span class="p">))</span>
 <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">instance</span> <span class="o">=&gt;</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">e</span><span class="p">());</span>
 </code></pre></div></div>
@@ -134,10 +134,10 @@
 
 <p>For example, let’s take a WebAssembly module that sums an array of integers (replacing the body of the function with “…”):</p>
 
-<pre><code class="language-lisp">(module
-  (memory (export "mem") 1)
-  (func (export "accumulate") (param $ptr i32) (param $length i32) …))
-</code></pre>
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">module</span>
+  <span class="p">(</span><span class="nv">memory</span> <span class="p">(</span><span class="nb">export</span> <span class="s">"mem"</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">func</span> <span class="p">(</span><span class="nb">export</span> <span class="s">"accumulate"</span><span class="p">)</span> <span class="p">(</span><span class="nv">param</span> <span class="nv">$ptr</span> <span class="nv">i32</span><span class="p">)</span> <span class="p">(</span><span class="nv">param</span> <span class="nv">$length</span> <span class="nv">i32</span><span class="p">)</span> <span class="err">…</span><span class="p">))</span>
+</code></pre></div></div>
 
 <p>Since this module <em>exports</em> its memory, given an <code class="highlighter-rouge">Instance</code> of this module called <code class="highlighter-rouge">instance</code>, we can use its exports’ <code class="highlighter-rouge">mem</code> getter to create and populate an input array directly in the instance’s linear memory, as follows:</p>
 
