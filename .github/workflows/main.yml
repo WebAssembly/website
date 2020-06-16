@@ -16,14 +16,19 @@ jobs:
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.3
-        bundler-cache: true
+        ruby-version: 2.7
+    - uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: gems-${{ hashFiles('**/Gemfile.lock') }}
     - name: Upgrade Bundler
       run: |
         gem update --system
         gem install bundler
     - name: Install dependencies
-      run: bundle install
+      run: |
+        bundle config path vendor/bundle
+        bundle install --jobs 4 --retry 3
     - name: Build
       run: bundle exec jekyll build
     - name: Deploy
