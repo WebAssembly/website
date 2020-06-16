@@ -18,11 +18,14 @@ jobs:
       with:
         ruby-version: 2.3
         bundler-cache: true
+    - name: Upgrade Bundler
+      run: |
+        gem update --system
+        gem install bundler
     - name: Install dependencies
       run: bundle install
     - name: Build
-      run: |
-        bundle exec jekyll build
+      run: bundle exec jekyll build
     - name: Deploy
       if: github.event_name == 'push'
       uses: peaceiris/actions-gh-pages@v3
