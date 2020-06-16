@@ -983,22 +983,22 @@ is thrown.</p>
 
 <p>Given <code class="highlighter-rouge">demo.was</code> (encoded to <code class="highlighter-rouge">demo.wasm</code>):</p>
 
-<pre><code class="language-lisp">(module
-    (import "js" "import1" (func $i1))
-    (import "js" "import2" (func $i2))
-    (func $main (call $i1))
-    (start $main)
-    (func (export "f") (call $i2))
-)
-</code></pre>
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">module</span>
+    <span class="p">(</span><span class="nb">import</span> <span class="s">"js"</span> <span class="s">"import1"</span> <span class="p">(</span><span class="nv">func</span> <span class="nv">$i1</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">import</span> <span class="s">"js"</span> <span class="s">"import2"</span> <span class="p">(</span><span class="nv">func</span> <span class="nv">$i2</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">func</span> <span class="nv">$main</span> <span class="p">(</span><span class="nv">call</span> <span class="nv">$i1</span><span class="p">))</span>
+    <span class="p">(</span><span class="nv">start</span> <span class="nv">$main</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">func</span> <span class="p">(</span><span class="nb">export</span> <span class="s">"f"</span><span class="p">)</span> <span class="p">(</span><span class="nv">call</span> <span class="nv">$i2</span><span class="p">))</span>
+<span class="p">)</span>
+</code></pre></div></div>
 
 <p>and the following JavaScript, run in a browser:</p>
 
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">importObj</span> <span class="o">=</span> <span class="p">{</span><span class="na">js</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">import1</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"hello,"</span><span class="p">),</span>
-    <span class="na">import2</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"world!"</span><span class="p">)</span>
+    <span class="na">import1</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">hello,</span><span class="dl">"</span><span class="p">),</span>
+    <span class="na">import2</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">"</span><span class="s2">world!</span><span class="dl">"</span><span class="p">)</span>
 <span class="p">}};</span>
-<span class="nx">fetch</span><span class="p">(</span><span class="s1">'demo.wasm'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span>
+<span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">demo.wasm</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">response</span> <span class="o">=&gt;</span>
     <span class="nx">response</span><span class="p">.</span><span class="nx">arrayBuffer</span><span class="p">()</span>
 <span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">buffer</span> <span class="o">=&gt;</span>
     <span class="nx">WebAssembly</span><span class="p">.</span><span class="nx">instantiate</span><span class="p">(</span><span class="nx">buffer</span><span class="p">,</span> <span class="nx">importObj</span><span class="p">)</span>
