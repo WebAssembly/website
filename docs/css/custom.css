@@ -1622,7 +1622,7 @@ header {
     padding: 12px;
 }
 
-.page-section .container>*:first-child, .page-section .container-narrow>*:first-child, 
+.page-section .container>*:first-child, .page-section .container-narrow>*:first-child,
 section .container>*:first-child, section .container-narrow>*:first-child,
 header .container>*:first-child, header .container-narrow>*:first-child, {
     margin-top: 0
@@ -1955,4 +1955,36 @@ pre code {
 
 pre code::before, pre code::after {
   content: normal;
+}
+
+#feature-support {
+  white-space: nowrap;
+  cursor: default;
+}
+
+#feature-support>caption {
+  text-align: left;
+}
+
+#feature-support sup {
+  padding-left: 1pt;
+}
+
+#feature-support tr>* {
+  text-align: center;
+}
+
+#feature-support tr:first-child>th {
+  vertical-align: bottom;
+  white-space: normal;
+}
+
+#feature-support .img-container {
+  width: 32px;
+  height: 32px;
+}
+
+#feature-support td[title] {
+  text-decoration: underline dashed;
+  text-underline-position: under;
 }
