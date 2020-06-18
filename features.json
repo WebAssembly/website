@@ -126,7 +126,7 @@
 			}
 		},
 		"Node.js": {
-			"url": "https://nodejs.org/en/",
+			"url": "https://nodejs.org/",
 			"logo": "/images/nodejs.svg",
 			"version": "12.18.1",
 			"features": {
