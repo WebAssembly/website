@@ -1,0 +1,15 @@
+name: Purge CDN cache
+
+on: page_build
+
+jobs:
+  purge:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Purge Cloudflare cache
+        uses: jakejarvis/cloudflare-purge-action@master
+        env:
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
+          CLOUDFLATE_TOKEN: ${{ secrets.CLOUDFLARE_PURGE_CACHE_TOKEN }}
