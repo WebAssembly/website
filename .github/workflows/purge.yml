@@ -9,7 +9,8 @@ jobs:
 
     steps:
       - name: Purge Cloudflare cache
-        uses: jakejarvis/cloudflare-purge-action@master
-        env:
-          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
-          CLOUDFLATE_TOKEN: ${{ secrets.CLOUDFLARE_PURGE_CACHE_TOKEN }}
+        run: |
+          curl "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE }}/purge_cache" \
+            -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_PURGE_CACHE_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything": true}'
