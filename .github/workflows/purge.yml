@@ -13,4 +13,5 @@ jobs:
           curl "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE }}/purge_cache" \
             -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_PURGE_CACHE_TOKEN }}" \
             -H "Content-Type: application/json" \
-            --data '{"purge_everything": true}'
+            --data '{"purge_everything": true}' \
+            --fail
