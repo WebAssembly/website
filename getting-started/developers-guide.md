@@ -24,6 +24,7 @@ layout: getting-started
   - [from JavaScript code](https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running)
   - [as a CLI application](https://github.com/bytecodealliance/wasmtime/blob/master/docs/WASI-tutorial.md)
   - [from Node.js (with access to system resources)](https://nodejs.org/api/wasi.html)
+  - [as an Actor with Secure Capabilities in the Cloud](https://wascc.dev)
 - Inspect WebAssembly...
   - [with Chrome DevTools](https://developers.google.com/web/updates/2019/12/webassembly)
   - [with GDB / LLDB](https://hacks.mozilla.org/2019/09/debugging-webassembly-outside-of-the-browser/)
