@@ -124,6 +124,22 @@
 				"simd": "--enable-simd",
 				"threads": "--enable-threads"
 			}
+		},
+		"Node.js": {
+			"url": "https://nodejs.org/",
+			"logo": "/images/nodejs.svg",
+			"version": "12.18",
+			"features": {
+				"bigInt": "--experimental-wasm-bigint",
+				"bulkMemory": true,
+				"multiValue": "--experimental-wasm-mv",
+				"mutableGlobals": true,
+				"referenceTypes": "--experimental-wasm-anyref",
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"simd": "--experimental-wasm-simd",
+				"threads": "--experimental-wasm-threads"
+			}
 		}
 	}
 }
