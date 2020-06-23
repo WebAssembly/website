@@ -8,7 +8,7 @@
 		"bulkMemory": {
 			"description": "Bulk memory operations",
 			"url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
-			"phase": 3
+			"phase": 4
 		},
 		"exceptions": {
 			"description": "Exception handling",
@@ -28,7 +28,7 @@
 		"referenceTypes": {
 			"description": "Reference types",
 			"url": "https://github.com/WebAssembly/reference-types/blob/master/proposals/reference-types/Overview.md",
-			"phase": 3
+			"phase": 4
 		},
 		"saturatedFloatToInt": {
 			"description": "Non-trapping float-to-int conversions",
