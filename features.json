@@ -62,9 +62,9 @@
 			"logo": "/images/chrome.svg",
 			"version": "83",
 			"features": {
-				"bigInt": "Canary 85",
+				"bigInt": "#enable-experimental-webassembly-features",
 				"bulkMemory": true,
-				"multiValue": "Canary",
+				"multiValue": "#enable-experimental-webassembly-features",
 				"mutableGlobals": true,
 				"referenceTypes": "#enable-experimental-webassembly-features",
 				"saturatedFloatToInt": true,
