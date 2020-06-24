@@ -79,7 +79,7 @@
 			"version": "77",
 			"features": {
 				"bigInt": "Beta 78",
-				"bulkMemory": "Nightly",
+				"bulkMemory": "javascript.options.shared_memory",
 				"multiValue": "Beta 78",
 				"mutableGlobals": true,
 				"referenceTypes": "Nightly",
