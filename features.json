@@ -64,7 +64,7 @@
 			"features": {
 				"bigInt": "#enable-experimental-webassembly-features",
 				"bulkMemory": true,
-				"multiValue": "#enable-experimental-webassembly-features",
+				"multiValue": "Canary",
 				"mutableGlobals": true,
 				"referenceTypes": "#enable-experimental-webassembly-features",
 				"saturatedFloatToInt": true,
@@ -78,13 +78,14 @@
 			"logo": "/images/firefox.svg",
 			"version": "77",
 			"features": {
-				"bigInt": "Nightly",
-				"bulkMemory": "javascript.options.shared_memory",
-				"multiValue": "Nightly",
+				"bigInt": "Beta 78",
+				"bulkMemory": "Nightly",
+				"multiValue": "Beta 78",
 				"mutableGlobals": true,
 				"referenceTypes": "Nightly",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
+				"simd": "x86 only",
 				"threads": "Nightly"
 			}
 		},
