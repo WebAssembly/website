@@ -85,7 +85,7 @@
 				"referenceTypes": "Nightly",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "Nightly, x86 only",
+				"simd": "Nightly, x86 and x86-64 only",
 				"threads": "Nightly"
 			}
 		},
