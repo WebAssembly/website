@@ -57,6 +57,21 @@
 
 <script>
   (async () => {
+    function partitionArray(arr, condition) {
+      let matched = [];
+      let unmatched = [];
+
+      for (let item of arr) {
+        if (condition(item)) {
+          matched.push(item);
+        } else {
+          unmatched.push(item);
+        }
+      }
+
+      return { matched, unmatched };
+    }
+
     let { features, browsers } = await fetch('/features.json').then(res => res.json());
     let table = document.getElementById('feature-support');
 
@@ -88,32 +103,51 @@
       tBody
     );
 
-    for (let [name, { description, url, phase }] of Object.entries(features)) {
-      let supportHTML = h('td');
-      wasmFeatureDetect[name]()
-        .then(
-          supported => (supported ? '✔️' : '❌'),
-          err => {
-            supportHTML.style.backgroundColor = '#ffcdd2';
-            return err.message;
-          }
-        )
-        .then(textContent => {
-          supportHTML.textContent = textContent;
-        });
+    let featureGroups = partitionArray(
+      Object.entries(features).map(([name, feature]) => Object.assign(feature, { name })),
+      feature => feature.phase >= 4
+    );
+
+    featureGroups = [
+      { name: 'Standardized features', features: featureGroups.matched },
+      { name: 'In-progress proposals', features: featureGroups.unmatched },
+    ];
+
+    const columnCount = 2 + Object.keys(browsers).length;
+
+    for (let { name, features } of featureGroups) {
       tBody.append(
         h('tr', {}, [
-          h('th', {}, [h('a', { href: url }, [description])]),
-          supportHTML,
-          ...Object.values(browsers).map(({ features }) => {
-            let support = features[name];
-            if (typeof support === 'string') {
-              return h('td', { title: support, tabIndex: 0 }, ['⏳']);
-            }
-            return h('td', {}, [support ? '✔️' : '❌']);
-          })
+          h('th', { colSpan: columnCount }, [name])
         ])
       );
+      for (let { name, description, url, phase } of features) {
+        let supportHTML = h('td');
+        wasmFeatureDetect[name]()
+          .then(
+            supported => (supported ? '✔️' : '❌'),
+            err => {
+              supportHTML.style.backgroundColor = '#ffcdd2';
+              return err.message;
+            }
+          )
+          .then(textContent => {
+            supportHTML.textContent = textContent;
+          });
+        tBody.append(
+          h('tr', {}, [
+            h('th', {}, [h('a', { href: url }, [description])]),
+            supportHTML,
+            ...Object.values(browsers).map(({ features }) => {
+              let support = features[name];
+              if (typeof support === 'string') {
+                return h('td', { title: support, tabIndex: 0 }, ['⏳']);
+              }
+              return h('td', {}, [support ? '✔️' : '❌']);
+            })
+          ])
+        );
+      }
     }
   })();
 </script>
