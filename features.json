@@ -76,16 +76,16 @@
 		"Firefox": {
 			"url": "https://www.mozilla.org/firefox/",
 			"logo": "/images/firefox.svg",
-			"version": "77",
+			"version": "78",
 			"features": {
-				"bigInt": "Beta 78",
-				"bulkMemory": "javascript.options.shared_memory",
-				"multiValue": "Beta 78",
+				"bigInt": true,
+				"bulkMemory": true,
+				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": "Nightly",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "Nightly, x86 and x86-64 only",
+				"simd": "Beta 79, x86 and x86-64 only",
 				"threads": "Nightly"
 			}
 		},
