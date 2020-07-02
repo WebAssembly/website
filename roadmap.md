@@ -10,7 +10,7 @@ After the initial release, WebAssembly has been gaining new features through the
 <table id="feature-support">
   <caption>The table below aims to track implemented features in popular engines:</caption>
 </table>
-<script src="https://unpkg.com/wasm-feature-detect/dist/umd/index.js"></script>
+<script src="https://unpkg.com/wasm-feature-detect/dist/umd/index.js" crossorigin></script>
 <script>
   (async () => {
     function partitionArray(arr, condition) {
