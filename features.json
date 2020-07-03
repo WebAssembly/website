@@ -86,7 +86,7 @@
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "Beta 79, x86 and x86-64 only",
-				"threads": "Nightly"
+				"threads": true
 			}
 		},
 		"Safari": {
