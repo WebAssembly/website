@@ -95,7 +95,8 @@
 			"version": "13.1",
 			"features": {
 				"multiValue": true,
-				"mutableGlobals": true
+				"mutableGlobals": true,
+				"referenceTypes": "JSC_useWebAssemblyReferences"
 			}
 		},
 		"Wasmtime": {
