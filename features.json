@@ -76,17 +76,17 @@
 		"Firefox": {
 			"url": "https://www.mozilla.org/firefox/",
 			"logo": "/images/firefox.svg",
-			"version": "78",
+			"version": "79",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
 				"multiValue": true,
 				"mutableGlobals": true,
-				"referenceTypes": "Nightly",
+				"referenceTypes": true,
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "Beta 79, x86 and x86-64 only",
-				"threads": "Beta 79"
+				"simd": "x86 and x86-64 only",
+				"threads": true
 			}
 		},
 		"Safari": {
