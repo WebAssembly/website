@@ -60,9 +60,9 @@
 		"Chrome": {
 			"url": "https://www.google.com/chrome/",
 			"logo": "/images/chrome.svg",
-			"version": "83",
+			"version": "85",
 			"features": {
-				"bigInt": "#enable-experimental-webassembly-features",
+				"bigInt": true,
 				"bulkMemory": true,
 				"multiValue": "#enable-experimental-webassembly-features",
 				"mutableGlobals": true,
