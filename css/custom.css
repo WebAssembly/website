@@ -5,7 +5,7 @@
 }
 
 body {
-    font: 16px/1.5 Helvetica,arial,nimbussansl,liberationsans,freesans,clean,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font: 16px/1.5 Helvetica,Gotham,nimbussansl,liberationsans,freesans,clean,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     color: #3d3d3e;
     background: #fff;
     -ms-text-size-adjust: 100%;
@@ -1771,7 +1771,7 @@ code {
 pre {
   margin-top: 0;
   margin-bottom: 0;
-  font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font: 12px Railway, "Liberation Mono", Menlo, Courier, monospace;
 }
 
 .octicon {
