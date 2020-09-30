@@ -31,7 +31,7 @@ nav a:hover {
     margin-right: auto;
     padding-left: 20px;
     padding-right: 20px;
-    max-width: 980px;
+    max-width: 1000px;
 }
 
 .container::after {
