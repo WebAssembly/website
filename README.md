@@ -1,4 +1,4 @@
-# Website
+# The Amazing Website
 
 Project overview for WebAssembly: [webassembly.org](https://webassembly.org)
 
@@ -7,7 +7,7 @@ Project overview for WebAssembly: [webassembly.org](https://webassembly.org)
 - Ruby >= 2.3.0
 - [Bundler](https://bundler.io/)
 
-## Building the site
+## Building the site :- > 
 
 Clone the project and the `design` submodule:
 
@@ -31,7 +31,7 @@ $ bundle exec jekyll serve
 
 > You must run `bundle exec jekyll build` after every change and include the `docs` directory in your commit!
 
-## Publishing
+## Publishing : 
 
 This site uses Jekyll plugins, so GitHub Pages will not build it automatically. To publish, check in manually built static site files to the `docs` directory.
 
