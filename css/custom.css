@@ -80,8 +80,8 @@ nav a:hover {
 .container-narrow {
     margin-left: auto;
     margin-right: auto;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 16px;
+    padding-right: 16px;
     max-width: 800px
 }
 
