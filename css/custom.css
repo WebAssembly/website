@@ -5,7 +5,7 @@
 }
 
 body {
-    font: 16px/1.5 Helvetica,Gotham,nimbussansl,liberationsans,freesans,clean,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font: 16px/1.5 Raleway,Gotham,nimbussansl,liberationsans,freesans,clean,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     color: #3d3d3e;
     background: #fff;
     -ms-text-size-adjust: 100%;
@@ -119,8 +119,8 @@ nav a:hover {
 .col-xs-1 {
     position: relative;
     min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 16px;
+    padding-left: 16px;
     float: left;
     width: 8.33333%
 }
@@ -200,8 +200,8 @@ nav a:hover {
 .col-xs-10 {
     position: relative;
     min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 16px;
+    padding-left: 16px;
     float: left;
     width: 83.33333%
 }
