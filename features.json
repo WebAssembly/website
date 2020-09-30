@@ -102,13 +102,13 @@
 		"Wasmtime": {
 			"url": "https://wasmtime.dev/",
 			"logo": "/images/bca.png",
-			"version": "0.20",
+			"version": "0.17",
 			"features": {
 				"bigInt": true,
-				"bulkMemory": true,
+				"bulkMemory": "--enable-bulk-memory",
 				"multiValue": true,
 				"mutableGlobals": true,
-				"referenceTypes": true,
+				"referenceTypes": "--enable-reference-types",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "--enable-simd"
