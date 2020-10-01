@@ -33,7 +33,7 @@ $ bundle exec jekyll serve
 
 ## Publishing
 
-This site uses Jekyll plugins, so GitHub Pages will not build it automatically. To publish, check in manually built static site files to the `docs` directory.
+This site uses Jekyll plugins, so GitHub Pages will not build it automatically. To publish, check it in manually built static site files to the `docs` directory.
 
 The static site should be configured to build to the `docs` directory. The `docs` directory is a special directory from which GitHub pages can publish directly. The naming convention is unfortunate given the confusing overlap with the site's own `docs` pages (output to `docs/docs`) which are themselves generated from the design docs submodule located at `design`.
 
