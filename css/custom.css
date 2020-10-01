@@ -24,6 +24,7 @@ a:hover {
 
 nav a:hover {
     text-decoration: none;
+    background-color: grey;
 }
 
 .container {
