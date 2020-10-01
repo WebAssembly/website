@@ -13,6 +13,11 @@ body {
     word-wrap: break-word;
 }
 
+.dark-mode {
+  background-color: black;
+  color: white;
+}
+
 a {
     color: #6797e2;
     text-decoration: none;
