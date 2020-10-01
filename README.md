@@ -9,7 +9,7 @@ Project overview for WebAssembly: [webassembly.org](https://webassembly.org)
 
 ## Building the site
 
-Clone the project and the `design` submodule:
+Clone the project and the `design` submodule: in it
 
 ```
 $ git clone https://github.com/WebAssembly/website
