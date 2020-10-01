@@ -1,11 +1,11 @@
 # Website
 
-Project overview for WebAssembly: [webassembly.org](https://webassembly.org)
+<ins>Project overview for WebAssembly:</ins> [webassembly.org](https://webassembly.org)
 
 ## Dependencies
 
-- Ruby >= 2.3.0
-- [Bundler](https://bundler.io/)
+- **Ruby >= 2.3.0**
+- **[Bundler](https://bundler.io/)**
 
 ## Building the site
 
