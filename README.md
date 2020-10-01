@@ -1,4 +1,4 @@
-# Website
+# Website - WebAssembly.org
 
 Project overview for WebAssembly: [webassembly.org](https://webassembly.org)
 
