@@ -12,7 +12,7 @@
 		},
 		"exceptions": {
 			"description": "Exception handling",
-			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/Exceptions.md",
+			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
 			"phase": 2
 		},
 		"multiValue": {
