@@ -37,7 +37,7 @@ This site uses Jekyll plugins, so GitHub Pages will not build it automatically. 
 
 The static site should be configured to build to the `docs` directory. The `docs` directory is a special directory from which GitHub pages can publish directly. The naming convention is unfortunate given the confusing overlap with the site's own `docs` pages (output to `docs/docs`) which are themselves generated from the design docs submodule located at `design`.
 
-## What is the role of `_config.yml` and the custom Jekyll plugins?
+## What is the role of `_config.yml` and the custom Jekyll plugins.
 
 > Note: the following plugins are all hacks to make the workflow of generating website docs from the `design` repo work without updating the sources in the design repo.
 
