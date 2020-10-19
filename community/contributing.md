@@ -14,7 +14,7 @@ Interested in participating? We suggest you start by:
 1. Acquainting yourself with the
    [Code of Ethics and Professional Conduct](/community/code-of-conduct/).
 2. Reading the [WebAssembly design][].
-3. Joining the IRC channel `irc://irc.w3.org:6667/#webassembly`.
+3. Joining the Discord server `https://discord.com/invite/nEFErF8`.
 
 With that background understood and communication set up, feel free to
 [file issues][] in the WebAssembly design repository. Please join the
