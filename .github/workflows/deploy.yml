@@ -30,3 +30,4 @@ jobs:
         publish_dir: docs
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
+        exclude_assets: ''
