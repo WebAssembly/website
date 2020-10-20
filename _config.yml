@@ -1,5 +1,9 @@
 name: WebAssembly
 
+include: [
+  .github
+]
+
 exclude: [
   README.md,
   LICENSE,
