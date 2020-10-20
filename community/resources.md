@@ -14,4 +14,4 @@ Here are just some of the popular ways to get started:
 - [Stackoverflow: #webassembly tag](https://stackoverflow.com/questions/tagged/webassembly)
 - WebAssembly Weekly [newsletter](https://wasmweekly.news/) or [Twitter account](https://twitter.com/WasmWeekly).
 
-Interesting in contributing to WebAssembly? Check out the [Contributing](/contributing) page.
+Interesting in contributing to WebAssembly? Check out the [Contributing](/community/contributing/) page.
