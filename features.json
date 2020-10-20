@@ -60,11 +60,11 @@
 		"Chrome": {
 			"url": "https://www.google.com/chrome/",
 			"logo": "/images/chrome.svg",
-			"version": "85",
+			"version": "86",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
-				"multiValue": "#enable-experimental-webassembly-features",
+				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": "#enable-experimental-webassembly-features",
 				"saturatedFloatToInt": true,
