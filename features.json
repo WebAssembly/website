@@ -139,11 +139,11 @@
 		"Node.js": {
 			"url": "https://nodejs.org/",
 			"logo": "/images/nodejs.svg",
-			"version": "12.18",
+			"version": "15.0",
 			"features": {
-				"bigInt": "--experimental-wasm-bigint",
+				"bigInt": true,
 				"bulkMemory": true,
-				"multiValue": "--experimental-wasm-mv",
+				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": "--experimental-wasm-anyref",
 				"saturatedFloatToInt": true,
