@@ -99,10 +99,7 @@ After the initial release, WebAssembly has been gaining new features through the
               if (typeof support === 'string') {
                 return h('td', { title: support, tabIndex: 0 }, ['⏳']);
               }
-              if (support === null) {
-                return h('td', { title: support, tabIndex: 0 }, ['ⁿ/ₐ']);
-              }
-              return h('td', {}, [support ? '✔️' : '❌']);
+              return h('td', {}, [support ? '✔️' : support === null ? 'ⁿ/ₐ' : '❌']);
             })
           ])
         );
