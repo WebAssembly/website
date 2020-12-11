@@ -25,7 +25,7 @@ layout: getting-started
   - [as a CLI application](https://github.com/bytecodealliance/wasmtime/blob/master/docs/WASI-tutorial.md)
   - [from Node.js (with access to system resources)](https://nodejs.org/api/wasi.html)
 - Inspect WebAssembly...
-  - [with Chrome DevTools](https://developers.google.com/web/updates/2019/12/webassembly)
+  - [with Chrome DevTools](https://developers.google.com/web/updates/2020/12/webassembly)
   - [with GDB / LLDB](https://hacks.mozilla.org/2019/09/debugging-webassembly-outside-of-the-browser/)
   - [as a disassembled format](https://github.com/WebAssembly/wabt#running-wasm2wat)
   - [as a human-readable pseudo-code](https://v8.dev/blog/wasm-decompile)
