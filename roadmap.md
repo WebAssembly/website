@@ -79,7 +79,11 @@ After the initial release, WebAssembly has been gaining new features through the
       );
       for (let { name, description, url, phase } of features) {
         let supportHTML = h('td');
-        wasmFeatureDetect[name]()
+        Promise.resolve()
+          // Make sure to call `wasmFeatureDetect` inside a promise-chained
+          // function so that we can still render table rows for features that
+          // we don't have a detector yet.
+          .then(() => wasmFeatureDetect[name]())
           .then(
             supported => (supported ? '✔️' : '❌'),
             err => {
