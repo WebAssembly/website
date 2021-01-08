@@ -107,16 +107,18 @@
 		"Wasmtime": {
 			"url": "https://wasmtime.dev/",
 			"logo": "/images/bca.png",
-			"version": "0.20",
+			"version": "0.22",
 			"features": {
 				"bigInt": null,
 				"bulkMemory": true,
+				"moduleLinking": "--enable-module-linking",
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": true,
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "--enable-simd"
+				"simd": "--enable-simd",
+				"threads": "--enable-threads"
 			}
 		},
 		"Wasmer": {
