@@ -86,10 +86,7 @@ After the initial release, WebAssembly has been gaining new features through the
           .then(() => wasmFeatureDetect[name]())
           .then(
             supported => (supported ? '✔️' : '❌'),
-            err => {
-              supportHTML.style.backgroundColor = '#ffcdd2';
-              return err.message;
-            }
+            err => '❌'
           )
           .then(textContent => {
             supportHTML.textContent = textContent;
