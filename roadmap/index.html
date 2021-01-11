@@ -126,10 +126,7 @@
           .then(() => wasmFeatureDetect[name]())
           .then(
             supported => (supported ? '✔️' : '❌'),
-            err => {
-              supportHTML.style.backgroundColor = '#ffcdd2';
-              return err.message;
-            }
+            err => '❌'
           )
           .then(textContent => {
             supportHTML.textContent = textContent;
