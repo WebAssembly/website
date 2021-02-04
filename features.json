@@ -117,8 +117,7 @@
 				"referenceTypes": true,
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "--enable-simd",
-				"threads": "--enable-threads"
+				"simd": "--enable-simd"
 			}
 		},
 		"Wasmer": {
