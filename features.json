@@ -97,11 +97,14 @@
 		"Safari": {
 			"url": "https://www.apple.com/safari/",
 			"logo": "/images/safari_48x48.png",
-			"version": "13.1",
+			"version": "14.1",
 			"features": {
+				"bigInt": true,
+				"bulkMemory": "JSC_useWebAssemblyReferences",
 				"multiValue": true,
 				"mutableGlobals": true,
-				"referenceTypes": "JSC_useWebAssemblyReferences"
+				"referenceTypes": "JSC_useWebAssemblyReferences",
+				"signExtensions": true,
 			}
 		},
 		"Wasmtime": {
