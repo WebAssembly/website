@@ -48,7 +48,7 @@
 		"simd": {
 			"description": "Fixed-width SIMD",
 			"url": "https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md",
-			"phase": 3
+			"phase": 4
 		},
 		"tailCall": {
 			"description": "Tail calls",
