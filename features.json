@@ -105,6 +105,7 @@
 				"mutableGlobals": true,
 				"referenceTypes": "JSC_useWebAssemblyReferences",
 				"signExtensions": true,
+				"threads": "JSC_useWebAssemblyThreading"
 			}
 		},
 		"Wasmtime": {
