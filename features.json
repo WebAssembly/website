@@ -100,10 +100,10 @@
 			"version": "14.1",
 			"features": {
 				"bigInt": true,
-				"bulkMemory": "JSC_useWebAssemblyReferences",
+				"bulkMemory": "JSC_useWebAssemblyReferences, enabled in Safari Technology Preview",
 				"multiValue": true,
 				"mutableGlobals": true,
-				"referenceTypes": "JSC_useWebAssemblyReferences",
+				"referenceTypes": "JSC_useWebAssemblyReferences, enabled in Safari Technology Preview",
 				"signExtensions": true,
 				"threads": "JSC_useWebAssemblyThreading"
 			}
