@@ -104,6 +104,7 @@
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": "JSC_useWebAssemblyReferences, enabled in Safari Technology Preview",
+				"saturatedFloatToInt": "Enabled in Safari Technology Preview",
 				"signExtensions": true,
 				"threads": "JSC_useWebAssemblyThreading"
 			}
