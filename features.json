@@ -69,13 +69,13 @@
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
-				"exceptions": "#enable-experimental-webassembly-features",
+				"exceptions": "#enable-experimental-webassembly-features or WebAssembly Exception Handling Origin Trial",
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": "#enable-experimental-webassembly-features",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "#enable-webassembly-simd",
+				"simd": "#enable-webassembly-simd or WebAssembly SIMD Origin Trial",
 				"tailCall": "#enable-experimental-webassembly-features",
 				"threads": true
 			}
