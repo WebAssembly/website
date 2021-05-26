@@ -65,7 +65,7 @@
 		"Chrome": {
 			"url": "https://www.google.com/chrome/",
 			"logo": "/images/chrome.svg",
-			"version": "90",
+			"version": "91",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
@@ -75,7 +75,7 @@
 				"referenceTypes": "#enable-experimental-webassembly-features",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "#enable-webassembly-simd or WebAssembly SIMD Origin Trial",
+				"simd": true,
 				"tailCall": "#enable-experimental-webassembly-features",
 				"threads": true
 			}
