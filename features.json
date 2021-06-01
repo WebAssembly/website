@@ -92,7 +92,7 @@
 				"referenceTypes": true,
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "about:config -> javascript.options.wasm_simd, x86 and x86-64 only",
+				"simd": "x86 and x86-64 only for now",
 				"threads": true
 			}
 		},
