@@ -130,15 +130,16 @@
 		"Wasmer": {
 			"url": "https://wasmer.io/",
 			"logo": "/images/wasmer.png",
-			"version": "1.0",
+			"version": "2.0",
 			"features": {
 				"bigInt": null,
 				"bulkMemory": true,
 				"multiValue": true,
 				"mutableGlobals": true,
+				"referenceTypes": true,
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "--enable-simd",
+				"simd": true,
 				"threads": "--enable-threads"
 			}
 		},
