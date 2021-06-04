@@ -9,7 +9,7 @@ layout: getting-started
     - [starting from scratch](https://developer.mozilla.org/en-US/docs/WebAssembly/C_to_wasm)
     - [library that I want to port to the Web](https://developer.mozilla.org/en-US/docs/WebAssembly/existing_C_to_wasm)
   - [Rust](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)
-  - [AssemblyScript (a TypeScript-like syntax)](https://docs.assemblyscript.org/)
+  - [AssemblyScript (a TypeScript-like syntax)](https://assemblyscript.org/introduction.html)
   - [C#](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio)
   - [F#](https://fsbolero.io/docs/)
   - Go
