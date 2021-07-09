@@ -15,11 +15,6 @@
 			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
 			"phase": 2
 		},
-		"extendedConstantExprs": {
-			"description": "Extended constant expressions",
-			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
-			"phase": 1
-		},
 		"moduleLinking": {
 			"description": "Module Linking",
 			"url": "https://github.com/WebAssembly/module-linking/blob/master/proposals/module-linking/Explainer.md",
@@ -88,18 +83,16 @@
 		"Firefox": {
 			"url": "https://www.mozilla.org/firefox/",
 			"logo": "/images/firefox.svg",
-			"version": "90",
+			"version": "89",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
-				"exceptions": "Enable javascript.options.wasm_exceptions in about:config (Nightly only)",
-				"extendedConstantExprs": "Enable javascript.options.wasm_extended_const in about:config (on by default in Nightly)",
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": true,
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": true,
+				"simd": "x86 and x86-64 only for now",
 				"threads": true
 			}
 		},
