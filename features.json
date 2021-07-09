@@ -88,7 +88,7 @@
 		"Firefox": {
 			"url": "https://www.mozilla.org/firefox/",
 			"logo": "/images/firefox.svg",
-			"version": "89",
+			"version": "90",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
