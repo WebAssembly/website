@@ -83,7 +83,7 @@
 		"Firefox": {
 			"url": "https://www.mozilla.org/firefox/",
 			"logo": "/images/firefox.svg",
-			"version": "89",
+			"version": "90",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
@@ -92,7 +92,7 @@
 				"referenceTypes": true,
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "x86 and x86-64 only for now",
+				"simd": true,
 				"threads": true
 			}
 		},
