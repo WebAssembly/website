@@ -14,7 +14,7 @@ layout: getting-started
   - [F#](https://fsbolero.io/docs/)
   - Go
     - [with full language support](https://github.com/golang/go/wiki/WebAssembly#getting-started)
-    - [targeting minimal size](https://tinygo.org/webassembly/webassembly/)
+    - [targeting minimal size](https://tinygo.org/docs/guides/webassembly/)
   - [Kotlin](https://kotlinlang.org/docs/reference/native-overview.html)
   - [Swift](https://swiftwasm.org/)
   - [D](https://wiki.dlang.org/Generating_WebAssembly_with_LDC)
