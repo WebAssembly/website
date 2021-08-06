@@ -64,6 +64,11 @@
 			"description": "Threads and atomics",
 			"url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
 			"phase": 2
+		},
+		"memory64": {
+			"description": "Memory64",
+			"url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
+			"phase": 3
 		}
 	},
 	"browsers": {
