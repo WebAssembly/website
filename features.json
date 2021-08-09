@@ -153,17 +153,19 @@
 		"Node.js": {
 			"url": "https://nodejs.org/",
 			"logo": "/images/nodejs.svg",
-			"version": "15.0",
+			"version": "16.4",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
+				"exceptions": "--experimental-wasm-eh",
 				"multiValue": true,
 				"mutableGlobals": true,
-				"referenceTypes": "--experimental-wasm-anyref",
+				"referenceTypes": "--experimental-wasm-reftypes",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "--experimental-wasm-simd",
-				"threads": "--experimental-wasm-threads"
+				"simd": true,
+				"tailCall": "--experimental-wasm-return-call",
+				"threads": true
 			}
 		}
 	}
