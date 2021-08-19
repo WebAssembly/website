@@ -115,7 +115,7 @@
 				"referenceTypes": "JSC_useWebAssemblyReferences, enabled in Safari Technology Preview",
 				"saturatedFloatToInt": "Enabled in Safari Technology Preview",
 				"signExtensions": true,
-				"threads": "JSC_useWebAssemblyThreading"
+				"threads": "Enable via env variables __XPC_JSC_useSharedArrayBuffer=1 __XPC_JSC_useWebAssemblyThreading=1"
 			}
 		},
 		"Wasmtime": {
