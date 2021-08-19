@@ -109,7 +109,7 @@
 			"version": "14.1",
 			"features": {
 				"bigInt": true,
-				"bulkMemory": "JSC_useWebAssemblyReferences, enabled in Safari Technology Preview",
+				"bulkMemory": "Enable via env variable JSC_useWebAssemblyReferences, enabled in Safari Technology Preview",
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": "JSC_useWebAssemblyReferences, enabled in Safari Technology Preview",
