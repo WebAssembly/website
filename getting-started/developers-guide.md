@@ -20,6 +20,7 @@ layout: getting-started
   - [D](https://wiki.dlang.org/Generating_WebAssembly_with_LDC)
   - [Pascal](https://wiki.freepascal.org/WebAssembly/Compiler)
   - [Zig](https://ziglang.org/documentation/master/#WebAssembly)
+  - [Grain](https://grain-lang.org/docs/)
 - Use the compiled WebAssembly...
   - [from JavaScript code](https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running)
   - [as a CLI application](https://github.com/bytecodealliance/wasmtime/blob/master/docs/WASI-tutorial.md)
