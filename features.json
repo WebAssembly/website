@@ -106,14 +106,14 @@
 		"Safari": {
 			"url": "https://www.apple.com/safari/",
 			"logo": "/images/safari_48x48.png",
-			"version": "14.1",
+			"version": "15.0",
 			"features": {
 				"bigInt": true,
-				"bulkMemory": "Enable via env variable JSC_useWebAssemblyReferences, enabled in Safari Technology Preview",
+				"bulkMemory": true,
 				"multiValue": true,
 				"mutableGlobals": true,
-				"referenceTypes": "JSC_useWebAssemblyReferences, enabled in Safari Technology Preview",
-				"saturatedFloatToInt": "Enabled in Safari Technology Preview",
+				"referenceTypes": true,
+				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"threads": "Enable via env variables __XPC_JSC_useSharedArrayBuffer=1 __XPC_JSC_useWebAssemblyThreading=1"
 			}
