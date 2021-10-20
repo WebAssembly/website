@@ -70,11 +70,11 @@
 		"Chrome": {
 			"url": "https://www.google.com/chrome/",
 			"logo": "/images/chrome.svg",
-			"version": "91",
+			"version": "95",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
-				"exceptions": "#enable-experimental-webassembly-features or WebAssembly Exception Handling Origin Trial",
+				"exceptions": true,
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": "#enable-experimental-webassembly-features",
