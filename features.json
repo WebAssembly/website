@@ -20,6 +20,11 @@
 			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
 			"phase": 1
 		},
+		"memory64": {
+			"description": "Memory64",
+			"url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
+			"phase": 3
+		},
 		"moduleLinking": {
 			"description": "Module Linking",
 			"url": "https://github.com/WebAssembly/module-linking/blob/master/proposals/module-linking/Explainer.md",
@@ -64,11 +69,6 @@
 			"description": "Threads and atomics",
 			"url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
 			"phase": 2
-		},
-		"memory64": {
-			"description": "Memory64",
-			"url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
-			"phase": 3
 		}
 	},
 	"browsers": {
@@ -126,10 +126,11 @@
 		"Wasmtime": {
 			"url": "https://wasmtime.dev/",
 			"logo": "/images/bca.png",
-			"version": "0.22",
+			"version": "0.31",
 			"features": {
 				"bigInt": null,
 				"bulkMemory": true,
+				"memory64": "--enable-memory64",
 				"moduleLinking": "--enable-module-linking",
 				"multiValue": true,
 				"mutableGlobals": true,
