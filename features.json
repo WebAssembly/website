@@ -99,6 +99,7 @@
 				"bulkMemory": true,
 				"exceptions": "Enable javascript.options.wasm_exceptions in about:config (Nightly only)",
 				"extendedConstantExprs": "Enable javascript.options.wasm_extended_const in about:config (on by default in Nightly)",
+				"memory64": "Enable javascript.options.wasm_memory64 in about:config (Nightly only)",
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": true,
