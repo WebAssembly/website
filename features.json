@@ -75,14 +75,14 @@
 		"Chrome": {
 			"url": "https://www.google.com/chrome/",
 			"logo": "/images/chrome.svg",
-			"version": "95",
+			"version": "96",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
 				"exceptions": true,
 				"multiValue": true,
 				"mutableGlobals": true,
-				"referenceTypes": "#enable-experimental-webassembly-features",
+				"referenceTypes": true,
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": true,
