@@ -26,7 +26,7 @@
 			"phase": 3
 		},
 		"multiMemory": {
-			"description": "Mutliple memories",
+			"description": "Multiple memories",
 			"url": "https://github.com/WebAssembly/multi-memory/blob/master/proposals/multi-memory/Overview.md",
 			"phase": 3
 		},
