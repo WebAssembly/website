@@ -117,10 +117,11 @@
 		"Safari": {
 			"url": "https://www.apple.com/safari/",
 			"logo": "/images/safari_48x48.png",
-			"version": "15.0",
+			"version": "15.2",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
+				"exceptions": true,
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": true,
