@@ -127,7 +127,7 @@
 				"referenceTypes": true,
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"threads": "Enable via env variable __XPC_JSC_useWebAssemblyThreading=1"
+				"threads": true
 			}
 		},
 		"Wasmtime": {
