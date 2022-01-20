@@ -133,7 +133,7 @@
 		"Wasmtime": {
 			"url": "https://wasmtime.dev/",
 			"logo": "/images/bca.png",
-			"version": "0.31",
+			"version": "0.33",
 			"features": {
 				"bigInt": null,
 				"bulkMemory": true,
@@ -145,7 +145,7 @@
 				"referenceTypes": true,
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
-				"simd": "--enable-simd"
+				"simd": true
 			}
 		},
 		"Wasmer": {
