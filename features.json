@@ -50,6 +50,11 @@
 			"url": "https://github.com/WebAssembly/reference-types/blob/master/proposals/reference-types/Overview.md",
 			"phase": 4
 		},
+		"relaxedSimd": {
+			"description": "Extensions to fixed-width SIMD with local nondeterminism",
+			"url": "https://github.com/WebAssembly/relaxed-simd/tree/main/proposals/relaxed-simd",
+			"phase": 2
+		},
 		"saturatedFloatToInt": {
 			"description": "Non-trapping float-to-int conversions",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md",
@@ -73,6 +78,11 @@
 		"threads": {
 			"description": "Threads and atomics",
 			"url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
+			"phase": 2
+		},
+		"typeReflection": {
+			"description": "Type reflection",
+			"url": "https://github.com/WebAssembly/js-types/blob/main/proposals/js-types/Overview.md",
 			"phase": 2
 		}
 	},
@@ -98,20 +108,22 @@
 		"Firefox": {
 			"url": "https://www.mozilla.org/firefox/",
 			"logo": "/images/firefox.svg",
-			"version": "90",
+			"version": "96",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
-				"exceptions": "Enable javascript.options.wasm_exceptions in about:config (Nightly only)",
-				"extendedConstantExprs": "Enable javascript.options.wasm_extended_const in about:config (on by default in Nightly)",
-				"memory64": "Enable javascript.options.wasm_memory64 in about:config (Nightly only)",
+				"exceptions": "Enabled in Nightly, unavailable in Beta/Release",
+				"extendedConstantExprs": "Enabled in Nightly, unavailable in Beta/Release",
+				"memory64": "Enabled in Nightly, unavailable in Beta/Release",
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": true,
+				"relaxedSimd": "Enabled in Nightly, unavailable in Beta/Release",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": true,
-				"threads": true
+				"threads": true,
+				"typeReflection": "Enabled in Nightly, unavailable in Beta/Release"
 			}
 		},
 		"Safari": {
