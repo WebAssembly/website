@@ -51,7 +51,7 @@
 			"phase": 4
 		},
 		"relaxedSimd": {
-			"description": "Extensions to fixed-width SIMD with local nondeterminism",
+			"description": "Relaxed SIMD",
 			"url": "https://github.com/WebAssembly/relaxed-simd/tree/main/proposals/relaxed-simd",
 			"phase": 2
 		},
