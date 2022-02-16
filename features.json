@@ -32,7 +32,7 @@
 		},
 		"moduleLinking": {
 			"description": "Module Linking",
-			"url": "https://github.com/WebAssembly/module-linking/blob/master/proposals/module-linking/Explainer.md",
+			"url": "https://github.com/WebAssembly/module-linking/blob/main/design/proposals/module-linking/Explainer.md",
 			"phase": 1
 		},
 		"multiValue": {
