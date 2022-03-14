@@ -15,6 +15,7 @@ layout: getting-started
   - Go
     - [with full language support](https://github.com/golang/go/wiki/WebAssembly#getting-started)
     - [targeting minimal size](https://tinygo.org/docs/guides/webassembly/)
+  - [Haskell](https://asterius.netlify.app/)
   - [Kotlin](https://kotlinlang.org/docs/reference/native-overview.html)
   - [Swift](https://swiftwasm.org/)
   - [D](https://wiki.dlang.org/Generating_WebAssembly_with_LDC)
