@@ -13,7 +13,7 @@
 		"exceptions": {
 			"description": "Exception handling",
 			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
-			"phase": 2
+			"phase": 3
 		},
 		"extendedConstantExprs": {
 			"description": "Extended constant expressions",
@@ -112,7 +112,7 @@
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
-				"exceptions": "Enabled in Nightly, unavailable in Beta/Release",
+				"exceptions": true,
 				"extendedConstantExprs": "Enabled in Nightly, unavailable in Beta/Release",
 				"memory64": "Enabled in Nightly, unavailable in Beta/Release",
 				"multiValue": true,
