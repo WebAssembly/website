@@ -193,6 +193,24 @@
 				"tailCall": "--experimental-wasm-return-call",
 				"threads": true
 			}
+		},
+		"Deno": {
+			"url": "https://deno.land/",
+			"logo": "/images/deno.svg",
+			"version": "1.21.3",
+			"features": {
+				"bigInt": true,
+				"bulkMemory": true,
+				"exceptions": true,
+				"multiValue": true,
+				"mutableGlobals": true,
+				"referenceTypes": true,
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"simd": true,
+				"tailCall": false,
+				"threads": true
+			}
 		}
 	}
 }
