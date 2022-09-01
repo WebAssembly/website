@@ -128,7 +128,7 @@
 		},
 		"Safari": {
 			"url": "https://www.apple.com/safari/",
-			"logo": "/images/safari_48x48.png",
+			"logo": "/images/safari.svg",
 			"version": "15.2",
 			"features": {
 				"bigInt": true,
@@ -144,7 +144,7 @@
 		},
 		"Wasmtime": {
 			"url": "https://wasmtime.dev/",
-			"logo": "/images/bca.png",
+			"logo": "/images/bca.svg",
 			"version": "0.33",
 			"features": {
 				"bigInt": null,
@@ -162,7 +162,7 @@
 		},
 		"Wasmer": {
 			"url": "https://wasmer.io/",
-			"logo": "/images/wasmer.png",
+			"logo": "/images/wasmer.svg",
 			"version": "2.0",
 			"features": {
 				"bigInt": null,
