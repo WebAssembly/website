@@ -107,8 +107,7 @@
   scrollbox.parentNode.insertBefore(noteList, scrollbox.nextSibling);
   for (const [note, index] of note2index) {
     const item = h('li', { id: `feature-note-${index}` });
-    item.innerHTML = renderNote(note);
-    noteList.appendChild(item);
+    noteList.appendChild(item).appendChild(renderNote(note));
   }
 
   // Create an <a> element that links to the specified footnote.
@@ -186,26 +185,33 @@
               } else {
                 // Otherwise it's a version number, like "95"
                 box = buildCellInner('yes', support);
-                if (!note) note = `✓ Supported since version ${support}`;
+                note ||= `✓ Supported since version ${support}`;
               }
             } else if (!support) {
               if (support === null) {
                 box = buildCellInner('na', 'N/A');
-                if (!note) note = '✗ Not applicable for this browser/engine';
+                note ||= '✗ Not applicable for this browser/engine';
               } else {
                 box = buildCellInner('no');
-                if (!note) note = '✗ Not supported';
+                note ||= '✗ Not supported';
               }
             } else {
               if (support !== true) throw new TypeError();
               box = buildCellInner('yes');
               // Magic value, keep in sync with `renderNote`
-              if (!note) note = '✓ Supported, introduced in unknown version';
+              note ||= '✓ Supported, introduced in unknown version';
             }
 
-            const cell =  h('td', {
+            const cell = h('td', {
               headers: [idMap['table-col'](browserName), idMap['table-row'](featName)].join(' ')
             }, [box]);
+
+            // Give the cell itself an `aria-lebel` to avoid screen readers calling it "empty cell".
+            const icon = box.firstElementChild;
+            if (icon?.hasAttribute('aria-label')) {
+              cell.setAttribute('aria-label', icon.getAttribute('aria-label'));
+              icon.removeAttribute('aria-label');
+            }
 
             if (note && note2index.has(note)) {
               cell.tabIndex = 0;  // focusable
@@ -238,25 +244,54 @@
   }
 
   function renderNote(note) {
-    // No point for screen readers to pronounce those symbols out loud.
-    for (const symbol of ['✓', '✗']) {
-      if (note.startsWith(symbol)) {
-        note = `<span aria-hidden='true'>${symbol}</span>${note.substring(1)}`;
-        break;
+    const fragment = document.createDocumentFragment();
+    const isMissingData = note.includes('introduced in unknown version');
+
+    // Transform markdown-like backticks into html <code></code>
+    while (note) {
+      const [head, body, tail] = splitParts(note, '`');
+      head && fragment.append(head);
+      body && fragment.appendChild(h('code', {}, [body]));
+      note = tail;
+    }
+
+    const firstNode = fragment.firstChild;
+    if (firstNode.nodeType === Node.TEXT_NODE) {
+      // No point for screen readers to pronounce those symbols out loud.
+      for (const symbol of ['✓', '✗']) {
+        if (firstNode.nodeValue?.startsWith(symbol)) {
+          // Before: <#text>✓ Supported</#text>
+          // After:  <span>✓</span><#text> Supported</#text>
+          firstNode.splitText(1);
+          const symbolNode = h('span', {}, firstNode.nodeValue);
+          symbolNode.setAttribute('aria-hidden', '');
+          fragment.replaceChild(symbolNode, firstNode);
+          break;
+        }
       }
     }
 
-    // Transform markdown-like backticks into html <code></code>
-    note = note.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-    if (note.includes('introduced in unknown version')) {
-      note += `
-        <a href="https://github.com/WebAssembly/website/blob/master/features.json" target="_blank">
-          (contribute data)
-        </a>`;
+    if (isMissingData) {
+      fragment.appendChild(h('a', {
+        href: 'https://github.com/WebAssembly/website/blob/master/features.json',
+        target: '_blank'
+      }, [' (contribute data)']))
     }
 
-    return note;
+    return fragment;
+  }
+
+  // Break a string into three parts using the given delimiter.
+  function splitParts(str, delim) {
+    const start = str.indexOf(delim);
+    const end = str.indexOf(delim, start + 1);
+    if (start >= 0 && end > start) {
+      const head = str.substring(0, start);
+      const body = str.substring(start + 1, end);
+      const tail = str.substring(end + 1);
+      return [head, body, tail];
+    }
+    return [str, '', '']
   }
 
   // Lazy-loading
@@ -277,7 +312,7 @@
       module.then(({ computePosition, offset, flip, shift, arrow }) => {
         const tooltipId = `tooltip-${counter++}`;
         const tooltip = h('div', { id: tooltipId, className: 'feature-tooltip', role: 'tooltip' });
-        tooltip.innerHTML = renderNote(note);
+        tooltip.appendChild(renderNote(note));
 
         const arrowElement = h('div', { className: 'feature-tooltip-arrow' });
         tooltip.appendChild(arrowElement);
@@ -317,7 +352,7 @@
         };
 
         setVisible(false);
-        
+
         const monitor = (name, state, listener = () => setVisible(state)) =>
             reference.addEventListener(name, listener);
         monitor('focusin', true);
