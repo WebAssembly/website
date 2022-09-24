@@ -90,68 +90,65 @@
 		"Chrome": {
 			"url": "https://www.google.com/chrome/",
 			"logo": "/images/chrome.svg",
-			"version": "96",
 			"features": {
-				"bigInt": true,
-				"bulkMemory": true,
-				"exceptions": true,
-				"multiValue": true,
-				"mutableGlobals": true,
-				"referenceTypes": true,
-				"saturatedFloatToInt": true,
-				"signExtensions": true,
-				"simd": true,
-				"tailCall": "#enable-experimental-webassembly-features",
-				"threads": true
+				"bigInt": "85",
+				"bulkMemory": "75",
+				"exceptions": "95",
+				"multiValue": "85",
+				"mutableGlobals": "74",
+				"referenceTypes": "96",
+				"saturatedFloatToInt": "75",
+				"signExtensions": "74",
+				"simd": "91",
+				"tailCall": ["flag", "Requires flag `#enable-experimental-webassembly-features`"],
+				"threads": "74"
 			}
 		},
 		"Firefox": {
 			"url": "https://www.mozilla.org/firefox/",
 			"logo": "/images/firefox.svg",
-			"version": "90",
 			"features": {
-				"bigInt": true,
-				"bulkMemory": true,
-				"exceptions": true,
-				"extendedConstantExprs": "Enabled in Nightly, unavailable in Beta/Release",
-				"memory64": "Enabled in Nightly, unavailable in Beta/Release",
-				"multiValue": true,
-				"mutableGlobals": true,
-				"referenceTypes": true,
-				"relaxedSimd": "Enabled in Nightly, unavailable in Beta/Release",
-				"saturatedFloatToInt": true,
-				"signExtensions": true,
-				"simd": true,
-				"threads": true,
-				"typeReflection": "Enabled in Nightly, unavailable in Beta/Release"
+				"bigInt": "78",
+				"bulkMemory": "79",
+				"exceptions": "100",
+				"extendedConstantExprs": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
+				"memory64": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
+				"multiValue": "78",
+				"mutableGlobals": "61",
+				"referenceTypes": "79",
+				"relaxedSimd": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
+				"saturatedFloatToInt": "64",
+				"signExtensions": "62",
+				"simd": "89",
+				"threads": "79",
+				"typeReflection": ["flag", "Enabled in Nightly, unavailable in Beta/Release"]
 			}
 		},
 		"Safari": {
 			"url": "https://www.apple.com/safari/",
-			"logo": "/images/safari_48x48.png",
-			"version": "15.2",
+			"logo": "/images/safari.svg",
 			"features": {
-				"bigInt": true,
-				"bulkMemory": true,
-				"exceptions": true,
+				"bigInt": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
+				"bulkMemory": "15",
+				"exceptions": "15.2",
 				"multiValue": true,
 				"mutableGlobals": true,
-				"referenceTypes": true,
-				"saturatedFloatToInt": true,
-				"signExtensions": true,
-				"threads": true
+				"referenceTypes": "15",
+				"saturatedFloatToInt": "15",
+				"signExtensions": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
+				"threads": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"]
 			}
 		},
 		"Wasmtime": {
 			"url": "https://wasmtime.dev/",
-			"logo": "/images/bca.png",
+			"logo": "/images/bca.svg",
 			"version": "0.33",
 			"features": {
 				"bigInt": null,
 				"bulkMemory": true,
-				"memory64": "--enable-memory64",
-				"multiMemory": "--enable-multi-memory",
-				"moduleLinking": "--enable-module-linking",
+				"memory64": ["flag", "Requires flag `--enable-memory64`"],
+				"multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
+				"moduleLinking": ["flag", "Requires flag `--enable-module-linking`"],
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": true,
@@ -162,8 +159,7 @@
 		},
 		"Wasmer": {
 			"url": "https://wasmer.io/",
-			"logo": "/images/wasmer.png",
-			"version": "2.0",
+			"logo": "/images/wasmer.svg",
 			"features": {
 				"bigInt": null,
 				"bulkMemory": true,
@@ -173,31 +169,29 @@
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": true,
-				"threads": "--enable-threads"
+				"threads": ["flag", "Requires flag `--enable-threads`"]
 			}
 		},
 		"Node.js": {
 			"url": "https://nodejs.org/",
 			"logo": "/images/nodejs.svg",
-			"version": "16.4",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
-				"exceptions": "--experimental-wasm-eh",
+				"exceptions": ["flag", "Requires flag `--experimental-wasm-eh`"],
 				"multiValue": true,
 				"mutableGlobals": true,
-				"referenceTypes": "--experimental-wasm-reftypes",
+				"referenceTypes": ["flag", "Requires flag `--experimental-wasm-reftypes`"],
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": true,
-				"tailCall": "--experimental-wasm-return-call",
+				"tailCall": ["flag", "Requires flag `--experimental-wasm-return-call`"],
 				"threads": true
 			}
 		},
 		"Deno": {
 			"url": "https://deno.land/",
 			"logo": "/images/deno.svg",
-			"version": "1.21.3",
 			"features": {
 				"bigInt": true,
 				"bulkMemory": true,
