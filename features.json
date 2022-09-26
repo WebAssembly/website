@@ -97,6 +97,7 @@
 				"multiValue": "85",
 				"mutableGlobals": "74",
 				"referenceTypes": "96",
+				"relaxedSimd": ["flag", "Requires flag `#enable-experimental-webassembly-features`"],
 				"saturatedFloatToInt": "75",
 				"signExtensions": "74",
 				"simd": "91",
