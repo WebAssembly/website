@@ -18,7 +18,7 @@
 		"extendedConstantExprs": {
 			"description": "Extended constant expressions",
 			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
-			"phase": 1
+			"phase": 3
 		},
 		"memory64": {
 			"description": "Memory64",
@@ -94,6 +94,7 @@
 				"bigInt": "85",
 				"bulkMemory": "75",
 				"exceptions": "95",
+				"extendedConstantExprs": ["flag", "Requires flag `--js-flags=--experimental-wasm-extended-const`"],
 				"multiValue": "85",
 				"mutableGlobals": "74",
 				"referenceTypes": "96",
@@ -179,6 +180,7 @@
 				"bigInt": true,
 				"bulkMemory": true,
 				"exceptions": ["flag", "Requires flag `--experimental-wasm-eh`"],
+				"extendedConstantExprs": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
 				"multiValue": true,
 				"mutableGlobals": true,
 				"referenceTypes": ["flag", "Requires flag `--experimental-wasm-reftypes`"],
