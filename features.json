@@ -15,7 +15,7 @@
 			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
 			"phase": 3
 		},
-		"extendedConstantExprs": {
+		"extendedConst": {
 			"description": "Extended constant expressions",
 			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
 			"phase": 3
