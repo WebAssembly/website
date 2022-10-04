@@ -382,7 +382,7 @@
 
   function _loadFeatureDetectModule() {
     // Be sure to change the preloads in markdown when updating url.
-    const module = import('https://cdn.jsdelivr.net/npm/wasm-feature-detect@1/dist/esm/index.js');
+    const module = import('https://cdn.jsdelivr.net/npm/wasm-feature-detect@1.3/dist/esm/index.js');
     return (featureName) => module
       .then(wasmFeatureDetect => wasmFeatureDetect[featureName]());
   }
