@@ -95,13 +95,14 @@
 				"bulkMemory": "75",
 				"exceptions": "95",
 				"extendedConstantExprs": ["flag", "Requires flag `--js-flags=--experimental-wasm-extended-const`"],
+				"memory64": ["flag", "Requires flag `--js-flags=--experimental-wasm-memory64`"],
 				"multiValue": "85",
 				"mutableGlobals": "74",
 				"referenceTypes": "96",
 				"saturatedFloatToInt": "75",
 				"signExtensions": "74",
 				"simd": "91",
-				"tailCall": ["flag", "Requires flag `#enable-experimental-webassembly-features`"],
+				"tailCall": ["flag", "Requires flag `#enable-experimental-webassembly-features` in `about://flags"],
 				"threads": "74"
 			}
 		},
