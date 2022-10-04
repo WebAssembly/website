@@ -102,7 +102,7 @@
 				"saturatedFloatToInt": "75",
 				"signExtensions": "74",
 				"simd": "91",
-				"tailCall": ["flag", "Requires flag `#enable-experimental-webassembly-features` in `about://flags"],
+				"tailCall": ["flag", "Requires flag `#enable-experimental-webassembly-features` in `about://flags`"],
 				"threads": "74"
 			}
 		},
