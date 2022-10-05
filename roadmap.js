@@ -86,7 +86,13 @@ const __feature_table_error_handler = (e) => {
   );
 
   let featureGroups = partitionArray(
-    Object.entries(features).map(([name, feature]) => Object.assign(feature, { name })),
+    Object.entries(features)
+      .map(([name, feature]) => Object.assign(feature, { name }))
+      .sort((a, b) => {  // Sort by phase descending then date ascending
+        let i;
+        if (i = b.phase - a.phase) return i;
+        return (a.stdznDate || '9999-99-99').localeCompare(b.stdznDate || '9999-99-99')
+      }),
     feature => feature.phase >= 4
   );
 
@@ -95,37 +101,24 @@ const __feature_table_error_handler = (e) => {
     { name: 'In-progress proposals', features: featureGroups.unmatched },
   ];
 
-  // Collect all notes and assign an index to each unique item
-  // { "First unique note": 0, "Second unique note": 1, ...}
+  // Collect all footnotes
   const notes = Object.values(browsers).flatMap(b =>
     Object.values(b.features)
       .filter(s => Array.isArray(s))
       .map(s => s[1])
   );
-  const note2index = new Map();
-  let noteIndex = 0;
-  for (const note of notes) {
-    if (!note2index.has(note)) {
-      note2index.set(note, noteIndex++);
-    }
-  }
+  const noteCache = new Map();
+  let nextNoteId = 0;
 
-  // Generate the footnote list. They are later referenced in the actual table.
+  // List containing all footnotes
   const noteList = document.createElement('ol');
   // Place footnote list outside of the scolling area
   scrollbox.parentNode.insertBefore(noteList, scrollbox.nextSibling);
-  for (const [note, index] of note2index) {
-    const item = h('li', { id: `feature-note-${index}` });
-    noteList.appendChild(item).appendChild(renderNote(note));
-  }
 
-  // Create an <a> element that links to the specified footnote.
-  // Also returns the HTML id of the footnote it refers to.
-  function createNoteRef(index) {
-    const id = `feature-note-${index}`;
-    return [id, h('a', { href: `#${id}` }, [`[${toAlphabet(index)}]`])];
-  }
-
+  // Clip the tooltips to both <tbody> and the scrollbox.
+  // the former is to avoid blocking out the headers;
+  // the latter is to keep the tooltip inside the scrollable area
+  const tooltipBoundary = [tBody, scrollbox];
   const columnCount = 2 + Object.keys(browsers).length;
 
   for (const { name: groupName, features } of featureGroups) {
@@ -155,11 +148,11 @@ const __feature_table_error_handler = (e) => {
       detectWasmFeature(feat.name).then(supported => {
         detectResult.textContent = '';
         detectResult.appendChild(buildCellInner(supported ? 'yes' : 'no'));
-        return addTooltip(detectResult, supported ? '✓ Supported' : '✗ Not supported', [tBody, scrollbox]);
+        return addTooltip(detectResult, supported ? '✓ Supported' : '✗ Not supported', tooltipBoundary);
       }, _err => {
         detectResult.textContent = '';
         detectResult.appendChild(buildCellInner('unknown'));
-        return addTooltip(detectResult, 'Detection unavailable for this feature', [tBody, scrollbox]);
+        return addTooltip(detectResult, 'Detection unavailable for this feature', tooltipBoundary);
       });
 
       // Feature name and it's tooltip
@@ -236,23 +229,27 @@ const __feature_table_error_handler = (e) => {
               icon.removeAttribute('aria-label');
             }
 
-            if (note && note2index.has(note)) {
+            if (note && notes.includes(note)) {
               cell.tabIndex = 0;  // focusable
-              const index = note2index.get(note);
-              const [noteId, refLink] = createNoteRef(index);
-              box.appendChild(h('sup', {}, [refLink]));
 
-              const noteItem = document.getElementById(noteId);
-              if (noteItem) {
-                cell.addEventListener('mouseenter', () => noteItem.classList.add('ref-highlight'));
-                cell.addEventListener('mouseleave', () => noteItem.classList.remove('ref-highlight'));
+              // If we already have a <li> associated with this note, just use that.
+              let cache = noteCache.get(note);
+              if (!cache) {
+                const index = nextNoteId++;
+                const item = h('li', { id: `feature-note-${index}` });
+                noteCache.set(note, cache = { index, item });
+                noteList.appendChild(item).appendChild(renderNote(note));
               }
+
+              const { index, item } = cache;
+              const noteRef = h('a', { href: `#${item.id}` }, [`[${toAlphabet(index)}]`]);
+              box.appendChild(h('sup', {}, [noteRef]));
+
+              cell.addEventListener('mouseenter', () => item.classList.add('ref-highlight'));
+              cell.addEventListener('mouseleave', () => item.classList.remove('ref-highlight'));
             }
 
-            // Clip to both <tbody> and the scrollbox.
-            // the former is to avoid blocking out the headers;
-            // the latter is to keep the tooltip inside the scrollable area
-            addTooltip(cell, note, [tBody, scrollbox]);
+            addTooltip(cell, note, tooltipBoundary);
             return cell;
           })
         ])

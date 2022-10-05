@@ -15,6 +15,11 @@
 			"stdznDate": "2021-02-10",
 			"specVersion": "2.0"
 		},
+		"gc": {
+			"description": "Garbage collection",
+			"url":"https://github.com/WebAssembly/gc/blob/main/proposals/gc/Overview.md",
+			"phase": 3
+		},
 		"exceptions": {
 			"description": "Exception handling",
 			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
@@ -27,19 +32,24 @@
 			"stdznDate": "2023-01-31",
 			"specVersion": "2.0"
 		},
-		"gc": {
-			"description": "Garbage collection",
-			"url":"https://github.com/WebAssembly/gc",
+		"threads": {
+			"description": "Threads and atomics",
+			"url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
 			"phase": 3
 		},
-		"memory64": {
-			"description": "Memory64",
-			"url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
+		"typeReflection": {
+			"description": "Type reflection",
+			"url": "https://github.com/WebAssembly/js-types/blob/main/proposals/js-types/Overview.md",
 			"phase": 3
 		},
 		"multiMemory": {
 			"description": "Multiple memories",
 			"url": "https://github.com/WebAssembly/multi-memory/blob/master/proposals/multi-memory/Overview.md",
+			"phase": 3
+		},
+		"memory64": {
+			"description": "Memory64",
+			"url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
 			"phase": 3
 		},
 		"multiValue": {
@@ -68,16 +78,16 @@
 			"url": "https://github.com/WebAssembly/relaxed-simd/blob/main/proposals/relaxed-simd/Overview.md",
 			"phase": 3
 		},
-		"saturatedFloatToInt": {
-			"description": "Non-trapping float-to-int conversions",
-			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md",
+		"signExtensions": {
+			"description": "Sign-extension operations",
+			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/sign-extension-ops/Overview.md",
 			"phase": 5,
 			"stdznDate": "2020-03-11",
 			"specVersion": "2.0"
 		},
-		"signExtensions": {
-			"description": "Sign-extension operations",
-			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/sign-extension-ops/Overview.md",
+		"saturatedFloatToInt": {
+			"description": "Non-trapping float-to-int conversions",
+			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md",
 			"phase": 5,
 			"stdznDate": "2020-03-11",
 			"specVersion": "2.0"
@@ -95,16 +105,6 @@
 			"phase": 4,
 			"stdznDate": "2023-01-17",
 			"specVersion": "2.0"
-		},
-		"threads": {
-			"description": "Threads and atomics",
-			"url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
-			"phase": 3
-		},
-		"typeReflection": {
-			"description": "Type reflection",
-			"url": "https://github.com/WebAssembly/js-types/blob/main/proposals/js-types/Overview.md",
-			"phase": 3
 		}
 	},
 	"browsers": {
@@ -206,7 +206,7 @@
 				"simd": "1.9",
 				"tailCall": ["flag", "Requires flag `--v8-flags=--experimental-wasm-return-call`"],
 				"threads": "1.9",
-				"typeReflection": ["flag", "Requires corresponding v8 flag (`--v8-flags=\"...\"`)"]
+				"typeReflection": ["flag", "Requires flag `--v8-flags=--experimental-wasm-type-reflection`"]
 			}
 		},
 		"Wasmtime": {
