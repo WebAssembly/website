@@ -1974,7 +1974,7 @@ pre code::before, pre code::after {
   white-space: normal;
 }
 
-#feature-support td {
+#feature-support td, #feature-support th {
   position: relative; /* for tooltip */
 }
 
@@ -1985,6 +1985,10 @@ pre code::before, pre code::after {
 
 #feature-support td:hover, #feature-support td:focus, #feature-support td:focus-within {
   background: rgba(0, 0, 0, .04);
+}
+
+#feature-support time {
+  white-space: nowrap;
 }
 
 .feature-cell {
@@ -2058,6 +2062,7 @@ pre code::before, pre code::after {
   white-space: normal;
   background: #fefefe;
   font-size: 0.8em;
+  font-weight: normal;
   border-radius: 2px;
   outline: none;
 

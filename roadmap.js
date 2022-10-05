@@ -146,9 +146,10 @@ const __feature_table_error_handler = (e) => {
         }, [groupName])
       ])
     );
-    for (const { name: featName, description, url } of features) {
+    for (const { name: featName, description, url, phase, stdznDate } of features) {
+      // Feature detection for "Your browser"
       const detectResult = h('td', {
-        headers: [idMap['table-col']('Your browser'), idMap['table-row'](featName)].join(' ') 
+        headers: [idMap['table-col']('Your browser'), idMap['table-row'](featName)].join(' ')
       }, [buildCellInner('loading')]);
 
       detectWasmFeature(featName).then(supported => {
@@ -161,13 +162,18 @@ const __feature_table_error_handler = (e) => {
         return addTooltip(detectResult, 'Detection unavailable for this feature', [tBody, scrollbox]);
       });
 
+      // Feature name and it's tooltip
+      const featureLink = h('a', { href: url, target: '_blank' }, [description]);
+      const featureHeader = h('th', {
+        scope: 'row',
+        id: idMap['table-row'](featName),
+        headers: idMap['table-group'](groupName)
+      }, [featureLink]);
+      addTooltip(featureLink, buildFeatureTooltip(phase, stdznDate), [scrollbox], featureHeader);
+
       tBody.append(
         h('tr', {}, [
-          h('th', {
-            scope: 'row',
-            id: idMap['table-row'](featName),
-            headers: idMap['table-group'](groupName)
-          }, [h('a', { href: url, target: '_blank' }, [description])]),
+          featureHeader,
           detectResult,
           ...Object.entries(browsers).map(([browserName, { features }]) => {
             // Meaning of each entry:
@@ -210,8 +216,13 @@ const __feature_table_error_handler = (e) => {
             } else {
               if (support !== true) throw new TypeError();
               box = buildCellInner('yes');
-              // Magic value, keep in sync with `renderNote`
-              note ||= '✓ Supported, introduced in unknown version';
+              if (!note) {
+                note = document.createDocumentFragment();
+                note.append('✓ Supported, introduced in unknown version ', h('a', {
+                  href: 'https://github.com/WebAssembly/website/blob/main/features.json',
+                  target: '_blank'
+                }, ['(contribute data)']));
+              }
             }
 
             const cell = h('td', {
@@ -252,19 +263,34 @@ const __feature_table_error_handler = (e) => {
 
   function buildCellInner(type, text) {
     const content = text || icon(type);
-    return h('div', { className: `feature-cell icon-${type}`}, [content]);
+    return h('div', { className: `feature-cell icon-${type}` }, [content]);
+  }
+
+  function buildFeatureTooltip(phase, date) {
+    if (date) {
+      const fragment = document.createDocumentFragment();
+      fragment.append(`Phase ${phase} proposal, standardized on `);
+      fragment.append(h('time', { dateTime: date }, [date]));
+      return fragment;
+    } else {
+      return `Phase ${phase} proposal`
+    }
   }
 
   function renderNote(note) {
-    const fragment = document.createDocumentFragment();
-    const isMissingData = note.includes('introduced in unknown version');
+    let fragment;
+    if (typeof note === 'string') {
+      fragment = document.createDocumentFragment();
 
-    // Transform markdown-like backticks into html <code></code>
-    while (note) {
-      const [head, body, tail] = splitParts(note, '`');
-      head && fragment.append(head);
-      body && fragment.appendChild(h('code', {}, [body]));
-      note = tail;
+      // Transform markdown-like backticks into html <code></code>
+      while (note) {
+        const [head, body, tail] = splitParts(note, '`');
+        head && fragment.append(head);
+        body && fragment.appendChild(h('code', {}, [body]));
+        note = tail;
+      }
+    } else {
+      fragment = note;
     }
 
     const firstNode = fragment.firstChild;
@@ -281,13 +307,6 @@ const __feature_table_error_handler = (e) => {
           break;
         }
       }
-    }
-
-    if (isMissingData) {
-      fragment.appendChild(h('a', {
-        href: 'https://github.com/WebAssembly/website/blob/master/features.json',
-        target: '_blank'
-      }, [' (contribute data)']))
     }
 
     return fragment;
@@ -318,7 +337,7 @@ const __feature_table_error_handler = (e) => {
     window.addEventListener('resize', updateAll, { passive: true });
 
     let counter = 0;
-    return (reference, note, boundary) =>
+    return (reference, note, boundary, parent = reference) =>
       module.then(({ computePosition, offset, flip, shift, arrow }) => {
         const tooltipId = `tooltip-${counter++}`;
         const tooltip = h('div', { id: tooltipId, className: 'feature-tooltip', role: 'tooltip' });
@@ -384,7 +403,7 @@ const __feature_table_error_handler = (e) => {
           timeout = setTimeout(() => setVisible(false), 80);
         });
 
-        reference.appendChild(tooltip);
+        parent.appendChild(tooltip);
         reference.setAttribute('aria-describedby', tooltipId);
         return tooltip;
       }).catch(__feature_table_error_handler);

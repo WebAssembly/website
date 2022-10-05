@@ -9,10 +9,21 @@
             "properties": {
                 "description": { "type": "string" },
                 "url": { "type": "string", "format": "uri-reference" },
-                "phase": { "type": "integer", "minimum": 1 }
+                "phase": { "enum": [1, 2, 3] }
             },
             "additionalProperties": false,
             "required": ["description", "url", "phase"]
+        },
+        "feature-info-standardized": {
+            "type": "object",
+            "properties": {
+                "description": { "type": "string" },
+                "url": { "type": "string", "format": "uri-reference" },
+                "phase": { "enum": [4, 5] },
+                "stdznDate": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" }
+            },
+            "additionalProperties": false,
+            "required": ["description", "url", "phase", "stdznDate"]
         },
         "browser-features": {
             "type": "object",
@@ -66,7 +77,12 @@
         "$schema": { "type": "string", "format": "uri-reference" },
         "features": {
             "type": "object",
-            "additionalProperties": { "$ref": "#/definitions/feature-info" }
+            "additionalProperties": {
+                "oneOf": [
+                    { "$ref": "#/definitions/feature-info" },
+                    { "$ref": "#/definitions/feature-info-standardized" }
+                ]
+            }
         },
         "browsers": {
             "type": "object",
