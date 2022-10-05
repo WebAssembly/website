@@ -1959,7 +1959,7 @@ pre code::before, pre code::after {
 }
 
 #feature-support-scrollbox {
-  overflow: auto;
+  overflow: auto hidden;
   margin: 0 0 16px 0;
 }
 
