@@ -98,6 +98,7 @@
 				"memory64": ["flag", "Requires flag `--js-flags=--experimental-wasm-memory64`"],
 				"multiValue": "85",
 				"mutableGlobals": "74",
+				"relaxedSimd": ["flag", "Requires flag `--js-flags=--experimental-wasm-relaxed-simd`"],
 				"referenceTypes": "96",
 				"saturatedFloatToInt": "75",
 				"signExtensions": "74",
