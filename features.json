@@ -209,6 +209,22 @@
 				"tailCall": false,
 				"threads": true
 			}
+		},
+		"wasm2c": {
+			"url": "https://github.com/WebAssembly/wabt",
+			"logo": "/images/wasm2c.svg",
+			"features": {
+				"bigInt": null,
+				"bulkMemory": true,
+				"exceptions": ["flag", "Requires flag `--enable-exceptions`"],
+				"multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
+				"multiValue": true,
+				"mutableGlobals": true,
+				"referenceTypes": true,
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"simd": false
+			}
 		}
 	}
 }
