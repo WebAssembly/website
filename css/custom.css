@@ -31,7 +31,7 @@ nav a:hover {
     margin-right: auto;
     padding-left: 15px;
     padding-right: 15px;
-    max-width: 980px;
+    max-width: 1080px;
 }
 
 .container::after {
@@ -1959,7 +1959,7 @@ pre code::before, pre code::after {
 }
 
 #feature-support-scrollbox {
-  overflow: auto;
+  overflow: auto hidden;
   margin: 0 0 16px 0;
 }
 
