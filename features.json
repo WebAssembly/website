@@ -191,7 +191,8 @@
 				"signExtensions": true,
 				"simd": true,
 				"tailCall": ["flag", "Requires flag `--experimental-wasm-return-call`"],
-				"threads": true
+				"threads": true,
+				"typeReflection": ["flag", "Requires flag `--experimental-wasm-type-reflection`"],
 			}
 		},
 		"Deno": {
