@@ -94,8 +94,8 @@
 				"bigInt": "85",
 				"bulkMemory": "75",
 				"exceptions": "95",
-				"extendedConst": ["flag", "Requires corresponding v8 flag (`--js-flags=\"...\"`)"],
-				"memory64": ["flag", "Requires corresponding v8 flag (`--js-flags=\"...\"`)"],
+				"extendedConst": ["flag", "Requires flag `--js-flags=--experimental-wasm-extended-const`"],
+				"memory64": ["flag", "Requires flag `--js-flags=--experimental-wasm-memory64`"],
 				"multiValue": "85",
 				"mutableGlobals": "74",
 				"relaxedSimd": ["flag", "Requires flag `--js-flags=--experimental-wasm-relaxed-simd`"],
@@ -149,15 +149,15 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "0.20",
-				"memory64": ["flag", "Requires flag `--wasm-features=...`"],
-				"multiMemory": ["flag", "Requires flag `--wasm-features=...`"],
+				"memory64": ["flag", "Requires flag `--enable-memory64`"],
+				"multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
 				"multiValue": "0.17",
 				"mutableGlobals": true,
 				"referenceTypes": "0.20",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "0.33",
-				"threads": ["flag", "Requires flag `--wasm-features=...`"]
+				"threads": null
 			}
 		},
 		"Wasmer": {
@@ -172,7 +172,7 @@
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "2.0",
-				"threads": ["flag", "Requires flag `--enable-threads`"]
+				"threads": null
 			}
 		},
 		"Node.js": {
@@ -182,16 +182,16 @@
 				"bigInt": true,
 				"bulkMemory": "12.5",
 				"exceptions": "17.0",
-				"extendedConst": ["flag", "Requires corresponding v8 flag"],
-				"memory64": ["flag", "Requires corresponding v8 flag"],
+				"extendedConst": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
+				"memory64": ["flag", "Requires flag `--experimental-wasm-memory64`"],
 				"multiValue": "15.0",
 				"mutableGlobals": "12.0",
 				"referenceTypes": "17.2",
-				"relaxedSimd": ["flag", "Requires corresponding v8 flag"],
+				"relaxedSimd": ["flag", "Requires flag `--experimental-wasm-relaxed-simd`"],
 				"saturatedFloatToInt": "12.5",
 				"signExtensions": "12.0",
 				"simd": "16.4",
-				"tailCall": ["flag", "Requires corresponding v8 flag"],
+				"tailCall": ["flag", "Requires flag `--experimental-wasm-return-call`"],
 				"threads": "16.4",
 				"typeReflection": ["flag", "Requires corresponding v8 flag"]
 			}
@@ -203,16 +203,16 @@
 				"bigInt": true,
 				"bulkMemory": "0.4",
 				"exceptions": "1.16",
-				"extendedConst": ["flag", "Requires corresponding v8 flag (`--v8-flags=\"...\"`)"],
-				"memory64": ["flag", "Requires corresponding v8 flag (`--v8-flags=\"...\"`)"],
+				"extendedConst": ["flag", "Requires flag `--v8-flags=--experimental-wasm-extended-const`"],
+				"memory64": ["flag", "Requires flag `--v8-flags=--experimental-wasm-memory64`"],
 				"multiValue": "1.3.2",
 				"mutableGlobals": "0.1",
 				"referenceTypes": "1.16",
-				"relaxedSimd": ["flag", "Requires corresponding v8 flag (`--v8-flags=\"...\"`)"],
+				"relaxedSimd": ["flag", "Requires flag `--v8-flags=--experimental-wasm-relaxed-simd`"],
 				"saturatedFloatToInt": "0.4",
 				"signExtensions": "0.1",
 				"simd": "1.9",
-				"tailCall": ["flag", "Requires corresponding v8 flag (`--v8-flags=\"...\"`)"],
+				"tailCall": ["flag", "Requires flag `--v8-flags=--experimental-wasm-return-call`"],
 				"threads": "1.9",
 				"typeReflection": ["flag", "Requires corresponding v8 flag (`--v8-flags=\"...\"`)"]
 			}
