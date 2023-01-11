@@ -104,7 +104,8 @@
 				"signExtensions": "74",
 				"simd": "91",
 				"tailCall": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
-				"threads": "74"
+				"threads": "74",
+				"typeReflection": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 			}
 		},
 		"Firefox": {
