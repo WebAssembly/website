@@ -104,7 +104,8 @@
 				"signExtensions": "74",
 				"simd": "91",
 				"tailCall": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
-				"threads": "74"
+				"threads": "74",
+				"typeReflection": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 			}
 		},
 		"Firefox": {
@@ -193,7 +194,7 @@
 				"simd": "16.4",
 				"tailCall": ["flag", "Requires flag `--experimental-wasm-return-call`"],
 				"threads": "16.4",
-				"typeReflection": ["flag", "Requires corresponding v8 flag"]
+				"typeReflection": ["flag", "Requires flag `--experimental-wasm-type-reflection`"]
 			}
 		},
 		"Deno": {
