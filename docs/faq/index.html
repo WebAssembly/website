@@ -210,12 +210,12 @@ world of their own.</li>
 
 <h2 id="why-not-just-use-llvm-bitcode-as-a-binary-format">Why not just use LLVM bitcode as a binary format?</h2>
 
-<p>The <a href="https://llvm.org/">LLVM</a> compiler infrastructure has a lot to recommend it:
-it has an existing intermediate representation (LLVM IR) and binary encoding
-format (bitcode). It has code generation backends targeting many architectures
-is actively developed and maintained by a large community. In fact
-<a href="http://gonacl.com">PNaCl</a> already uses LLVM as a basis for its binary
-format. However the goals and requirements that LLVM was designed to meet are
+<p>The <a href="https://llvm.org/">LLVM</a> compiler infrastructure has a lot of attractive 
+qualities: it has an existing intermediate representation (LLVM IR) and binary
+encoding format (bitcode). It has code generation backends targeting many 
+architectures and is actively developed and maintained by a large community. In
+fact <a href="http://gonacl.com">PNaCl</a> already uses LLVM as a basis for its binary
+format. However, the goals and requirements that LLVM was designed to meet are
 subtly mismatched with those of WebAssembly.</p>
 
 <p>WebAssembly has several requirements and goals for its Instruction Set
@@ -247,8 +247,8 @@ information that is useful for implementing mid-level compiler optimizations but
 is not useful for code generation (but which represents a large surface area for
 codegen implementers to deal with).  It also has undefined behavior (largely
 similar to that of C and C++) which makes some classes of optimization feasible
-or more powerful, but which can lead to unpredictable behavior at runtime.
-LLVM’s binary format (bitcode) was designed for temporary on-disk serialization
+or more powerful, but can lead to unpredictable behavior at runtime. LLVM’s
+binary format (bitcode) was designed for temporary on-disk serialization
 of the IR for link-time optimization, and not for stability or compressibility
 (although it does have some features for both of those).</p>
 
@@ -411,7 +411,7 @@ bandwidth.</p>
 those that motivated the development of the
 <a href="https://en.wikipedia.org/wiki/X32_ABI">x32 ABI</a> for Linux.</p>
 
-<p>Even Knuth found it worthwhile to give us his opinion on this issue at point,
+<p>Even Knuth found it worthwhile to give us his opinion on this issue at some point,
 <a href="https://www-cs-faculty.stanford.edu/~uno/news08.html">a flame about 64-bit pointers</a>.</p>
 
 <h2 id="will-i-be-able-to-access-proprietary-platform-apis-eg-android--ios">Will I be able to access proprietary platform APIs (e.g. Android / iOS)?</h2>
