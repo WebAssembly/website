@@ -1726,18 +1726,6 @@ header {
     text-align: center;
 }
 
-.container img, .container-narrow img {
-    max-width: 100%;
-}
-
-
-
-
-
-
-
-
-
 /* replace w github */
 
 table {
@@ -1986,13 +1974,13 @@ pre code::before, pre code::after {
   white-space: normal;
 }
 
-#feature-support .img-container {
-  width: 32px;
-  height: 32px;
-}
-
 #feature-support td {
   position: relative; /* for tooltip */
+}
+
+#feature-support th img {
+  height: 32px;
+  padding: 2px 0;
 }
 
 #feature-support td:hover, #feature-support td:focus, #feature-support td:focus-within {
