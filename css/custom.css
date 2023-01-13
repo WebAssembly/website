@@ -2040,6 +2040,8 @@ pre code::before, pre code::after {
   list-style: lower-alpha;
   font-size: 0.7em;
   margin: 0 0 1em 0;
+  columns: 32em auto;
+  column-gap: 2em;
 }
 
 #feature-support-scrollbox + ol > li {
