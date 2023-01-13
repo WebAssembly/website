@@ -1,4 +1,4 @@
-name: Build & deploy
+name: CI
 
 on:
   push:
@@ -7,21 +7,49 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
+  test:
+    name: Test
     runs-on: ubuntu-latest
+    permissions: {}
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        submodules: false  # Currently not necessary
+
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Install JSON validator
+      run: npm install -g ajv-cli@5 ajv-formats@2
+
+    - name: Validate features table
+      run: ajv -c ajv-formats -s features.schema.json -d features.json --strict=true --errors=text
+
+  build:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
       with:
         submodules: recursive
+
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 2.7
         bundler-cache: true
+
     - name: Build
       run: bundle exec jekyll build
+
     - name: Deploy
       if: github.event_name == 'push'
       uses: peaceiris/actions-gh-pages@v3
