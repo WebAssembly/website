@@ -225,6 +225,7 @@
 				"bigInt": null,
 				"bulkMemory": true,
 				"exceptions": ["flag", "Requires flag `--enable-exceptions`"],
+				"memory64": ["flag", "Requires flag `--enable-memory64`"],
 				"multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
 				"multiValue": true,
 				"mutableGlobals": true,
