@@ -146,13 +146,13 @@ const __feature_table_error_handler = (e) => {
         }, [groupName])
       ])
     );
-    for (const { name: featName, description, url, phase, stdznDate } of features) {
+    for (const feat of features) {
       // Feature detection for "Your browser"
       const detectResult = h('td', {
-        headers: [idMap['table-col']('Your browser'), idMap['table-row'](featName)].join(' ')
+        headers: [idMap['table-col']('Your browser'), idMap['table-row'](feat.name)].join(' ')
       }, [buildCellInner('loading')]);
 
-      detectWasmFeature(featName).then(supported => {
+      detectWasmFeature(feat.name).then(supported => {
         detectResult.textContent = '';
         detectResult.appendChild(buildCellInner(supported ? 'yes' : 'no'));
         return addTooltip(detectResult, supported ? '✓ Supported' : '✗ Not supported', [tBody, scrollbox]);
@@ -163,13 +163,13 @@ const __feature_table_error_handler = (e) => {
       });
 
       // Feature name and it's tooltip
-      const featureLink = h('a', { href: url, target: '_blank' }, [description]);
+      const featureLink = h('a', { href: feat.url, target: '_blank' }, [feat.description]);
       const featureHeader = h('th', {
         scope: 'row',
-        id: idMap['table-row'](featName),
+        id: idMap['table-row'](feat.name),
         headers: idMap['table-group'](groupName)
       }, [featureLink]);
-      addTooltip(featureLink, buildFeatureTooltip(phase, stdznDate), [scrollbox], featureHeader);
+      addTooltip(featureLink, buildFeatureTooltip(feat), [scrollbox], featureHeader);
 
       tBody.append(
         h('tr', {}, [
@@ -186,7 +186,7 @@ const __feature_table_error_handler = (e) => {
             // ...and any combination thereof
 
             /** @type {null|boolean|string|[boolean|string,string]} */
-            let support = features[featName];
+            let support = features[feat.name];
             let box, note;
 
             // First extract the footnote part if it's an array
@@ -226,7 +226,7 @@ const __feature_table_error_handler = (e) => {
             }
 
             const cell = h('td', {
-              headers: [idMap['table-col'](browserName), idMap['table-row'](featName)].join(' ')
+              headers: [idMap['table-col'](browserName), idMap['table-row'](feat.name)].join(' ')
             }, [box]);
 
             // Give the cell itself an `aria-lebel` to avoid screen readers calling it "empty cell".
@@ -257,7 +257,7 @@ const __feature_table_error_handler = (e) => {
           })
         ])
       );
-      tBody.lastElementChild.setAttribute('aria-describedby', idMap['table-row'](featName));
+      tBody.lastElementChild.setAttribute('aria-describedby', idMap['table-row'](feat.name));
     }
   }
 
@@ -266,14 +266,15 @@ const __feature_table_error_handler = (e) => {
     return h('div', { className: `feature-cell icon-${type}` }, [content]);
   }
 
-  function buildFeatureTooltip(phase, date) {
-    if (date) {
+  function buildFeatureTooltip(feat) {
+    if (feat.stdznDate) {
       const fragment = document.createDocumentFragment();
-      fragment.append(`Phase ${phase} proposal, standardized on `);
-      fragment.append(h('time', { dateTime: date }, [date]));
+      fragment.append(`Phase ${feat.phase} proposal, standardized on `);
+      fragment.append(h('time', { dateTime: feat.stdznDate }, [feat.stdznDate]));
+      fragment.append(` as part of WebAssembly ${feat.specVersion}`);
       return fragment;
     } else {
-      return `Phase ${phase} proposal`
+      return `Phase ${feat.phase} proposal`
     }
   }
 

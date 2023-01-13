@@ -5,13 +5,15 @@
 			"description": "JS BigInt to Wasm i64 integration",
 			"url": "https://github.com/WebAssembly/JS-BigInt-integration",
 			"phase": 5,
-			"stdznDate": "2020-06-09"
+			"stdznDate": "2020-06-09",
+			"specVersion": "2.0"
 		},
 		"bulkMemory": {
 			"description": "Bulk memory operations",
 			"url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
 			"phase": 5,
-			"stdznDate": "2021-02-10"
+			"stdznDate": "2021-02-10",
+			"specVersion": "2.0"
 		},
 		"exceptions": {
 			"description": "Exception handling",
@@ -22,7 +24,8 @@
 			"description": "Extended constant expressions",
 			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
 			"phase": 4,
-			"stdznDate": "2023-01-31"
+			"stdznDate": "2023-01-31",
+			"specVersion": "2.0"
 		},
 		"gc": {
 			"description": "Garbage collection",
@@ -43,19 +46,22 @@
 			"description": "Multi-value",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md",
 			"phase": 4,
-			"stdznDate": "2020-03-11"
+			"stdznDate": "2020-03-11",
+			"specVersion": "2.0"
 		},
 		"mutableGlobals": {
 			"description": "Mutable globals",
 			"url": "https://github.com/WebAssembly/mutable-global/blob/master/proposals/mutable-global/Overview.md",
 			"phase": 5,
-			"stdznDate": "2018-06-06"
+			"stdznDate": "2018-06-06",
+			"specVersion": "1.0"
 		},
 		"referenceTypes": {
 			"description": "Reference types",
 			"url": "https://github.com/WebAssembly/reference-types/blob/master/proposals/reference-types/Overview.md",
 			"phase": 5,
-			"stdznDate": "2021-02-10"
+			"stdznDate": "2021-02-10",
+			"specVersion": "2.0"
 		},
 		"relaxedSimd": {
 			"description": "Relaxed SIMD",
@@ -66,25 +72,29 @@
 			"description": "Non-trapping float-to-int conversions",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md",
 			"phase": 5,
-			"stdznDate": "2020-03-11"
+			"stdznDate": "2020-03-11",
+			"specVersion": "2.0"
 		},
 		"signExtensions": {
 			"description": "Sign-extension operations",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/sign-extension-ops/Overview.md",
 			"phase": 5,
-			"stdznDate": "2020-03-11"
+			"stdznDate": "2020-03-11",
+			"specVersion": "2.0"
 		},
 		"simd": {
 			"description": "Fixed-width SIMD",
 			"url": "https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md",
 			"phase": 5,
-			"stdznDate": "2021-07-14"
+			"stdznDate": "2021-07-14",
+			"specVersion": "2.0"
 		},
 		"tailCall": {
 			"description": "Tail calls",
 			"url": "https://github.com/WebAssembly/tail-call/blob/master/proposals/tail-call/Overview.md",
 			"phase": 4,
-			"stdznDate": "2023-01-17"
+			"stdznDate": "2023-01-17",
+			"specVersion": "2.0"
 		},
 		"threads": {
 			"description": "Threads and atomics",
