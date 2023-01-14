@@ -2097,3 +2097,36 @@ pre code::before, pre code::after {
 [data-placement="bottom"] > .feature-tooltip-arrow { top: 0; transform: translateY(-50%) rotate(45deg); }
 [data-placement="left"] > .feature-tooltip-arrow { right: 0; transform: translateX(50%) rotate(135deg); }
 [data-placement="right"] > .feature-tooltip-arrow { left: 0; transform: translateX(-50%) rotate(-45deg); }
+
+#feature-support-error {
+  background: #d0305029;
+  color: #ab1f3f;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+}
+
+#feature-support-error .alert-icon {
+  font-size: 42px;
+  line-height: 1;
+  margin: 0 16px;
+  font-variant-emoji: text;
+}
+
+#feature-support-error .alert-body {
+  padding: 1em 0;
+}
+
+#feature-support-error .alert-title {
+  font-size: 1.25em;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+#feature-support-error .alert-subtitle {
+  font-size: .875em;
+}
+
+#feature-support-error a {
+  color: #0a5497;
+}

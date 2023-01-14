@@ -1,6 +1,15 @@
-(async () => {
-  'use strict';
+'use strict';
 
+// This variable is unfortunately in the global scope, hence the weird name
+const __feature_table_error_handler = (e) => {
+  const banner = document.getElementById('feature-support-error');
+  if (banner.style.display) {
+    console.error('Failed to load feature table:', e);
+    banner.style.display = '';
+  }
+}
+
+(async () => {
   function partitionArray(arr, condition) {
     const matched = [];
     const unmatched = [];
@@ -145,11 +154,11 @@
       detectWasmFeature(featName).then(supported => {
         detectResult.textContent = '';
         detectResult.appendChild(buildCellInner(supported ? 'yes' : 'no'));
-        addTooltip(detectResult, supported ? '✓ Supported' : '✗ Not supported', [tBody, scrollbox]);
+        return addTooltip(detectResult, supported ? '✓ Supported' : '✗ Not supported', [tBody, scrollbox]);
       }, _err => {
         detectResult.textContent = '';
         detectResult.appendChild(buildCellInner('unknown'));
-        addTooltip(detectResult, 'Detection unavailable for this feature', [tBody, scrollbox]);
+        return addTooltip(detectResult, 'Detection unavailable for this feature', [tBody, scrollbox]);
       });
 
       tBody.append(
@@ -299,9 +308,7 @@
 
   // Lazy-loading
   function _loadTooltipModule() {
-    // Be sure to change the preloads in markdown when updating url.
-    // The ESM bundle of this package doesn't work with unpkg.com.
-    const module = import('https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm');
+    const module = import(document.getElementById('preload-tooltip').href);
 
     const subscribers = new Set();
     const updateAll = () => { for (const fn of subscribers) fn(); };
@@ -380,13 +387,12 @@
         reference.appendChild(tooltip);
         reference.setAttribute('aria-describedby', tooltipId);
         return tooltip;
-      });
+      }).catch(__feature_table_error_handler);
   }
 
   function _loadFeatureDetectModule() {
-    // Be sure to change the preloads in markdown when updating url.
-    const module = import('https://cdn.jsdelivr.net/npm/wasm-feature-detect@1.5/dist/esm/index.js');
+    const module = import(document.getElementById('preload-detect').href);
     return (featureName) => module
       .then(wasmFeatureDetect => wasmFeatureDetect[featureName]());
   }
-})();
+})().catch(__feature_table_error_handler);
