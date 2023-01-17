@@ -83,7 +83,7 @@
 		"typeReflection": {
 			"description": "Type reflection",
 			"url": "https://github.com/WebAssembly/js-types/blob/main/proposals/js-types/Overview.md",
-			"phase": 2
+			"phase": 3
 		}
 	},
 	"browsers": {
