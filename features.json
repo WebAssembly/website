@@ -73,7 +73,7 @@
 		"tailCall": {
 			"description": "Tail calls",
 			"url": "https://github.com/WebAssembly/tail-call/blob/master/proposals/tail-call/Overview.md",
-			"phase": 3
+			"phase": 4
 		},
 		"threads": {
 			"description": "Threads and atomics",
