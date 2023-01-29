@@ -182,7 +182,7 @@
 			"url": "https://nodejs.org/",
 			"logo": "/images/nodejs.svg",
 			"features": {
-				"bigInt": true,
+				"bigInt": "16.0",
 				"bulkMemory": "12.5",
 				"exceptions": "17.0",
 				"extendedConst": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
