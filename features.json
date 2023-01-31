@@ -20,6 +20,11 @@
 			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
 			"phase": 3
 		},
+		"gc": {
+			"description": "Garbage collection",
+			"url":"https://github.com/WebAssembly/gc",
+			"phase": 3
+		},
 		"memory64": {
 			"description": "Memory64",
 			"url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
@@ -95,6 +100,7 @@
 				"bulkMemory": "75",
 				"exceptions": "95",
 				"extendedConst": ["flag", "Requires flag `--js-flags=--experimental-wasm-extended-const`"],
+				"gc": ["flag", "Requires flag `chrome://flags/#enable-webassembly-garbage-collection`"],
 				"memory64": ["flag", "Requires flag `--js-flags=--experimental-wasm-memory64`"],
 				"multiValue": "85",
 				"mutableGlobals": "74",
