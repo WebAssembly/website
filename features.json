@@ -18,7 +18,7 @@
 		"extendedConst": {
 			"description": "Extended constant expressions",
 			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
-			"phase": 3
+			"phase": 4
 		},
 		"memory64": {
 			"description": "Memory64",
