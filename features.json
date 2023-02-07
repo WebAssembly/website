@@ -152,15 +152,15 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "0.20",
-				"memory64": ["flag", "Requires flag `--enable-memory64`"],
-				"multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
+				"memory64": ["flag", "Requires flag `--wasm-features=memory64`"],
+				"multiMemory": ["flag", "Requires flag `--wasm-features=multi-memory`"],
 				"multiValue": "0.17",
 				"mutableGlobals": true,
 				"referenceTypes": "0.20",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "0.33",
-				"threads": null
+				"threads": ["flag", "Requires flag `--wasm-features=threads`"],
 			}
 		},
 		"Wasmer": {
