@@ -169,11 +169,14 @@
             // * [true, "footnotes"]      => supported, with "footnotes"
             // * ["version", "footnotes"] => supported since "version", with "footnotes"
             // ...and any combination thereof
+
+            /** @type {null|boolean|string|[boolean|string,string]} */
             let support = features[featName];
             let box, note;
 
             // First extract the footnote part if it's an array
             if (Array.isArray(support)) {
+              if (support.length !== 2) throw new TypeError();
               note = support[1];
               support = support[0];
             }
