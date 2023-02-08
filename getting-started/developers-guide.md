@@ -15,7 +15,7 @@ layout: getting-started
   - Go
     - [with full language support](https://github.com/golang/go/wiki/WebAssembly#getting-started)
     - [targeting minimal size](https://tinygo.org/docs/guides/webassembly/)
-  - [Kotlin](https://kotlinlang.org/docs/reference/native-overview.html)
+  - [Kotlin](https://kotlinlang.org/docs/whatsnew-eap.html#new-kotlin-wasm-target)
   - [Swift](https://swiftwasm.org/)
   - [D](https://wiki.dlang.org/Generating_WebAssembly_with_LDC)
   - [Pascal](https://wiki.freepascal.org/WebAssembly/Compiler)
