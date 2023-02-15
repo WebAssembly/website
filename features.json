@@ -4,12 +4,12 @@
 		"bigInt": {
 			"description": "JS BigInt to Wasm i64 integration",
 			"url": "https://github.com/WebAssembly/JS-BigInt-integration",
-			"phase": 4
+			"phase": 5
 		},
 		"bulkMemory": {
 			"description": "Bulk memory operations",
 			"url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"exceptions": {
 			"description": "Exception handling",
@@ -49,32 +49,32 @@
 		"mutableGlobals": {
 			"description": "Mutable globals",
 			"url": "https://github.com/WebAssembly/mutable-global/blob/master/proposals/mutable-global/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"referenceTypes": {
 			"description": "Reference types",
 			"url": "https://github.com/WebAssembly/reference-types/blob/master/proposals/reference-types/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"relaxedSimd": {
 			"description": "Relaxed SIMD",
 			"url": "https://github.com/WebAssembly/relaxed-simd/tree/main/proposals/relaxed-simd",
-			"phase": 2
+			"phase": 3
 		},
 		"saturatedFloatToInt": {
 			"description": "Non-trapping float-to-int conversions",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"signExtensions": {
 			"description": "Sign-extension operations",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/sign-extension-ops/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"simd": {
 			"description": "Fixed-width SIMD",
 			"url": "https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md",
-			"phase": 4
+			"phase": 5
 		},
 		"tailCall": {
 			"description": "Tail calls",
@@ -84,7 +84,7 @@
 		"threads": {
 			"description": "Threads and atomics",
 			"url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
-			"phase": 2
+			"phase": 3
 		},
 		"typeReflection": {
 			"description": "Type reflection",
