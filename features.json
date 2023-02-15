@@ -1,4 +1,5 @@
 {
+	"$schema": "./features.schema.json",
 	"features": {
 		"bigInt": {
 			"description": "JS BigInt to Wasm i64 integration",
@@ -19,6 +20,11 @@
 			"description": "Extended constant expressions",
 			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
 			"phase": 4
+		},
+		"gc": {
+			"description": "Garbage collection",
+			"url":"https://github.com/WebAssembly/gc",
+			"phase": 3
 		},
 		"memory64": {
 			"description": "Memory64",
@@ -95,6 +101,7 @@
 				"bulkMemory": "75",
 				"exceptions": "95",
 				"extendedConst": ["flag", "Requires flag `--js-flags=--experimental-wasm-extended-const`"],
+				"gc": ["flag", "Requires flag `chrome://flags/#enable-webassembly-garbage-collection`"],
 				"memory64": ["flag", "Requires flag `--js-flags=--experimental-wasm-memory64`"],
 				"multiValue": "85",
 				"mutableGlobals": "74",
@@ -148,7 +155,6 @@
 		"Wasmtime": {
 			"url": "https://wasmtime.dev/",
 			"logo": "/images/bca.svg",
-			"version": "0.33",
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "0.20",

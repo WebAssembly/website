@@ -1,0 +1,78 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://github.com/WebAssembly/website/raw/main/features.schema.json",
+    "title": "WebAssembly feature table",
+    "type": "object",
+    "definitions": {
+        "feature-info": {
+            "type": "object",
+            "properties": {
+                "description": { "type": "string" },
+                "url": { "type": "string", "format": "uri-reference" },
+                "phase": { "type": "integer", "minimum": 1 }
+            },
+            "additionalProperties": false,
+            "required": ["description", "url", "phase"]
+        },
+        "browser-features": {
+            "type": "object",
+            "properties": {
+                "url": { "type": "string", "format": "uri" },
+                "logo": { "type": "string", "format": "uri-reference" },
+                "features": {
+                    "type": "object",
+                    "additionalProperties": { "$ref": "#/definitions/status" }
+                }
+            },
+            "additionalProperties": false,
+            "required": ["url", "logo", "features"]
+        },
+        "status": {
+            "title": "Status of this feature",
+            "anyOf": [
+                { "$ref": "#/definitions/status-na" },
+                { "$ref": "#/definitions/status-supported" },
+                { "$ref": "#/definitions/status-unsupported" },
+                { "$ref": "#/definitions/status-flag" },
+                { "$ref": "#/definitions/status-version" },
+                { "$ref": "#/definitions/status-note" }
+            ]
+        },
+        "status-na": { "type": "null", "title": "Not applicable" },
+        "status-supported": { "const": true, "title": "Supported in unknown version" },
+        "status-unsupported": { "const": false, "title": "Unsupported" },
+        "status-flag": { "const": "flag", "title": "Flag required" },
+        "status-version": { "type": "string", "title": "Supported in this version", "minLength": 1 },
+        "status-note": {
+            "type": "array",
+            "items": [
+                {
+                    "anyOf": [
+                        { "$ref": "#/definitions/status-na" },
+                        { "$ref": "#/definitions/status-supported" },
+                        { "$ref": "#/definitions/status-unsupported" },
+                        { "$ref": "#/definitions/status-flag" },
+                        { "$ref": "#/definitions/status-version" }
+                    ]
+                },
+                { "type": "string", "title": "Attached note", "minLength": 1 }
+            ],
+            "additionalItems": false,
+            "minItems": 2,
+            "maxItems": 2
+        }
+    },
+    "properties": {
+        "$schema": { "type": "string", "format": "uri-reference" },
+        "features": {
+            "type": "object",
+            "additionalProperties": { "$ref": "#/definitions/feature-info" }
+        },
+        "browsers": {
+            "type": "object",
+            "additionalProperties": { "$ref": "#/definitions/browser-features" }
+        }
+    },
+    "additionalProperties": false,
+    "required": ["features", "browsers"]
+}
