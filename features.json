@@ -147,7 +147,7 @@
 				"referenceTypes": "15",
 				"saturatedFloatToInt": "15",
 				"signExtensions": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
-				"simd": ["flag", "Available in Safari TP 161"],
+				"simd": "16.4",
 				"tailCall": ["flag", "Available in Safari TP 161"],
 				"threads": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"]
 			}
