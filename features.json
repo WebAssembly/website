@@ -209,7 +209,7 @@
 			"url": "https://deno.land/",
 			"logo": "/images/deno.svg",
 			"features": {
-				"bigInt": true,
+				"bigInt": "1.1.2",
 				"bulkMemory": "0.4",
 				"exceptions": "1.16",
 				"extendedConst": ["flag", "Requires flag `--v8-flags=--experimental-wasm-extended-const`"],
