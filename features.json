@@ -36,11 +36,6 @@
 			"url": "https://github.com/WebAssembly/multi-memory/blob/master/proposals/multi-memory/Overview.md",
 			"phase": 3
 		},
-		"moduleLinking": {
-			"description": "Module Linking",
-			"url": "https://github.com/WebAssembly/module-linking/blob/main/design/proposals/module-linking/Explainer.md",
-			"phase": 1
-		},
 		"multiValue": {
 			"description": "Multi-value",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md",
