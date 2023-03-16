@@ -97,15 +97,15 @@
 				"exceptions": "95",
 				"extendedConst": ["flag", "Requires flag `--js-flags=--experimental-wasm-extended-const`"],
 				"gc": ["flag", "Requires flag `chrome://flags/#enable-webassembly-garbage-collection`"],
-				"memory64": ["flag", "Requires flag `--js-flags=--experimental-wasm-memory64`"],
+				"memory64": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"multiValue": "85",
 				"mutableGlobals": "74",
-				"relaxedSimd": ["flag", "Requires flag `--js-flags=--experimental-wasm-relaxed-simd`"],
+				"relaxedSimd": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"referenceTypes": "96",
 				"saturatedFloatToInt": "75",
 				"signExtensions": "74",
 				"simd": "91",
-				"tailCall": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
+				"tailCall": "112",
 				"threads": "74",
 				"typeReflection": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"]
 			}
