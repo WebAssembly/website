@@ -176,7 +176,8 @@
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "2.0",
-				"threads": null
+				"threads": null,
+				"typeReflection": "2.0"
 			}
 		},
 		"Node.js": {
