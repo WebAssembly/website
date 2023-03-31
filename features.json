@@ -95,7 +95,7 @@
 				"bigInt": "85",
 				"bulkMemory": "75",
 				"exceptions": "95",
-				"extendedConst": ["flag", "Requires flag `--js-flags=--experimental-wasm-extended-const`"],
+				"extendedConst": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"gc": ["flag", "Requires flag `chrome://flags/#enable-webassembly-garbage-collection`"],
 				"memory64": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"multiValue": "85",
