@@ -147,39 +147,6 @@
 				"threads": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"]
 			}
 		},
-		"Wasmtime": {
-			"url": "https://wasmtime.dev/",
-			"logo": "/images/bca.svg",
-			"features": {
-				"bigInt": null,
-				"bulkMemory": "0.20",
-				"memory64": ["flag", "Requires flag `--wasm-features=memory64`"],
-				"multiMemory": ["flag", "Requires flag `--wasm-features=multi-memory`"],
-				"multiValue": "0.17",
-				"mutableGlobals": true,
-				"referenceTypes": "0.20",
-				"saturatedFloatToInt": true,
-				"signExtensions": true,
-				"simd": "0.33",
-				"threads": null
-			}
-		},
-		"Wasmer": {
-			"url": "https://wasmer.io/",
-			"logo": "/images/wasmer.svg",
-			"features": {
-				"bigInt": null,
-				"bulkMemory": "1.0",
-				"multiValue": "1.0",
-				"mutableGlobals": "0.7",
-				"referenceTypes": "2.0",
-				"saturatedFloatToInt": true,
-				"signExtensions": true,
-				"simd": "2.0",
-				"threads": null,
-				"typeReflection": "2.0"
-			}
-		},
 		"Node.js": {
 			"url": "https://nodejs.org/",
 			"logo": "/images/nodejs.svg",
@@ -220,6 +187,39 @@
 				"tailCall": ["flag", "Requires flag `--v8-flags=--experimental-wasm-return-call`"],
 				"threads": "1.9",
 				"typeReflection": ["flag", "Requires corresponding v8 flag (`--v8-flags=\"...\"`)"]
+			}
+		},
+		"Wasmtime": {
+			"url": "https://wasmtime.dev/",
+			"logo": "/images/bca.svg",
+			"features": {
+				"bigInt": null,
+				"bulkMemory": "0.20",
+				"memory64": ["flag", "Requires flag `--wasm-features=memory64`"],
+				"multiMemory": ["flag", "Requires flag `--wasm-features=multi-memory`"],
+				"multiValue": "0.17",
+				"mutableGlobals": true,
+				"referenceTypes": "0.20",
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"simd": "0.33",
+				"threads": null
+			}
+		},
+		"Wasmer": {
+			"url": "https://wasmer.io/",
+			"logo": "/images/wasmer.svg",
+			"features": {
+				"bigInt": null,
+				"bulkMemory": "1.0",
+				"multiValue": "1.0",
+				"mutableGlobals": "0.7",
+				"referenceTypes": "2.0",
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"simd": "2.0",
+				"threads": null,
+				"typeReflection": "2.0"
 			}
 		},
 		"wasm2c": {
