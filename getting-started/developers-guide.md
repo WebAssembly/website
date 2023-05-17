@@ -11,6 +11,8 @@ layout: getting-started
   - [Rust](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)
   - [AssemblyScript (a TypeScript-like syntax)](https://assemblyscript.org/introduction.html)
   - [C#](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio)
+  - Dart
+    - [Via Flutter](https://flutter.dev/wasm) (preview)
   - [F#](https://fsbolero.io/docs/)
   - Go
     - [with full language support](https://github.com/golang/go/wiki/WebAssembly#getting-started)
