@@ -229,6 +229,7 @@
 				"bigInt": null,
 				"bulkMemory": "1.0.30",
 				"exceptions": ["flag", "Requires flag `--enable-exceptions`"],
+				"extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
 				"memory64": ["flag", "Requires flag `--enable-memory64`"],
 				"multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
 				"multiValue": "1.0.24",
@@ -236,7 +237,7 @@
 				"referenceTypes": "1.0.31",
 				"saturatedFloatToInt": "1.0.24",
 				"signExtensions": "1.0.24",
-				"simd": false
+				"simd": "1.0.33"
 			}
 		}
 	}
