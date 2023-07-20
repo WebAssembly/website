@@ -117,7 +117,7 @@
 				"bigInt": "78",
 				"bulkMemory": "79",
 				"exceptions": "100",
-				"extendedConst": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
+				"extendedConst": "112",
 				"memory64": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
 				"multiValue": "78",
 				"mutableGlobals": "61",
