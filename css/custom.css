@@ -1726,18 +1726,6 @@ header {
     text-align: center;
 }
 
-.container img, .container-narrow img {
-    max-width: 100%;
-}
-
-
-
-
-
-
-
-
-
 /* replace w github */
 
 table {
@@ -1986,17 +1974,21 @@ pre code::before, pre code::after {
   white-space: normal;
 }
 
-#feature-support .img-container {
-  width: 32px;
-  height: 32px;
+#feature-support td, #feature-support th {
+  position: relative; /* for tooltip */
 }
 
-#feature-support td {
-  position: relative; /* for tooltip */
+#feature-support th img {
+  height: 32px;
+  padding: 2px 0;
 }
 
 #feature-support td:hover, #feature-support td:focus, #feature-support td:focus-within {
   background: rgba(0, 0, 0, .04);
+}
+
+#feature-support time {
+  white-space: nowrap;
 }
 
 .feature-cell {
@@ -2052,6 +2044,8 @@ pre code::before, pre code::after {
   list-style: lower-alpha;
   font-size: 0.7em;
   margin: 0 0 1em 0;
+  columns: 32em auto;
+  column-gap: 2em;
 }
 
 #feature-support-scrollbox + ol > li {
@@ -2068,6 +2062,7 @@ pre code::before, pre code::after {
   white-space: normal;
   background: #fefefe;
   font-size: 0.8em;
+  font-weight: normal;
   border-radius: 2px;
   outline: none;
 
@@ -2107,3 +2102,36 @@ pre code::before, pre code::after {
 [data-placement="bottom"] > .feature-tooltip-arrow { top: 0; transform: translateY(-50%) rotate(45deg); }
 [data-placement="left"] > .feature-tooltip-arrow { right: 0; transform: translateX(50%) rotate(135deg); }
 [data-placement="right"] > .feature-tooltip-arrow { left: 0; transform: translateX(-50%) rotate(-45deg); }
+
+#feature-support-error {
+  background: #d0305029;
+  color: #ab1f3f;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+}
+
+#feature-support-error .alert-icon {
+  font-size: 42px;
+  line-height: 1;
+  margin: 0 16px;
+  font-variant-emoji: text;
+}
+
+#feature-support-error .alert-body {
+  padding: 1em 0;
+}
+
+#feature-support-error .alert-title {
+  font-size: 1.25em;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+#feature-support-error .alert-subtitle {
+  font-size: .875em;
+}
+
+#feature-support-error a {
+  color: #0a5497;
+}

@@ -1,6 +1,15 @@
-(async () => {
-  'use strict';
+'use strict';
 
+// This variable is unfortunately in the global scope, hence the weird name
+const __feature_table_error_handler = (e) => {
+  const banner = document.getElementById('feature-support-error');
+  if (banner.style.display) {
+    console.error('Failed to load feature table:', e);
+    banner.style.display = '';
+  }
+}
+
+(async () => {
   function partitionArray(arr, condition) {
     const matched = [];
     const unmatched = [];
@@ -65,7 +74,7 @@
           h('th', { scope: 'col', id: idMap['table-col'](name) }, [
             h('a', { href: url, target: '_blank' }, [
               // https://www.w3.org/WAI/WCAG22/Techniques/html/H2
-              h('img', { src: logo, width: 48, height: 32, alt: '' }),
+              h('img', { src: logo, alt: '' }),
               h('br'),
               name
             ])
@@ -77,7 +86,13 @@
   );
 
   let featureGroups = partitionArray(
-    Object.entries(features).map(([name, feature]) => Object.assign(feature, { name })),
+    Object.entries(features)
+      .map(([name, feature]) => Object.assign(feature, { name }))
+      .sort((a, b) => {  // Sort by phase descending then date ascending
+        let i;
+        if (i = b.phase - a.phase) return i;
+        return (a.stdznDate || '9999-99-99').localeCompare(b.stdznDate || '9999-99-99')
+      }),
     feature => feature.phase >= 4
   );
 
@@ -86,37 +101,24 @@
     { name: 'In-progress proposals', features: featureGroups.unmatched },
   ];
 
-  // Collect all notes and assign an index to each unique item
-  // { "First unique note": 0, "Second unique note": 1, ...}
+  // Collect all footnotes
   const notes = Object.values(browsers).flatMap(b =>
     Object.values(b.features)
       .filter(s => Array.isArray(s))
       .map(s => s[1])
   );
-  const note2index = new Map();
-  let noteIndex = 0;
-  for (const note of notes) {
-    if (!note2index.has(note)) {
-      note2index.set(note, noteIndex++);
-    }
-  }
+  const noteCache = new Map();
+  let nextNoteId = 0;
 
-  // Generate the footnote list. They are later referenced in the actual table.
+  // List containing all footnotes
   const noteList = document.createElement('ol');
   // Place footnote list outside of the scolling area
   scrollbox.parentNode.insertBefore(noteList, scrollbox.nextSibling);
-  for (const [note, index] of note2index) {
-    const item = h('li', { id: `feature-note-${index}` });
-    noteList.appendChild(item).appendChild(renderNote(note));
-  }
 
-  // Create an <a> element that links to the specified footnote.
-  // Also returns the HTML id of the footnote it refers to.
-  function createNoteRef(index) {
-    const id = `feature-note-${index}`;
-    return [id, h('a', { href: `#${id}` }, [`[${toAlphabet(index)}]`])];
-  }
-
+  // Clip the tooltips to both <tbody> and the scrollbox.
+  // the former is to avoid blocking out the headers;
+  // the latter is to keep the tooltip inside the scrollable area
+  const tooltipBoundary = [tBody, scrollbox];
   const columnCount = 2 + Object.keys(browsers).length;
 
   for (const { name: groupName, features } of featureGroups) {
@@ -137,28 +139,34 @@
         }, [groupName])
       ])
     );
-    for (const { name: featName, description, url } of features) {
+    for (const feat of features) {
+      // Feature detection for "Your browser"
       const detectResult = h('td', {
-        headers: [idMap['table-col']('Your browser'), idMap['table-row'](featName)].join(' ') 
+        headers: [idMap['table-col']('Your browser'), idMap['table-row'](feat.name)].join(' ')
       }, [buildCellInner('loading')]);
 
-      detectWasmFeature(featName).then(supported => {
+      detectWasmFeature(feat.name).then(supported => {
         detectResult.textContent = '';
         detectResult.appendChild(buildCellInner(supported ? 'yes' : 'no'));
-        addTooltip(detectResult, supported ? '✓ Supported' : '✗ Not supported', [tBody, scrollbox]);
+        return addTooltip(detectResult, supported ? '✓ Supported' : '✗ Not supported', tooltipBoundary);
       }, _err => {
         detectResult.textContent = '';
         detectResult.appendChild(buildCellInner('unknown'));
-        addTooltip(detectResult, 'Detection unavailable for this feature', [tBody, scrollbox]);
+        return addTooltip(detectResult, 'Detection unavailable for this feature', tooltipBoundary);
       });
+
+      // Feature name and it's tooltip
+      const featureLink = h('a', { href: feat.url, target: '_blank' }, [feat.description]);
+      const featureHeader = h('th', {
+        scope: 'row',
+        id: idMap['table-row'](feat.name),
+        headers: idMap['table-group'](groupName)
+      }, [featureLink]);
+      addTooltip(featureLink, buildFeatureTooltip(feat), [scrollbox], featureHeader);
 
       tBody.append(
         h('tr', {}, [
-          h('th', {
-            scope: 'row',
-            id: idMap['table-row'](featName),
-            headers: idMap['table-group'](groupName)
-          }, [h('a', { href: url, target: '_blank' }, [description])]),
+          featureHeader,
           detectResult,
           ...Object.entries(browsers).map(([browserName, { features }]) => {
             // Meaning of each entry:
@@ -171,7 +179,7 @@
             // ...and any combination thereof
 
             /** @type {null|boolean|string|[boolean|string,string]} */
-            let support = features[featName];
+            let support = features[feat.name];
             let box, note;
 
             // First extract the footnote part if it's an array
@@ -201,12 +209,17 @@
             } else {
               if (support !== true) throw new TypeError();
               box = buildCellInner('yes');
-              // Magic value, keep in sync with `renderNote`
-              note ||= '✓ Supported, introduced in unknown version';
+              if (!note) {
+                note = document.createDocumentFragment();
+                note.append('✓ Supported, introduced in unknown version ', h('a', {
+                  href: 'https://github.com/WebAssembly/website/blob/main/features.json',
+                  target: '_blank'
+                }, ['(contribute data)']));
+              }
             }
 
             const cell = h('td', {
-              headers: [idMap['table-col'](browserName), idMap['table-row'](featName)].join(' ')
+              headers: [idMap['table-col'](browserName), idMap['table-row'](feat.name)].join(' ')
             }, [box]);
 
             // Give the cell itself an `aria-lebel` to avoid screen readers calling it "empty cell".
@@ -216,46 +229,66 @@
               icon.removeAttribute('aria-label');
             }
 
-            if (note && note2index.has(note)) {
+            if (note && notes.includes(note)) {
               cell.tabIndex = 0;  // focusable
-              const index = note2index.get(note);
-              const [noteId, refLink] = createNoteRef(index);
-              box.appendChild(h('sup', {}, [refLink]));
 
-              const noteItem = document.getElementById(noteId);
-              if (noteItem) {
-                cell.addEventListener('mouseenter', () => noteItem.classList.add('ref-highlight'));
-                cell.addEventListener('mouseleave', () => noteItem.classList.remove('ref-highlight'));
+              // If we already have a <li> associated with this note, just use that.
+              let cache = noteCache.get(note);
+              if (!cache) {
+                const index = nextNoteId++;
+                const item = h('li', { id: `feature-note-${index}` });
+                noteCache.set(note, cache = { index, item });
+                noteList.appendChild(item).appendChild(renderNote(note));
               }
+
+              const { index, item } = cache;
+              const noteRef = h('a', { href: `#${item.id}` }, [`[${toAlphabet(index)}]`]);
+              box.appendChild(h('sup', {}, [noteRef]));
+
+              cell.addEventListener('mouseenter', () => item.classList.add('ref-highlight'));
+              cell.addEventListener('mouseleave', () => item.classList.remove('ref-highlight'));
             }
 
-            // Clip to both <tbody> and the scrollbox.
-            // the former is to avoid blocking out the headers;
-            // the latter is to keep the tooltip inside the scrollable area
-            addTooltip(cell, note, [tBody, scrollbox]);
+            addTooltip(cell, note, tooltipBoundary);
             return cell;
           })
         ])
       );
-      tBody.lastElementChild.setAttribute('aria-describedby', idMap['table-row'](featName));
+      tBody.lastElementChild.setAttribute('aria-describedby', idMap['table-row'](feat.name));
     }
   }
 
   function buildCellInner(type, text) {
     const content = text || icon(type);
-    return h('div', { className: `feature-cell icon-${type}`}, [content]);
+    return h('div', { className: `feature-cell icon-${type}` }, [content]);
+  }
+
+  function buildFeatureTooltip(feat) {
+    if (feat.stdznDate) {
+      const fragment = document.createDocumentFragment();
+      fragment.append(`Phase ${feat.phase} proposal, standardized on `);
+      fragment.append(h('time', { dateTime: feat.stdznDate }, [feat.stdznDate]));
+      fragment.append(` as part of WebAssembly ${feat.specVersion}`);
+      return fragment;
+    } else {
+      return `Phase ${feat.phase} proposal`
+    }
   }
 
   function renderNote(note) {
-    const fragment = document.createDocumentFragment();
-    const isMissingData = note.includes('introduced in unknown version');
+    let fragment;
+    if (typeof note === 'string') {
+      fragment = document.createDocumentFragment();
 
-    // Transform markdown-like backticks into html <code></code>
-    while (note) {
-      const [head, body, tail] = splitParts(note, '`');
-      head && fragment.append(head);
-      body && fragment.appendChild(h('code', {}, [body]));
-      note = tail;
+      // Transform markdown-like backticks into html <code></code>
+      while (note) {
+        const [head, body, tail] = splitParts(note, '`');
+        head && fragment.append(head);
+        body && fragment.appendChild(h('code', {}, [body]));
+        note = tail;
+      }
+    } else {
+      fragment = note;
     }
 
     const firstNode = fragment.firstChild;
@@ -272,13 +305,6 @@
           break;
         }
       }
-    }
-
-    if (isMissingData) {
-      fragment.appendChild(h('a', {
-        href: 'https://github.com/WebAssembly/website/blob/master/features.json',
-        target: '_blank'
-      }, [' (contribute data)']))
     }
 
     return fragment;
@@ -299,9 +325,7 @@
 
   // Lazy-loading
   function _loadTooltipModule() {
-    // Be sure to change the preloads in markdown when updating url.
-    // The ESM bundle of this package doesn't work with unpkg.com.
-    const module = import('https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm');
+    const module = import(document.getElementById('preload-tooltip').href);
 
     const subscribers = new Set();
     const updateAll = () => { for (const fn of subscribers) fn(); };
@@ -311,7 +335,7 @@
     window.addEventListener('resize', updateAll, { passive: true });
 
     let counter = 0;
-    return (reference, note, boundary) =>
+    return (reference, note, boundary, parent = reference) =>
       module.then(({ computePosition, offset, flip, shift, arrow }) => {
         const tooltipId = `tooltip-${counter++}`;
         const tooltip = h('div', { id: tooltipId, className: 'feature-tooltip', role: 'tooltip' });
@@ -377,16 +401,15 @@
           timeout = setTimeout(() => setVisible(false), 80);
         });
 
-        reference.appendChild(tooltip);
+        parent.appendChild(tooltip);
         reference.setAttribute('aria-describedby', tooltipId);
         return tooltip;
-      });
+      }).catch(__feature_table_error_handler);
   }
 
   function _loadFeatureDetectModule() {
-    // Be sure to change the preloads in markdown when updating url.
-    const module = import('https://cdn.jsdelivr.net/npm/wasm-feature-detect@1.5/dist/esm/index.js');
+    const module = import(document.getElementById('preload-detect').href);
     return (featureName) => module
       .then(wasmFeatureDetect => wasmFeatureDetect[featureName]());
   }
-})();
+})().catch(__feature_table_error_handler);

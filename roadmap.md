@@ -27,12 +27,22 @@ After the initial release, WebAssembly has been gaining new features through the
 
 The table below aims to track implemented features in popular engines:
 
+<article id="feature-support-error" style="display:none">
+  <div class="alert-icon">&#x26A0;&#xFE0E;</div>
+  <div class="alert-body">
+    <div class="alert-title">An error occured while loading the feature table</div>
+    <div class="alert-subtitle">Check the browser console for details.
+    If the problem persists after reloading the page, please
+    <a href="https://github.com/WebAssembly/website/issues" target="_blank">file an issue on GitHub</a>.</div>
+  </div>
+</article>
 <div id="feature-support-scrollbox">
+  <noscript>&#x26A0;&#xFE0E; Javascript is disabled and the table cannot be displayed.</noscript>
   <table id="feature-support" aria-label="Status of implemented features in popular engines"></table>
 </div>
 <link rel="preload" href="/features.json" as="fetch">
+<link rel="modulepreload" id="preload-tooltip" href="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm">
+<link rel="modulepreload" id="preload-detect" href="https://cdn.jsdelivr.net/npm/wasm-feature-detect@1.5/dist/esm/index.js">
 <script src="/roadmap.js"></script>
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/wasm-feature-detect@1/dist/esm/index.js">
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm">
 
 To detect supported features at runtime from JavaScript, check out the [`wasm-feature-detect` library](https://github.com/GoogleChromeLabs/wasm-feature-detect), which powers the "Your browser" column above.
