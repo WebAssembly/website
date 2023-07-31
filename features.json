@@ -167,6 +167,7 @@
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "0.33",
+				"tailCall": ["flag", "Requires flag `--wasm-features=tail-call`"],
 				"threads": null
 			}
 		},
