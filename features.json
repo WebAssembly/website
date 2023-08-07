@@ -132,6 +132,7 @@
 				"saturatedFloatToInt": "64",
 				"signExtensions": "62",
 				"simd": "89",
+				"tailCall": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
 				"threads": "79",
 				"typeReflection": ["flag", "Enabled in Nightly, unavailable in Beta/Release"]
 			}
