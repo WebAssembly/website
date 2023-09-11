@@ -104,6 +104,7 @@
 				"gc": ["flag", "Requires flag `chrome://flags/#enable-webassembly-garbage-collection`"],
 				"jspi": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-stack-switching`"],
 				"memory64": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
+				"multiMemory": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"multiValue": "85",
 				"mutableGlobals": "74",
 				"relaxedSimd": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
