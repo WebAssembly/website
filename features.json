@@ -124,7 +124,7 @@
 				"bulkMemory": "79",
 				"exceptions": "100",
 				"extendedConst": "112",
-				"gc": [ "flag", "Enabled in Nightly, can be enabled on Beta/Release with flag `--enable-wasm-gc`"],
+				"gc": [ "flag", "Can be enabled by setting the pref `javascript.options.wasm_gc` in `about:config`"],
 				"memory64": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
 				"multiValue": "78",
 				"mutableGlobals": "61",
