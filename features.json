@@ -163,6 +163,7 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "0.20",
+				"jspi": null,
 				"memory64": ["flag", "Requires flag `--wasm-features=memory64`"],
 				"multiMemory": ["flag", "Requires flag `--wasm-features=multi-memory`"],
 				"multiValue": "0.17",
@@ -182,6 +183,7 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "1.0",
+				"jspi": null,
 				"multiValue": "1.0",
 				"mutableGlobals": "0.7",
 				"referenceTypes": "2.0",
@@ -243,6 +245,7 @@
 				"bulkMemory": "1.0.30",
 				"exceptions": ["flag", "Requires flag `--enable-exceptions`"],
 				"extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
+				"jspi": null,
 				"memory64": ["flag", "Requires flag `--enable-memory64`"],
 				"multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
 				"multiValue": "1.0.24",
