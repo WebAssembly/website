@@ -107,7 +107,7 @@
 				"multiMemory": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"multiValue": "85",
 				"mutableGlobals": "74",
-				"relaxedSimd": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
+				"relaxedSimd": "114",
 				"referenceTypes": "96",
 				"saturatedFloatToInt": "75",
 				"signExtensions": "74",
@@ -163,16 +163,18 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "0.20",
+				"jspi": null,
 				"memory64": ["flag", "Requires flag `--wasm-features=memory64`"],
 				"multiMemory": ["flag", "Requires flag `--wasm-features=multi-memory`"],
 				"multiValue": "0.17",
 				"mutableGlobals": true,
 				"referenceTypes": "0.20",
+				"relaxedSimd": ["flag", "Requires flag `--wasm-features=relaxed-simd`"],
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "0.33",
 				"tailCall": ["flag", "Requires flag `--wasm-features=tail-call`"],
-				"threads": null
+				"threads": ["flag", "Requires flag `--wasm-features=threads`"]
 			}
 		},
 		"Wasmer": {
@@ -181,13 +183,13 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "1.0",
+				"jspi": null,
 				"multiValue": "1.0",
 				"mutableGlobals": "0.7",
 				"referenceTypes": "2.0",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "2.0",
-				"threads": null,
 				"typeReflection": "2.0"
 			}
 		},
@@ -243,6 +245,7 @@
 				"bulkMemory": "1.0.30",
 				"exceptions": ["flag", "Requires flag `--enable-exceptions`"],
 				"extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
+				"jspi": null,
 				"memory64": ["flag", "Requires flag `--enable-memory64`"],
 				"multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
 				"multiValue": "1.0.24",
