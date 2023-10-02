@@ -8,9 +8,9 @@ There's a lot of community-driven public discussion forums, chats and channels w
 
 Here are just some of the popular ways to get started:
 
-- [Collection of awesome things in the Wasm ecosystem](https://github.com/mbasso/awesome-wasm)
-- [Reddit: r/WebAssembly](https://www.reddit.com/r/WebAssembly/)
 - [Discord chat](https://discord.gg/jwCC7jS)
+- [Collection of awesome things in the Wasm ecosystem](https://github.com/mbasso/awesome-wasm)
+- [Reddit: r/WebAssembly](https://www.reddit.com/r/WebAssembly2/)
 - [Stackoverflow: #webassembly tag](https://stackoverflow.com/questions/tagged/webassembly)
 - WebAssembly Weekly [newsletter](https://wasmweekly.news/) or [Twitter account](https://twitter.com/WasmWeekly).
 
