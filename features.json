@@ -201,6 +201,7 @@
 				"bulkMemory": "12.5",
 				"exceptions": "17.0",
 				"extendedConst": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
+				"gc": ["flag", "Requires flag `--experimental-wasm-gc`"],
 				"jspi": ["flag", "Requires flag `--experimental-wasm-stack-switching`"],
 				"memory64": ["flag", "Requires flag `--experimental-wasm-memory64`"],
 				"multiValue": "15.0",
