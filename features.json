@@ -39,7 +39,7 @@
 		"multiMemory": {
 			"description": "Multiple memories",
 			"url": "https://github.com/WebAssembly/multi-memory/blob/master/proposals/multi-memory/Overview.md",
-			"phase": 3
+			"phase": 4
 		},
 		"multiValue": {
 			"description": "Multi-value",
@@ -59,7 +59,7 @@
 		"relaxedSimd": {
 			"description": "Relaxed SIMD",
 			"url": "https://github.com/WebAssembly/relaxed-simd/tree/main/proposals/relaxed-simd",
-			"phase": 3
+			"phase": 4
 		},
 		"saturatedFloatToInt": {
 			"description": "Non-trapping float-to-int conversions",
