@@ -84,7 +84,7 @@
 		"threads": {
 			"description": "Threads and atomics",
 			"url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
-			"phase": 3
+			"phase": 4
 		},
 		"typeReflection": {
 			"description": "Type reflection",
