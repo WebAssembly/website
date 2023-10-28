@@ -148,7 +148,7 @@
 				"bulkMemory": "15",
 				"exceptions": "15.2",
 				"multiValue": true,
-				"mutableGlobals": true,
+				"mutableGlobals": "12",
 				"referenceTypes": "15",
 				"saturatedFloatToInt": "15",
 				"signExtensions": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
