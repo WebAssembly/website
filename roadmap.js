@@ -139,7 +139,7 @@
     );
     for (const { name: featName, description, url } of features) {
       const detectResult = h('td', {
-        headers: [idMap['table-col']('Your browser'), idMap['table-row'](featName)].join(' ') 
+        headers: [idMap['table-col']('Your browser'), idMap['table-row'](featName)].join(' ')
       }, [buildCellInner('loading')]);
 
       detectWasmFeature(featName).then(supported => {
@@ -385,7 +385,7 @@
 
   function _loadFeatureDetectModule() {
     // Be sure to change the preloads in markdown when updating url.
-    const module = import('https://cdn.jsdelivr.net/npm/wasm-feature-detect@1.5/dist/esm/index.js');
+    const module = import('https://unpkg.com/wasm-feature-detect@latest/dist/esm/index.js');
     return (featureName) => module
       .then(wasmFeatureDetect => wasmFeatureDetect[featureName]());
   }
