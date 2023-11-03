@@ -32,7 +32,7 @@ The table below aims to track implemented features in popular engines:
 </div>
 <link rel="preload" href="/features.json" as="fetch">
 <script src="/roadmap.js"></script>
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/wasm-feature-detect/dist/esm/index.js">
+<link rel="modulepreload" href="https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1">
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm">
 
 To detect supported features at runtime from JavaScript, check out the [`wasm-feature-detect` library](https://github.com/GoogleChromeLabs/wasm-feature-detect), which powers the "Your browser" column above.
