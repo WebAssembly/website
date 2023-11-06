@@ -104,7 +104,7 @@
 				"gc": "119",
 				"jspi": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-stack-switching`"],
 				"memory64": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
-				"multiMemory": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
+				"multiMemory": "120",
 				"multiValue": "85",
 				"mutableGlobals": "74",
 				"relaxedSimd": "114",
