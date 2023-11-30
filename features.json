@@ -165,16 +165,16 @@
 				"bulkMemory": "0.20",
 				"jspi": null,
 				"memory64": ["flag", "Requires flag `--wasm-features=memory64`"],
-				"multiMemory": ["flag", "Requires flag `--wasm-features=multi-memory`"],
+				"multiMemory": "15",
 				"multiValue": "0.17",
 				"mutableGlobals": true,
 				"referenceTypes": "0.20",
-				"relaxedSimd": ["flag", "Requires flag `--wasm-features=relaxed-simd`"],
+				"relaxedSimd": "15",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "0.33",
 				"tailCall": ["flag", "Requires flag `--wasm-features=tail-call`"],
-				"threads": ["flag", "Requires flag `--wasm-features=threads`"]
+				"threads": "15"
 			}
 		},
 		"Wasmer": {
