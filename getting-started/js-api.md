@@ -9,7 +9,7 @@ _We assume here that you already have a .wasm module, whether [compiled from a C
 
 ## Loading and running
 
-While there are [future plans](/docs/future-features/) to allow WebAssembly modules to be loaded just like ES6 modules (using `<script type='module'>`), WebAssembly must currently be loaded and compiled by JavaScript.  For basic loading, there are three steps:
+While there are [future plans](/roadmap/) to allow WebAssembly modules to be loaded just like ES6 modules (using `<script type='module'>`), WebAssembly must currently be loaded and compiled by JavaScript.  For basic loading, there are three steps:
 
 - Get the `.wasm` bytes into a typed array or `ArrayBuffer`
 - Compile the bytes into a `WebAssembly.Module`
