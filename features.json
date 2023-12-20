@@ -135,7 +135,7 @@
 				"saturatedFloatToInt": "64",
 				"signExtensions": "62",
 				"simd": "89",
-				"tailCall": ["flag", "Available in Beta 121, will be in 121 Release on 2023-12-19"],
+				"tailCall": "121",
 				"threads": "79",
 				"typeReflection": ["flag", "Enabled in Nightly, unavailable in Beta/Release"]
 			}
