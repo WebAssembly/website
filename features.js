@@ -386,7 +386,7 @@
   function _loadFeatureDetectModule() {
     // Please cache bust by bumping the `v` parameter whenever `feature.json` is
     // updated to depend on a new version of the library. See #353 for discussion.
-    // Make sure to also match the preload link in `roadmap.md`.
+    // Make sure to also match the preload link in `features.md`.
     const module = import('https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1');
     return (featureName) => module
       .then(wasmFeatureDetect => wasmFeatureDetect[featureName]());
