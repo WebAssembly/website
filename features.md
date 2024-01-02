@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-# Roadmap
+# Feature Extensions
 
 In November 2017, WebAssembly CG members representing four browsers, Chrome, Edge, Firefox, and WebKit, reached consensus that the design of the initial (MVP) WebAssembly API and binary format is complete to the extent that no further design work is possible without implementation experience and significant usage.
 
@@ -31,7 +31,7 @@ The table below aims to track implemented features in popular engines:
   <table id="feature-support" aria-label="Status of implemented features in popular engines"></table>
 </div>
 <link rel="preload" href="/features.json" as="fetch">
-<script src="/roadmap.js"></script>
+<script src="/features.js"></script>
 <link rel="modulepreload" href="https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1">
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm">
 
