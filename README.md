@@ -39,7 +39,8 @@ The static site should be configured to build to the `docs` directory. The `docs
 
 ## What is the role of `_config.yml` and the custom Jekyll plugins?
 
-> Note: the following plugins are all hacks to make the workflow of generating website docs from the `design` repo work without updating the sources in the design repo.
+> [!note]
+> The following plugins are all hacks to make the workflow of generating website docs from the `design` repo work without updating the sources in the design repo.
 
 - `gem 'jekyll-optional-front-matter'` loaded directly in the `Gemfile` allows markdown files without YAML frontmatter to be consumed directly. This is included to allow `design` repo `.md` files to be used as pages without modifying their source to add frontmatter.
 - `gem 'jemoji'` loaded directly in the `Gemfile` replaces GitHub-style emoji markdown (e.g. `:+1:`) with images for compat.
