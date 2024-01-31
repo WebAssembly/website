@@ -204,6 +204,7 @@
 				"gc": ["flag", "Requires flag `--experimental-wasm-gc`"],
 				"jspi": ["flag", "Requires flag `--experimental-wasm-stack-switching`"],
 				"memory64": ["flag", "Requires flag `--experimental-wasm-memory64`"],
+				"multiMemory": ["flag", "Requires flag `--experimental-wasm-multi-memory`"],
 				"multiValue": "15.0",
 				"mutableGlobals": "12.0",
 				"referenceTypes": "17.2",
