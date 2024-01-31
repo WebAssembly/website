@@ -144,7 +144,7 @@
 			"url": "https://www.apple.com/safari/",
 			"logo": "/images/safari.svg",
 			"features": {
-				"bigInt": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
+				"bigInt": ["15", "wasm-bigint is supported in desktop Safari since 14.1 and iOS Safari since 14.5; however BigInt64Array, which is needed by Emscripten, was released in 15"],
 				"bulkMemory": "15",
 				"exceptions": "15.2",
 				"multiValue": true,
