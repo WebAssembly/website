@@ -201,7 +201,7 @@
 				"bulkMemory": "12.5",
 				"exceptions": "17.0",
 				"extendedConst": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
-				"gc": ["flag", "Requires flag `--experimental-wasm-gc; the new opcodes are only supported in v22.0.0-nightly2024010568c8472ed9 or newer`"],
+				"gc": "22.0",
 				"jspi": ["flag", "Requires flag `--experimental-wasm-stack-switching`"],
 				"memory64": ["flag", "Requires flag `--experimental-wasm-memory64`"],
 				"multiMemory": ["flag", "Requires flag `--experimental-wasm-multi-memory`"],
