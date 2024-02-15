@@ -212,7 +212,7 @@
 				"saturatedFloatToInt": "12.5",
 				"signExtensions": "12.0",
 				"simd": "16.4",
-				"tailCall": ["flag", "Requires flag `--experimental-wasm-return-call`"],
+				"tailCall": "20.0",
 				"threads": "16.4",
 				"typeReflection": ["flag", "Requires flag `--experimental-wasm-type-reflection`"]
 			}
