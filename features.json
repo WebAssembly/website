@@ -147,7 +147,7 @@
 				"bigInt": ["15", "wasm-bigint is supported in desktop Safari since 14.1 and iOS Safari since 14.5; however BigInt64Array, which is needed by Emscripten, was released in 15"],
 				"bulkMemory": "15",
 				"exceptions": "15.2",
-				"extendedConst": ["flag", "Enabled in Safari Technology Preview 184"],
+				"extendedConst": "17.4",
 				"multiValue": "13.1",
 				"mutableGlobals": "12",
 				"referenceTypes": "15",
