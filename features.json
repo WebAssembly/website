@@ -165,7 +165,7 @@
 				"bigInt": null,
 				"bulkMemory": "0.20",
 				"jspi": null,
-				"memory64": ["flag", "Requires flag `--wasm-features=memory64`"],
+				"memory64": ["flag", "Requires flag `--wasm=memory64`"],
 				"multiMemory": "15",
 				"multiValue": "0.17",
 				"mutableGlobals": true,
@@ -174,7 +174,7 @@
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "0.33",
-				"tailCall": ["flag", "Requires flag `--wasm-features=tail-call`"],
+				"tailCall": ["flag", "Requires flag `--wasm=tail-call`"],
 				"threads": "15"
 			}
 		},
