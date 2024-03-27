@@ -127,7 +127,7 @@
 				"extendedConst": "112",
 				"gc": "120",
 				"memory64": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
-				"multiMemory": ["flag", "Enabled in Nightly, and behind preference flag javascript.options.wasm_multi_memory"],
+				"multiMemory": "125",
 				"multiValue": "78",
 				"mutableGlobals": "61",
 				"referenceTypes": "79",
