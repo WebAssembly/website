@@ -238,7 +238,7 @@
 				"simd": "1.9",
 				"tailCall": ["flag", "Requires flag `--v8-flags=--experimental-wasm-return-call`"],
 				"threads": "1.9",
-				"typeReflection": ["flag", "Requires corresponding v8 flag (`--v8-flags=\"...\"`)"]
+				"typeReflection": ["flag", "Requires flag `--v8-flags=--experimental-wasm-type-reflection`"]
 			}
 		},
 		"wasm2c": {
