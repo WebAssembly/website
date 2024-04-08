@@ -102,7 +102,7 @@
 				"exceptions": "95",
 				"extendedConst": "114",
 				"gc": "119",
-				"jspi": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-stack-switching`"],
+				"jspi": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-jspi`"],
 				"memory64": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"multiMemory": "120",
 				"multiValue": "85",
@@ -203,7 +203,7 @@
 				"exceptions": "17.0",
 				"extendedConst": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
 				"gc": "22.0",
-				"jspi": ["flag", "Requires flag `--experimental-wasm-stack-switching`"],
+				"jspi": ["flag", "Requires flag `--experimental-wasm-jspi`"],
 				"memory64": ["flag", "Requires flag `--experimental-wasm-memory64`"],
 				"multiMemory": ["flag", "Requires flag `--experimental-wasm-multi-memory`"],
 				"multiValue": "15.0",
@@ -227,7 +227,7 @@
 				"exceptions": "1.16",
 				"extendedConst": ["flag", "Requires flag `--v8-flags=--experimental-wasm-extended-const`"],
 				"gc": "1.38",
-				"jspi": ["flag", "Requires flag `--v8-flags=--experimental-stack-switching`"],
+				"jspi": ["flag", "Requires flag `--v8-flags=--experimental-wasm-jspi`"],
 				"memory64": ["flag", "Requires flag `--v8-flags=--experimental-wasm-memory64`"],
 				"multiValue": "1.3.2",
 				"mutableGlobals": "0.1",
@@ -238,7 +238,7 @@
 				"simd": "1.9",
 				"tailCall": ["flag", "Requires flag `--v8-flags=--experimental-wasm-return-call`"],
 				"threads": "1.9",
-				"typeReflection": ["flag", "Requires corresponding v8 flag (`--v8-flags=\"...\"`)"]
+				"typeReflection": ["flag", "Requires flag `--v8-flags=--experimental-wasm-type-reflection`"]
 			}
 		},
 		"wasm2c": {
