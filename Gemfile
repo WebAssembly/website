@@ -6,4 +6,4 @@ group :jekyll_plugins do
 end
 gem 'html-pipeline', '~> 2.5'
 gem 'nokogiri', '~> 1.11'
-gem 'html-proofer', '~> 3.6'
+gem 'html-proofer', '~> 3.19'
