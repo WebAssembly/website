@@ -126,6 +126,7 @@
 				"exceptions": "100",
 				"extendedConst": "112",
 				"gc": "120",
+				"jspi": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
 				"memory64": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
 				"multiMemory": "125",
 				"multiValue": "78",
