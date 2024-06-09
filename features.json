@@ -174,7 +174,7 @@
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "0.33",
-				"tailCall": ["flag", "Requires flag `--wasm=tail-call`"],
+				"tailCall": ["22", "Enabled by default when using the Cranelift backend, except for the s390x architecture"],
 				"threads": "15"
 			}
 		},
