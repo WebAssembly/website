@@ -103,7 +103,7 @@
 			"logo": "/images/chrome.svg",
 			"features": {
 				"bigInt": "85",
-				"branchHinting": ["flag", "TODO"],
+				"branchHinting": ["flag", "Requires command-line flag `--js-flags=--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "75",
 				"exceptions": "95",
 				"extendedConst": "114",
