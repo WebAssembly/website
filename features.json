@@ -11,6 +11,11 @@
 			"url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
 			"phase": 5
 		},
+		"customPageSizes": {
+			"description": "Custom page sizes",
+			"url": "https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md",
+			"phase": 1
+		},
 		"exceptions": {
 			"description": "Exception handling",
 			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
@@ -165,6 +170,7 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "0.20",
+				"customPageSizes": "23",
 				"jspi": null,
 				"memory64": ["flag", "Requires flag `--wasm=memory64`"],
 				"multiMemory": "15",
