@@ -6,55 +6,105 @@
 			"url": "https://github.com/WebAssembly/JS-BigInt-integration",
 			"phase": 5
 		},
+		"branchHinting": {
+			"description": "Branch Hinting",
+			"url": "https://github.com/WebAssembly/branch-hinting/blob/master/proposals/branch-hinting/Overview.md",
+			"phase": 5
+		},
 		"bulkMemory": {
 			"description": "Bulk memory operations",
 			"url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
 			"phase": 5
 		},
+		"compilationHints": {
+			"description": "Compilation Hints",
+			"url": "https://github.com/WebAssembly/compilation-hints/blob/main/proposals/compilation-hints/Overview.md",
+			"phase": 1
+		},
+		"componentModel": {
+			"description": "Component Model",
+			"url": "https://github.com/WebAssembly/component-model",
+			"phase": 1
+		},
+		"customAnnotationSyntaxInTheTextFormat": {
+			"description": "Custom Text Format Annotations",
+			"url": "https://github.com/WebAssembly/annotations/blob/main/proposals/annotations/Overview.md",
+			"phase": 5
+		},
 		"customPageSizes": {
-			"description": "Custom page sizes",
+			"description": "Custom Page Sizes",
 			"url": "https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md",
 			"phase": 1
+		},
+		"esmIntegration": {
+			"description": "ESM integration",
+			"url": "https://github.com/WebAssembly/esm-integration",
+			"phase": 3
 		},
 		"exceptions": {
 			"description": "Exception handling",
 			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
-			"phase": 3
+			"phase": 4
 		},
 		"extendedConst": {
-			"description": "Extended constant expressions",
+			"description": "Extended Constant Expressions",
 			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"gc": {
 			"description": "Garbage collection",
 			"url":"https://github.com/WebAssembly/gc",
-			"phase": 4
+			"phase": 5
+		},
+		"instrumentAndTracingTechnology": {
+			"description": "Instrument and Tracing Technology",
+			"url": "https://github.com/WebAssembly/instrument-tracing/blob/main/proposals/instrument-tracing/Overview.md",
+			"phase": 2
 		},
 		"jspi": {
 			"description": "JS Promise Integration",
 			"url":"https://github.com/WebAssembly/js-promise-integration",
 			"phase": 3
 		},
+		"jsStringBuiltins": {
+			"description": "JS String Builtins",
+			"url": "https://github.com/WebAssembly/js-string-builtins/blob/main/proposals/js-string-builtins/Overview.md",
+			"phase": 3
+		},
+		"halfPrecision": {
+			"description": "Half Precision",
+			"url": "https://github.com/WebAssembly/half-precision/blob/main/proposals/half-precision/Overview.md",
+			"phase": 1
+		},
 		"memory64": {
 			"description": "Memory64",
 			"url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
 			"phase": 3
 		},
+		"memoryControl": {
+			"description": "Memory control",
+			"url": "https://github.com/WebAssembly/memory-control/blob/main/proposals/memory-control/Overview.md",
+			"phase": 1
+		},
 		"multiMemory": {
 			"description": "Multiple memories",
 			"url": "https://github.com/WebAssembly/multi-memory/blob/master/proposals/multi-memory/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"multiValue": {
 			"description": "Multi-value",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"mutableGlobals": {
-			"description": "Mutable globals",
+			"description": "Import/Export of Mutable Globals",
 			"url": "https://github.com/WebAssembly/mutable-global/blob/master/proposals/mutable-global/Overview.md",
 			"phase": 5
+		},
+		"referenceTypedStrings": {
+			"description": "Reference-Typed Strings",
+			"url": "https://github.com/WebAssembly/stringref/blob/main/proposals/stringref/Overview.md",
+			"phase": 1
 		},
 		"referenceTypes": {
 			"description": "Reference types",
@@ -64,15 +114,20 @@
 		"relaxedSimd": {
 			"description": "Relaxed SIMD",
 			"url": "https://github.com/WebAssembly/relaxed-simd/tree/main/proposals/relaxed-simd",
-			"phase": 4
+			"phase": 5
 		},
 		"saturatedFloatToInt": {
 			"description": "Non-trapping float-to-int conversions",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md",
 			"phase": 5
 		},
+		"sharedEverythingThreads": {
+			"description": "Shared-Everything Threads",
+			"url": "https://github.com/WebAssembly/shared-everything-threads/blob/main/proposals/shared-everything-threads/Overview.md",
+			"phase": 1
+		},
 		"signExtensions": {
-			"description": "Sign-extension operations",
+			"description": "Sign-extension operators",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/sign-extension-ops/Overview.md",
 			"phase": 5
 		},
@@ -81,19 +136,34 @@
 			"url": "https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md",
 			"phase": 5
 		},
+		"stackSwitching": {
+			"description": "Stack Switching",
+			"url": "https://github.com/WebAssembly/stack-switching",
+			"phase": 1
+		},
 		"tailCall": {
-			"description": "Tail calls",
+			"description": "Tail call",
 			"url": "https://github.com/WebAssembly/tail-call/blob/master/proposals/tail-call/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"threads": {
-			"description": "Threads and atomics",
+			"description": "Threads",
 			"url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
 			"phase": 4
 		},
+		"typedFunctionReferences": {
+			"description": "Typed Function References",
+			"url": "https://github.com/WebAssembly/function-references/blob/main/proposals/function-references/Overview.md",
+			"phase": 5
+		},
 		"typeReflection": {
-			"description": "Type reflection",
+			"description": "Type Reflection",
 			"url": "https://github.com/WebAssembly/js-types/blob/main/proposals/js-types/Overview.md",
+			"phase": 3
+		},
+		"webContentSecurityPolicy": {
+			"description": "Web Content Security Policy",
+			"url": "https://github.com/WebAssembly/content-security-policy/blob/main/proposals/CSP.md",
 			"phase": 3
 		}
 	},
@@ -103,23 +173,34 @@
 			"logo": "/images/chrome.svg",
 			"features": {
 				"bigInt": "85",
+				"branchHinting": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "75",
-				"exceptions": "95",
+				"compilationHints": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-compilation-hints`"],
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptions": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`. Outdated version of proposal available since 95"],
 				"extendedConst": "114",
 				"gc": "119",
+				"halfPrecision": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-fp16`"],
+				"instrumentAndTracingTechnology": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-jspi`"],
+				"jsStringBuiltins": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"memory64": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"multiMemory": "120",
 				"multiValue": "85",
 				"mutableGlobals": "74",
-				"relaxedSimd": "114",
+				"referenceTypedStrings": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"referenceTypes": "96",
+				"relaxedSimd": "114",
 				"saturatedFloatToInt": "75",
+				"sharedEverythingThreads": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-shared-everything-threads`"],
 				"signExtensions": "74",
 				"simd": "91",
+				"stackSwitching": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-stack-switching`"],
 				"tailCall": "112",
 				"threads": "74",
-				"typeReflection": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"]
+				"typedFunctionReferences": "119",
+				"typeReflection": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
+				"webContentSecurityPolicy": "97"
 			}
 		},
 		"Firefox": {
@@ -127,23 +208,29 @@
 			"logo": "/images/firefox.svg",
 			"features": {
 				"bigInt": "78",
+				"branchHinting": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_branch_hinting` in Beta/Release"],
 				"bulkMemory": "79",
-				"exceptions": "100",
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptions": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_exnref` in Beta/Release. Outdated version of proposal available since 100"],
 				"extendedConst": "112",
 				"gc": "120",
-				"jspi": ["flag", "Requires flag `javascript.options.wasm_js_promise_integration` in Nightly, unavailable in Beta/Release"],
-				"memory64": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
+				"jspi": ["flag", "Requires flag `javascript.options.wasm_js_promise_integration`"],
+				"jsStringBuiltins": ["flag", "Requires flag `javascript.options.wasm_js_string_builtins`"],
+				"memory64": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_memory64` in Beta/Release"],
+				"memoryControl": ["flag", "Requires flag `javascript.options.wasm_memory_control`"],
 				"multiMemory": "125",
 				"multiValue": "78",
 				"mutableGlobals": "61",
 				"referenceTypes": "79",
-				"relaxedSimd": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
+				"relaxedSimd": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_relaxed_simd` in Beta/Release"],
 				"saturatedFloatToInt": "64",
 				"signExtensions": "62",
 				"simd": "89",
 				"tailCall": "121",
 				"threads": "79",
-				"typeReflection": ["flag", "Enabled in Nightly, unavailable in Beta/Release"]
+				"typedFunctionReferences": "120",
+				"typeReflection": ["flag", "Requires flag `--enable-wasm-type-reflections`"],
+				"webContentSecurityPolicy": "102"
 			}
 		},
 		"Safari": {
@@ -151,17 +238,23 @@
 			"logo": "/images/safari.svg",
 			"features": {
 				"bigInt": ["15", "wasm-bigint is supported in desktop Safari since 14.1 and iOS Safari since 14.5; however BigInt64Array, which is needed by Emscripten, was released in 15"],
+				"branchHinting": "16",
 				"bulkMemory": "15",
-				"exceptions": "15.2",
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"esmIntegration": ["flag", "Requires preference `WebAssembly ES module integration support`"],
+				"exceptions": [false, "Outdated version of proposal available since 15.2"],
 				"extendedConst": "17.4",
+				"gc": ["flag", "Requires JavaScriptCore flag `useWebAssemblyGC`"],
 				"multiValue": "13.1",
 				"mutableGlobals": "12",
 				"referenceTypes": "15",
+				"relaxedSimd": ["flag", "Requires JavaScriptCore flag `useWebAssemblyRelaxedSIMD`"],
 				"saturatedFloatToInt": "15",
 				"signExtensions": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
 				"simd": "16.4",
-				"tailCall": false,
-				"threads": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"]
+				"tailCall": ["flag", "Requires JavaScriptCore flag `useWebAssemblyTailCalls`"],
+				"threads": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
+				"typedFunctionReferences": "18"
 			}
 		},
 		"Wasmtime": {
@@ -170,8 +263,12 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "0.20",
+				"componentModel": "17",
+				"customAnnotationSyntaxInTheTextFormat": true,
 				"customPageSizes": "23",
+				"esmIntegration": null,
 				"jspi": null,
+				"jsStringBuiltins": null,
 				"memory64": ["flag", "Requires flag `--wasm=memory64`"],
 				"multiMemory": "15",
 				"multiValue": "0.17",
@@ -182,7 +279,9 @@
 				"signExtensions": true,
 				"simd": "0.33",
 				"tailCall": ["22", "Enabled by default when using the Cranelift backend, except for the s390x architecture"],
-				"threads": "15"
+				"threads": "15",
+				"typeReflection": null,
+				"webContentSecurityPolicy": null
 			}
 		},
 		"Wasmer": {
@@ -191,14 +290,18 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "1.0",
+				"customAnnotationSyntaxInTheTextFormat": true,
+				"esmIntegration": null,
 				"jspi": null,
+				"jsStringBuiltins": null,
 				"multiValue": "1.0",
 				"mutableGlobals": "0.7",
 				"referenceTypes": "2.0",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "2.0",
-				"typeReflection": "2.0"
+				"typeReflection": "2.0",
+				"webContentSecurityPolicy": null
 			}
 		},
 		"Node.js": {
@@ -206,23 +309,34 @@
 			"logo": "/images/nodejs.svg",
 			"features": {
 				"bigInt": "15.0",
+				"branchHinting": ["flag", "Requires flag `--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "12.5",
-				"exceptions": "17.0",
+				"compilationHints": ["flag", "Requires flag `--experimental-wasm-compilation-hints`"],
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptions": ["flag", "Requires flag `--experimental-wasm-exnref`. Outdated version of proposal available since 17.0"],
 				"extendedConst": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
 				"gc": "22.0",
+				"halfPrecision": ["flag", "Requires flag `--experimental-wasm-fp16`"],
+				"instrumentAndTracingTechnology": ["flag", "Requires flag `--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `--experimental-wasm-jspi`"],
+				"jsStringBuiltins": ["flag", "Requires flag `--experimental-wasm-js-string-builtins`"],
 				"memory64": ["flag", "Requires flag `--experimental-wasm-memory64`"],
-				"multiMemory": ["flag", "Requires flag `--experimental-wasm-multi-memory`"],
+				"multiMemory": "22.0",
 				"multiValue": "15.0",
 				"mutableGlobals": "12.0",
+				"referenceTypedStrings": ["flag", "Requires flag `--experimental-wasm-reference-typed-strings`"],
 				"referenceTypes": "17.2",
-				"relaxedSimd": ["flag", "Requires flag `--experimental-wasm-relaxed-simd`"],
+				"relaxedSimd": "22.0",
 				"saturatedFloatToInt": "12.5",
+				"sharedEverythingThreads": ["flag", "Requires flag `--experimental-wasm-shared-everything-threads`"],
 				"signExtensions": "12.0",
 				"simd": "16.4",
+				"stackSwitching": ["flag", "Requires flag `--experimental-wasm-stack-switching`"],
 				"tailCall": "20.0",
 				"threads": "16.4",
-				"typeReflection": ["flag", "Requires flag `--experimental-wasm-type-reflection`"]
+				"typedFunctionReferences": "22.0",
+				"typeReflection": ["flag", "Requires flag `--experimental-wasm-type-reflection`"],
+				"webContentSecurityPolicy": "18.0"
 			}
 		},
 		"Deno": {
@@ -230,23 +344,34 @@
 			"logo": "/images/deno.svg",
 			"features": {
 				"bigInt": "1.1.2",
+				"branchHinting": ["flag", "Requires flag `--v8-flags=--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "0.4",
-				"exceptions": "1.16",
+				"compilationHints": ["flag", "Requires flag `--v8-flags=--experimental-wasm-compilation-hints`"],
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptions": ["flag", "Requires flag `--v8-flags=--experimental-wasm-exnref`. Outdated version of proposal available since 1.16"],
 				"extendedConst": "1.33",
 				"gc": "1.38",
+				"halfPrecision": ["flag", "Requires flag `--v8-flags=--experimental-wasm-fp16`"],
+				"instrumentAndTracingTechnology": ["flag", "Requires flag `--v8-flags=--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `--v8-flags=--experimental-wasm-jspi`"],
+				"jsStringBuiltins": ["flag", "Requires flag `--v8-flags=--experimental-wasm-js-string-builtins`"],
 				"memory64": ["flag", "Requires flag `--v8-flags=--experimental-wasm-memory64`"],
 				"multiMemory": "1.38",
 				"multiValue": "1.3.2",
 				"mutableGlobals": "0.1",
+				"referenceTypedStrings": ["flag", "Requires flag `--v8-flags=--experimental-wasm-reference-typed-strings`"],
 				"referenceTypes": "1.16",
 				"relaxedSimd": "1.33",
 				"saturatedFloatToInt": "0.4",
+				"sharedEverythingThreads": ["flag", "Requires flag `--v8-flags=--experimental-wasm-shared-everything-threads`"],
 				"signExtensions": "0.1",
 				"simd": "1.9",
+				"stackSwitching": ["flag", "Requires flag `--v8-flags=--experimental-wasm-stack-switching`"],
 				"tailCall": "1.32",
 				"threads": "1.9",
-				"typeReflection": ["flag", "Requires flag `--v8-flags=--experimental-wasm-type-reflection`"]
+				"typedFunctionReferences": "1.38",
+				"typeReflection": ["flag", "Requires flag `--v8-flags=--experimental-wasm-type-reflection`"],
+				"webContentSecurityPolicy": "1.16"
 			}
 		},
 		"wasm2c": {
@@ -255,9 +380,12 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "1.0.30",
+				"customAnnotationSyntaxInTheTextFormat": null,
 				"exceptions": ["flag", "Requires flag `--enable-exceptions`"],
 				"extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
+				"esmIntegration": null,
 				"jspi": null,
+				"jsStringBuiltins": null,
 				"memory64": ["flag", "Requires flag `--enable-memory64`"],
 				"multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
 				"tailCall": ["flag", "Requires flag `--enable-tail-call`"],
@@ -266,7 +394,9 @@
 				"referenceTypes": "1.0.31",
 				"saturatedFloatToInt": "1.0.24",
 				"signExtensions": "1.0.24",
-				"simd": "1.0.33"
+				"simd": "1.0.33",
+				"typeReflection": null,
+				"webContentSecurityPolicy": null
 			}
 		}
 	}
