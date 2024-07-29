@@ -223,8 +223,9 @@
 				"bigInt": null,
 				"bulkMemory": "0.20",
 				"customAnnotationSyntaxInTheTextFormat": true,
-				"customPageSizes": "23",
+				"customPageSizes": ["flag", "Requires flag `--wasm=custom-page-sizes`"],
 				"esmIntegration": null,
+				"gc": ["flag", "Requires flag `--wasm=gc`"],
 				"jspi": null,
 				"jsStringBuiltins": null,
 				"memory64": ["flag", "Requires flag `--wasm=memory64`"],
@@ -238,6 +239,7 @@
 				"simd": "0.33",
 				"tailCall": ["22", "Enabled by default when using the Cranelift backend, except for the s390x architecture"],
 				"threads": "15",
+				"typedFunctionReferences": ["flag", "Requires flag `--wasm=function-references`"],
 				"typeReflection": null,
 				"webContentSecurityPolicy": null
 			}
