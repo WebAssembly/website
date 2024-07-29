@@ -16,16 +16,6 @@
 			"url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
 			"phase": 5
 		},
-		"compilationHints": {
-			"description": "Compilation Hints",
-			"url": "https://github.com/WebAssembly/compilation-hints/blob/main/proposals/compilation-hints/Overview.md",
-			"phase": 1
-		},
-		"componentModel": {
-			"description": "Component Model",
-			"url": "https://github.com/WebAssembly/component-model",
-			"phase": 1
-		},
 		"customAnnotationSyntaxInTheTextFormat": {
 			"description": "Custom Text Format Annotations",
 			"url": "https://github.com/WebAssembly/annotations/blob/main/proposals/annotations/Overview.md",
@@ -34,7 +24,7 @@
 		"customPageSizes": {
 			"description": "Custom Page Sizes",
 			"url": "https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md",
-			"phase": 1
+			"phase": 2
 		},
 		"esmIntegration": {
 			"description": "ESM integration",
@@ -71,20 +61,10 @@
 			"url": "https://github.com/WebAssembly/js-string-builtins/blob/main/proposals/js-string-builtins/Overview.md",
 			"phase": 3
 		},
-		"halfPrecision": {
-			"description": "Half Precision",
-			"url": "https://github.com/WebAssembly/half-precision/blob/main/proposals/half-precision/Overview.md",
-			"phase": 1
-		},
 		"memory64": {
 			"description": "Memory64",
 			"url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
 			"phase": 3
-		},
-		"memoryControl": {
-			"description": "Memory control",
-			"url": "https://github.com/WebAssembly/memory-control/blob/main/proposals/memory-control/Overview.md",
-			"phase": 1
 		},
 		"multiMemory": {
 			"description": "Multiple memories",
@@ -101,11 +81,6 @@
 			"url": "https://github.com/WebAssembly/mutable-global/blob/master/proposals/mutable-global/Overview.md",
 			"phase": 5
 		},
-		"referenceTypedStrings": {
-			"description": "Reference-Typed Strings",
-			"url": "https://github.com/WebAssembly/stringref/blob/main/proposals/stringref/Overview.md",
-			"phase": 1
-		},
 		"referenceTypes": {
 			"description": "Reference types",
 			"url": "https://github.com/WebAssembly/reference-types/blob/master/proposals/reference-types/Overview.md",
@@ -121,11 +96,6 @@
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md",
 			"phase": 5
 		},
-		"sharedEverythingThreads": {
-			"description": "Shared-Everything Threads",
-			"url": "https://github.com/WebAssembly/shared-everything-threads/blob/main/proposals/shared-everything-threads/Overview.md",
-			"phase": 1
-		},
 		"signExtensions": {
 			"description": "Sign-extension operators",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/sign-extension-ops/Overview.md",
@@ -135,11 +105,6 @@
 			"description": "Fixed-width SIMD",
 			"url": "https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md",
 			"phase": 5
-		},
-		"stackSwitching": {
-			"description": "Stack Switching",
-			"url": "https://github.com/WebAssembly/stack-switching",
-			"phase": 1
 		},
 		"tailCall": {
 			"description": "Tail call",
@@ -175,12 +140,10 @@
 				"bigInt": "85",
 				"branchHinting": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "75",
-				"compilationHints": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-compilation-hints`"],
 				"customAnnotationSyntaxInTheTextFormat": null,
 				"exceptions": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`. Outdated version of proposal available since 95"],
 				"extendedConst": "114",
 				"gc": "119",
-				"halfPrecision": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-fp16`"],
 				"instrumentAndTracingTechnology": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-jspi`"],
 				"jsStringBuiltins": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
@@ -188,14 +151,11 @@
 				"multiMemory": "120",
 				"multiValue": "85",
 				"mutableGlobals": "74",
-				"referenceTypedStrings": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"referenceTypes": "96",
 				"relaxedSimd": "114",
 				"saturatedFloatToInt": "75",
-				"sharedEverythingThreads": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-shared-everything-threads`"],
 				"signExtensions": "74",
 				"simd": "91",
-				"stackSwitching": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-stack-switching`"],
 				"tailCall": "112",
 				"threads": "74",
 				"typedFunctionReferences": "119",
@@ -217,7 +177,6 @@
 				"jspi": ["flag", "Requires flag `javascript.options.wasm_js_promise_integration`"],
 				"jsStringBuiltins": ["flag", "Requires flag `javascript.options.wasm_js_string_builtins`"],
 				"memory64": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_memory64` in Beta/Release"],
-				"memoryControl": ["flag", "Requires flag `javascript.options.wasm_memory_control`"],
 				"multiMemory": "125",
 				"multiValue": "78",
 				"mutableGlobals": "61",
@@ -263,7 +222,6 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "0.20",
-				"componentModel": "17",
 				"customAnnotationSyntaxInTheTextFormat": true,
 				"customPageSizes": "23",
 				"esmIntegration": null,
@@ -311,12 +269,10 @@
 				"bigInt": "15.0",
 				"branchHinting": ["flag", "Requires flag `--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "12.5",
-				"compilationHints": ["flag", "Requires flag `--experimental-wasm-compilation-hints`"],
 				"customAnnotationSyntaxInTheTextFormat": null,
 				"exceptions": ["flag", "Requires flag `--experimental-wasm-exnref`. Outdated version of proposal available since 17.0"],
 				"extendedConst": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
 				"gc": "22.0",
-				"halfPrecision": ["flag", "Requires flag `--experimental-wasm-fp16`"],
 				"instrumentAndTracingTechnology": ["flag", "Requires flag `--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `--experimental-wasm-jspi`"],
 				"jsStringBuiltins": ["flag", "Requires flag `--experimental-wasm-js-string-builtins`"],
@@ -324,14 +280,11 @@
 				"multiMemory": "22.0",
 				"multiValue": "15.0",
 				"mutableGlobals": "12.0",
-				"referenceTypedStrings": ["flag", "Requires flag `--experimental-wasm-reference-typed-strings`"],
 				"referenceTypes": "17.2",
 				"relaxedSimd": "22.0",
 				"saturatedFloatToInt": "12.5",
-				"sharedEverythingThreads": ["flag", "Requires flag `--experimental-wasm-shared-everything-threads`"],
 				"signExtensions": "12.0",
 				"simd": "16.4",
-				"stackSwitching": ["flag", "Requires flag `--experimental-wasm-stack-switching`"],
 				"tailCall": "20.0",
 				"threads": "16.4",
 				"typedFunctionReferences": "22.0",
@@ -346,12 +299,10 @@
 				"bigInt": "1.1.2",
 				"branchHinting": ["flag", "Requires flag `--v8-flags=--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "0.4",
-				"compilationHints": ["flag", "Requires flag `--v8-flags=--experimental-wasm-compilation-hints`"],
 				"customAnnotationSyntaxInTheTextFormat": null,
 				"exceptions": ["flag", "Requires flag `--v8-flags=--experimental-wasm-exnref`. Outdated version of proposal available since 1.16"],
 				"extendedConst": "1.33",
 				"gc": "1.38",
-				"halfPrecision": ["flag", "Requires flag `--v8-flags=--experimental-wasm-fp16`"],
 				"instrumentAndTracingTechnology": ["flag", "Requires flag `--v8-flags=--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `--v8-flags=--experimental-wasm-jspi`"],
 				"jsStringBuiltins": ["flag", "Requires flag `--v8-flags=--experimental-wasm-js-string-builtins`"],
@@ -359,14 +310,11 @@
 				"multiMemory": "1.38",
 				"multiValue": "1.3.2",
 				"mutableGlobals": "0.1",
-				"referenceTypedStrings": ["flag", "Requires flag `--v8-flags=--experimental-wasm-reference-typed-strings`"],
 				"referenceTypes": "1.16",
 				"relaxedSimd": "1.33",
 				"saturatedFloatToInt": "0.4",
-				"sharedEverythingThreads": ["flag", "Requires flag `--v8-flags=--experimental-wasm-shared-everything-threads`"],
 				"signExtensions": "0.1",
 				"simd": "1.9",
-				"stackSwitching": ["flag", "Requires flag `--v8-flags=--experimental-wasm-stack-switching`"],
 				"tailCall": "1.32",
 				"threads": "1.9",
 				"typedFunctionReferences": "1.38",
