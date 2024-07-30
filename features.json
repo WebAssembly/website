@@ -14,7 +14,7 @@
 		"customPageSizes": {
 			"description": "Custom page sizes",
 			"url": "https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md",
-			"phase": 1
+			"phase": 2
 		},
 		"exceptions": {
 			"description": "Exception handling",
