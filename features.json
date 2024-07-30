@@ -207,7 +207,6 @@
 				"branchHinting": "16",
 				"bulkMemory": "15",
 				"customAnnotationSyntaxInTheTextFormat": null,
-				"esmIntegration": ["flag", "Requires preference `WebAssembly ES module integration support`"],
 				"exceptions": "15.2",
 				"extendedConst": "17.4",
 				"gc": ["flag", "Requires JavaScriptCore flag `useWebAssemblyGC`"],
