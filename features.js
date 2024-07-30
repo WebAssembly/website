@@ -1,19 +1,6 @@
 (async () => {
   'use strict';
 
-  function partitionByPhase(features) {
-    const map = [];
-
-    for (const feature of features) {
-      if (!map[feature.phase]) {
-        map[feature.phase] = [];
-      }
-      map[feature.phase].push(feature);
-    }
-
-    return map;
-  }
-
   function h(name, props = {}, children = []) {
     const node = Object.assign(document.createElement(name), props);
     node.append(...children);
@@ -74,8 +61,9 @@
     tBody
   );
 
-  let featureGroups = partitionByPhase(
+  let featureGroups = Object.groupBy(
     Object.entries(features).map(([name, feature]) => Object.assign(feature, { name })),
+    f => f.phase,
   );
 
   featureGroups = [
