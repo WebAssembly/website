@@ -298,7 +298,7 @@
 				"threads": "16.4",
 				"typedFunctionReferences": "22.0",
 				"typeReflection": ["flag", "Requires flag `--experimental-wasm-type-reflection`"],
-				"webContentSecurityPolicy": "18.0"
+				"webContentSecurityPolicy": null
 			}
 		},
 		"Deno": {
@@ -329,7 +329,7 @@
 				"threads": "1.9",
 				"typedFunctionReferences": "1.38",
 				"typeReflection": ["flag", "Requires flag `--v8-flags=--experimental-wasm-type-reflection`"],
-				"webContentSecurityPolicy": "1.16"
+				"webContentSecurityPolicy": null
 			}
 		},
 		"wasm2c": {
