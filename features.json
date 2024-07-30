@@ -31,10 +31,15 @@
 			"url": "https://github.com/WebAssembly/esm-integration",
 			"phase": 3
 		},
-		"exceptions": {
+		"exceptionsFinal": {
 			"description": "Exception Handling",
 			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
 			"phase": 4
+		},
+		"exceptions": {
+			"description": "Exception Handling",
+			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
+			"phase": "deprecated"
 		},
 		"extendedConst": {
 			"description": "Extended Constant Expressions",
@@ -141,7 +146,8 @@
 				"branchHinting": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "75",
 				"customAnnotationSyntaxInTheTextFormat": null,
-				"exceptions": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`. Outdated version of proposal available since 95"],
+				"exceptionsFinal": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
+				"exceptions": "95",
 				"extendedConst": "114",
 				"gc": "119",
 				"instrumentAndTracingTechnology": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-instruction-tracing`"],
@@ -171,7 +177,8 @@
 				"branchHinting": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_branch_hinting` in Beta/Release"],
 				"bulkMemory": "79",
 				"customAnnotationSyntaxInTheTextFormat": null,
-				"exceptions": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_exnref` in Beta/Release. Outdated version of proposal available since 100"],
+				"exceptionsFinal": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_exnref` in Beta/Release"],
+				"exceptions": "100",
 				"extendedConst": "112",
 				"gc": "120",
 				"jspi": ["flag", "Requires flag `javascript.options.wasm_js_promise_integration`"],
@@ -201,7 +208,7 @@
 				"bulkMemory": "15",
 				"customAnnotationSyntaxInTheTextFormat": null,
 				"esmIntegration": ["flag", "Requires preference `WebAssembly ES module integration support`"],
-				"exceptions": [false, "Outdated version of proposal available since 15.2"],
+				"exceptions": "15.2",
 				"extendedConst": "17.4",
 				"gc": ["flag", "Requires JavaScriptCore flag `useWebAssemblyGC`"],
 				"multiValue": "13.1",
@@ -272,7 +279,8 @@
 				"branchHinting": ["flag", "Requires flag `--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "12.5",
 				"customAnnotationSyntaxInTheTextFormat": null,
-				"exceptions": ["flag", "Requires flag `--experimental-wasm-exnref`. Outdated version of proposal available since 17.0"],
+				"exceptionsFinal": ["flag", "Requires flag `--experimental-wasm-exnref`"],
+				"exceptions": "17.0",
 				"extendedConst": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
 				"gc": "22.0",
 				"instrumentAndTracingTechnology": ["flag", "Requires flag `--experimental-wasm-instruction-tracing`"],
@@ -302,7 +310,8 @@
 				"branchHinting": ["flag", "Requires flag `--v8-flags=--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "0.4",
 				"customAnnotationSyntaxInTheTextFormat": null,
-				"exceptions": ["flag", "Requires flag `--v8-flags=--experimental-wasm-exnref`. Outdated version of proposal available since 1.16"],
+				"exceptionsFinal": ["flag", "Requires flag `--v8-flags=--experimental-wasm-exnref`"],
+				"exceptions": "1.16",
 				"extendedConst": "1.33",
 				"gc": "1.38",
 				"instrumentAndTracingTechnology": ["flag", "Requires flag `--v8-flags=--experimental-wasm-instruction-tracing`"],
@@ -331,6 +340,7 @@
 				"bigInt": null,
 				"bulkMemory": "1.0.30",
 				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptionsFinal": ["flag", "Requires flag `--enable-exceptions`"],
 				"exceptions": ["flag", "Requires flag `--enable-exceptions`"],
 				"extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
 				"esmIntegration": null,

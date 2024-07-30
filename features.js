@@ -72,6 +72,7 @@
     { name: 'Phase 3 - Implementation Phase', features: featureGroups[3] },
     { name: 'Phase 2 - Proposed Spec Text Available', features: featureGroups[2] },
     { name: 'Phase 1 - Feature Proposal', features: featureGroups[1] },
+    { name: 'Deprecated', features: featureGroups["deprecated"] },
   ];
 
   // Collect all notes and assign an index to each unique item
