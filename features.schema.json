@@ -9,7 +9,12 @@
             "properties": {
                 "description": { "type": "string" },
                 "url": { "type": "string", "format": "uri-reference" },
-                "phase": { "type": "integer", "minimum": 1 }
+                "phase": {
+                    "anyOf": [
+                        { "type": "integer", "minimum": 1 },
+                        { "const": "deprecated" }
+                    ]
+                }
             },
             "additionalProperties": false,
             "required": ["description", "url", "phase"]

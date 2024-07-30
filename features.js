@@ -1,21 +1,6 @@
 (async () => {
   'use strict';
 
-  function partitionArray(arr, condition) {
-    const matched = [];
-    const unmatched = [];
-
-    for (const item of arr) {
-      if (condition(item)) {
-        matched.push(item);
-      } else {
-        unmatched.push(item);
-      }
-    }
-
-    return { matched, unmatched };
-  }
-
   function h(name, props = {}, children = []) {
     const node = Object.assign(document.createElement(name), props);
     node.append(...children);
@@ -76,14 +61,18 @@
     tBody
   );
 
-  let featureGroups = partitionArray(
+  let featureGroups = Object.groupBy(
     Object.entries(features).map(([name, feature]) => Object.assign(feature, { name })),
-    feature => feature.phase >= 4
+    f => f.phase,
   );
 
   featureGroups = [
-    { name: 'Standardized features', features: featureGroups.matched },
-    { name: 'In-progress proposals', features: featureGroups.unmatched },
+    { name: 'Phase 5 - The Feature is Standardized', features: featureGroups[5] },
+    { name: 'Phase 4 - Standardize the Feature', features: featureGroups[4] },
+    { name: 'Phase 3 - Implementation Phase', features: featureGroups[3] },
+    { name: 'Phase 2 - Proposed Spec Text Available', features: featureGroups[2] },
+    { name: 'Phase 1 - Feature Proposal', features: featureGroups[1] },
+    { name: 'Deprecated', features: featureGroups["deprecated"] },
   ];
 
   // Collect all notes and assign an index to each unique item
@@ -120,6 +109,10 @@
   const columnCount = 2 + Object.keys(browsers).length;
 
   for (const { name: groupName, features } of featureGroups) {
+    if (!features) {
+      continue;
+    }
+
     tBody.append(
       h('tr', {}, [
         h('th', {
