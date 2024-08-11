@@ -32,12 +32,12 @@
 			"phase": 3
 		},
 		"exceptionsFinal": {
-			"description": "Exception Handling",
+			"description": "Exception Handling with exnref",
 			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
 			"phase": 4
 		},
 		"exceptions": {
-			"description": "Exception Handling",
+			"description": "Legacy Exception Handling",
 			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
 			"phase": "deprecated"
 		},
