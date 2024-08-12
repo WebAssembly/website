@@ -2,38 +2,68 @@
 	"$schema": "./features.schema.json",
 	"features": {
 		"bigInt": {
-			"description": "JS BigInt to Wasm i64 integration",
+			"description": "JS BigInt to Wasm i64 Integration",
 			"url": "https://github.com/WebAssembly/JS-BigInt-integration",
 			"phase": 5
 		},
+		"branchHinting": {
+			"description": "Branch Hinting",
+			"url": "https://github.com/WebAssembly/branch-hinting/blob/master/proposals/branch-hinting/Overview.md",
+			"phase": 5
+		},
 		"bulkMemory": {
-			"description": "Bulk memory operations",
+			"description": "Bulk memory Operations",
 			"url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
 			"phase": 5
 		},
-		"customPageSizes": {
-			"description": "Custom page sizes",
-			"url": "https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md",
-			"phase": 1
+		"customAnnotationSyntaxInTheTextFormat": {
+			"description": "Custom Text Format Annotations",
+			"url": "https://github.com/WebAssembly/annotations/blob/main/proposals/annotations/Overview.md",
+			"phase": 5
 		},
-		"exceptions": {
-			"description": "Exception handling",
-			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
+		"customPageSizes": {
+			"description": "Custom Page Sizes",
+			"url": "https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md",
+			"phase": 2
+		},
+		"esmIntegration": {
+			"description": "ESM Integration",
+			"url": "https://github.com/WebAssembly/esm-integration",
 			"phase": 3
 		},
-		"extendedConst": {
-			"description": "Extended constant expressions",
-			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
+		"exceptionsFinal": {
+			"description": "Exception Handling with exnref",
+			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
 			"phase": 4
 		},
+		"exceptions": {
+			"description": "Legacy Exception Handling",
+			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
+			"phase": "deprecated"
+		},
+		"extendedConst": {
+			"description": "Extended Constant Expressions",
+			"url": "https://github.com/WebAssembly/extended-const/blob/master/proposals/extended-const/Overview.md",
+			"phase": 5
+		},
 		"gc": {
-			"description": "Garbage collection",
+			"description": "Garbage Collection",
 			"url":"https://github.com/WebAssembly/gc",
-			"phase": 4
+			"phase": 5
+		},
+		"instrumentAndTracingTechnology": {
+			"description": "Instrument and Tracing Technology",
+			"url": "https://github.com/WebAssembly/instrument-tracing/blob/main/proposals/instrument-tracing/Overview.md",
+			"phase": 2
 		},
 		"jspi": {
 			"description": "JS Promise Integration",
 			"url":"https://github.com/WebAssembly/js-promise-integration",
+			"phase": 3
+		},
+		"jsStringBuiltins": {
+			"description": "JS String Builtins",
+			"url": "https://github.com/WebAssembly/js-string-builtins/blob/main/proposals/js-string-builtins/Overview.md",
 			"phase": 3
 		},
 		"memory64": {
@@ -42,37 +72,37 @@
 			"phase": 3
 		},
 		"multiMemory": {
-			"description": "Multiple memories",
+			"description": "Multiple Memories",
 			"url": "https://github.com/WebAssembly/multi-memory/blob/master/proposals/multi-memory/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"multiValue": {
 			"description": "Multi-value",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"mutableGlobals": {
-			"description": "Mutable globals",
+			"description": "Import/Export of Mutable Globals",
 			"url": "https://github.com/WebAssembly/mutable-global/blob/master/proposals/mutable-global/Overview.md",
 			"phase": 5
 		},
 		"referenceTypes": {
-			"description": "Reference types",
+			"description": "Reference Types",
 			"url": "https://github.com/WebAssembly/reference-types/blob/master/proposals/reference-types/Overview.md",
 			"phase": 5
 		},
 		"relaxedSimd": {
 			"description": "Relaxed SIMD",
 			"url": "https://github.com/WebAssembly/relaxed-simd/tree/main/proposals/relaxed-simd",
-			"phase": 4
+			"phase": 5
 		},
 		"saturatedFloatToInt": {
-			"description": "Non-trapping float-to-int conversions",
+			"description": "Non-trapping float-to-int Conversions",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/nontrapping-float-to-int-conversion/Overview.md",
 			"phase": 5
 		},
 		"signExtensions": {
-			"description": "Sign-extension operations",
+			"description": "Sign-extension Operators",
 			"url": "https://github.com/WebAssembly/spec/blob/master/proposals/sign-extension-ops/Overview.md",
 			"phase": 5
 		},
@@ -82,18 +112,28 @@
 			"phase": 5
 		},
 		"tailCall": {
-			"description": "Tail calls",
+			"description": "Tail Call",
 			"url": "https://github.com/WebAssembly/tail-call/blob/master/proposals/tail-call/Overview.md",
-			"phase": 4
+			"phase": 5
 		},
 		"threads": {
-			"description": "Threads and atomics",
+			"description": "Threads",
 			"url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
 			"phase": 4
 		},
+		"typedFunctionReferences": {
+			"description": "Typed Function References",
+			"url": "https://github.com/WebAssembly/function-references/blob/main/proposals/function-references/Overview.md",
+			"phase": 5
+		},
 		"typeReflection": {
-			"description": "Type reflection",
+			"description": "Type Reflection",
 			"url": "https://github.com/WebAssembly/js-types/blob/main/proposals/js-types/Overview.md",
+			"phase": 3
+		},
+		"webContentSecurityPolicy": {
+			"description": "Web Content Security Policy",
+			"url": "https://github.com/WebAssembly/content-security-policy/blob/main/proposals/CSP.md",
 			"phase": 3
 		}
 	},
@@ -103,23 +143,30 @@
 			"logo": "/images/chrome.svg",
 			"features": {
 				"bigInt": "85",
+				"branchHinting": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "75",
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptionsFinal": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"exceptions": "95",
 				"extendedConst": "114",
 				"gc": "119",
+				"instrumentAndTracingTechnology": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-jspi`"],
+				"jsStringBuiltins": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"memory64": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"multiMemory": "120",
 				"multiValue": "85",
 				"mutableGlobals": "74",
-				"relaxedSimd": "114",
 				"referenceTypes": "96",
+				"relaxedSimd": "114",
 				"saturatedFloatToInt": "75",
 				"signExtensions": "74",
 				"simd": "91",
 				"tailCall": "112",
 				"threads": "74",
-				"typeReflection": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"]
+				"typedFunctionReferences": "119",
+				"typeReflection": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
+				"webContentSecurityPolicy": "97"
 			}
 		},
 		"Firefox": {
@@ -127,23 +174,29 @@
 			"logo": "/images/firefox.svg",
 			"features": {
 				"bigInt": "78",
+				"branchHinting": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_branch_hinting` in Beta/Release"],
 				"bulkMemory": "79",
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptionsFinal": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_exnref` in Beta/Release"],
 				"exceptions": "100",
 				"extendedConst": "112",
 				"gc": "120",
-				"jspi": ["flag", "Requires flag `javascript.options.wasm_js_promise_integration` in Nightly, unavailable in Beta/Release"],
-				"memory64": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
+				"jspi": ["flag", "Requires flag `javascript.options.wasm_js_promise_integration`"],
+				"jsStringBuiltins": ["flag", "Requires flag `javascript.options.wasm_js_string_builtins`"],
+				"memory64": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_memory64` in Beta/Release"],
 				"multiMemory": "125",
 				"multiValue": "78",
 				"mutableGlobals": "61",
 				"referenceTypes": "79",
-				"relaxedSimd": ["flag", "Enabled in Nightly, unavailable in Beta/Release"],
+				"relaxedSimd": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_relaxed_simd` in Beta/Release"],
 				"saturatedFloatToInt": "64",
 				"signExtensions": "62",
 				"simd": "89",
 				"tailCall": "121",
 				"threads": "79",
-				"typeReflection": ["flag", "Enabled in Nightly, unavailable in Beta/Release"]
+				"typedFunctionReferences": "120",
+				"typeReflection": ["flag", "Requires flag `--enable-wasm-type-reflections`"],
+				"webContentSecurityPolicy": "102"
 			}
 		},
 		"Safari": {
@@ -151,17 +204,22 @@
 			"logo": "/images/safari.svg",
 			"features": {
 				"bigInt": ["15", "wasm-bigint is supported in desktop Safari since 14.1 and iOS Safari since 14.5; however BigInt64Array, which is needed by Emscripten, was released in 15"],
+				"branchHinting": "16",
 				"bulkMemory": "15",
+				"customAnnotationSyntaxInTheTextFormat": null,
 				"exceptions": "15.2",
 				"extendedConst": "17.4",
+				"gc": ["flag", "Requires JavaScriptCore flag `useWebAssemblyGC`"],
 				"multiValue": "13.1",
 				"mutableGlobals": "12",
 				"referenceTypes": "15",
+				"relaxedSimd": ["flag", "Requires JavaScriptCore flag `useWebAssemblyRelaxedSIMD`"],
 				"saturatedFloatToInt": "15",
 				"signExtensions": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
 				"simd": "16.4",
-				"tailCall": false,
-				"threads": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"]
+				"tailCall": ["flag", "Requires JavaScriptCore flag `useWebAssemblyTailCalls`"],
+				"threads": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
+				"typedFunctionReferences": "18"
 			}
 		},
 		"Wasmtime": {
@@ -170,8 +228,12 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "0.20",
-				"customPageSizes": "23",
+				"customAnnotationSyntaxInTheTextFormat": true,
+				"customPageSizes": ["flag", "Requires flag `--wasm=custom-page-sizes`"],
+				"esmIntegration": null,
+				"gc": ["flag", "Requires flag `--wasm=gc`"],
 				"jspi": null,
+				"jsStringBuiltins": null,
 				"memory64": ["flag", "Requires flag `--wasm=memory64`"],
 				"multiMemory": "15",
 				"multiValue": "0.17",
@@ -182,7 +244,10 @@
 				"signExtensions": true,
 				"simd": "0.33",
 				"tailCall": ["22", "Enabled by default when using the Cranelift backend, except for the s390x architecture"],
-				"threads": "15"
+				"threads": "15",
+				"typedFunctionReferences": ["flag", "Requires flag `--wasm=function-references`"],
+				"typeReflection": null,
+				"webContentSecurityPolicy": null
 			}
 		},
 		"Wasmer": {
@@ -191,14 +256,18 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "1.0",
+				"customAnnotationSyntaxInTheTextFormat": true,
+				"esmIntegration": null,
 				"jspi": null,
+				"jsStringBuiltins": null,
 				"multiValue": "1.0",
 				"mutableGlobals": "0.7",
 				"referenceTypes": "2.0",
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "2.0",
-				"typeReflection": "2.0"
+				"typeReflection": "2.0",
+				"webContentSecurityPolicy": null
 			}
 		},
 		"Node.js": {
@@ -206,23 +275,30 @@
 			"logo": "/images/nodejs.svg",
 			"features": {
 				"bigInt": "15.0",
+				"branchHinting": ["flag", "Requires flag `--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "12.5",
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptionsFinal": ["flag", "Requires flag `--experimental-wasm-exnref`"],
 				"exceptions": "17.0",
 				"extendedConst": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
 				"gc": "22.0",
+				"instrumentAndTracingTechnology": ["flag", "Requires flag `--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `--experimental-wasm-jspi`"],
+				"jsStringBuiltins": ["flag", "Requires flag `--experimental-wasm-js-string-builtins`"],
 				"memory64": ["flag", "Requires flag `--experimental-wasm-memory64`"],
-				"multiMemory": ["flag", "Requires flag `--experimental-wasm-multi-memory`"],
+				"multiMemory": "22.0",
 				"multiValue": "15.0",
 				"mutableGlobals": "12.0",
 				"referenceTypes": "17.2",
-				"relaxedSimd": ["flag", "Requires flag `--experimental-wasm-relaxed-simd`"],
+				"relaxedSimd": "22.0",
 				"saturatedFloatToInt": "12.5",
 				"signExtensions": "12.0",
 				"simd": "16.4",
 				"tailCall": "20.0",
 				"threads": "16.4",
-				"typeReflection": ["flag", "Requires flag `--experimental-wasm-type-reflection`"]
+				"typedFunctionReferences": "22.0",
+				"typeReflection": ["flag", "Requires flag `--experimental-wasm-type-reflection`"],
+				"webContentSecurityPolicy": null
 			}
 		},
 		"Deno": {
@@ -230,11 +306,16 @@
 			"logo": "/images/deno.svg",
 			"features": {
 				"bigInt": "1.1.2",
+				"branchHinting": ["flag", "Requires flag `--v8-flags=--experimental-wasm-branch-hinting`"],
 				"bulkMemory": "0.4",
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptionsFinal": ["flag", "Requires flag `--v8-flags=--experimental-wasm-exnref`"],
 				"exceptions": "1.16",
 				"extendedConst": "1.33",
 				"gc": "1.38",
+				"instrumentAndTracingTechnology": ["flag", "Requires flag `--v8-flags=--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `--v8-flags=--experimental-wasm-jspi`"],
+				"jsStringBuiltins": ["flag", "Requires flag `--v8-flags=--experimental-wasm-js-string-builtins`"],
 				"memory64": ["flag", "Requires flag `--v8-flags=--experimental-wasm-memory64`"],
 				"multiMemory": "1.38",
 				"multiValue": "1.3.2",
@@ -246,7 +327,9 @@
 				"simd": "1.9",
 				"tailCall": "1.32",
 				"threads": "1.9",
-				"typeReflection": ["flag", "Requires flag `--v8-flags=--experimental-wasm-type-reflection`"]
+				"typedFunctionReferences": "1.38",
+				"typeReflection": ["flag", "Requires flag `--v8-flags=--experimental-wasm-type-reflection`"],
+				"webContentSecurityPolicy": null
 			}
 		},
 		"wasm2c": {
@@ -255,9 +338,13 @@
 			"features": {
 				"bigInt": null,
 				"bulkMemory": "1.0.30",
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptionsFinal": ["flag", "Requires flag `--enable-exceptions`"],
 				"exceptions": ["flag", "Requires flag `--enable-exceptions`"],
 				"extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
+				"esmIntegration": null,
 				"jspi": null,
+				"jsStringBuiltins": null,
 				"memory64": ["flag", "Requires flag `--enable-memory64`"],
 				"multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
 				"tailCall": ["flag", "Requires flag `--enable-tail-call`"],
@@ -266,7 +353,9 @@
 				"referenceTypes": "1.0.31",
 				"saturatedFloatToInt": "1.0.24",
 				"signExtensions": "1.0.24",
-				"simd": "1.0.33"
+				"simd": "1.0.33",
+				"typeReflection": null,
+				"webContentSecurityPolicy": null
 			}
 		}
 	}
