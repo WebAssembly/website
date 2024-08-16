@@ -23,6 +23,7 @@ layout: getting-started
   - [Pascal](https://wiki.freepascal.org/WebAssembly/Compiler)
   - [Zig](https://ziglang.org/documentation/master/#WebAssembly)
   - [Grain](https://grain-lang.org/docs/)
+  - Python (via [Pyodide](https://pyodide.org/en/stable/) or [py2wasm/Nuitka](https://github.com/wasmerio/py2wasm))
 - Use the compiled WebAssembly...
   - [from JavaScript code](https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running)
   - [as a CLI application](https://github.com/bytecodealliance/wasmtime/blob/master/docs/WASI-tutorial.md)
