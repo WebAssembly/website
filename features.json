@@ -358,6 +358,26 @@
 				"typeReflection": null,
 				"webContentSecurityPolicy": null
 			}
+		},
+		"GraalWasm": {
+			"url": "https://graalvm.org/webassembly",
+			"logo": "/images/graalvm.svg",
+			"features": {
+				"bigInt": "21.3",
+				"bulkMemory": "23.0",
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"extendedConst": ["flag", "Requires flag `--wasm.ExtendedConstExpressions=true`"],
+				"memory64": ["flag", "Requires flag `--wasm.Memory64=true`"],
+				"multiMemory": ["flag", "Requires flag `--wasm.MultiMemory=true`"],
+				"multiValue": "22.3",
+				"mutableGlobals": "21.3",
+				"referenceTypes": "23.0",
+				"saturatedFloatToInt": "22.3",
+				"signExtensions": "22.3",
+				"simd": "24.1",
+				"threads": ["flag", "Requires flag `--wasm.Threads=true`"],
+				"webContentSecurityPolicy": null
+			}
 		}
 	}
 }
