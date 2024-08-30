@@ -64,7 +64,7 @@
 		"jsStringBuiltins": {
 			"description": "JS String Builtins",
 			"url": "https://github.com/WebAssembly/js-string-builtins/blob/main/proposals/js-string-builtins/Overview.md",
-			"phase": 3
+			"phase": 4
 		},
 		"memory64": {
 			"description": "Memory64",
