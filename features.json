@@ -222,55 +222,6 @@
 				"typedFunctionReferences": "18"
 			}
 		},
-		"Wasmtime": {
-			"url": "https://wasmtime.dev/",
-			"logo": "/images/bca.svg",
-			"features": {
-				"bigInt": null,
-				"bulkMemory": "0.20",
-				"customAnnotationSyntaxInTheTextFormat": true,
-				"customPageSizes": ["flag", "Requires flag `--wasm=custom-page-sizes`"],
-				"esmIntegration": null,
-				"extendedConst": "25",
-				"gc": ["flag", "Requires flag `--wasm=gc`"],
-				"jspi": null,
-				"jsStringBuiltins": null,
-				"memory64": ["flag", "Requires flag `--wasm=memory64`"],
-				"multiMemory": "15",
-				"multiValue": "0.17",
-				"mutableGlobals": true,
-				"referenceTypes": "0.20",
-				"relaxedSimd": "15",
-				"saturatedFloatToInt": true,
-				"signExtensions": true,
-				"simd": "0.33",
-				"tailCall": ["22", "Enabled by default when using the Cranelift backend, except for the s390x architecture"],
-				"threads": "15",
-				"typedFunctionReferences": ["flag", "Requires flag `--wasm=function-references`"],
-				"typeReflection": null,
-				"webContentSecurityPolicy": null
-			}
-		},
-		"Wasmer": {
-			"url": "https://wasmer.io/",
-			"logo": "/images/wasmer.svg",
-			"features": {
-				"bigInt": null,
-				"bulkMemory": "1.0",
-				"customAnnotationSyntaxInTheTextFormat": true,
-				"esmIntegration": null,
-				"jspi": null,
-				"jsStringBuiltins": null,
-				"multiValue": "1.0",
-				"mutableGlobals": "0.7",
-				"referenceTypes": "2.0",
-				"saturatedFloatToInt": true,
-				"signExtensions": true,
-				"simd": "2.0",
-				"typeReflection": "2.0",
-				"webContentSecurityPolicy": null
-			}
-		},
 		"Node.js": {
 			"url": "https://nodejs.org/",
 			"logo": "/images/nodejs.svg",
@@ -333,6 +284,75 @@
 				"webContentSecurityPolicy": null
 			}
 		},
+		"GraalWasm": {
+			"url": "https://graalvm.org/webassembly",
+			"logo": "/images/graalvm.svg",
+			"features": {
+				"bigInt": "21.3",
+				"bulkMemory": "23.0",
+				"customAnnotationSyntaxInTheTextFormat": null,
+				"extendedConst": ["flag", "Requires flag `--wasm.ExtendedConstExpressions=true`"],
+				"memory64": ["flag", "Requires flag `--wasm.Memory64=true`"],
+				"multiMemory": ["flag", "Requires flag `--wasm.MultiMemory=true`"],
+				"multiValue": "22.3",
+				"mutableGlobals": "21.3",
+				"referenceTypes": "23.0",
+				"saturatedFloatToInt": "22.3",
+				"signExtensions": "22.3",
+				"simd": "24.1",
+				"threads": ["flag", "Requires flag `--wasm.Threads=true`"],
+				"webContentSecurityPolicy": null
+			}
+		},
+		"Wasmtime": {
+			"url": "https://wasmtime.dev/",
+			"logo": "/images/bca.svg",
+			"features": {
+				"bigInt": null,
+				"bulkMemory": "0.20",
+				"customAnnotationSyntaxInTheTextFormat": true,
+				"customPageSizes": ["flag", "Requires flag `--wasm=custom-page-sizes`"],
+				"esmIntegration": null,
+				"extendedConst": "25",
+				"gc": ["flag", "Requires flag `--wasm=gc`"],
+				"jspi": null,
+				"jsStringBuiltins": null,
+				"memory64": ["flag", "Requires flag `--wasm=memory64`"],
+				"multiMemory": "15",
+				"multiValue": "0.17",
+				"mutableGlobals": true,
+				"referenceTypes": "0.20",
+				"relaxedSimd": "15",
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"simd": "0.33",
+				"tailCall": ["22", "Enabled by default when using the Cranelift backend, except for the s390x architecture"],
+				"threads": "15",
+				"typedFunctionReferences": ["flag", "Requires flag `--wasm=function-references`"],
+				"typeReflection": null,
+				"webContentSecurityPolicy": null
+			}
+		},
+		"Wasmer": {
+			"url": "https://wasmer.io/",
+			"logo": "/images/wasmer.svg",
+			"features": {
+				"bigInt": null,
+				"bulkMemory": "1.0",
+				"customAnnotationSyntaxInTheTextFormat": true,
+				"esmIntegration": null,
+				"jspi": null,
+				"jsStringBuiltins": null,
+				"multiValue": "1.0",
+				"mutableGlobals": "0.7",
+				"referenceTypes": "2.0",
+				"saturatedFloatToInt": true,
+				"signExtensions": true,
+				"simd": "2.0",
+				"typeReflection": "2.0",
+				"webContentSecurityPolicy": null
+			}
+		},
 		"wasm2c": {
 			"url": "https://github.com/WebAssembly/wabt",
 			"logo": "/images/wasm2c.svg",
@@ -356,26 +376,6 @@
 				"signExtensions": "1.0.24",
 				"simd": "1.0.33",
 				"typeReflection": null,
-				"webContentSecurityPolicy": null
-			}
-		},
-		"GraalWasm": {
-			"url": "https://graalvm.org/webassembly",
-			"logo": "/images/graalvm.svg",
-			"features": {
-				"bigInt": "21.3",
-				"bulkMemory": "23.0",
-				"customAnnotationSyntaxInTheTextFormat": null,
-				"extendedConst": ["flag", "Requires flag `--wasm.ExtendedConstExpressions=true`"],
-				"memory64": ["flag", "Requires flag `--wasm.Memory64=true`"],
-				"multiMemory": ["flag", "Requires flag `--wasm.MultiMemory=true`"],
-				"multiValue": "22.3",
-				"mutableGlobals": "21.3",
-				"referenceTypes": "23.0",
-				"saturatedFloatToInt": "22.3",
-				"signExtensions": "22.3",
-				"simd": "24.1",
-				"threads": ["flag", "Requires flag `--wasm.Threads=true`"],
 				"webContentSecurityPolicy": null
 			}
 		}
