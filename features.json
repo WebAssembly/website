@@ -209,7 +209,7 @@
 				"customAnnotationSyntaxInTheTextFormat": null,
 				"exceptions": "15.2",
 				"extendedConst": "17.4",
-				"gc": ["flag", "Requires JavaScriptCore flag `useWebAssemblyGC`"],
+				"gc": ["flag", "Supported in Safari Technology Preview 202"],
 				"multiValue": "13.1",
 				"mutableGlobals": "12",
 				"referenceTypes": "15",
@@ -217,7 +217,7 @@
 				"saturatedFloatToInt": "15",
 				"signExtensions": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
 				"simd": "16.4",
-				"tailCall": ["flag", "Requires JavaScriptCore flag `useWebAssemblyTailCalls`"],
+				"tailCall": ["flag", "Supported in Safari Technology Preview 202"],
 				"threads": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
 				"typedFunctionReferences": "18"
 			}
