@@ -285,7 +285,7 @@
 			}
 		},
 		"GraalWasm": {
-			"url": "https://github.com/oracle/graal/tree/master/wasm",
+			"url": "https://www.graalvm.org/webassembly/",
 			"logo": "/images/graalvm.svg",
 			"features": {
 				"bigInt": "21.3",
