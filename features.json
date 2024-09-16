@@ -12,7 +12,7 @@
 			"phase": 5
 		},
 		"bulkMemory": {
-			"description": "Bulk memory Operations",
+			"description": "Bulk Memory Operations",
 			"url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
 			"phase": 5
 		},
@@ -111,6 +111,11 @@
 			"url": "https://github.com/WebAssembly/simd/blob/master/proposals/simd/SIMD.md",
 			"phase": 5
 		},
+		"stackSwitching": {
+			"description": "Stack Switching",
+			"url": "https://github.com/WebAssembly/stack-switching",
+			"phase": 2
+		},
 		"tailCall": {
 			"description": "Tail Call",
 			"url": "https://github.com/WebAssembly/tail-call/blob/master/proposals/tail-call/Overview.md",
@@ -127,7 +132,7 @@
 			"phase": 5
 		},
 		"typeReflection": {
-			"description": "Type Reflection",
+			"description": "Type Reflection for JS API",
 			"url": "https://github.com/WebAssembly/js-types/blob/main/proposals/js-types/Overview.md",
 			"phase": 3
 		},
@@ -152,7 +157,7 @@
 				"gc": "119",
 				"instrumentAndTracingTechnology": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-jspi`"],
-				"jsStringBuiltins": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
+				"jsStringBuiltins": "130",
 				"memory64": ["flag", "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"],
 				"multiMemory": "120",
 				"multiValue": "85",
@@ -162,6 +167,7 @@
 				"saturatedFloatToInt": "75",
 				"signExtensions": "74",
 				"simd": "91",
+				"stackSwitching": ["flag", "Requires CLI flag `--js-flags=--experimental-wasm-stack-switching`"],
 				"tailCall": "112",
 				"threads": "74",
 				"typedFunctionReferences": "119",
@@ -195,7 +201,7 @@
 				"tailCall": "121",
 				"threads": "79",
 				"typedFunctionReferences": "120",
-				"typeReflection": ["flag", "Requires flag `--enable-wasm-type-reflections`"],
+				"typeReflection": ["flag", "Enabled in Nightly, requires flag `--enable-wasm-type-reflections` in Beta/Release"],
 				"webContentSecurityPolicy": "102"
 			}
 		},
@@ -219,7 +225,8 @@
 				"simd": "16.4",
 				"tailCall": ["flag", "Supported in Safari Technology Preview 202"],
 				"threads": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
-				"typedFunctionReferences": "18"
+				"typedFunctionReferences": "18",
+				"typeReflection": ["flag", "Supported in Safari Technology Preview 202, only supports `WebAssembly.Module.imports` and `WebAssembly.Module.exports`"]
 			}
 		},
 		"Node.js": {
@@ -232,7 +239,7 @@
 				"customAnnotationSyntaxInTheTextFormat": null,
 				"exceptionsFinal": ["flag", "Requires flag `--experimental-wasm-exnref`"],
 				"exceptions": "17.0",
-				"extendedConst": ["flag", "Requires flag `--experimental-wasm-extended-const`"],
+				"extendedConst": "21.0",
 				"gc": "22.0",
 				"instrumentAndTracingTechnology": ["flag", "Requires flag `--experimental-wasm-instruction-tracing`"],
 				"jspi": ["flag", "Requires flag `--experimental-wasm-jspi`"],
@@ -242,10 +249,11 @@
 				"multiValue": "15.0",
 				"mutableGlobals": "12.0",
 				"referenceTypes": "17.2",
-				"relaxedSimd": "22.0",
+				"relaxedSimd": "21.0",
 				"saturatedFloatToInt": "12.5",
 				"signExtensions": "12.0",
 				"simd": "16.4",
+				"stackSwitching": ["flag", "Requires flag `--experimental-wasm-stack-switching`"],
 				"tailCall": "20.0",
 				"threads": "16.4",
 				"typedFunctionReferences": "22.0",
@@ -277,6 +285,7 @@
 				"saturatedFloatToInt": "0.4",
 				"signExtensions": "0.1",
 				"simd": "1.9",
+				"stackSwitching": ["flag", "Requires flag `--v8-flags=--experimental-wasm-stack-switching`"],
 				"tailCall": "1.32",
 				"threads": "1.9",
 				"typedFunctionReferences": "1.38",
@@ -326,7 +335,7 @@
 				"saturatedFloatToInt": true,
 				"signExtensions": true,
 				"simd": "0.33",
-				"tailCall": ["22", "Enabled by default when using the Cranelift backend, except for the s390x architecture"],
+				"tailCall": ["22", "Enabled by default when using the Cranelift backend, the s390x architecture supports it since 24"],
 				"threads": "15",
 				"typedFunctionReferences": ["flag", "Requires flag `--wasm=function-references`"],
 				"typeReflection": null,
