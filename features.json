@@ -183,7 +183,7 @@
 				"branchHinting": ["flag", "Enabled in Nightly, requires flag `javascript.options.wasm_branch_hinting` in Beta/Release"],
 				"bulkMemory": "79",
 				"customAnnotationSyntaxInTheTextFormat": null,
-				"exceptionsFinal": 131,
+				"exceptionsFinal": "131",
 				"exceptions": "100",
 				"extendedConst": "112",
 				"gc": "120",
