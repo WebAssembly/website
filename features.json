@@ -213,6 +213,7 @@
 				"branchHinting": "16",
 				"bulkMemory": "15",
 				"customAnnotationSyntaxInTheTextFormat": null,
+				"exceptionsFinal": ["flag", "Supported in Safari Technology Preview 205"],
 				"exceptions": "15.2",
 				"extendedConst": "17.4",
 				"gc": ["flag", "Supported in Safari Technology Preview 202"],
