@@ -69,7 +69,7 @@
 		"memory64": {
 			"description": "Memory64",
 			"url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
-			"phase": 3
+			"phase": 4
 		},
 		"multiMemory": {
 			"description": "Multiple Memories",
