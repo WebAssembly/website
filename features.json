@@ -227,7 +227,8 @@
 				"tailCall": ["flag", "Supported in Safari Technology Preview 202"],
 				"threads": ["14.1", "Supported in desktop Safari since 14.1 and iOS Safari since 14.5"],
 				"typedFunctionReferences": "18",
-				"typeReflection": ["flag", "Supported in Safari Technology Preview 202, only supports `WebAssembly.Module.imports` and `WebAssembly.Module.exports`"]
+				"typeReflection": ["flag", "Supported in Safari Technology Preview 202, only supports `WebAssembly.Module.imports` and `WebAssembly.Module.exports`"],
+				"webContentSecurityPolicy": "16"
 			}
 		},
 		"Node.js": {
