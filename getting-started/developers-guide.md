@@ -15,7 +15,7 @@ layout: getting-started
     - [Via Flutter](https://flutter.dev/wasm) (preview)
   - [F#](https://fsbolero.io/docs/)
   - Go
-    - [with full language support](https://github.com/golang/go/wiki/WebAssembly#getting-started)
+    - [with full language support](https://go.dev/wiki/WebAssembly#getting-started)
     - [targeting minimal size](https://tinygo.org/docs/guides/webassembly/)
   - [Kotlin](https://kotl.in/wasm)
   - [Swift](https://swiftwasm.org/)
