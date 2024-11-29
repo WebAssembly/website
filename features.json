@@ -140,6 +140,11 @@
 			"description": "Web Content Security Policy",
 			"url": "https://github.com/WebAssembly/content-security-policy/blob/main/proposals/CSP.md",
 			"phase": 3
+		},
+		"wideArithmetic": {
+			"description": "Wide Arithmetic",
+			"url": "https://github.com/WebAssembly/wide-arithmetic/blob/main/proposals/wide-arithmetic/Overview.md",
+			"phase": 2
 		}
 	},
 	"browsers": {
@@ -341,7 +346,8 @@
 				"threads": "15",
 				"typedFunctionReferences": ["flag", "Requires flag `--wasm=function-references`"],
 				"typeReflection": null,
-				"webContentSecurityPolicy": null
+				"webContentSecurityPolicy": null,
+				"wideArithmetic": ["flag", "Requires flag `--wasm=wide-arithmetic`"]
 			}
 		},
 		"Wasmer": {
