@@ -19,6 +19,7 @@ layout: getting-started
     - [targeting minimal size](https://tinygo.org/docs/guides/webassembly/)
   - [Kotlin](https://kotl.in/wasm)
   - [Swift](https://swiftwasm.org/)
+  - [Scala.js](https://www.scala-js.org/doc/project/webassembly.html)
   - [D](https://wiki.dlang.org/Generating_WebAssembly_with_LDC)
   - [Pascal](https://wiki.freepascal.org/WebAssembly/Compiler)
   - [Zig](https://ziglang.org/documentation/master/#WebAssembly)
