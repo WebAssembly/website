@@ -38,7 +38,7 @@
 		},
 		"exceptions": {
 			"description": "Legacy Exception Handling",
-			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
+			"url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/legacy/Exceptions.md",
 			"phase": "deprecated"
 		},
 		"extendedConst": {
