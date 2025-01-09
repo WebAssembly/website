@@ -10,7 +10,7 @@ layout: getting-started
     - [library that I want to port to the Web](https://developer.mozilla.org/en-US/docs/WebAssembly/existing_C_to_wasm)
   - [Rust](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)
   - [AssemblyScript (a TypeScript-like syntax)](https://assemblyscript.org/introduction.html)
-  - [C#](https://learn.microsoft.com/en-us/aspnet/core/blazor/tutorials/?view=aspnetcore-7.0&preserve-view=true)
+  - [C#](https://learn.microsoft.com/en-us/aspnet/core/blazor/tutorials)
   - Dart
     - [Via Flutter](https://flutter.dev/wasm) (preview)
   - [F#](https://fsbolero.io/docs/)
