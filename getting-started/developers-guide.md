@@ -10,19 +10,26 @@ layout: getting-started
     - [library that I want to port to the Web](https://developer.mozilla.org/en-US/docs/WebAssembly/existing_C_to_wasm)
   - [Rust](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)
   - [AssemblyScript (a TypeScript-like syntax)](https://assemblyscript.org/introduction.html)
-  - [C#](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio)
+  - [C#](https://learn.microsoft.com/en-us/aspnet/core/blazor/tutorials)
+  - Dart
+    - [Via Flutter](https://flutter.dev/wasm)
   - [F#](https://fsbolero.io/docs/)
   - Go
-    - [with full language support](https://github.com/golang/go/wiki/WebAssembly#getting-started)
+    - [with full language support](https://go.dev/wiki/WebAssembly#getting-started)
     - [targeting minimal size](https://tinygo.org/docs/guides/webassembly/)
   - Java
     - [TeaVM](https://teavm.org)
   - [Kotlin](https://kotlinlang.org/docs/reference/native-overview.html)
+  - [Kotlin](https://kotl.in/wasm)
   - [Swift](https://swiftwasm.org/)
+  - [Scala.js](https://www.scala-js.org/doc/project/webassembly.html)
   - [D](https://wiki.dlang.org/Generating_WebAssembly_with_LDC)
   - [Pascal](https://wiki.freepascal.org/WebAssembly/Compiler)
   - [Zig](https://ziglang.org/documentation/master/#WebAssembly)
   - [Grain](https://grain-lang.org/docs/)
+  - [Ada](https://github.com/godunko/adawebpack)
+  - [Haskell](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/wasm.html)
+  - Python (via [Pyodide](https://pyodide.org/en/stable/) or [Nuitka (py2wasm)](https://github.com/wasmerio/py2wasm))
 - Use the compiled WebAssembly...
   - [from JavaScript code](https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running)
   - [as a CLI application](https://github.com/bytecodealliance/wasmtime/blob/master/docs/WASI-tutorial.md)

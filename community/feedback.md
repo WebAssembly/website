@@ -6,11 +6,6 @@ layout: community
 
 We welcome community and developer feedback on all aspects of WebAssembly, including the high-level design, binary format, JS API, developer experience, and browser implementations.
 
-<!--
-<div class="flash flash-warn">
-  We're especially interested in hearing from developers during the <a href="/roadmap/">Browser Preview</a> period, while WebAssembly is still implemented behind a flag.
-</div>
--->
 
 Please contribute your feedback or issues in the following forums:
 
