@@ -21,6 +21,7 @@ layout: getting-started
   - [Haskell](https://asterius.netlify.app/)
   - Java
     - [TeaVM](https://teavm.org)
+    - [j2wasm](https://github.com/google/j2cl/blob/master/docs/getting-started-j2wasm.md)
   - [Kotlin](https://kotlinlang.org/docs/reference/native-overview.html)
   - [Kotlin](https://kotl.in/wasm)
   - [Moonbit](https://www.moonbitlang.com/)
