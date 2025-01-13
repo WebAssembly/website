@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "bundle exec jekyll serve",
-    "prettier": "npx prettier . --write"
+    "prettier": "npx prettier . --write",
+    "optimize-svgs": "node scripts/optimize-svgs.js"
   },
   "keywords": [
     "webassembly",
@@ -17,6 +18,8 @@
   "author": "The WebAssembly community",
   "license": "Apache-2.0",
   "devDependencies": {
-    "prettier": "^3.4.2"
-  }
+    "prettier": "^3.4.2",
+    "svgo": "^3.3.2"
+  },
+  "type": "module"
 }
