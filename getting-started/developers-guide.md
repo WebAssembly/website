@@ -17,6 +17,7 @@ layout: getting-started
   - Go
     - [with full language support](https://go.dev/wiki/WebAssembly#getting-started)
     - [targeting minimal size](https://tinygo.org/docs/guides/webassembly/)
+  - [Haskell](https://asterius.netlify.app/)
   - Java
     - [TeaVM](https://teavm.org)
   - [Kotlin](https://kotlinlang.org/docs/reference/native-overview.html)
