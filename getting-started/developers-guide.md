@@ -29,6 +29,7 @@ layout: getting-started
   - [Scala.js](https://www.scala-js.org/doc/project/webassembly.html)
   - [D](https://wiki.dlang.org/Generating_WebAssembly_with_LDC)
   - [Pascal](https://wiki.freepascal.org/WebAssembly/Compiler)
+  - [PHP](https://github.com/seanmorris/php-wasm)
   - [Zig](https://ziglang.org/documentation/master/#WebAssembly)
   - [Grain](https://grain-lang.org/docs/)
   - Scheme
