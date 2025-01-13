@@ -4,7 +4,6 @@ on: page_build
 
 jobs:
   purge:
-
     runs-on: ubuntu-latest
 
     steps:
