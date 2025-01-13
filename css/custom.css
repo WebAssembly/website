@@ -14,7 +14,7 @@ body {
 }
 
 a {
-    color: #6797e2;
+    color: #4772b5;
     text-decoration: none;
 }
 
@@ -31,7 +31,7 @@ nav a:hover {
     margin-right: auto;
     padding-left: 15px;
     padding-right: 15px;
-    max-width: 980px;
+    max-width: 1080px;
 }
 
 .container::after {
@@ -1880,7 +1880,8 @@ dl dd {
 }
 
 table {
-  display: block;
+  /* https://bugzilla.mozilla.org/show_bug.cgi?id=1005271 */
+  /* display: block; */
   width: 100%;
   overflow: auto;
 }
@@ -1890,7 +1891,7 @@ table th {
 }
 
 table th, table td {
-  padding: 6px 13px;
+  padding: 6px 11px;
   border: 1px solid #ddd;
 }
 
@@ -1957,9 +1958,15 @@ pre code::before, pre code::after {
   content: normal;
 }
 
+#feature-support-scrollbox {
+  overflow: auto hidden;
+  margin: 0 0 16px 0;
+}
+
 #feature-support {
   white-space: nowrap;
   cursor: default;
+  margin: 0;
 }
 
 #feature-support>caption {
@@ -1984,7 +1991,119 @@ pre code::before, pre code::after {
   height: 32px;
 }
 
-#feature-support td[title] {
-  text-decoration: underline dashed;
-  text-underline-position: under;
+#feature-support td {
+  position: relative; /* for tooltip */
 }
+
+#feature-support td:hover, #feature-support td:focus, #feature-support td:focus-within {
+  background: rgba(0, 0, 0, .04);
+}
+
+.feature-cell {
+  position: relative;
+  height: 24px; /* height of the icon inside */
+  line-height: 24px;
+}
+
+.feature-cell > sup {
+  font-size: .7em;
+  position: absolute;
+  top: .2em;
+}
+
+.feature-cell > svg {
+  width: 24px;
+  height: 24px;
+}
+
+.feature-cell.icon-yes {
+  color: #1B5E20;
+}
+
+.feature-cell.icon-yes > svg .svg-stroke {
+  fill: #1B5E20;
+}
+
+.feature-cell.icon-no {
+  color: #a96e8e;
+}
+
+.feature-cell.icon-no > svg .svg-stroke {
+  fill: #a96e8e;
+}
+
+.feature-cell.icon-flag {
+  color: #575581;
+}
+
+.feature-cell.icon-flag > svg .svg-stroke {
+  fill: #575581;
+}
+
+.feature-cell.icon-na {
+  color: #78909C;
+}
+
+.feature-cell.icon-unknown > svg .svg-stroke {
+  fill: #78909C;
+}
+
+#feature-support-scrollbox + ol {
+  list-style: lower-alpha;
+  font-size: 0.7em;
+  margin: 0 0 1em 0;
+}
+
+#feature-support-scrollbox + ol > li {
+  transition: background-color .08s ease-in-out;
+}
+
+#feature-support-scrollbox + ol .ref-highlight {
+  background: #ECEFF1;
+}
+
+.feature-tooltip {
+  text-align: left;
+  text-align: start;
+  white-space: normal;
+  background: #fefefe;
+  font-size: 0.8em;
+  border-radius: 2px;
+  outline: none;
+
+  top: 0;
+  left: 0;
+  z-index: 1;
+  max-width: 16em;
+  width: max-content;
+  height: max-content;
+  padding: 12px;
+}
+
+/* Only apply transition after the initial position was set */
+.feature-tooltip[data-placement] {
+  transition: transform .2s ease-in-out;
+}
+
+.feature-tooltip, .feature-tooltip-arrow {
+  position: absolute;
+  contain: layout style;
+  --shadow-size: 3px;
+  box-shadow: 0 0 var(--shadow-size) rgba(0, 0, 0, .30);
+}
+
+.feature-tooltip-arrow {
+  --arrow-size: 8px;
+  background: inherit;
+  width: var(--arrow-size);
+  height: var(--arrow-size);
+
+  --c0: calc(var(--shadow-size) * -1);
+  --c1: calc(100% + var(--shadow-size));
+  clip-path: polygon(var(--c0) var(--c1), var(--c0) var(--c0), var(--c1) var(--c0));
+}
+
+[data-placement="top"] > .feature-tooltip-arrow { bottom: 0; transform: translateY(50%) rotate(-135deg);  }
+[data-placement="bottom"] > .feature-tooltip-arrow { top: 0; transform: translateY(-50%) rotate(45deg); }
+[data-placement="left"] > .feature-tooltip-arrow { right: 0; transform: translateX(50%) rotate(135deg); }
+[data-placement="right"] > .feature-tooltip-arrow { left: 0; transform: translateX(-50%) rotate(-45deg); }
