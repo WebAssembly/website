@@ -23,6 +23,7 @@ layout: getting-started
     - [TeaVM](https://teavm.org)
   - [Kotlin](https://kotlinlang.org/docs/reference/native-overview.html)
   - [Kotlin](https://kotl.in/wasm)
+  - [Moonbit](https://www.moonbitlang.com/)
   - [Swift](https://swiftwasm.org/)
   - [Scala.js](https://www.scala-js.org/doc/project/webassembly.html)
   - [D](https://wiki.dlang.org/Generating_WebAssembly_with_LDC)
