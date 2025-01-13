@@ -11,6 +11,7 @@ layout: getting-started
   - [Rust](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)
   - [AssemblyScript (a TypeScript-like syntax)](https://assemblyscript.org/introduction.html)
   - [C#](https://learn.microsoft.com/en-us/aspnet/core/blazor/tutorials)
+  - [Cobol](https://github.com/cloudflare/cobweb)
   - Dart
     - [Via Flutter](https://flutter.dev/wasm)
   - [F#](https://fsbolero.io/docs/)
