@@ -24,6 +24,7 @@ layout: getting-started
   - [Pascal](https://wiki.freepascal.org/WebAssembly/Compiler)
   - [Zig](https://ziglang.org/documentation/master/#WebAssembly)
   - [Grain](https://grain-lang.org/docs/)
+  - [Ada](https://github.com/godunko/adawebpack)
   - [Haskell](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/wasm.html)
   - Python (via [Pyodide](https://pyodide.org/en/stable/) or [Nuitka (py2wasm)](https://github.com/wasmerio/py2wasm))
 - Use the compiled WebAssembly...
