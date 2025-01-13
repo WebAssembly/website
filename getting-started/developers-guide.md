@@ -12,11 +12,14 @@ layout: getting-started
   - [AssemblyScript (a TypeScript-like syntax)](https://assemblyscript.org/introduction.html)
   - [C#](https://learn.microsoft.com/en-us/aspnet/core/blazor/tutorials)
   - Dart
-    - [Via Flutter](https://flutter.dev/wasm) (preview)
+    - [Via Flutter](https://flutter.dev/wasm)
   - [F#](https://fsbolero.io/docs/)
   - Go
     - [with full language support](https://go.dev/wiki/WebAssembly#getting-started)
     - [targeting minimal size](https://tinygo.org/docs/guides/webassembly/)
+  - Java
+    - [TeaVM](https://teavm.org)
+  - [Kotlin](https://kotlinlang.org/docs/reference/native-overview.html)
   - [Kotlin](https://kotl.in/wasm)
   - [Swift](https://swiftwasm.org/)
   - [Scala.js](https://www.scala-js.org/doc/project/webassembly.html)
