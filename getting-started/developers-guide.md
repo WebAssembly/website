@@ -33,10 +33,11 @@ layout: getting-started
   - [Zig](https://ziglang.org/documentation/master/#WebAssembly)
   - [Grain](https://grain-lang.org/docs/)
   - Scheme
-      - [Chez Scheme](https://github.com/racket/ChezScheme)
+    - [Chez Scheme](https://github.com/racket/ChezScheme)
   - [Ada](https://github.com/godunko/adawebpack)
   - [Haskell](https://ghc.gitlab.haskell.org/ghc/doc/users_guide/wasm.html)
-  - Python (via [Pyodide](https://pyodide.org/en/stable/) or [Nuitka (py2wasm)](https://github.com/wasmerio/py2wasm))
+  - Python (via [Pyodide](https://pyodide.org/en/stable/) or
+    [Nuitka (py2wasm)](https://github.com/wasmerio/py2wasm))
 - Use the compiled WebAssembly...
   - [from JavaScript code](https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running)
   - [as a CLI application](https://github.com/bytecodealliance/wasmtime/blob/master/docs/WASI-tutorial.md)
@@ -47,4 +48,5 @@ layout: getting-started
   - [as a disassembled format](https://github.com/WebAssembly/wabt#running-wasm2wat)
   - [as a human-readable pseudo-code](https://v8.dev/blog/wasm-decompile)
 
-Coming from a language or targeting an environment not listed here? Please [raise an issue](https://github.com/WebAssembly/website)!
+Coming from a language or targeting an environment not listed here? Please
+[raise an issue](https://github.com/WebAssembly/website)!

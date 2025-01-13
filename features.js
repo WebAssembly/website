@@ -19,14 +19,20 @@
   // Map names to HTML ids. For example, idMap['table-col']('Chrome') will return 'table-col-chrome'.
   // This is to satisfy the need for unique ids in `headers` attributes.
   // Hardcoded array makes it easier to find typos, since it would throw an error if the namespace is mistyped.
-  const idMap = ['table-group', 'table-col', 'table-row'].reduce((map, namespace) => {
-    map[namespace] = (str) => namespace + '-' + str.toLowerCase().replace(/[^\w\d-_]+/g, '-');
-    return map;
-  }, {});
+  const idMap = ['table-group', 'table-col', 'table-row'].reduce(
+    (map, namespace) => {
+      map[namespace] = (str) =>
+        namespace + '-' + str.toLowerCase().replace(/[^\w\d-_]+/g, '-');
+      return map;
+    },
+    {}
+  );
 
   // Get a copy of the requested SVG icon. Those are defined in the markdown as templates.
   function icon(key) {
-    return document.getElementById(`support-symbol-${key}`).content.firstElementChild.cloneNode(true);
+    return document
+      .getElementById(`support-symbol-${key}`)
+      .content.firstElementChild.cloneNode(true);
   }
 
   const scrollbox = document.getElementById('feature-support-scrollbox');
@@ -37,26 +43,28 @@
 
   const { features, browsers } = await fetch('/features.json', {
     credentials: 'include', // https://stackoverflow.com/a/63814972
-    mode: 'no-cors'
-  }).then(res => res.json());
+    mode: 'no-cors',
+  }).then((res) => res.json());
 
   const tBody = document.createElement('tbody');
   table.append(
     h('thead', {}, [
       h('tr', {}, [
         h('th', { id: 'table-blank' }),
-        h('th', { scope: 'col', id: idMap['table-col']('Your browser') }, ['Your browser']),
+        h('th', { scope: 'col', id: idMap['table-col']('Your browser') }, [
+          'Your browser',
+        ]),
         ...Object.entries(browsers).map(([name, { url, logo }]) =>
           h('th', { scope: 'col', id: idMap['table-col'](name) }, [
             h('a', { href: url, target: '_blank' }, [
               // https://www.w3.org/WAI/WCAG22/Techniques/html/H2
               h('img', { src: logo, width: 48, height: 32, alt: '' }),
               h('br'),
-              name
-            ])
+              name,
+            ]),
           ])
-        )
-      ])
+        ),
+      ]),
     ]),
     tBody
   );
@@ -75,36 +83,44 @@
    *
    * This was introduced because of https://github.com/GoogleChromeLabs/wasm-feature-detect/issues/82.
    */
-  Object.groupBy ??= function groupBy (iterable, callbackfn) {
-    const obj = Object.create(null)
-    let i = 0
+  Object.groupBy ??= function groupBy(iterable, callbackfn) {
+    const obj = Object.create(null);
+    let i = 0;
     for (const value of iterable) {
-      const key = callbackfn(value, i++)
-      key in obj ? obj[key].push(value) : (obj[key] = [value])
+      const key = callbackfn(value, i++);
+      key in obj ? obj[key].push(value) : (obj[key] = [value]);
     }
-    return obj
-  }
+    return obj;
+  };
 
   let featureGroups = Object.groupBy(
-    Object.entries(features).map(([name, feature]) => Object.assign(feature, { name })),
-    f => f.phase,
+    Object.entries(features).map(([name, feature]) =>
+      Object.assign(feature, { name })
+    ),
+    (f) => f.phase
   );
 
   featureGroups = [
-    { name: 'Phase 5 - The Feature is Standardized', features: featureGroups[5] },
+    {
+      name: 'Phase 5 - The Feature is Standardized',
+      features: featureGroups[5],
+    },
     { name: 'Phase 4 - Standardize the Feature', features: featureGroups[4] },
     { name: 'Phase 3 - Implementation Phase', features: featureGroups[3] },
-    { name: 'Phase 2 - Proposed Spec Text Available', features: featureGroups[2] },
+    {
+      name: 'Phase 2 - Proposed Spec Text Available',
+      features: featureGroups[2],
+    },
     { name: 'Phase 1 - Feature Proposal', features: featureGroups[1] },
-    { name: 'Deprecated', features: featureGroups["deprecated"] },
+    { name: 'Deprecated', features: featureGroups['deprecated'] },
   ];
 
   // Collect all notes and assign an index to each unique item
   // { "First unique note": 0, "Second unique note": 1, ...}
-  const notes = Object.values(browsers).flatMap(b =>
+  const notes = Object.values(browsers).flatMap((b) =>
     Object.values(b.features)
-      .filter(s => Array.isArray(s))
-      .map(s => s[1])
+      .filter((s) => Array.isArray(s))
+      .map((s) => s[1])
   );
   const note2index = new Map();
   let noteIndex = 0;
@@ -139,43 +155,68 @@
 
     tBody.append(
       h('tr', {}, [
-        h('th', {
-          scope: 'colgroup',
-          colSpan: columnCount,
-          id: idMap['table-group'](groupName),
-          headers: 'table-blank',
-          // Chrome doesn't handle `headers` attribute correctly.
-          // Just hide the group headers for now...
-          // https://bugs.chromium.org/p/chromium/issues/detail?id=1081201
-          //
-          // Actually Firefox doesn't support `ariaHidden` attribute.
-          // This is a happy coincidence, since `headers` works fine on Firefox anyway.
-          ariaHidden: true
-        }, [groupName])
+        h(
+          'th',
+          {
+            scope: 'colgroup',
+            colSpan: columnCount,
+            id: idMap['table-group'](groupName),
+            headers: 'table-blank',
+            // Chrome doesn't handle `headers` attribute correctly.
+            // Just hide the group headers for now...
+            // https://bugs.chromium.org/p/chromium/issues/detail?id=1081201
+            //
+            // Actually Firefox doesn't support `ariaHidden` attribute.
+            // This is a happy coincidence, since `headers` works fine on Firefox anyway.
+            ariaHidden: true,
+          },
+          [groupName]
+        ),
       ])
     );
     for (const { name: featName, description, url } of features) {
-      const detectResult = h('td', {
-        headers: [idMap['table-col']('Your browser'), idMap['table-row'](featName)].join(' ')
-      }, [buildCellInner('loading')]);
+      const detectResult = h(
+        'td',
+        {
+          headers: [
+            idMap['table-col']('Your browser'),
+            idMap['table-row'](featName),
+          ].join(' '),
+        },
+        [buildCellInner('loading')]
+      );
 
-      detectWasmFeature(featName).then(supported => {
-        detectResult.textContent = '';
-        detectResult.appendChild(buildCellInner(supported ? 'yes' : 'no'));
-        addTooltip(detectResult, supported ? '✓ Supported' : '✗ Not supported', [tBody, scrollbox]);
-      }, _err => {
-        detectResult.textContent = '';
-        detectResult.appendChild(buildCellInner('unknown'));
-        addTooltip(detectResult, 'Detection unavailable for this feature', [tBody, scrollbox]);
-      });
+      detectWasmFeature(featName).then(
+        (supported) => {
+          detectResult.textContent = '';
+          detectResult.appendChild(buildCellInner(supported ? 'yes' : 'no'));
+          addTooltip(
+            detectResult,
+            supported ? '✓ Supported' : '✗ Not supported',
+            [tBody, scrollbox]
+          );
+        },
+        (_err) => {
+          detectResult.textContent = '';
+          detectResult.appendChild(buildCellInner('unknown'));
+          addTooltip(detectResult, 'Detection unavailable for this feature', [
+            tBody,
+            scrollbox,
+          ]);
+        }
+      );
 
       tBody.append(
         h('tr', {}, [
-          h('th', {
-            scope: 'row',
-            id: idMap['table-row'](featName),
-            headers: idMap['table-group'](groupName)
-          }, [h('a', { href: url, target: '_blank' }, [description])]),
+          h(
+            'th',
+            {
+              scope: 'row',
+              id: idMap['table-row'](featName),
+              headers: idMap['table-group'](groupName),
+            },
+            [h('a', { href: url, target: '_blank' }, [description])]
+          ),
           detectResult,
           ...Object.entries(browsers).map(([browserName, { features }]) => {
             // Meaning of each entry:
@@ -222,9 +263,16 @@
               note ||= '✓ Supported, introduced in unknown version';
             }
 
-            const cell = h('td', {
-              headers: [idMap['table-col'](browserName), idMap['table-row'](featName)].join(' ')
-            }, [box]);
+            const cell = h(
+              'td',
+              {
+                headers: [
+                  idMap['table-col'](browserName),
+                  idMap['table-row'](featName),
+                ].join(' '),
+              },
+              [box]
+            );
 
             // Give the cell itself an `aria-lebel` to avoid screen readers calling it "empty cell".
             const icon = box.firstElementChild;
@@ -234,15 +282,19 @@
             }
 
             if (note && note2index.has(note)) {
-              cell.tabIndex = 0;  // focusable
+              cell.tabIndex = 0; // focusable
               const index = note2index.get(note);
               const [noteId, refLink] = createNoteRef(index);
               box.appendChild(h('sup', {}, [refLink]));
 
               const noteItem = document.getElementById(noteId);
               if (noteItem) {
-                cell.addEventListener('mouseenter', () => noteItem.classList.add('ref-highlight'));
-                cell.addEventListener('mouseleave', () => noteItem.classList.remove('ref-highlight'));
+                cell.addEventListener('mouseenter', () =>
+                  noteItem.classList.add('ref-highlight')
+                );
+                cell.addEventListener('mouseleave', () =>
+                  noteItem.classList.remove('ref-highlight')
+                );
               }
             }
 
@@ -251,16 +303,19 @@
             // the latter is to keep the tooltip inside the scrollable area
             addTooltip(cell, note, [tBody, scrollbox]);
             return cell;
-          })
+          }),
         ])
       );
-      tBody.lastElementChild.setAttribute('aria-describedby', idMap['table-row'](featName));
+      tBody.lastElementChild.setAttribute(
+        'aria-describedby',
+        idMap['table-row'](featName)
+      );
     }
   }
 
   function buildCellInner(type, text) {
     const content = text || icon(type);
-    return h('div', { className: `feature-cell icon-${type}`}, [content]);
+    return h('div', { className: `feature-cell icon-${type}` }, [content]);
   }
 
   function renderNote(note) {
@@ -292,10 +347,16 @@
     }
 
     if (isMissingData) {
-      fragment.appendChild(h('a', {
-        href: 'https://github.com/WebAssembly/website/blob/master/features.json',
-        target: '_blank'
-      }, [' (contribute data)']))
+      fragment.appendChild(
+        h(
+          'a',
+          {
+            href: 'https://github.com/WebAssembly/website/blob/master/features.json',
+            target: '_blank',
+          },
+          [' (contribute data)']
+        )
+      );
     }
 
     return fragment;
@@ -311,17 +372,21 @@
       const tail = str.substring(end + 1);
       return [head, body, tail];
     }
-    return [str, '', '']
+    return [str, '', ''];
   }
 
   // Lazy-loading
   function _loadTooltipModule() {
     // Be sure to change the preloads in markdown when updating url.
     // The ESM bundle of this package doesn't work with unpkg.com.
-    const module = import('https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm');
+    const module = import(
+      'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm'
+    );
 
     const subscribers = new Set();
-    const updateAll = () => { for (const fn of subscribers) fn(); };
+    const updateAll = () => {
+      for (const fn of subscribers) fn();
+    };
 
     document.addEventListener('scroll', updateAll, { passive: true });
     scrollbox.addEventListener('scroll', updateAll, { passive: true });
@@ -331,33 +396,38 @@
     return (reference, note, boundary) =>
       module.then(({ computePosition, offset, flip, shift, arrow }) => {
         const tooltipId = `tooltip-${counter++}`;
-        const tooltip = h('div', { id: tooltipId, className: 'feature-tooltip', role: 'tooltip' });
+        const tooltip = h('div', {
+          id: tooltipId,
+          className: 'feature-tooltip',
+          role: 'tooltip',
+        });
         tooltip.appendChild(renderNote(note));
 
         const arrowElement = h('div', { className: 'feature-tooltip-arrow' });
         tooltip.appendChild(arrowElement);
 
-        const update = () => computePosition(reference, tooltip, {
-          placement: 'top',
-          middleware: [
-            offset(6),
-            flip({ boundary }),
-            shift({ padding: 6, boundary }),
-            arrow({ element: arrowElement, padding: 3, boundary })
-          ],
-        }).then(({ x, y, placement, middlewareData }) => {
-          const { x: arrowX, y: arrowY } = middlewareData.arrow;
-          Object.assign(arrowElement.style, {
-            left: arrowX !== null ? `${arrowX}px` : '',
-            top: arrowY !== null ? `${arrowY}px` : '',
-          });
+        const update = () =>
+          computePosition(reference, tooltip, {
+            placement: 'top',
+            middleware: [
+              offset(6),
+              flip({ boundary }),
+              shift({ padding: 6, boundary }),
+              arrow({ element: arrowElement, padding: 3, boundary }),
+            ],
+          }).then(({ x, y, placement, middlewareData }) => {
+            const { x: arrowX, y: arrowY } = middlewareData.arrow;
+            Object.assign(arrowElement.style, {
+              left: arrowX !== null ? `${arrowX}px` : '',
+              top: arrowY !== null ? `${arrowY}px` : '',
+            });
 
-          tooltip.style.transform = `translate(${x}px, ${y}px)`;
-          // Force the browser to apply CSS changes first
-          if (tooltip.dataset.placement !== placement) tooltip.offsetHeight;
-          // This will then enable the transition effect
-          tooltip.dataset.placement = placement;
-        });
+            tooltip.style.transform = `translate(${x}px, ${y}px)`;
+            // Force the browser to apply CSS changes first
+            if (tooltip.dataset.placement !== placement) tooltip.offsetHeight;
+            // This will then enable the transition effect
+            tooltip.dataset.placement = placement;
+          });
 
         const setVisible = (visible) => {
           if (visible) {
@@ -374,7 +444,7 @@
         setVisible(false);
 
         const monitor = (name, state, listener = () => setVisible(state)) =>
-            reference.addEventListener(name, listener);
+          reference.addEventListener(name, listener);
         monitor('focusin', true);
         monitor('focusout', false);
 
@@ -404,8 +474,10 @@
     // Please cache bust by bumping the `v` parameter whenever `feature.json` is
     // updated to depend on a new version of the library. See #353 for discussion.
     // Make sure to also match the preload link in `features.md`.
-    const module = import('https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1');
-    return (featureName) => module
-      .then(wasmFeatureDetect => wasmFeatureDetect[featureName]());
+    const module = import(
+      'https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1'
+    );
+    return (featureName) =>
+      module.then((wasmFeatureDetect) => wasmFeatureDetect[featureName]());
   }
 })();

@@ -1,57 +1,53 @@
 name: WebAssembly
 
-include: [
-  .github
-]
+include: [.github]
 
-exclude: [
-  README.md,
-  LICENSE,
-  Gemfile,
-  Gemfile.lock,
-  design/LICENSE,
-  design/Contributing.md,
-  design/README.md,
-  design/tools,
-  design/JS.md,
-  design/BinaryEncoding.md,
-  design/TextFormat.md,
-  design/Semantics.md,
-  design/Nondeterminism.md,
-  design/Rationale.md,
-  design/MVP.md,
-  design/Modules.md,
-  design/FutureFeatures.md,
-  design/FeatureTest.md,
-  design/JITLibrary.md,
-  design/DynamicLinking.md,
-  design/CAndC++.md,
-  docs,
-  vendor
-]
+exclude:
+  [
+    README.md,
+    LICENSE,
+    Gemfile,
+    Gemfile.lock,
+    design/LICENSE,
+    design/Contributing.md,
+    design/README.md,
+    design/tools,
+    design/JS.md,
+    design/BinaryEncoding.md,
+    design/TextFormat.md,
+    design/Semantics.md,
+    design/Nondeterminism.md,
+    design/Rationale.md,
+    design/MVP.md,
+    design/Modules.md,
+    design/FutureFeatures.md,
+    design/FeatureTest.md,
+    design/JITLibrary.md,
+    design/DynamicLinking.md,
+    design/CAndC++.md,
+    docs,
+    vendor,
+  ]
 
 destination: docs
 
 permalink: pretty
 
 defaults:
-  -
-    scope:
-      path: "design"
+  - scope:
+      path: 'design'
     values:
-      layout: "doc"
-      type: "doc"
-  -
-    scope:
-      path: "design/CodeOfConduct.md"
+      layout: 'doc'
+      type: 'doc'
+  - scope:
+      path: 'design/CodeOfConduct.md'
     values:
-      layout: "community"
-      type: "community"
-      permalink: "/community/code-of-conduct/"
-  -
-    scope:
-      path: "design/Events.md"
+      layout: 'community'
+      type: 'community'
+      permalink: '/community/code-of-conduct/'
+  - scope:
+      path: 'design/Events.md'
     values:
-      layout: "community"
-      type: "community"
-      permalink: "/community/events/"
+      layout: 'community'
+      type: 'community'
+      permalink: '/community/events/'
