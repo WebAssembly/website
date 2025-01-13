@@ -1,49 +1,75 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <meta name="color-scheme" content="dark light">
-  <title>Specifications - WebAssembly</title>
-  <link rel="stylesheet" type="text/css" href="/css/custom.css">
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-</head>
-<body>
-  <header class="page-section">
-    <div class="container-narrow">
-    <a class="site-logo" href="/" title="WebAssembly"></a>
-    <nav class="site-nav">
-      <a class="site-nav-item btn" href="/">Overview</a>
-      <a class="site-nav-item btn" href="/getting-started/developers-guide/">Getting Started</a>
-      <a class="site-nav-item btn" href="/specs">Specs</a>
-      <a class="site-nav-item btn" href="/docs/faq/">Docs</a>
-      <a class="site-nav-item btn" href="/features/">Feature Extensions</a>
-      <a class="site-nav-item btn" href="/community/resources/">Community</a>
-    </nav>
-    </div>
-  </header>
-  
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"
+    />
+    <meta name="color-scheme" content="dark light" />
+    <title>
+      Specifications -
+      WebAssembly
+    </title>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <header class="page-section">
+      <div class="container-narrow">
+        <a class="site-logo" href="/" title="WebAssembly"></a>
+        <nav class="site-nav">
+          <a class="site-nav-item btn" href="/">Overview</a>
+          <a class="site-nav-item btn" href="/getting-started/developers-guide/"
+            >Getting Started</a
+          >
+          <a class="site-nav-item btn" href="/specs">Specs</a>
+          <a class="site-nav-item btn" href="/docs/faq/">Docs</a>
+          <a class="site-nav-item btn" href="/features/">Feature Extensions</a>
+          <a class="site-nav-item btn" href="/community/resources/"
+            >Community</a
+          >
+        </nav>
+      </div>
+    </header>
+    
 
 <section>
-  <div class="container">
-  <h1 id="specifications">Specifications</h1>
+  <div class="container"><h1 id="specifications">Specifications</h1>
 
 <ul>
-  <li><a href="https://webassembly.github.io/spec/core/">Core specification</a>: defines the semantics of WebAssembly modules independent from a concrete embedding. The WebAssembly core is specified in a single document.</li>
+  <li><a href="https://webassembly.github.io/spec/core/">Core specification</a>: defines the
+semantics of WebAssembly modules independent from a concrete embedding. The
+WebAssembly core is specified in a single document.</li>
   <li>Embedding interfaces:
     <ul>
-      <li><a href="https://webassembly.github.io/spec/js-api/index.html">JavaScript API</a>: defines JavaScript classes and objects for accessing WebAssembly from within JavaScript, including methods for validation, compilation, instantiation, and classes for representing and manipulating imports and exports as JavaScript objects.</li>
-      <li><a href="https://webassembly.github.io/spec/web-api/index.html">Web API</a>: defines extensions to the JavaScript API made available specifically in web browsers, in particular, an interface for streaming compilation and instantiation from origin-bound <code class="highlighter-rouge">Response</code> types.</li>
-      <li><a href="https://github.com/WebAssembly/WASI/blob/main/Proposals.md">WASI API</a>: defines a modular system interface to run WebAssembly outside the web, providing access to things like files, network connections, clocks, and random numbers.</li>
+      <li><a href="https://webassembly.github.io/spec/js-api/index.html">JavaScript API</a>:
+defines JavaScript classes and objects for accessing WebAssembly from within
+JavaScript, including methods for validation, compilation, instantiation,
+and classes for representing and manipulating imports and exports as
+JavaScript objects.</li>
+      <li><a href="https://webassembly.github.io/spec/web-api/index.html">Web API</a>: defines
+extensions to the JavaScript API made available specifically in web
+browsers, in particular, an interface for streaming compilation and
+instantiation from origin-bound <code class="highlighter-rouge">Response</code> types.</li>
+      <li><a href="https://github.com/WebAssembly/WASI/blob/main/Proposals.md">WASI API</a>:
+defines a modular system interface to run WebAssembly outside the web,
+providing access to things like files, network connections, clocks, and
+random numbers.</li>
     </ul>
   </li>
-  <li><a href="https://github.com/WebAssembly/tool-conventions">Tool conventions</a>: repository describing non-standard conventions useful for coordinating interoperability between tools working with WebAssembly. This includes conventions for linking schemes, debugging information, language ABIs and more.</li>
-  <li><a href="https://github.com/WebAssembly/design">Original design documents</a>: documents describing the design, goals and high-level overview of WebAssembly. Some of these documents are outdated by now.</li>
+  <li><a href="https://github.com/WebAssembly/tool-conventions">Tool conventions</a>:
+repository describing non-standard conventions useful for coordinating
+interoperability between tools working with WebAssembly. This includes
+conventions for linking schemes, debugging information, language ABIs and
+more.</li>
+  <li><a href="https://github.com/WebAssembly/design">Original design documents</a>: documents
+describing the design, goals and high-level overview of WebAssembly. Some of
+these documents are outdated by now.</li>
 </ul>
-
-  </div>
+</div>
 </section>
-</body>
+  </body>
 </html>
 

@@ -1,0 +1,22 @@
+{
+  "name": "webassembly_org",
+  "version": "1.0.0",
+  "description": "The webassembly.org website",
+  "main": "features.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "bundle exec jekyll serve",
+    "prettier": "npx prettier . --write"
+  },
+  "keywords": [
+    "webassembly",
+    "wasm"
+  ],
+  "author": "The WebAssembly community",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "prettier": "^3.4.2"
+  }
+}
