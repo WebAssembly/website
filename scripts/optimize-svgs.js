@@ -6,7 +6,7 @@ import { optimize } from 'svgo';
 function findSvgFiles(dir, fileList = []) {
   const files = fs.readdirSync(dir);
 
-  files.forEach(file => {
+  files.forEach((file) => {
     const filePath = path.join(dir, file);
     const stats = fs.statSync(filePath);
 
@@ -45,7 +45,7 @@ function processDirectory(baseDir) {
   }
 
   console.log(`Found ${svgFiles.length} SVG file(s). Optimizing...`);
-  svgFiles.forEach(filePath => {
+  svgFiles.forEach((filePath) => {
     try {
       optimizeSvg(filePath);
     } catch (error) {

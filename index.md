@@ -14,17 +14,17 @@ lead:
 <div class="row">
   <div class="bubble col-xs-12 col-md-6">
     <h3>Efficient and fast</h3>
-    <p>The Wasm <a href="/docs/semantics/">stack machine</a> is designed to be encoded in a size- and load-time-efficient <a href="/docs/binary-encoding/">binary format</a>. WebAssembly aims to execute at native speed by taking advantage of <a href="/docs/portability/#assumptions-for-efficient-execution">common hardware capabilities</a> available on a wide range of platforms.</p>
+    <p>The Wasm <a href="https://webassembly.github.io/spec/core/exec/index.html">stack machine</a> is designed to be encoded in a size- and load-time-efficient <a href="https://webassembly.github.io/spec/core/binary/index.html">binary format</a>. WebAssembly aims to execute at native speed by taking advantage of <a href="/docs/portability/#assumptions-for-efficient-execution">common hardware capabilities</a> available on a wide range of platforms.</p>
   </div>
   <div class="bubble col-xs-12 col-md-6">
     <h3>Safe</h3>
-    <p>WebAssembly describes a memory-safe, sandboxed <a href="/docs/semantics/#linear-memory">execution environment</a> that may even be implemented inside existing JavaScript virtual machines. When <a href="/docs/web/">embedded in the web</a>, WebAssembly will enforce the same-origin and permissions security policies of the browser.</p>
+    <p>WebAssembly describes a memory-safe, sandboxed <a href="https://webassembly.github.io/spec/core/exec/index.html#linear-memory">execution environment</a> that may even be implemented inside existing JavaScript virtual machines. When <a href="/docs/web/">embedded in the web</a>, WebAssembly will enforce the same-origin and permissions security policies of the browser.</p>
   </div>
 </div>
 <div class="row">
   <div class="bubble col-xs-12 col-md-6">
     <h3>Open and debuggable</h3>
-    <p>WebAssembly is designed to be pretty-printed in a <a href="/docs/text-format/">textual format</a> for debugging, testing, experimenting, optimizing, learning, teaching, and writing programs by hand. The textual format will be used when <a href="/docs/faq/#will-webassembly-support-view-source-on-the-web">viewing the source</a> of Wasm modules on the web.</p>
+    <p>WebAssembly is designed to be pretty-printed in a <a href="https://webassembly.github.io/spec/core/text/index.html">textual format</a> for debugging, testing, experimenting, optimizing, learning, teaching, and writing programs by hand. The textual format will be used when <a href="/docs/faq/#will-webassembly-support-view-source-on-the-web">viewing the source</a> of Wasm modules on the web.</p>
   </div>
   <div class="bubble col-xs-12 col-md-6">
     <h3>Part of the open web platform</h3>

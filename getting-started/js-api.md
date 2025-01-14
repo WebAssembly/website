@@ -69,7 +69,9 @@ exports a function `e`:
 ```
 
 (Here, instead of writing the module in C/C++ and compiling to WebAssembly, we
-write the module directly in the [text format](/docs/text-format/) which can be
+write the module directly in the
+[text format](https://webassembly.github.io/spec/core/text/index.html) which can
+be
 [assembled](/getting-started/advanced-tools/#wabt-the-webassembly-binary-toolkit)
 directly into the binary file `simple.wasm`.)
 
@@ -97,11 +99,12 @@ imported JS function which ultimately executes `console.log(42)`.
 
 ## Memory
 
-[Linear memory](/docs/semantics/#linear-memory) is another important WebAssembly
-building block that is typically used to represent the entire heap of a compiled
-C/C++ application. From a JavaScript perspective, linear memory (henceforth,
-just “memory”) can be thought of as a resizable `ArrayBuffer` that is carefully
-optimized for low-overhead sandboxing of loads and stores.
+[Linear memory](https://webassembly.github.io/spec/core/exec/index.html#linear-memory)
+is another important WebAssembly building block that is typically used to
+represent the entire heap of a compiled C/C++ application. From a JavaScript
+perspective, linear memory (henceforth, just “memory”) can be thought of as a
+resizable `ArrayBuffer` that is carefully optimized for low-overhead sandboxing
+of loads and stores.
 
 Memories can be created from JavaScript by supplying their initial size and,
 optionally, their maximum size:
@@ -174,4 +177,5 @@ reasons:
   before or concurrent with module compilation.
 - They allow a single `Memory` object to be imported by multiple instances,
   which is a critical building block for implementing
-  [dynamic linking](/docs/dynamic-linking) in WebAssembly.
+  [dynamic linking](https://github.com/WebAssembly/tool-conventions/blob/main/DynamicLinking.md)
+  in WebAssembly.
