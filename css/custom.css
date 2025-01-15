@@ -238,6 +238,9 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+/* WebAssembly.org CSS */
+
 :root {
   color-scheme: dark light;
 }
@@ -1999,6 +2002,21 @@ header {
   color: #9c8529;
 }
 
+@media (prefers-color-scheme: dark) {
+  .flash.flash-warn {
+    color: CanvasText;
+    background-color: #555;
+  }
+
+  .flash.flash-warn a {
+    color: #f2db81;
+  }
+
+  ::after {
+    filter: invert(1) brightness(0.8);
+  }
+}
+
 .flash.flash-error {
   background-color: #ffcdd2;
 }
@@ -2490,12 +2508,30 @@ table td {
 }
 
 table tr {
-  background-color: #fff;
   border-top: 1px solid #ccc;
 }
 
 table tr:nth-child(2n) {
   background-color: #f8f8f8;
+}
+
+@media (prefers-color-scheme: dark) {
+  table th,
+  table td {
+    border: 1px solid #222;
+  }
+
+  table tr {
+    border-top: 1px solid #333;
+  }
+
+  table tr:nth-child(2n) {
+    background-color: #303030;
+  }
+
+  .feature-cell {
+    filter: brightness(2);
+  }
 }
 
 code {
