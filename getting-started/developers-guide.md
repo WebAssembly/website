@@ -22,7 +22,7 @@ layout: getting-started
   - Java
     - [TeaVM](https://teavm.org)
     - [j2wasm](https://github.com/google/j2cl/blob/master/docs/getting-started-j2wasm.md)
-  - [Kotlin](https://kotlinlang.org/docs/reference/native-overview.html)
+  - [Kotlin](https://kotl.in/wasm)
   - [Moonbit](https://www.moonbitlang.com/)
   - [Swift](https://swiftwasm.org/)
   - [Scala.js](https://www.scala-js.org/doc/project/webassembly.html)
