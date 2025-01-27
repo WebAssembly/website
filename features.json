@@ -217,10 +217,7 @@
           "flag",
           "Requires flag `javascript.options.wasm_js_promise_integration`"
         ],
-        "jsStringBuiltins": [
-          "flag",
-          "Requires flag `javascript.options.wasm_js_string_builtins`"
-        ],
+        "jsStringBuiltins": "134",
         "memory64": "134",
         "multiMemory": "125",
         "multiValue": "78",
