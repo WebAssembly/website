@@ -9,7 +9,8 @@
   "scripts": {
     "start": "bundle exec jekyll serve",
     "prettier": "npx prettier . --write",
-    "optimize-svgs": "node scripts/optimize-svgs.js"
+    "optimize-svgs": "node scripts/optimize-svgs.js",
+    "copy-js": "shx cp ./node_modules/dark-mode-toggle/dist/* ./js/"
   },
   "keywords": [
     "webassembly",
@@ -23,6 +24,7 @@
   },
   "type": "module",
   "dependencies": {
-    "dark-mode-toggle": "^0.16.2"
+    "dark-mode-toggle": "^0.16.2",
+    "shx": "^0.3.4"
   }
 }
