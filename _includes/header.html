@@ -6,7 +6,6 @@
       name="viewport"
       content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"
     />
-    <meta name="color-scheme" content="dark light" />
     <meta property="og:title" content="{% if page.url == '/' %}WebAssembly{% else %}{{ page.title }} - WebAssembly{% endif %}" />
     <meta property="og:description" content="WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. Wasm is designed as a portable compilation target for programming languages, enabling deployment on the web for client and server applications." />
     <meta property="og:type" content="website" />
@@ -14,6 +13,13 @@
     <meta property="og:image" content="https://v1.screenshot.11ty.dev/https%3A%2F%2Fwebassembly.org{{ page.url | url_encode }}/opengraph/" />
     <title>{% if page.url == "/" %}WebAssembly{% else %}{{ page.title }} - WebAssembly{% endif %}</title>
     <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+    <noscript id="dark-mode-toggle-stylesheets">
+      <link rel="stylesheet" type="text/css" href="/css/light.css" media="(prefers-color-scheme: light)" />
+      <link rel="stylesheet" type="text/css" href="/css/dark.css" media="(prefers-color-scheme: dark)" />
+      <meta name="color-scheme" content="dark light" />
+    </noscript>
+    <script src="/node_modules/dark-mode-toggle/dist/dark-mode-toggle-stylesheets-loader.min.js"></script>
+    <script type="module" src="/node_modules/dark-mode-toggle/dist/dark-mode-toggle.min.mjs"></script>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   </head>

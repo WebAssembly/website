@@ -18,8 +18,11 @@
   "author": "The WebAssembly community",
   "license": "Apache-2.0",
   "devDependencies": {
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.1",
     "svgo": "^3.3.2"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "dark-mode-toggle": "^0.16.2"
+  }
 }

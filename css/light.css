@@ -1,0 +1,37 @@
+:root {
+  color-scheme: light;
+}
+
+.flash.flash-warn {
+  color: #000;
+  background-color: #feffd1;
+}
+
+.flash.flash-warn a {
+  color: #9c8529;
+}
+
+.lead {
+  color: #555;
+}
+
+blockquote {
+  color: #777;
+}
+
+h6 {
+  color: #777;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
