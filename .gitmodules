@@ -1,7 +1,4 @@
 [submodule "docs"]
 	path = design
 	url = https://github.com/WebAssembly/design
-[submodule "design"]
-	path = design
-	url = https://github.com/WebAssembly/design
 	branch = main
