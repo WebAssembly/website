@@ -50,21 +50,23 @@ or mobile/desktop apps. It may even be desirable to execute WebAssembly
 embedded within larger programs.</p>
 
 <p>Non-Web environments may provide different APIs than Web
-environments, which
-<a href="../feature-test/">feature testing</a> and
-<a href="../dynamic-linking/">dynamic linking</a> will make discoverable and
-usable.</p>
+environments.</p>
 
-<p>Non-Web environments may include JavaScript VMs (e.g. <a href="https://nodejs.org">node.js</a>), however
-WebAssembly is also being designed to be capable of being executed without a
-JavaScript VM present.</p>
+<p>Non-Web environments include JavaScript VMs (e.g. <a href="https://nodejs.org">node.js</a>), however
+WebAssembly is also capable of being executed without a JavaScript VM present.
+The table in the <a href="https://webassembly.org/features/">features page</a> of the website lists several such
+implementations.</p>
+
+<p><a href="https://wasi.dev">WASI</a> is a set of standards-track APIs being developed by the <a href="https://github.com/WebAssembly/wasi">WASI Subgroup</a>
+intended for use in many environments, including in non-browser and non-JS
+engines.</p>
 
 <p>The WebAssembly spec itself will not try to define any large portable libc-like
 library. However, certain features that are core to WebAssembly semantics that
 are similar to functions found in native libc <em>would</em> be part of the core
-WebAssembly spec as primitive operators (e.g., the <code class="highlighter-rouge">grow_memory</code> operator, which
-is similar to the <code class="highlighter-rouge">sbrk</code> function on many systems, and in the future, operators
-similar to <code class="highlighter-rouge">dlopen</code>).</p>
+WebAssembly spec as primitive operators (e.g., the <code class="highlighter-rouge">memory.grow</code> operator, which
+is similar to the <code class="highlighter-rouge">sbrk</code> function on many systems, and in the future, perhaps
+operators supporting <code class="highlighter-rouge">dlopen</code> functionality).</p>
 
 <p>Where there is overlap between the Web and popular non-Web environments,
 shared specs could be proposed, but these would be separate from the WebAssembly
@@ -74,16 +76,17 @@ Web and node.js environments and is distinct from the JavaScript spec.</p>
 
 <p>However, for most cases it is expected that, to achieve portability at the
 source code level, communities would build libraries that mapped from a 
-source-level interface to the host environment’s builtin capabilities
-(either at build time or runtime).  WebAssembly would provide the raw building
-blocks (feature testing, <a href="../modules/#imports-and-exports">builtin modules</a> and
-dynamic loading) to make these libraries possible. Two early expected examples
-are POSIX and SDL.</p>
+source-level interface such as POSIX or SDL to the host environment’s builtin
+capabilities, either at build time or runtime, possibly making use of
+<a href="../feature-test/">feature testing</a>, <a href="../dynamic-linking/">dynamic linking</a>,
+static linking, or polyfilling.</p>
 
-<p>In general, by keeping the non-Web path such that it doesn’t require
-Web APIs, WebAssembly could be used as a portable binary format on many
-platforms, bringing great benefits in portability, tooling and
-language-agnosticity (since it supports C/C++ level semantics).</p>
+<p>In general, by preserving spec layering, and the core WebAssembly spec
+independent of the host environment and linking specs, WebAssembly can be
+used as a portable binary format on many platforms, in many environments, for
+many use cases, bringing great benefits in portability, tooling and
+language-agnosticity.</p>
+
 </div>
       <div class="col-xs-12 col-lg-3">
         <h6 class="side-title">Documentation</h6>

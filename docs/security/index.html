@@ -23,11 +23,15 @@
         <a class="site-logo" href="/" title="WebAssembly"></a>
         <nav class="site-nav">
           <a class="site-nav-item btn" href="/">Overview</a>
-          <a class="site-nav-item btn" href="/getting-started/developers-guide/">Getting Started</a>
+          <a class="site-nav-item btn" href="/getting-started/developers-guide/"
+            >Getting Started</a
+          >
           <a class="site-nav-item btn" href="/specs">Specs</a>
           <a class="site-nav-item btn" href="/docs/faq/">Docs</a>
           <a class="site-nav-item btn" href="/features/">Feature Extensions</a>
-          <a class="site-nav-item btn" href="/community/resources/">Community</a>
+          <a class="site-nav-item btn" href="/community/resources/"
+            >Community</a
+          >
         </nav>
       </div>
     </header>
@@ -36,8 +40,7 @@
 <section>
   <div class="container">
     <div class="row">
-      <div class="col-xs-12 col-lg-9 col-pop">
-<h1 id="security">Security</h1>
+      <div class="col-xs-12 col-lg-9 col-pop"><h1 id="security">Security</h1>
 
 <p>The security model of WebAssembly has two important goals: (1) protect <em>users</em>
 from buggy or malicious modules, and (2) provide <em>developers</em> with useful
@@ -74,19 +77,16 @@ structured control-flow. Since compiled code is immutable and not observable at
 runtime, WebAssembly programs are protected from control flow hijacking attacks.</p>
 
 <ul>
-  <li>
-<a href="../semantics/#calls">Function calls</a> must specify the index of a target
+  <li><a href="../semantics/#calls">Function calls</a> must specify the index of a target
   that corresponds to a valid entry in the
   <a href="../modules/#function-index-space">function index space</a> or
   <a href="../modules/#table-index-space">table index space</a>.</li>
-  <li>
-<a href="../rationale/#indirect-calls">Indirect function calls</a> are subject to a type
+  <li><a href="../rationale/#indirect-calls">Indirect function calls</a> are subject to a type
   signature check at runtime; the type signature of the selected indirect
   function must match the type signature specified at the call site.</li>
   <li>A protected call stack that is invulnerable to buffer overflows in the
   module heap ensures safe function returns.</li>
-  <li>
-<a href="../semantics/#branches-and-nesting">Branches</a> must point to valid
+  <li><a href="../semantics/#branches-and-nesting">Branches</a> must point to valid
   destinations within the enclosing function.</li>
 </ul>
 
@@ -102,16 +102,17 @@ operator, or are of type <code class="highlighter-rouge">struct</code> and retur
 user-addressable stack in <a href="../semantics/#linear-memory">linear memory</a> at
 compile time. This is an isolated memory region with fixed maximum size that is
 zero initialized by default. References to this memory are computed with
-infinite precision to avoid wrapping and simplify bounds checking. In the future,
-support for <a href="../modules/#linear-memory-section">multiple linear memory sections</a> and
-<a href="../future-features/#finer-grained-control-over-memory">finer-grained memory operations</a>
-(e.g. shared memory, page protection, large pages, etc.) will be implemented.</p>
+infinite precision to avoid wrapping and simplify bounds checking. WebAssembly
+modules may also have <a href="https://github.com/WebAssembly/multi-memory/blob/main/proposals/multi-memory/Overview.md">multiple linear memory sections</a>, which are independent
+of each other. In the future,
+<a href="https://github.com/WebAssembly/memory-control">finer-grained memory operations</a>
+(e.g. shared memory, page protection, large pages, etc.) may be implemented.</p>
 
 <p><a href="../semantics/#traps">Traps</a> are used to immediately terminate execution and
 signal abnormal behavior to the execution environment. In a browser, this is
 represented as a JavaScript exception. Support for
-<a href="../future-features/#trapping-or-non-trapping-strategies">module-defined trap handlers</a>
-will be implemented in the future. Operations that can trap include:</p>
+module-defined trap handlers
+may be implemented in the future. Operations that can trap include:</p>
 
 <ul>
   <li>specifying an invalid index in any index space,</li>
@@ -155,8 +156,7 @@ in WebAssembly, because control-flow integrity ensures that call targets are
 valid functions declared at load time. Likewise, race conditions, such as
 <a href="https://en.wikipedia.org/wiki/Time_of_check_to_time_of_use">time of check to time of use</a> (TOCTOU) vulnerabilities, are possible in
 WebAssembly, since no execution or scheduling guarantees are provided beyond
-in-order execution and <a href="https://github.com/WebAssembly/design/issues/1073">post-MVP atomic memory primitives
-<img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>.
+in-order execution and <a href="https://github.com/WebAssembly/threads/blob/main/proposals/threads/Overview.md">atomic memory primitives</a>.
 Similarly, <a href="https://en.wikipedia.org/wiki/Side-channel_attack">side channel attacks</a> can occur, such as timing attacks against
 modules. In the future, additional protections may be provided by runtimes or
 the toolchain, such as code diversification or memory randomization (similar to
@@ -201,8 +201,8 @@ attacks with function-level granularity against indirect calls.</p>
 <h4 id="clangllvm-cfi">Clang/LLVM CFI</h4>
 <p>The Clang/LLVM compiler infrastructure includes a <a href="https://clang.llvm.org/docs/ControlFlowIntegrity.html">built-in implementation</a> of
 fine-grained control flow integrity, which has been extended to support the
-WebAssembly target. It is available in Clang/LLVM 3.9+ with the
-<a href="https://github.com/WebAssembly/binaryen#cc-source--webassembly-llvm-backend--s2wasm--webassembly">new WebAssembly backend</a>.</p>
+WebAssembly target. It is available in Clang/LLVM with the
+[WebAssembly backend].</p>
 
 <p>Enabling fine-grained control-flow integrity (by passing <code class="highlighter-rouge">-fsanitize=cfi</code> to
 emscripten) has a number of advantages over the default WebAssembly
@@ -212,9 +212,9 @@ signature checks by operating at the C/C++ type level, which is semantically
 richer that the WebAssembly <a href="../semantics/#types">type level</a>, which consists
 of only four value types. Currently, enabling this feature has a small
 performance cost for each indirect call, because an integer range check is
-used to verify that the target index is trusted, but this will be eliminated in
+used to verify that the target index is trusted, but this may be eliminated in
 the future by leveraging built-in support for
-<a href="../modules/#table-index-space">multiple indirect tables</a> with homogeneous type
+<a href="https://github.com/WebAssembly/reference-types/blob/master/proposals/reference-types/Overview.md">multiple indirect tables</a> with homogeneous type
 in WebAssembly.</p>
 
 </div>

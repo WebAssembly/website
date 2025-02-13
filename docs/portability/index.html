@@ -69,13 +69,13 @@ characteristics:</p>
   <li>Support unaligned memory accesses or reliable trapping that allows software
 emulation thereof.</li>
   <li>Two’s complement signed integers in 32 bits and optionally 64 bits.</li>
-  <li>IEEE 754-2008 32-bit and 64-bit floating point, except for
-<a href="../semantics/#floating-point-operators">a few exceptions</a>.</li>
+  <li>IEEE 754-2019 32-bit and 64-bit floating point, except for
+<a href="https://webassembly.github.io/spec/core/exec/numerics.html#floating-point-operations">a few exceptions</a>.</li>
   <li>Little-endian byte ordering.</li>
   <li>Memory regions which can be efficiently addressed with 32-bit
 pointers or indices.</li>
   <li>wasm64 additionally supports linear memory bigger than
-<a href="../future-features/#linear-memory-bigger-than-4-gib">4 GiB with 64-bit pointers or indices</a>.</li>
+<a href="https://github.com/WebAssembly/memory64/blob/main/proposals/memory64/Overview.md">4 GiB with 64-bit pointers or indices</a>.</li>
   <li>Enforce secure isolation between WebAssembly modules and other modules or
 processes executing on the same machine.</li>
   <li>An execution environment which offers forward progress guarantees to all
@@ -102,7 +102,7 @@ standard non-Web APIs (e.g. POSIX), or invent their own.</p>
 <p>Portability at the C/C++ level can be achieved by programming to
 a standard API (e.g., POSIX) and relying on the compiler and/or libraries to map
 the standard interface to the host environment’s available imports either at
-compile-time (via <code class="highlighter-rouge">#ifdef</code>) or run-time (via <a href="../feature-test/">feature detection</a>
+compile-time (via <code class="highlighter-rouge">#ifdef</code>) or run-time (via <a href="https://github.com/WebAssembly/design/issues/1280">feature detection</a>
 and dynamic <a href="../modules/">loading</a>/<a href="../dynamic-linking/">linking</a>).</p>
 
 </div>

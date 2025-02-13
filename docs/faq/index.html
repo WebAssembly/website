@@ -137,13 +137,13 @@ cycle-collection problems and miss optimizations that require integration with t
 
 <p>WebAssembly initially focuses on <a href="../c-and-c++/">C/C++</a>, and a new, clean
 WebAssembly backend is being developed in upstream clang/LLVM, which can then be
-used by LLVM-based projects like <a href="http://emscripten.org">Emscripten</a> and <a href="http://gonacl.com">PNaCl</a>.</p>
+used by LLVM-based projects like <a href="http://emscripten.org">Emscripten</a> and <a href="https://developer.chrome.com/docs/native-client/">PNaCl</a>.</p>
 
 <p>As WebAssembly evolves it will support more languages than C/C++, and we hope
 that other compilers will support it as well, even for the C/C++ language, for
 example <a href="https://gcc.gnu.org">GCC</a>. The WebAssembly working group found it easier to start with
 LLVM support because they had more experience with that toolchain from their
-<a href="http://emscripten.org">Emscripten</a> and <a href="http://gonacl.com">PNaCl</a> work.</p>
+<a href="http://emscripten.org">Emscripten</a> and <a href="https://developer.chrome.com/docs/native-client/">PNaCl</a> work.</p>
 
 <p>We hope that proprietary compilers also gain WebAssembly support, but we’ll let
 vendors speak about their own platforms.</p>
@@ -209,7 +209,7 @@ world of their own.</li>
 qualities: it has an existing intermediate representation (LLVM IR) and binary
 encoding format (bitcode). It has code generation backends targeting many 
 architectures and is actively developed and maintained by a large community. In
-fact <a href="http://gonacl.com">PNaCl</a> already uses LLVM as a basis for its binary
+fact PNaCl already uses LLVM as a basis for its binary
 format. However, the goals and requirements that LLVM was designed to meet are
 subtly mismatched with those of WebAssembly.</p>
 
@@ -306,7 +306,7 @@ example, if SIMD types wider than 128-bit are added, it’s expected that there
 would be feature tests allowing WebAssembly code to determine which SIMD
 types to use on a given platform.</li>
   <li>When WebAssembly
-<a href="../future-features/#additional-floating-point-operators">adds an FMA operator <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>,
+<a href="https://github.com/WebAssembly/design/issues/1391">adds an FMA operator <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>,
 folding multiply and add sequences into FMA operators will be possible.</li>
   <li>WebAssembly doesn’t include its own math functions like <code class="highlighter-rouge">sin</code>, <code class="highlighter-rouge">cos</code>, <code class="highlighter-rouge">exp</code>,
 <code class="highlighter-rouge">pow</code>, and so on. WebAssembly’s strategy for such functions is to allow them
@@ -334,11 +334,11 @@ operators:</p>
 
 <ul>
   <li>the MVP starts with the ability to grow linear memory via a
-<a href="../semantics/#resizing"><code class="highlighter-rouge">grow_memory</code></a> operator;</li>
+<a href="https://webassembly.github.io/spec/core/syntax/instructions.html#syntax-instr-memory"><code class="highlighter-rouge">memory.grow</code></a> operator;</li>
   <li>proposed
-<a href="../future-features/#finer-grained-control-over-memory">future features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> would
+<a href="https://github.com/WebAssembly/memory-control">future features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a> would
 allow the application to change the protection and mappings for pages in the
-contiguous range <code class="highlighter-rouge">0</code> to <code class="highlighter-rouge">memory_size</code>.</li>
+contiguous range <code class="highlighter-rouge">0</code> to <code class="highlighter-rouge">memory.size</code>.</li>
 </ul>
 
 <p>A significant feature of <code class="highlighter-rouge">mmap</code> that is missing from the above list is the

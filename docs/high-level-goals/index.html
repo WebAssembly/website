@@ -23,11 +23,15 @@
         <a class="site-logo" href="/" title="WebAssembly"></a>
         <nav class="site-nav">
           <a class="site-nav-item btn" href="/">Overview</a>
-          <a class="site-nav-item btn" href="/getting-started/developers-guide/">Getting Started</a>
+          <a class="site-nav-item btn" href="/getting-started/developers-guide/"
+            >Getting Started</a
+          >
           <a class="site-nav-item btn" href="/specs">Specs</a>
           <a class="site-nav-item btn" href="/docs/faq/">Docs</a>
           <a class="site-nav-item btn" href="/features/">Feature Extensions</a>
-          <a class="site-nav-item btn" href="/community/resources/">Community</a>
+          <a class="site-nav-item btn" href="/community/resources/"
+            >Community</a
+          >
         </nav>
       </div>
     </header>
@@ -36,8 +40,7 @@
 <section>
   <div class="container">
     <div class="row">
-      <div class="col-xs-12 col-lg-9 col-pop">
-<h1 id="webassembly-high-level-goals">WebAssembly High-Level Goals</h1>
+      <div class="col-xs-12 col-lg-9 col-pop"><h1 id="webassembly-high-level-goals">WebAssembly High-Level Goals</h1>
 
 <ol>
   <li>Define a <a href="../portability/">portable</a>, size- and load-time-efficient
@@ -48,16 +51,13 @@ hardware capabilities available on a wide range of platforms, including
 <a href="https://en.wikipedia.org/wiki/Internet_of_Things">IoT</a>.</li>
   <li>Specify and implement incrementally:
     <ul>
-      <li>a <a href="../mvp/">Minimum Viable Product (MVP)</a> for the standard with
-roughly the same functionality as <a href="http://asmjs.org">asm.js</a>, primarily
-aimed at <a href="../c-and-c++/">C/C++</a>;</li>
-      <li>
-<a href="../future-features/">additional features <img class="emoji" title=":unicorn:" alt=":unicorn:" src="https://github.githubassets.com/images/icons/emoji/unicode/1f984.png" height="20" width="20"></a>,
-initially focused on key features like <a href="https://github.com/WebAssembly/design/issues/1073">threads</a>,
-<a href="https://github.com/WebAssembly/design/issues/1078">zero cost exceptions</a>, and <a href="https://github.com/WebAssembly/design/issues/1075">SIMD</a>,
-followed by additional features
-prioritized by feedback and experience, including support for languages
-other than C/C++.</li>
+      <li>develop new features as independent <a href="https://github.com/WebAssembly/proposals/">proposals</a>;</li>
+      <li>maintain <a href="https://webassembly.org/specs/">layering</a>, with a core spec focused on pure sandboxed
+computation, with host interactions factored out into higher
+specification layers;</li>
+      <li>preserve backwards compatibility;</li>
+      <li>prioritize new features according to feedback and experience; and</li>
+      <li>avoid biasing towards any one programming language family.</li>
     </ul>
   </li>
   <li>Design to execute within and integrate well with the <em>existing</em>
@@ -76,10 +76,10 @@ binary format, supporting View Source functionality.</li>
   <li>Design to support <a href="../non-web/">non-browser embeddings</a> as well.</li>
   <li>Make a great platform:
     <ul>
-      <li>build a new LLVM backend for WebAssembly and an accompanying
-clang port (<a href="../faq/#which-compilers-can-i-use-to-build-webassembly-programs">why LLVM first?</a>);</li>
-      <li>promote other compilers and tools targeting WebAssembly; and</li>
-      <li>enable other useful <a href="../tooling/">tooling</a>.</li>
+      <li>promote <a href="https://webassembly.org/getting-started/developers-guide/">compilers and tools targeting WebAssembly</a>;</li>
+      <li>enable other useful <a href="../tooling/">tooling</a>;</li>
+      <li>maintain a high level of <a href="../nondeterminism/">determinism</a>; and</li>
+      <li>specify using <a href="https://github.com/WebAssembly/spec">formal semantics</a>.</li>
     </ul>
   </li>
 </ol>

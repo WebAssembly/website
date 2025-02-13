@@ -26,8 +26,8 @@ characteristics:
 * Support unaligned memory accesses or reliable trapping that allows software
   emulation thereof.
 * Two's complement signed integers in 32 bits and optionally 64 bits.
-* IEEE 754-2008 32-bit and 64-bit floating point, except for
-  [a few exceptions](Semantics.md#floating-point-operators).
+* IEEE 754-2019 32-bit and 64-bit floating point, except for
+  [a few exceptions][floating-point operations].
 * Little-endian byte ordering.
 * Memory regions which can be efficiently addressed with 32-bit
   pointers or indices.
@@ -58,7 +58,9 @@ standard non-Web APIs (e.g. POSIX), or invent their own.
 Portability at the C/C++ level can be achieved by programming to
 a standard API (e.g., POSIX) and relying on the compiler and/or libraries to map
 the standard interface to the host environment's available imports either at
-compile-time (via `#ifdef`) or run-time (via [feature detection](FeatureTest.md)
+compile-time (via `#ifdef`) or run-time (via [feature detection]
 and dynamic [loading](Modules.md)/[linking](DynamicLinking.md)).
 
-[future 64-bit]: FutureFeatures.md#linear-memory-bigger-than-4-gib
+[future 64-bit]: https://github.com/WebAssembly/memory64/blob/main/proposals/memory64/Overview.md
+[floating-point operations]: https://webassembly.github.io/spec/core/exec/numerics.html#floating-point-operations
+[feature detection]: https://github.com/WebAssembly/design/issues/1280
