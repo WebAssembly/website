@@ -1,0 +1,30 @@
+name: Update Submodules
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  workflow_dispatch:      # Allows manual triggering
+
+jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository (including submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0  # Ensure full history for submodules
+
+      - name: Update submodules
+        run: |
+          git submodule update --remote
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Submodules updated, committing changes."
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -am "Update submodules to latest commit"
+            git push
+          else
+            echo "No submodule updates found."
+          fi
