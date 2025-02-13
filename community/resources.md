@@ -17,5 +17,13 @@ Here are just some of the popular ways to get started:
 - [WasmAssembly podcast](https://wasmassembly.libsyn.com/) or
   [WasmAssembly videocast](https://www.youtube.com/playlist?list=PLNYkxOF6rcIA46I-YCX3ASF4SRb548z8s)
 
+## Playgrounds
+
+- wasm-tools web playground:
+  - [WAT to Wasm](https://bytecodealliance.github.io/wasm-tools/parse)
+  - [Wasm to WAT](https://bytecodealliance.github.io/wasm-tools/print)
+
+## Contributing
+
 Interesting in contributing to WebAssembly? Check out the
 [Contributing](/community/contributing/) page.
