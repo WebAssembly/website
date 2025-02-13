@@ -30,3 +30,4 @@ jobs:
             git push
           else
             echo "No submodule updates found."
+          fi
