@@ -1,0 +1,49 @@
+:root {
+  color-scheme: dark;
+}
+
+:not(.flash) > a[href^='http']::after {
+  filter: invert(1);
+}
+
+.flash.flash-warn {
+  color: CanvasText;
+  background-color: #555;
+}
+
+.flash.flash-warn a {
+  color: #f2db81;
+}
+
+::after {
+  filter: invert(1) brightness(0.8);
+}
+
+.lead {
+  color: #999;
+}
+
+blockquote {
+  color: #999;
+}
+
+h6 {
+  color: #999;
+}
+
+table th,
+table td {
+  border: 1px solid #222;
+}
+
+table tr {
+  border-top: 1px solid #333;
+}
+
+table tr:nth-child(2n) {
+  background-color: #303030;
+}
+
+.feature-cell {
+  filter: brightness(2);
+}
