@@ -1,9 +1,12 @@
 name: Update Submodules
 
 on:
+  push:
+    branches:
+      - main  # Change this if your default branch is different
   schedule:
     - cron: '0 0 * * *'  # Runs daily at midnight UTC
-  workflow_dispatch:      # Allows manual triggering
+  workflow_dispatch:  # Allows manual triggering from GitHub Actions UI
 
 jobs:
   update-submodules:
@@ -27,4 +30,3 @@ jobs:
             git push
           else
             echo "No submodule updates found."
-          fi
