@@ -241,10 +241,6 @@ table {
 
 /* WebAssembly.org CSS */
 
-:root {
-  color-scheme: dark light;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -282,12 +278,6 @@ a[href^='http']::after {
   height: 1rem;
   margin-inline-start: 0.1rem;
   background-image: url(/css/external.svg);
-}
-
-@media (prefers-color-scheme: dark) {
-  :not(.flash) > a[href^='http']::after {
-    filter: invert(1);
-  }
 }
 
 nav a:hover {
@@ -1878,8 +1868,13 @@ header {
 }
 .page-section,
 section,
-header {
+header,
+footer {
   padding: 12px;
+}
+
+footer {
+  text-align: right;
 }
 
 .page-section.flush-bottom,
@@ -1982,7 +1977,6 @@ header {
   padding: 20px 30px;
   border-radius: 4px;
   margin-bottom: 16px;
-  background-color: #ebecef;
 }
 
 .flash a {
@@ -1991,30 +1985,6 @@ header {
 
 .flash a:hover {
   text-decoration: underline;
-}
-
-.flash.flash-warn {
-  color: #000;
-  background-color: #feffd1;
-}
-
-.flash.flash-warn a {
-  color: #9c8529;
-}
-
-@media (prefers-color-scheme: dark) {
-  .flash.flash-warn {
-    color: CanvasText;
-    background-color: #555;
-  }
-
-  .flash.flash-warn a {
-    color: #f2db81;
-  }
-
-  ::after {
-    filter: invert(1) brightness(0.8);
-  }
 }
 
 .flash.flash-error {
@@ -2028,14 +1998,7 @@ header {
 .lead {
   font-size: 1.2em;
   font-weight: 300;
-  color: #555;
   text-align: center;
-}
-
-@media (prefers-color-scheme: dark) {
-  .lead {
-    color: #999;
-  }
 }
 
 .container img,
@@ -2391,14 +2354,7 @@ pre {
 
 blockquote {
   padding: 0 1em;
-  color: #777;
   border-left: 0.25em solid #ddd;
-}
-
-@media (prefers-color-scheme: dark) {
-  blockquote {
-    color: #999;
-  }
 }
 
 blockquote > :first-child {
@@ -2443,13 +2399,6 @@ h5 {
 
 h6 {
   font-size: 0.85em;
-  color: #777;
-}
-
-@media (prefers-color-scheme: dark) {
-  h6 {
-    color: #999;
-  }
 }
 
 ul,
@@ -2504,34 +2453,6 @@ table th {
 table th,
 table td {
   padding: 6px 11px;
-  border: 1px solid #ddd;
-}
-
-table tr {
-  border-top: 1px solid #ccc;
-}
-
-table tr:nth-child(2n) {
-  background-color: #f8f8f8;
-}
-
-@media (prefers-color-scheme: dark) {
-  table th,
-  table td {
-    border: 1px solid #222;
-  }
-
-  table tr {
-    border-top: 1px solid #333;
-  }
-
-  table tr:nth-child(2n) {
-    background-color: #303030;
-  }
-
-  .feature-cell {
-    filter: brightness(2);
-  }
 }
 
 code {
@@ -2758,4 +2679,13 @@ pre code::after {
 [data-placement='right'] > .feature-tooltip-arrow {
   left: 0;
   transform: translateX(-50%) rotate(-45deg);
+}
+
+dark-mode-toggle {
+  --dark-mode-toggle-light-icon: url(/images/moon.svg);
+  --dark-mode-toggle-dark-icon: url(/images/sun.svg);
+  --dark-mode-toggle-color: var(--main-and-footer-link-color);
+  --dark-mode-toggle-icon-filter: invert(80%);
+  position: relative;
+  top: 0.4rem;
 }
