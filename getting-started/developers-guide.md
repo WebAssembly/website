@@ -16,7 +16,7 @@ layout: getting-started
     - [Via Flutter](https://flutter.dev/wasm)
   - [F#](https://fsbolero.io/docs/)
   - Go
-    - [with full language support](https://go.dev/wiki/WebAssembly#getting-started)
+    - [with full language support](https://pkg.go.dev/cmd/compile#hdr-WebAssembly_Directives)
     - [targeting minimal size](https://tinygo.org/docs/guides/webassembly/)
   - [Haskell](https://asterius.netlify.app/)
   - Java
