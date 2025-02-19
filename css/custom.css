@@ -2519,13 +2519,9 @@ pre code::after {
   overflow-x: auto;
 }
 
-#feature-support-scrollbox table {
-  transform: translateX(-1px);
-}
-
 #feature-support-scrollbox th[scope=row] {
   position: sticky;
-  left: 0;
+  left: -1px;
   background-color: inherit;
   z-index: 1;
 }
