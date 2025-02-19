@@ -2441,6 +2441,10 @@ table {
   overflow: auto;
 }
 
+table tr:nth-child(2n+1) {
+  background-color: Canvas;
+}
+
 table th {
   font-weight: bold;
 }
@@ -2512,7 +2516,18 @@ pre code::after {
   margin: 0 50%;
   margin-bottom: 2em;
   transform: translateX(-50%);
-  overflow: auto hidden;
+  overflow-x: auto;
+}
+
+#feature-support-scrollbox table {
+  transform: translateX(-1px);
+}
+
+#feature-support-scrollbox th[scope=row] {
+  position: sticky;
+  left: 0;
+  background-color: inherit;
+  z-index: 1;
 }
 
 #feature-support-scrollbox a::after {
@@ -2520,10 +2535,14 @@ pre code::after {
   display: none;
 }
 
+@media (min-width: 1400px) {
+  #feature-support {
+    white-space: nowrap;
+  }
+}
+
 #feature-support {
-  white-space: nowrap;
   cursor: default;
-  margin: 0;
 }
 
 #feature-support > caption {
