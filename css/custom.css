@@ -2001,11 +2001,6 @@ header {
   text-align: center;
 }
 
-.container img,
-.container-narrow img {
-  max-width: 100%;
-}
-
 /* Syntax highlighting */
 .highlight {
   background: #fff;
