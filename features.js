@@ -58,7 +58,7 @@
           h('th', { scope: 'col', id: idMap['table-col'](name) }, [
             h('a', { href: url, target: '_blank' }, [
               // https://www.w3.org/WAI/WCAG22/Techniques/html/H2
-              h('img', { src: logo, width: 48, height: 32, alt: '' }),
+              h('img', { src: logo, height: 32, alt: '' }),
               h('br'),
               name,
             ]),
@@ -286,6 +286,9 @@
               const index = note2index.get(note);
               const [noteId, refLink] = createNoteRef(index);
               box.appendChild(h('sup', {}, [refLink]));
+
+              // Accommodate the width of <sup> elements, which are absolutely positioned
+              box.style.paddingInline = `${toAlphabet(index).length}ch`;
 
               const noteItem = document.getElementById(noteId);
               if (noteItem) {

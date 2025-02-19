@@ -2001,11 +2001,6 @@ header {
   text-align: center;
 }
 
-.container img,
-.container-narrow img {
-  max-width: 100%;
-}
-
 /* Syntax highlighting */
 .highlight {
   background: #fff;
@@ -2452,7 +2447,7 @@ table th {
 
 table th,
 table td {
-  padding: 6px 11px;
+  padding: 6px 10px;
 }
 
 code {
@@ -2512,8 +2507,17 @@ pre code::after {
 }
 
 #feature-support-scrollbox {
+  width: min-content;
+  max-width: 95vw;
+  margin: 0 50%;
+  margin-bottom: 2em;
+  transform: translateX(-50%);
   overflow: auto hidden;
-  margin: 0 0 16px 0;
+}
+
+#feature-support-scrollbox a::after {
+  /* Hide external link symbols on the table, since they are all external. */
+  display: none;
 }
 
 #feature-support {
@@ -2607,6 +2611,8 @@ pre code::after {
   list-style: lower-alpha;
   font-size: 0.7em;
   margin: 0 0 1em 0;
+  columns: 32em auto;
+  column-gap: 2em;
 }
 
 #feature-support-scrollbox + ol > li {
