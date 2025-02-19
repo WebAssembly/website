@@ -287,6 +287,9 @@
               const [noteId, refLink] = createNoteRef(index);
               box.appendChild(h('sup', {}, [refLink]));
 
+              // Accommodate the width of <sup> elements, which are absolutely positioned
+              box.style.paddingInline = `${toAlphabet(index).length}ch`;
+
               const noteItem = document.getElementById(noteId);
               if (noteItem) {
                 cell.addEventListener('mouseenter', () =>
