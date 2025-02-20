@@ -16,6 +16,11 @@
       "url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
       "phase": 5
     },
+    "compilationHints": {
+      "description": "Compilation Hints",
+      "url": "https://github.com/WebAssembly/compilation-hints/blob/main/proposals/compilation-hints/Overview.md",
+      "phase": 2
+    },
     "customAnnotationSyntaxInTheTextFormat": {
       "description": "Custom Text Format Annotations",
       "url": "https://github.com/WebAssembly/annotations/blob/main/proposals/annotations/Overview.md",
@@ -144,7 +149,7 @@
     "wideArithmetic": {
       "description": "Wide Arithmetic",
       "url": "https://github.com/WebAssembly/wide-arithmetic/blob/main/proposals/wide-arithmetic/Overview.md",
-      "phase": 2
+      "phase": 3
     }
   },
   "browsers": {
@@ -158,6 +163,10 @@
           "Requires CLI flag `--js-flags=--experimental-wasm-branch-hinting`"
         ],
         "bulkMemory": "75",
+        "compilationHints": [
+          "flag",
+          "Requires CLI flag `--js-flags=--experimental-wasm-compilation-hints`"
+        ],
         "customAnnotationSyntaxInTheTextFormat": null,
         "exceptionsFinal": [
           "flag",
@@ -294,6 +303,10 @@
           "Requires flag `--experimental-wasm-branch-hinting`"
         ],
         "bulkMemory": "12.5",
+        "compilationHints": [
+          "flag",
+          "Requires flag `--experimental-wasm-compilation-hints`"
+        ],
         "customAnnotationSyntaxInTheTextFormat": null,
         "exceptionsFinal": [
           "flag",
@@ -344,6 +357,10 @@
           "Requires flag `--v8-flags=--experimental-wasm-branch-hinting`"
         ],
         "bulkMemory": "0.4",
+        "compilationHints": [
+          "flag",
+          "Requires flag `--v8-flags=--experimental-wasm-compilation-hints`"
+        ],
         "customAnnotationSyntaxInTheTextFormat": null,
         "exceptionsFinal": [
           "flag",
@@ -357,10 +374,7 @@
           "Requires flag `--v8-flags=--experimental-wasm-instruction-tracing`"
         ],
         "jspi": ["flag", "Requires flag `--v8-flags=--experimental-wasm-jspi`"],
-        "jsStringBuiltins": [
-          "flag",
-          "Requires flag `--v8-flags=--experimental-wasm-imported-strings`"
-        ],
+        "jsStringBuiltins": "2.1",
         "memory64": [
           "flag",
           "Requires flag `--v8-flags=--experimental-wasm-memory64`"
