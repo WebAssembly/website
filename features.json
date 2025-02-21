@@ -424,6 +424,30 @@
         "webContentSecurityPolicy": null
       }
     },
+    "Chicory": {
+      "url": "https://chicory.dev/",
+      "logo": "/images/chicory.svg",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": "1.0.0",
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "extendedConst": null,
+        "memory64": null,
+        "multiMemory": null,
+        "multiValue": "1.0.0",
+        "mutableGlobals": "1.0.0",
+        "referenceTypes": "1.0.0",
+        "saturatedFloatToInt": "1.0.0",
+        "signExtensions": "1.0.0",
+        "simd": "1.1.0",
+        "threads": null,
+        "tailCall": [
+          "1.0.0",
+          "In the interpreter only"
+        ],
+        "webContentSecurityPolicy": null
+      }
+    },
     "Wasmtime": {
       "url": "https://wasmtime.dev/",
       "logo": "/images/bca.svg",
