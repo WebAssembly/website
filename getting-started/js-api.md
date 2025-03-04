@@ -156,7 +156,7 @@ For example, let’s take a WebAssembly module that sums an array of integers
 ```lisp
 (module
   (memory (export "mem") 1)
-  (func (export "accumulate") (param $ptr i32) (param $length i32) …))
+  (func (export "accumulate") (param $ptr i32) (param $length i32) ...))
 ```
 
 Since this module _exports_ its memory, given an `Instance` of this module
