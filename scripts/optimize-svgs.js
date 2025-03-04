@@ -44,7 +44,7 @@ function processDirectory(baseDir) {
     return;
   }
 
-  console.log(`Found ${svgFiles.length} SVG file(s). Optimizing...`);
+  console.log(`Found ${svgFiles.length} SVG file(s). Optimizing…`);
   svgFiles.forEach((filePath) => {
     try {
       optimizeSvg(filePath);

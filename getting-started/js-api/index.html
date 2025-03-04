@@ -194,7 +194,7 @@ receiving a <code class="highlighter-rouge">Memory</code> export.</p>
 
 <div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">module</span>
   <span class="p">(</span><span class="nv">memory</span> <span class="p">(</span><span class="nb">export</span> <span class="s">"mem"</span><span class="p">)</span> <span class="mi">1</span><span class="p">)</span>
-  <span class="p">(</span><span class="nv">func</span> <span class="p">(</span><span class="nb">export</span> <span class="s">"accumulate"</span><span class="p">)</span> <span class="p">(</span><span class="nv">param</span> <span class="nv">$ptr</span> <span class="nv">i32</span><span class="p">)</span> <span class="p">(</span><span class="nv">param</span> <span class="nv">$length</span> <span class="nv">i32</span><span class="p">)</span> <span class="err">…</span><span class="p">))</span>
+  <span class="p">(</span><span class="nv">func</span> <span class="p">(</span><span class="nb">export</span> <span class="s">"accumulate"</span><span class="p">)</span> <span class="p">(</span><span class="nv">param</span> <span class="nv">$ptr</span> <span class="nv">i32</span><span class="p">)</span> <span class="p">(</span><span class="nv">param</span> <span class="nv">$length</span> <span class="nv">i32</span><span class="p">)</span> <span class="o">...</span><span class="p">))</span>
 </code></pre></div></div>
 
 <p>Since this module <em>exports</em> its memory, given an <code class="highlighter-rouge">Instance</code> of this module

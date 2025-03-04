@@ -163,7 +163,7 @@
             id: idMap['table-group'](groupName),
             headers: 'table-blank',
             // Chrome doesn't handle `headers` attribute correctly.
-            // Just hide the group headers for now...
+            // Just hide the group headers for now…
             // https://bugs.chromium.org/p/chromium/issues/detail?id=1081201
             //
             // Actually Firefox doesn't support `ariaHidden` attribute.
@@ -226,7 +226,7 @@
             // * "flag"                   => flag required (must be lowercase)
             // * [true, "footnotes"]      => supported, with "footnotes"
             // * ["version", "footnotes"] => supported since "version", with "footnotes"
-            // ...and any combination thereof
+            // …and any combination thereof
 
             /** @type {null|boolean|string|[boolean|string,string]} */
             let support = features[featName];
