@@ -33,7 +33,17 @@ destination: docs
 
 permalink: pretty
 
+collections:
+  updates:
+    output: true
+    permalink: /updates/:path/
+
 defaults:
+  - scope:
+      path: 'updates'
+      type: 'updates'
+    values:
+      layout: 'updates'
   - scope:
       path: 'design'
     values:
