@@ -1,5 +1,5 @@
 ---
-title: "Wasm 2.0 Completed”
+title: "Wasm 2.0 Completed"
 date: 2025-03-20
 layout: news
 ---
@@ -7,9 +7,9 @@ _Published on March 20, 2025 by [Andreas Rossberg](https://github.com/rossberg).
 
 As of last December, release 2.0 of the Wasm specification is “official”!
 
-If you have been following the developments of the Wasm standard, then version 2.0 may sound like rather old news to you. And indeed, the Wasm Community and Working Groups had reached consensus and finished the specification in early 2022. All major implementations have been shipping 2.0 for even longer. But for a variety of non-technical reasons, it took a while for it to advance through the W3C process and reach the status of [“Recommendation Draft”](https://www.w3.org/TR/wasm-core-2/).
+If you have been following the developments of the Wasm standard, then version 2.0 may sound like rather old news to you. And indeed, the Wasm Community and Working Groups had reached consensus and finished the specification in early 2022. All major implementations have been shipping 2.0 for even longer. But for a variety of non-technical reasons, it took a while for it to advance through the W3C process and reach the status of “Candidate Recommendation”.
 
-With the advent of 2.0, the Working Group is switching to a so-called “evergreen” model for future releases. That means that the Recommendation Draft will be updated in place when we create new versions of the language, without ever moving it forward further. For all intents and purposes, the latest Recommendation “Draft” is considered to be the current standard. (If this sounds strange to you, that’s mostly because the document terminology used by the W3C has not yet caught up with recent flexibilisation of its process.)
+With the advent of 2.0, the Working Group is switching to a so-called “evergreen” model for future releases. That means that the Candidate Recommendation will be updated in place when we create new versions of the language, without ever technically moving it to the final Recommendation state. For all intents and purposes, the latest [Candidate Recommendation Draft](https://www.w3.org/TR/wasm-core-2/) is considered to be the current standard, representing the consensus of the Community Group and Working Group. (If this sounds odd, that’s mostly because the W3C's document terminology does not quite match this more flexible process, which has recently been adopted by several working groups.)
 
 For the most up-to-date version of the current specification, we recommend looking at the documents hosted on our [GitHub page](https://webassembly.github.io/spec/). This always includes the latest fixes and offers multiple different formats for reading and browsing.
 
@@ -27,6 +27,6 @@ For those who are not following the evolution of Wasm as closely, here is the su
 
 * [*Sign extension instructions*](https://github.com/WebAssembly/sign-extension-ops): A new group of instructions allows directly extending the width of signed integer value. Previously that was only possible when reading from memory.
 
-It goes without saying that Wasm 2.0 is fully backwards compatible with 1.0, that is, every valid program remains valid and preserves its meaning.
+It goes without saying that Wasm 2.0 is fully backwards-compatible with 1.0, that is, every valid program remains valid and preserves its behaviour.
 
 In a future post we will take a look at Wasm 3.0, which is already around the corner at this point!
