@@ -33,7 +33,17 @@ destination: docs
 
 permalink: pretty
 
+collections:
+  news:
+    output: true
+    permalink: /news/:path/
+
 defaults:
+  - scope:
+      path: 'news'
+      type: 'news'
+    values:
+      layout: 'news'
   - scope:
       path: 'design'
     values:
