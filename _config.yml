@@ -34,16 +34,16 @@ destination: docs
 permalink: pretty
 
 collections:
-  updates:
+  news:
     output: true
-    permalink: /updates/:path/
+    permalink: /news/:path/
 
 defaults:
   - scope:
-      path: 'updates'
-      type: 'updates'
+      path: 'news'
+      type: 'news'
     values:
-      layout: 'updates'
+      layout: 'news'
   - scope:
       path: 'design'
     values:
