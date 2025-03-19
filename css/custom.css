@@ -298,6 +298,12 @@ nav a:hover {
   clear: both;
 }
 
+.container img,
+.container video {
+  max-width: 100%;
+  height: auto;
+}
+
 @media (min-width: 544px) {
   .container {
     /* max-width:576px; */
@@ -340,7 +346,7 @@ nav a:hover {
   margin-right: auto;
   padding-left: 15px;
   padding-right: 15px;
-  max-width: 800px;
+  max-width: 900px;
 }
 
 .container-narrow::after {
