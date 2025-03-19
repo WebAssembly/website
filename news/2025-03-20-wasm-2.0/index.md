@@ -3,6 +3,7 @@ title: "Wasm 2.0 Completed”
 date: 2025-03-20
 layout: news
 ---
+_Published on March 20, 2025 by [Andreas Rossberg](https://github.com/rossberg)._
 
 As of last December, release 2.0 of the Wasm specification is “official”!
 
@@ -10,13 +11,13 @@ If you have been following the developments of the Wasm standard, then version 2
 
 With the advent of 2.0, the Working Group is switching to a so-called “evergreen” model for future releases. That means that the Recommendation Draft will be updated in place when we create new versions of the language, without ever moving it forward further. For all intents and purposes, the latest Recommendation “Draft” is considered to be the current standard. (If this sounds strange to you, that’s mostly because the document terminology used by the W3C has not yet caught up with recent flexibilisation of its process.)
 
-For the most up-to-date version of the current specification, we recommend looking at the documents hosted on our [Github page](https://webassembly.github.io/spec/). This always includes the latest fixes and offers multiple different formats for reading and browsing.
+For the most up-to-date version of the current specification, we recommend looking at the documents hosted on our [GitHub page](https://webassembly.github.io/spec/). This always includes the latest fixes and offers multiple different formats for reading and browsing.
 
 For those who are not following the evolution of Wasm as closely, here is the summary of the additions in version 2.0 of the language:
 
 * [*Vector instructions*](https://github.com/webassembly/simd): With a massive 236 new instructions — more than the total number Wasm had before — it now supports 128-bit wide SIMD (single instruction, multiple data) functionality of contemporary CPUs, like Intel’s SSE or ARM’s SVE. This helps speeding up certain classes of compute-intense applications like audio/video codecs, machine learning, and some cryptography.
 
-* [*Bulk memory instructions*](https://github.com/WebAssembly/bulk-memory-operations): A set of new instructions allows faster copying and initialisation of regions of memory or ranges of tables.
+* [*Bulk memory instructions*](https://github.com/WebAssembly/bulk-memory-operations): A set of new instructions allows faster copying and initialization of regions of memory or ranges of tables.
 
 * [*Multi-value results*](https://github.com/WebAssembly/multi-value): Instructions, blocks, and functions can now return more than one result value, sometimes supporting faster calling conventions and avoiding indirections. In addition, block instructions now also can have inputs, enabling new program transformations.
 
@@ -29,5 +30,3 @@ For those who are not following the evolution of Wasm as closely, here is the su
 It goes without saying that Wasm 2.0 is fully backwards compatible with 1.0, that is, every valid program remains valid and preserves its meaning.
 
 In a future post we will take a look at Wasm 3.0, which is already around the corner at this point!
-
-/Andreas Rossberg
