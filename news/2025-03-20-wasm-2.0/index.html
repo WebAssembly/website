@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"
+    />
+    <meta property="og:title" content=" - WebAssembly" />
+    <meta property="og:description" content="WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. Wasm is designed as a portable compilation target for programming languages, enabling deployment on the web for client and server applications." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://webassembly.org/news/2025-03-20-wasm-2.0/" />
+    <meta property="og:image" content="https://v1.screenshot.11ty.dev/https%3A%2F%2Fwebassembly.org%2Fnews%2F2025-03-20-wasm-2.0%2F/opengraph/" />
+    <title> - WebAssembly</title>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+    <noscript id="dark-mode-toggle-stylesheets">
+      <link rel="stylesheet" type="text/css" href="/css/light.css" media="(prefers-color-scheme: light)" />
+      <link rel="stylesheet" type="text/css" href="/css/dark.css" media="(prefers-color-scheme: dark)" />
+      <meta name="color-scheme" content="dark light" />
+    </noscript>
+    <script src="/js/dark-mode-toggle-stylesheets-loader.min.js"></script>
+    <script type="module" src="/js/dark-mode-toggle.min.mjs"></script>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <header class="page-section">
+      <div class="container-narrow">
+        <a class="site-logo" href="/" title="WebAssembly"></a>
+        <nav class="site-nav">
+          <a class="site-nav-item btn" href="/">Overview</a>
+          <a class="site-nav-item btn" href="/getting-started/developers-guide/"
+            >Getting Started</a
+          >
+          <a class="site-nav-item btn" href="/specs">Specs</a>
+          <a class="site-nav-item btn" href="/docs/faq/">Docs</a>
+          <a class="site-nav-item btn" href="/features/">Feature Extensions</a>
+          <a class="site-nav-item btn" href="/community/resources/"
+            >Community</a
+          >
+          <a class="site-nav-item btn" href="/news/"
+            >News</a
+          >
+        </nav>
+      </div>
+    </header>
+    
+
+<section>
+  <div class="container">
+    <p><em>Published on March 20, 2025 by <a href="https://github.com/rossberg">Andreas Rossberg</a>.</em></p>
+
+<p>As of last December, release 2.0 of the Wasm specification is “official”!</p>
+
+<p>If you have been following the developments of the Wasm standard, then version 2.0 may sound like rather old news to you. And indeed, the Wasm Community and Working Groups had reached consensus and finished the specification in early 2022. All major implementations have been shipping 2.0 for even longer. But for a variety of non-technical reasons, it took a while for it to advance through the W3C process and reach the status of “Candidate Recommendation”.</p>
+
+<p>With the advent of 2.0, the Working Group is switching to a so-called “evergreen” model for future releases. That means that the Candidate Recommendation will be updated in place when we create new versions of the language, without ever technically moving it to the final Recommendation state. For all intents and purposes, the latest <a href="https://www.w3.org/TR/wasm-core-2/">Candidate Recommendation Draft</a> is considered to be the current standard, representing the consensus of the Community Group and Working Group. (If this sounds odd, that’s mostly because the W3C’s document terminology does not quite match this more flexible process, which has recently been adopted by several working groups.)</p>
+
+<p>For the most up-to-date version of the current specification, we recommend looking at the documents hosted on our <a href="https://webassembly.github.io/spec/">GitHub page</a>. This always includes the latest fixes and offers multiple different formats for reading and browsing.</p>
+
+<p>For those who are not following the evolution of Wasm as closely, here is the summary of the additions in version 2.0 of the language:</p>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/webassembly/simd"><em>Vector instructions</em></a>: With a massive 236 new instructions — more than the total number Wasm had before — it now supports 128-bit wide SIMD (single instruction, multiple data) functionality of contemporary CPUs, like Intel’s SSE or ARM’s SVE. This helps speeding up certain classes of compute-intense applications like audio/video codecs, machine learning, and some cryptography.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/WebAssembly/bulk-memory-operations"><em>Bulk memory instructions</em></a>: A set of new instructions allows faster copying and initialization of regions of memory or ranges of tables.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/WebAssembly/multi-value"><em>Multi-value results</em></a>: Instructions, blocks, and functions can now return more than one result value, sometimes supporting faster calling conventions and avoiding indirections. In addition, block instructions now also can have inputs, enabling new program transformations.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/WebAssembly/reference-types"><em>Reference types</em></a>: References to functions or pointers to external objects (e.g., JavaScript values) become available as opaque first-class values. Tables are repurposed as a general storage for such reference values, and new instructions allow accessing and mutating tables in Wasm code. In addition, modules now may define multiple tables of different types.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions"><em>Non-trapping conversions</em></a>: Additional instructions allow the conversion from float to integer types without the risk of trapping unexpectedly.</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/WebAssembly/sign-extension-ops"><em>Sign extension instructions</em></a>: A new group of instructions allows directly extending the width of signed integer value. Previously that was only possible when reading from memory.</p>
+  </li>
+</ul>
+
+<p>It goes without saying that Wasm 2.0 is fully backwards-compatible with 1.0, that is, every valid program remains valid and preserves its behaviour.</p>
+
+<p>In a future post we will take a look at Wasm 3.0, which is already around the corner at this point!</p>
+
+  </div>
+</section>
+  <footer class="container">
+    <dark-mode-toggle dark="Light Mode" light="Dark Mode" permanent></dark-mode-toggle>
+  </footer>
+  </body>
+</html>
