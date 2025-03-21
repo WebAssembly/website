@@ -195,7 +195,7 @@
         "simd": "91",
         "stackSwitching": [
           "flag",
-          "Requires CLI flag `--js-flags=--experimental-wasm-stack-switching`"
+          "Requires CLI flag `--js-flags=--experimental-wasm-wasmfx`"
         ],
         "tailCall": "112",
         "threads": "74",
@@ -335,7 +335,7 @@
         "simd": "16.4",
         "stackSwitching": [
           "flag",
-          "Requires flag `--experimental-wasm-stack-switching`"
+          "Requires flag `--experimental-wasm-wasmfx`"
         ],
         "tailCall": "20.0",
         "threads": "16.4",
@@ -389,7 +389,7 @@
         "simd": "1.9",
         "stackSwitching": [
           "flag",
-          "Requires flag `--v8-flags=--experimental-wasm-stack-switching`"
+          "Requires flag `--v8-flags=--experimental-wasm-wasmfx`"
         ],
         "tailCall": "1.32",
         "threads": "1.9",
