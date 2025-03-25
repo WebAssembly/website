@@ -29,7 +29,7 @@
     "customPageSizes": {
       "description": "Custom Page Sizes",
       "url": "https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md",
-      "phase": 2
+      "phase": 3
     },
     "esmIntegration": {
       "description": "ESM Integration",
