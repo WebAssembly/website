@@ -8,7 +8,7 @@ layout: news
 _Published on March 27, 2025 by [Andreas Rossberg](https://github.com/rossberg)._
 
 Two weeks ago, the Wasm Community Group voted to adopt [SpecTec](https://github.com/Wasm-DSL/spectec/tree/main/spectec) for authoring future editions of the Wasm spec.
-In this post, I’ll shed some light on what SpecTec is, what it helps with, and why it takes Wasm to a new level of rigor and assurance that is unprecedented when it comes to language standards.
+In this post, I'll shed some light on what SpecTec is, what it helps with, and why it takes Wasm to a new level of rigor and assurance that is unprecedented when it comes to language standards.
 
 ### Formal language semantics
 
@@ -82,7 +82,7 @@ They need to translate this semantics into a form readily understood by a proof 
 Yet again, this requires a tedious manual translation to yet another formulation,
 which, while closely mirroring the formal rules structurally,
 is very different syntactically.
-It has been a challenge for WasmCert to keep up with the pace of Wasm’s evolution,
+It has been a challenge for WasmCert to keep up with the pace of Wasm's evolution,
 and both its mechanizations still only cover (most of) [Wasm 2.0](../2025-03-20-wasm-2.0/index.md),
 although many new proposals have already been merged in the meantime.
 
@@ -110,7 +110,7 @@ This source is then read by the SpecTec implementation, run through a few phases
 * Definitions (and possibly lemmata) for the Coq proof assistant,
 * A machine-readable AST that other external tools can consume.
 
-Viewed from above, SpecTec’s implementation is a compilation pipeline with multiple internal representations and various backends.
+Viewed from above, SpecTec's implementation is a compilation pipeline with multiple internal representations and various backends.
 The picture below shows a high-level view of it.
 
 ![Diagram showing a formal spec parsed into an intermediate form, then processed by multiple backends to generate docs, code, tests, and proofs, with validation via tests and external tools.](spectec.png)
@@ -122,7 +122,7 @@ For one, the prose to be generated is internally represented by an AST called th
 And because that is algorithmic,
 we can actually execute it.
 That is what the meta interpreter does:
-it takes the description of Wasm’s execution semantics expressed in SpecTec
+it takes the description of Wasm's execution semantics expressed in SpecTec
 and can "run" that, e.g., on an actual Wasm module.
 That way, we can feed the Wasm test suite to it,
 and indeed, all applicable tests pass!
@@ -133,7 +133,7 @@ that the *prose specification* that you'll read in the rendered document actuall
 That was not the case before,
 and indeed, while developing SpecTec,
 we discovered numerous bugs in the hand-crafted prose,
-and there are probably many more we didn’t spot.
+and there are probably many more we didn't spot.
 With SpecTec, a wide range of brainless spec bugs becomes impossible,
 some by construction, some because we can run it against the test suite.
 (Caveat: The meta interpreter currently calls out to the Wasm reference interpreter for decoding and validation; hence this only tells us something about execution.
@@ -175,7 +175,7 @@ Instead, it is a meticulously designed translation process.
 That is very important: when accuracy and rigor is the goal,
 then AI with its blackbox behavior and tendency to hallucinate is not an adequate tool.
 
-### What’s next?
+### What's next?
 
 Now that the CG has voted to adopt SpecTec,
 we are working on tweaking a few remaining rendering issues,
