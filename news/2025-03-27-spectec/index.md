@@ -1,25 +1,24 @@
 ---
-title: “SpecTec Has Been Adopted"
+title: "SpecTec has been adopted"
 date: 2025-03-27
 layout: news
 ---
-# SpecTec Has Been Adopted
+# SpecTec has been adopted
 
 _Published on March 27, 2025 by [Andreas Rossberg](https://github.com/rossberg)._
 
-Two weeks ago, the Wasm Community Group voted to adopt [“SpecTec”](https://github.com/Wasm-DSL/spectec/tree/main/spectec) for authoring future editions of the Wasm spec.
+Two weeks ago, the Wasm Community Group voted to adopt [SpecTec](https://github.com/Wasm-DSL/spectec/tree/main/spectec) for authoring future editions of the Wasm spec.
 In this post, I’ll shed some light on what SpecTec is, what it helps with, and why it takes Wasm to a new level of rigor and assurance that is unprecedented when it comes to language standards.
 
-
-### Formal Language Semantics
+### Formal language semantics
 
 One feature that sets Wasm apart from other mainstream programming technologies
-is that it comes with a complete formalisation:
-its syntax (binary & text format), type system (validation), and operational semantics (execution) are given in self-contained, mathematically precise terms.
+is that it comes with a complete formalization:
+its syntax (binary and text format), type system (validation), and operational semantics (execution) are given in self-contained, mathematically precise terms.
 This formal specification was not an afterthought,
-it is an integral part of Wasm's design process and has been a normative part of the official language standard from day 1.
+it is an integral part of Wasm's design process and has been a normative part of the official language standard from day one.
 And not just that: it enabled the *soundness* of the language
-— i.e., the fact that it has no undefined behaviour and no runtime type errors can occur —
+— i.e., the fact that it has no undefined behavior and no runtime type errors can occur —
 to be [machine-verified](https://github.com/WasmCert) before the first version of the standard was published.
 
 This was a huge leap forward, because the practical state of language specifications is basically stuck in the 1960s:
@@ -39,19 +38,19 @@ Fortunately, that gap is more or less a solved problem, at least in principle.
 When it comes to scientific papers and text books,
 programming languages are routinely defined by a combination of formal techniques developed in the 70s to 90s.
 In 1990 already, [The Definition of Standard ML](https://mitpress.mit.edu/9780262631327/the-definition-of-standard-ml/) was published,
-the first comprehensive formal definition of a general-purpose programming language of realistic size and scope. (In case you never have heard of it, ML was a precursor to contemporary functional languages like OCaml and Haskell, a highly influential academic language that pioneered features like type inference, type polymorphism (generics), variant types, pattern matching, and advanced module systems in the early 80s.)
+the first comprehensive formal definition of a general-purpose programming language of realistic size and scope. (In case you have never heard of it, ML was a precursor to contemporary functional languages like OCaml and Haskell, a highly influential academic language that pioneered features like type inference, type polymorphism (generics), variant types, pattern matching, and advanced module systems in the early 80s.)
 
-Formalisation obviously is tremendously useful for verification and safety,
+Formalization obviously is tremendously useful for verification and safety,
 but it also informs the design process of a language.
 When you have to carefully spell out every semantic detail,
-then “hacky” features tend to materialise quickly in terms of accidental complexity:
-a construct that requires ad-hoc rules, many special cases or duplication often indicates a design problem.
-The feedback loop between design and formalisation (and sometimes proofs) hence helps to produce a simpler and cleaner language,
+then “hacky” features tend to materialize quickly in terms of accidental complexity:
+a construct that requires ad-hoc rules, many special cases, or duplication often indicates a design problem.
+The feedback loop between design and formalization (and sometimes proofs) hence helps to produce a simpler and cleaner language,
 analogous to how implementation feedback helps with other metrics like performance.
 In a way, it keeps us honest as designers.
 
 
-### Formal Semantics in the Wasm Spec
+### Formal semantics in the Wasm spec
 
 With Wasm, we set out to give the state of the art of mainstream language specification a bit of a push
 and demonstrate that modern methodologies are ready for prime time.
@@ -68,7 +67,7 @@ We now have doubled the work that spec and proposal authors have to do.
 They have to write both formulations by hand,
 a process that is laborious, tedious, and error-prone.
 Likewise, the spec editor has to review both,
-which is equally tedious and error-prone
+which is equally tedious and error-prone,
 especially since neither reStructuredText (Sphinx) nor Latex,
 — the formats in which the Wasm spec document is written —
 where designed with readability or effective diffs in mind.
@@ -91,7 +90,6 @@ We knew that we would eventually get this problem.
 However, when we first wrote the Wasm spec back in 2017, there was no better way:
 we neither had the technology, nor the resources, nor could we predict future requirements well enough.
 
-
 ### Enter: SpecTec
 
 Fast-forward to early 2023, and the stars aligned.
@@ -109,16 +107,16 @@ This source is then read by the SpecTec implementation, run through a few phases
 
 * Latex with bells and whistles (like cross-references),
 * English prose(!) in Sphinx mark-up,
-* definitions (and possibly lemmata) for the Coq proof assistant,
-* a machine-readable AST that other external tools can consume.
+* Definitions (and possibly lemmata) for the Coq proof assistant,
+* A machine-readable AST that other external tools can consume.
 
 Viewed from above, SpecTec’s implementation is a compilation pipeline with multiple internal representations and various backends.
 The picture below shows a high-level view of it.
 
-![SpecTec Architecture](spectec.png)
+![Diagram showing a formal spec parsed into an intermediate form, then processed by multiple backends to generate docs, code, tests, and proofs, with validation via tests and external tools.](spectec.png)
 
 Generating (algorithmic) natural language prose from a (declarative) mathematical specification is novel ground.
-But here are several more goodies hidden in this graph.
+But here are several more goodies hidden in this diagram.
 
 For one, the prose to be generated is internally represented by an AST called the “algorithmic language” (AL).
 And because that is algorithmic,
@@ -154,13 +152,13 @@ This is because both rendered spec and mechanized definitions are now auto-gener
 and producing Coq no longer involves a manual translation that is merely based on “eyeball correspondence” with the original paper rules.
 
 Finally, we have recently started work on another exciting backend for SpecTec:
-this one can spit out .wast test files.
+this one can spit out `.wast` test files.
 So, it is essentially a test fuzzer.
 However, it is a fuzzer that is guided by full knowledge of the syntax and semantics of the language!
 It understands the typing rules and can predict the result of executing a piece of code.
 For example, by just looking at the typing rule of an instruction,
 it could systematically generate a complete combinatorial matrix of micro tests for that instruction,
-that is, tests for its behaviour under all interesting combinations of types and operands.
+that is, tests for its behavior under all interesting combinations of types and operands.
 
 Once more, this would take Wasm to a new level of assurance,
 this time for implementations.
@@ -172,14 +170,12 @@ And because SpecTec is a generic tool,
 this ought to be applicable not just to present features,
 but also to features that Wasm grows in the future.
 
-
 As a final remark, note that SpecTec is *not* AI.
 Instead, it is a meticulously designed translation process.
 That is very important: when accuracy and rigor is the goal,
-then AI with its blackbox behaviour and tendency to hallucinate is not an adequate tool.
+then AI with its blackbox behavior and tendency to hallucinate is not an adequate tool.
 
-
-### What’s Next?
+### What’s next?
 
 Now that the CG has voted to adopt SpecTec,
 we are working on tweaking a few remaining rendering issues,
@@ -194,9 +190,9 @@ Proposal authors, however, no longer need to write much prose or any Latex,
 but instead extend the SpecTec files and hit a button — well, in the ideal case anyway;
 in the beginning, we fully expect road bumps and some missing features in SpecTec.
 
-All of Wasm 2.0 and all current [phase 4 and 5 proposals](https://github.com/WebAssembly/proposals) are already integrated into SpecTec.
+All of Wasm 2.0 and all current [Phase 4 and 5 proposals](https://github.com/WebAssembly/proposals) are already integrated into SpecTec.
 The official Wasm 3.0 spec will be produced with SpecTec.
-You can see a draft of that [here](https://wasm-dsl.github.io/spectec/).
+You can see a [draft of that Wasm 3.0 spec](https://wasm-dsl.github.io/spectec/) already.
 For most part, it looks not too different from the hand-crafted document.
 
 However, not all of the document has been converted to SpecTec yet
