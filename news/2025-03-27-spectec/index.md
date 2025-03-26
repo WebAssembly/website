@@ -100,12 +100,12 @@ we sat together between several groups of researchers and discussed the prospect
 The idea quickly grew into designing a domain-specific language (DSL),
 in which the syntax and semantics of Wasm can be specified faithfully,
 and then generating all the mentioned artefacts from that *single source of truth*.
-Lacking better (politically correct)) ideas, we called it “[SpecTec](https://people.mpi-sws.org/~rossberg/papers/Youn,%20Shin,%20Lee,%20Ryu,%20Breitner,%20Gardner,%20Lindley,%20Pretnar,%20Xiaojia,%20Watt,%20Rossberg%20-%20Bringing%20the%20WebAssembly%20Standard%20up%20to%20Speed%20with%20SpecTec.pdf)”.
+Lacking better (politically correct)) ideas, we called the DSL “[SpecTec](https://people.mpi-sws.org/~rossberg/papers/Youn,%20Shin,%20Lee,%20Ryu,%20Breitner,%20Gardner,%20Lindley,%20Pretnar,%20Xiaojia,%20Watt,%20Rossberg%20-%20Bringing%20the%20WebAssembly%20Standard%20up%20to%20Speed%20with%20SpecTec.pdf)”.
 
 SpecTec allows [expressing the formal rules](https://github.com/Wasm-DSL/spectec/blob/main/spectec/doc/Overview.md) of Wasm,
 almost as they occur in the spec,
 but in plain, readable ASCII.
-This source is then read by SpecTec, run through a few phases of parsing, meta-level type checking, and translation, and in the end it can spit out various outputs:
+This source is then read by the SpecTec implementation, run through a few phases of parsing, meta-level type checking, and translation, and in the end it can spit out various outputs:
 
 * Latex with bells and whistles (like cross-references),
 * English prose(!) in Sphinx mark-up,
