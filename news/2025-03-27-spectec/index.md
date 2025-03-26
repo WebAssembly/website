@@ -68,7 +68,7 @@ They have to write both formulations by hand,
 a process that is laborious, tedious, and error-prone.
 Likewise, the spec editor has to review both,
 which is equally tedious and error-prone,
-especially since neither reStructuredText (Sphinx) nor Latex,
+especially since neither reStructuredText (Sphinx) nor LaTeX,
 — the formats in which the Wasm spec document is written —
 where designed with readability or effective diffs in mind.
 We had to hack around the shortcomings of both
@@ -105,7 +105,7 @@ almost as they occur in the spec,
 but in plain, readable ASCII.
 This source is then read by the SpecTec implementation, run through a few phases of parsing, meta-level type checking, and translation, and in the end it can spit out various outputs:
 
-* Latex with bells and whistles (like cross-references),
+* LaTeX with bells and whistles (like cross-references),
 * English prose(!) in Sphinx mark-up,
 * Definitions (and possibly lemmata) for the Coq proof assistant,
 * A machine-readable AST that other external tools can consume.
@@ -186,7 +186,7 @@ into the main Wasm spec repo.
 At that point, SpecTec will be automatically invoked as part of the spec build process.
 
 That is, nothing will change about the overall procedure for building the spec.
-Proposal authors, however, no longer need to write much prose or any Latex,
+Proposal authors, however, no longer need to write much prose or any LaTeX,
 but instead extend the SpecTec files and hit a button — well, in the ideal case anyway;
 in the beginning, we fully expect road bumps and some missing features in SpecTec.
 
