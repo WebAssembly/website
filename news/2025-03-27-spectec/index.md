@@ -43,7 +43,7 @@ the first comprehensive formal definition of a general-purpose programming langu
 Formalization obviously is tremendously useful for verification and safety,
 but it also informs the design process of a language.
 When you have to carefully spell out every semantic detail,
-then “hacky” features tend to materialize quickly in terms of accidental complexity:
+then "hacky" features tend to materialize quickly in terms of accidental complexity:
 a construct that requires ad-hoc rules, many special cases, or duplication often indicates a design problem.
 The feedback loop between design and formalization (and sometimes proofs) hence helps to produce a simpler and cleaner language,
 analogous to how implementation feedback helps with other metrics like performance.
@@ -57,10 +57,10 @@ and demonstrate that modern methodologies are ready for prime time.
 That is why — in addition to a conventional prose specification — the Wasm spec also contains a complete (and normative!) formal specification.
 In fact, the formal version was written long *before* the prose,
 which was then created by manually transliterating the formal rules into natural language
-(for some definition of “natural”).
+(for some definition of "natural").
 Both formulations complement each other:
 where the mathematical formulation is *declarative* and amenable to formal methods and quick iteration,
-the prose formulation is *algorithmic* and more accessible to a broader audience of “casual” readers.
+the prose formulation is *algorithmic* and more accessible to a broader audience of "casual" readers.
 
 However, with that we also created a new problem for ourselves:
 We now have doubled the work that spec and proposal authors have to do.
@@ -98,7 +98,7 @@ we sat together between several groups of researchers and discussed the prospect
 The idea quickly grew into designing a domain-specific language (DSL),
 in which the syntax and semantics of Wasm can be specified faithfully,
 and then generating all the mentioned artefacts from that *single source of truth*.
-Lacking better (politically correct)) ideas, we called the DSL “[SpecTec](https://people.mpi-sws.org/~rossberg/papers/Youn,%20Shin,%20Lee,%20Ryu,%20Breitner,%20Gardner,%20Lindley,%20Pretnar,%20Xiaojia,%20Watt,%20Rossberg%20-%20Bringing%20the%20WebAssembly%20Standard%20up%20to%20Speed%20with%20SpecTec.pdf)”.
+Lacking better (politically correct)) ideas, we called the DSL "[SpecTec](https://people.mpi-sws.org/~rossberg/papers/Youn,%20Shin,%20Lee,%20Ryu,%20Breitner,%20Gardner,%20Lindley,%20Pretnar,%20Xiaojia,%20Watt,%20Rossberg%20-%20Bringing%20the%20WebAssembly%20Standard%20up%20to%20Speed%20with%20SpecTec.pdf)".
 
 SpecTec allows [expressing the formal rules](https://github.com/Wasm-DSL/spectec/blob/main/spectec/doc/Overview.md) of Wasm,
 almost as they occur in the spec,
@@ -118,12 +118,12 @@ The picture below shows a high-level view of it.
 Generating (algorithmic) natural language prose from a (declarative) mathematical specification is novel ground.
 But here are several more goodies hidden in this diagram.
 
-For one, the prose to be generated is internally represented by an AST called the “algorithmic language” (AL).
+For one, the prose to be generated is internally represented by an AST called the "algorithmic language" (AL).
 And because that is algorithmic,
 we can actually execute it.
 That is what the meta interpreter does:
 it takes the description of Wasm’s execution semantics expressed in SpecTec
-and can “run” that, e.g., on an actual Wasm module.
+and can "run" that, e.g., on an actual Wasm module.
 That way, we can feed the Wasm test suite to it,
 and indeed, all applicable tests pass!
 
@@ -149,7 +149,7 @@ Scaling to the full language is work in progress.
 Once we have proved full soundness this way,
 we also reach a new level of assurance regarding the *formal specification* that you see in the rendered specification document!
 This is because both rendered spec and mechanized definitions are now auto-generated from the same source of truth,
-and producing Coq no longer involves a manual translation that is merely based on “eyeball correspondence” with the original paper rules.
+and producing Coq no longer involves a manual translation that is merely based on "eyeball correspondence" with the original paper rules.
 
 Finally, we have recently started work on another exciting backend for SpecTec:
 this one can spit out `.wast` test files.
@@ -164,7 +164,7 @@ Once more, this would take Wasm to a new level of assurance,
 this time for implementations.
 So far, it has been tedious manual work to write tests
 — or in some rare cases, manually written scripts that generate some very specific tests.
-The coverage of the Wasm test suite, despite not being bad overall, hence has been “variable” at best.
+The coverage of the Wasm test suite, despite not being bad overall, hence has been "variable" at best.
 In the future, we hope to get much better coverage with much less work.
 And because SpecTec is a generic tool,
 this ought to be applicable not just to present features,
