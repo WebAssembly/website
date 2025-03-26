@@ -3,9 +3,13 @@ title: "Wasm 2.0 Completed"
 date: 2025-03-20
 layout: news
 ---
+# Wasm 2.0 Completed
+
 _Published on March 20, 2025 by [Andreas Rossberg](https://github.com/rossberg)._
 
 As of last December, release 2.0 of the Wasm specification is “official”!
+
+![Screenshot of W3C site](screenshot.png)
 
 If you have been following the developments of the Wasm standard, then version 2.0 may sound like rather old news to you. And indeed, the Wasm Community and Working Groups had reached consensus and finished the specification in early 2022. All major implementations have been shipping 2.0 for even longer. But for a variety of non-technical reasons, it took a while for it to advance through the W3C process and reach the status of “Candidate Recommendation”.
 
