@@ -193,10 +193,6 @@
         "saturatedFloatToInt": "75",
         "signExtensions": "74",
         "simd": "91",
-        "stackSwitching": [
-          "flag",
-          "Requires CLI flag `--js-flags=--experimental-wasm-stack-switching`"
-        ],
         "tailCall": "112",
         "threads": "74",
         "typedFunctionReferences": "119",
@@ -333,10 +329,6 @@
         "saturatedFloatToInt": "12.5",
         "signExtensions": "12.0",
         "simd": "16.4",
-        "stackSwitching": [
-          "flag",
-          "Requires flag `--experimental-wasm-stack-switching`"
-        ],
         "tailCall": "20.0",
         "threads": "16.4",
         "typedFunctionReferences": "22.0",
@@ -387,10 +379,6 @@
         "saturatedFloatToInt": "0.4",
         "signExtensions": "0.1",
         "simd": "1.9",
-        "stackSwitching": [
-          "flag",
-          "Requires flag `--v8-flags=--experimental-wasm-stack-switching`"
-        ],
         "tailCall": "1.32",
         "threads": "1.9",
         "typedFunctionReferences": "1.38",
