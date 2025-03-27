@@ -8,7 +8,9 @@
   
   <entry>
     <title>SpecTec has been adopted</title>
-    <author>Andreas Rossberg</author>
+    <author>
+      <name>Andreas Rossberg</name>
+    </author>
     <link href="https://webassembly.org/news/2025-03-27-spectec/"/>
     <id>https://webassembly.org/news/2025-03-27-spectec/</id>
     <updated>2025-03-27T00:00:00+00:00</updated>
@@ -232,7 +234,9 @@ written manually. We plan to convert these over after Wasm 3.0, but in due time.
   
   <entry>
     <title>Wasm 2.0 Completed</title>
-    <author>Andreas Rossberg</author>
+    <author>
+      <name>Andreas Rossberg</name>
+    </author>
     <link href="https://webassembly.org/news/2025-03-20-wasm-2.0/"/>
     <id>https://webassembly.org/news/2025-03-20-wasm-2.0/</id>
     <updated>2025-03-20T00:00:00+00:00</updated>
@@ -282,7 +286,9 @@ written manually. We plan to convert these over after Wasm 3.0, but in due time.
   
   <entry>
     <title>Big News!</title>
-    <author>Thomas Steiner</author>
+    <author>
+      <name>Thomas Steiner</name>
+    </author>
     <link href="https://webassembly.org/news/2025-03-19-new-news-section/"/>
     <id>https://webassembly.org/news/2025-03-19-new-news-section/</id>
     <updated>2025-03-19T00:00:00+00:00</updated>
