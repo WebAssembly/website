@@ -5,15 +5,16 @@ permalink: /feed.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>WebAssembly News</title>
-  <link href="{{ site.url }}{{ site.baseurl }}/"/>
-  <link href="{{ site.url }}{{ site.baseurl }}/feed.xml" rel="self"/>
+  <link href="https://webassembly.org/"/>
+  <link href="https://webassembly.org/feed.xml" rel="self"/>
   <updated>{{ site.posts[0].date | date_to_xmlschema }}</updated>
-  <id>{{ site.url }}{{ site.baseurl }}/</id>
+  <id>https://webassembly.org/</id>
   {% for post in site.posts %}
   <entry>
     <title>{{ post.title }}</title>
-    <link href="{{ site.url }}{{ post.url }}"/>
-    <id>{{ site.url }}{{ post.url }}</id>
+    <author>{{ post.author }}</author>
+    <link href="https://webassembly.org{{ post.url }}"/>
+    <id>https://webassembly.org{{ post.url }}</id>
     <updated>{{ post.date | date_to_xmlschema }}</updated>
     <summary>{{ post.excerpt | strip_html | strip_newlines }}</summary>
     <content type="html"><![CDATA[{{ post.content }}]]></content>

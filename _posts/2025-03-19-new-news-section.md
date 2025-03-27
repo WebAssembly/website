@@ -1,5 +1,6 @@
 ---
 title: "Big News!"
+author: 'Thomas Steiner'
 ---
 
 # Big News!
