@@ -84,8 +84,8 @@ tedious and error-prone, especially since neither reStructuredText (Sphinx) nor
 LaTeX, — the formats in which the Wasm spec document is written — where designed
 with readability or effective diffs in mind. We had to hack around the
 shortcomings of both with shell scripts and fragile Sphinx plug-ins, in an
-attempt to address some of their problems, like the lack of macros or
-hostile markup layout rules.
+attempt to address some of their more serious problems, like the lack of macros or
+layout-sensitive markup rules.
 
 And then there are projects like [WasmCert](https://github.com/WasmCert), which
 maintain Wasm's mechanized soundness proof and other formal methods
@@ -156,7 +156,7 @@ decoding and validation; hence this only tells us something about execution. In
 the future, we hope to make it more self-contained.)
 
 In a similar vein, SpecTec can generate definitions representing the Wasm
-semantics in [Coq](https://coq.inria.fr), the dominant proof assistant in the
+semantics in [Coq/Rocq](https://coq.inria.fr), the dominant proof assistant in the
 area of programming languages. We have started porting the proofs from the
 hand-written WasmCert mechanization, and can already handle soundness for the
 Wasm 1.0 subset. Scaling to the full language is work in progress.
