@@ -74,7 +74,7 @@ which was then created by manually transliterating the formal rules into natural
 language (for some definition of "natural"). Both formulations complement each
 other: where the mathematical formulation is _declarative_ and amenable to
 formal methods and quick iteration, the prose formulation is _algorithmic_ and
-more accessible to a broader audience of "casual" readers.
+more accessible to a broader audience of readers.
 
 However, with that we also created a new problem for ourselves: We now have
 doubled the work that spec and proposal authors have to do. They have to write
@@ -84,7 +84,7 @@ tedious and error-prone, especially since neither reStructuredText (Sphinx) nor
 LaTeX, — the formats in which the Wasm spec document is written — where designed
 with readability or effective diffs in mind. We had to hack around the
 shortcomings of both with shell scripts and fragile Sphinx plug-ins, in an
-attempt to address some of their worst problems, like the lack of macros or
+attempt to address some of their problems, like the lack of macros or
 hostile markup layout rules.
 
 And then there are projects like [WasmCert](https://github.com/WasmCert), which
@@ -112,7 +112,7 @@ automating parts of the spec-writing and verification process. The idea quickly
 grew into designing a domain-specific language (DSL), in which the syntax and
 semantics of Wasm can be specified faithfully, and then generating all the
 mentioned artefacts from that _single source of truth_. Lacking better
-(politically correct)) ideas, we called the DSL
+ideas, we called the DSL
 "[SpecTec](https://people.mpi-sws.org/~rossberg/papers/Youn,%20Shin,%20Lee,%20Ryu,%20Breitner,%20Gardner,%20Lindley,%20Pretnar,%20Xiaojia,%20Watt,%20Rossberg%20-%20Bringing%20the%20WebAssembly%20Standard%20up%20to%20Speed%20with%20SpecTec.pdf)".
 
 SpecTec allows
@@ -144,7 +144,7 @@ description of Wasm's execution semantics expressed in SpecTec and can "run"
 that, e.g., on an actual Wasm module. That way, we can feed the Wasm test suite
 to it, and indeed, all applicable tests pass!
 
-This gives a whole new level of assurance (indicated by the fat yellow arrows in
+This gives a whole new level of assurance (indicated by the yellow chalk arrows in
 the picture), that the _prose specification_ that you'll read in the rendered
 document actually is correct and defines what we think it defines! That was not
 the case before, and indeed, while developing SpecTec, we discovered numerous
