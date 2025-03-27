@@ -12,7 +12,9 @@ permalink: /feed.xml
   {% for post in site.posts %}
   <entry>
     <title>{{ post.title }}</title>
-    <author>{{ post.author }}</author>
+    <author>
+      <name>{{ post.author }}</name>
+    </author>
     <link href="https://webassembly.org{{ post.url }}"/>
     <id>https://webassembly.org{{ post.url }}</id>
     <updated>{{ post.date | date_to_xmlschema }}</updated>
