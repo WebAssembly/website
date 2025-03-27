@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>WebAssembly News</title>
-  <link href="/"/>
-  <link href="/feed.xml" rel="self"/>
+  <link href="https://webassembly.org/"/>
+  <link href="https://webassembly.org/feed.xml" rel="self"/>
   <updated>2025-03-27T00:00:00+00:00</updated>
-  <id>/</id>
+  <id>https://webassembly.org/</id>
   
   <entry>
     <title>SpecTec has been adopted</title>
-    <link href="/news/2025-03-27-spectec/"/>
-    <id>/news/2025-03-27-spectec/</id>
+    <author>Andreas Rossberg</author>
+    <link href="https://webassembly.org/news/2025-03-27-spectec/"/>
+    <id>https://webassembly.org/news/2025-03-27-spectec/</id>
     <updated>2025-03-27T00:00:00+00:00</updated>
     <summary>SpecTec has been adopted</summary>
     <content type="html"><![CDATA[<h1 id="spectec-has-been-adopted">SpecTec has been adopted</h1>
@@ -231,8 +232,9 @@ written manually. We plan to convert these over after Wasm 3.0, but in due time.
   
   <entry>
     <title>Wasm 2.0 Completed</title>
-    <link href="/news/2025-03-20-wasm-2.0/"/>
-    <id>/news/2025-03-20-wasm-2.0/</id>
+    <author>Andreas Rossberg</author>
+    <link href="https://webassembly.org/news/2025-03-20-wasm-2.0/"/>
+    <id>https://webassembly.org/news/2025-03-20-wasm-2.0/</id>
     <updated>2025-03-20T00:00:00+00:00</updated>
     <summary>Wasm 2.0 Completed</summary>
     <content type="html"><![CDATA[<h1 id="wasm-20-completed">Wasm 2.0 Completed</h1>
@@ -280,8 +282,9 @@ written manually. We plan to convert these over after Wasm 3.0, but in due time.
   
   <entry>
     <title>Big News!</title>
-    <link href="/news/2025-03-19-new-news-section/"/>
-    <id>/news/2025-03-19-new-news-section/</id>
+    <author>Thomas Steiner</author>
+    <link href="https://webassembly.org/news/2025-03-19-new-news-section/"/>
+    <id>https://webassembly.org/news/2025-03-19-new-news-section/</id>
     <updated>2025-03-19T00:00:00+00:00</updated>
     <summary>Big News!</summary>
     <content type="html"><![CDATA[<h1 id="big-news">Big News!</h1>
