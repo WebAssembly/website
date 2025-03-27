@@ -111,7 +111,7 @@ sat together between several groups of researchers and discussed the prospect of
 automating parts of the spec-writing and verification process. The idea quickly
 grew into designing a domain-specific language (DSL), in which the syntax and
 semantics of Wasm can be specified faithfully, and then generating all the
-mentioned artefacts from that _single source of truth_. Lacking better
+mentioned artifacts from that _single source of truth_. Lacking better
 ideas, we called the DSL
 "[SpecTec](https://people.mpi-sws.org/~rossberg/papers/Youn,%20Shin,%20Lee,%20Ryu,%20Breitner,%20Gardner,%20Lindley,%20Pretnar,%20Xiaojia,%20Watt,%20Rossberg%20-%20Bringing%20the%20WebAssembly%20Standard%20up%20to%20Speed%20with%20SpecTec.pdf)".
 
