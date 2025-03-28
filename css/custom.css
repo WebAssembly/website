@@ -284,6 +284,15 @@ nav a:hover {
   text-decoration: none;
 }
 
+.feed-icon {
+  vertical-align: text-bottom;
+  margin: 1px;
+}
+
+.feed-icon:hover {
+  filter: brightness(0.9);
+}
+
 .container {
   margin-left: auto;
   margin-right: auto;
@@ -1819,9 +1828,6 @@ header {
 
 .noclick {
   pointer-events: none;
-}
-
-.side-nav {
 }
 
 .side-nav-item {
