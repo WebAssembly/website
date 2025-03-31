@@ -106,7 +106,7 @@ translation to yet another formulation, which, while closely mirroring the
 formal rules structurally, is very different syntactically. It has been a
 challenge for WasmCert to keep up with the pace of Wasm’s evolution, and both
 its mechanizations still only cover (most of)
-<a href="../2025-03-20-wasm-2.0/index.md">Wasm 2.0</a>, although many new proposals have
+<a href="../2025-03-20-wasm-2.0/">Wasm 2.0</a>, although many new proposals have
 already been merged in the meantime.</p>
 
 <p>We knew that we would eventually get this problem. However, when we first wrote
