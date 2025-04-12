@@ -30,6 +30,7 @@ layout: getting-started
   - [TeaVM](https://teavm.org)
   - [j2wasm](https://github.com/google/j2cl/blob/master/docs/getting-started-j2wasm.md)
 - [Kotlin](https://kotl.in/wasm)
+- [Lua](https://github.com/ysugimoto/webassembly-lua)
 - [Moonbit](https://www.moonbitlang.com/)
 - [Pascal](https://wiki.freepascal.org/WebAssembly/Compiler)
 - [PHP](https://github.com/seanmorris/php-wasm)
