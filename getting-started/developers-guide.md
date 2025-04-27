@@ -38,6 +38,7 @@ layout: getting-started
   - [Pyodide](https://pyodide.org/en/stable/)
   - [Nuitka (py2wasm)](https://github.com/wasmerio/py2wasm)
 - [RemObjects Elements](https://docs.elementscompiler.com/Platforms/WebAssembly/)
+- [Ruby](http://github.com/ruby/ruby.wasm)
 - [Rust](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)
 - [Scala.js](https://www.scala-js.org/doc/project/webassembly.html)
 - [Scheme](https://github.com/cisco/ChezScheme)
