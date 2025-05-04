@@ -37,6 +37,7 @@ layout: getting-started
 - Python
   - [Pyodide](https://pyodide.org/en/stable/)
   - [Nuitka (py2wasm)](https://github.com/wasmerio/py2wasm)
+- [R](https://docs.r-wasm.org/webr/latest/)
 - [RemObjects Elements](https://docs.elementscompiler.com/Platforms/WebAssembly/)
 - [Ruby](http://github.com/ruby/ruby.wasm)
 - [Rust](https://developer.mozilla.org/en-US/docs/WebAssembly/Rust_to_wasm)
