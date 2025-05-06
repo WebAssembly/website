@@ -64,7 +64,7 @@
     "jspi": {
       "description": "JS Promise Integration",
       "url": "https://github.com/WebAssembly/js-promise-integration",
-      "phase": 3
+      "phase": 4
     },
     "jsStringBuiltins": {
       "description": "JS String Builtins",
