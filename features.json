@@ -78,8 +78,8 @@
     },
     "moreArrayConstructors": {
       "description": "More array constructors",
-      "url": "https://github.com/WebAssembly/more-array-constructors",
-      "phase": 1,
+      "url": "https://github.com/WebAssembly/more-array-constructors/blob/main/proposals/more-array-constructors/Overview.md",
+      "phase": 1
     },
     "multiMemory": {
       "description": "Multiple Memories",
