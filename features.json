@@ -76,6 +76,11 @@
       "url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
       "phase": 4
     },
+    "moreArrayConstructors": {
+      "description": "More array constructors",
+      "url": "https://github.com/WebAssembly/more-array-constructors",
+      "phase": 1,
+    },
     "multiMemory": {
       "description": "Multiple Memories",
       "url": "https://github.com/WebAssembly/multi-memory/blob/master/proposals/multi-memory/Overview.md",
