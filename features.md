@@ -2,7 +2,7 @@
 layout: default
 ---
 
-# Feature Extensions
+# Feature Status
 
 In November 2017, WebAssembly CG members representing four browsers, Chrome,
 Edge, Firefox, and WebKit, reached consensus that the design of the initial
