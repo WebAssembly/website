@@ -173,10 +173,7 @@
           "Requires CLI flag `--js-flags=--experimental-wasm-compilation-hints`"
         ],
         "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": [
-          "flag",
-          "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"
-        ],
+        "exceptionsFinal": "137",
         "exceptions": "95",
         "extendedConst": "114",
         "gc": "119",
@@ -184,10 +181,7 @@
           "flag",
           "Requires CLI flag `--js-flags=--experimental-wasm-instruction-tracing`"
         ],
-        "jspi": [
-          "flag",
-          "Requires flag `chrome://flags/#enable-experimental-webassembly-jspi`"
-        ],
+        "jspi": "137",
         "jsStringBuiltins": "130",
         "memory64": "133",
         "multiMemory": "120",
