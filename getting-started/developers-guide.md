@@ -51,6 +51,7 @@ layout: getting-started
 - [from JavaScript code](https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running)
 - [as a CLI application](https://github.com/bytecodealliance/wasmtime/blob/master/docs/WASI-tutorial.md)
 - [from Node.js (with access to system resources)](https://nodejs.org/api/wasi.html)
+- [from Java code](https://www.graalvm.org/webassembly/)
 
 ## Inspect WebAssembly…
 
