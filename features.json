@@ -333,7 +333,7 @@
       }
     },
     "Deno": {
-      "url": "https://deno.land/",
+      "url": "https://deno.com/",
       "logo": "/images/deno.svg",
       "features": {
         "bigInt": "1.1.2",
