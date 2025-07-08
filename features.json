@@ -337,10 +337,7 @@
       "logo": "/images/deno.svg",
       "features": {
         "bigInt": "1.1.2",
-        "branchHinting": [
-          "flag",
-          "Requires flag `--v8-flags=--experimental-wasm-branch-hinting`"
-        ],
+        "branchHinting": "2.3.2",
         "bulkMemory": "0.4",
         "compilationHints": [
           "flag",
