@@ -344,6 +344,7 @@
           "Requires flag `--v8-flags=--experimental-wasm-compilation-hints`"
         ],
         "customAnnotationSyntaxInTheTextFormat": null,
+        "esmIntegration": "2.1",
         "exceptionsFinal": "2.3.2",
         "exceptions": "1.16",
         "extendedConst": "1.33",
