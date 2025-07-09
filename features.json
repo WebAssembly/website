@@ -257,7 +257,7 @@
         "extendedConst": "17.4",
         "gc": "18.2",
         "multiValue": "13.1",
-        "mutableGlobals": "12",
+        "mutableGlobals": "13.1",
         "referenceTypes": "15",
         "relaxedSimd": [
           "flag",
