@@ -337,20 +337,15 @@
       "logo": "/images/deno.svg",
       "features": {
         "bigInt": "1.1.2",
-        "branchHinting": [
-          "flag",
-          "Requires flag `--v8-flags=--experimental-wasm-branch-hinting`"
-        ],
+        "branchHinting": "2.3.2",
         "bulkMemory": "0.4",
         "compilationHints": [
           "flag",
           "Requires flag `--v8-flags=--experimental-wasm-compilation-hints`"
         ],
         "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": [
-          "flag",
-          "Requires flag `--v8-flags=--experimental-wasm-exnref`"
-        ],
+        "esmIntegration": "2.1",
+        "exceptionsFinal": "2.3.2",
         "exceptions": "1.16",
         "extendedConst": "1.33",
         "gc": "1.38",
@@ -358,12 +353,9 @@
           "flag",
           "Requires flag `--v8-flags=--experimental-wasm-instruction-tracing`"
         ],
-        "jspi": ["flag", "Requires flag `--v8-flags=--experimental-wasm-jspi`"],
+        "jspi": "2.3.2",
         "jsStringBuiltins": "2.1",
-        "memory64": [
-          "flag",
-          "Requires flag `--v8-flags=--experimental-wasm-memory64`"
-        ],
+        "memory64": "2.2",
         "multiMemory": "1.38",
         "multiValue": "1.3.2",
         "mutableGlobals": "0.1",
