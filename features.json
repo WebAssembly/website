@@ -313,7 +313,7 @@
           "flag",
           "Requires flag `--experimental-wasm-imported-strings`"
         ],
-        "memory64": ["flag", "Requires flag `--experimental-wasm-memory64`"],
+        "memory64": "24.0",
         "multiMemory": "22.0",
         "multiValue": "15.0",
         "mutableGlobals": "12.0",
