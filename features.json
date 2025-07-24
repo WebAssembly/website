@@ -39,7 +39,7 @@
     "exceptionsFinal": {
       "description": "Exception Handling with exnref",
       "url": "https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/Exceptions.md",
-      "phase": 4
+      "phase": 5
     },
     "exceptions": {
       "description": "Legacy Exception Handling",
@@ -69,12 +69,12 @@
     "jsStringBuiltins": {
       "description": "JS String Builtins",
       "url": "https://github.com/WebAssembly/js-string-builtins/blob/main/proposals/js-string-builtins/Overview.md",
-      "phase": 4
+      "phase": 5
     },
     "memory64": {
       "description": "Memory64",
       "url": "https://github.com/WebAssembly/memory64/blob/master/proposals/memory64/Overview.md",
-      "phase": 4
+      "phase": 5
     },
     "moreArrayConstructors": {
       "description": "More array constructors",
