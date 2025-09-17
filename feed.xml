@@ -67,7 +67,7 @@
 
 <p>On top of all these goodies, Wasm 3.0 also is the first version of the standard that has been produced with the new <a href="https://webassembly.org/news/2025-03-27-spectec/">SpecTec</a> tool chain. We believe that this makes for an even more reliable specification.</p>
 
-<p>Wasm 3.0 is already shipping in all the major web browsers, and support in stand-alone engines like Wasmtime is <a href="https://webassembly.org/features/">on track</a> to completion as well.</p>
+<p>Wasm 3.0 is already shipping in most major web browsers, and support in stand-alone engines like Wasmtime is on track to completion as well. The <a href="https://webassembly.org/features/">Wasm feature status</a> page tracks support across engines.</p>
 ]]></content>
   </entry>
   
