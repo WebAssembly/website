@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes"
+    />
+    <meta property="og:title" content="A <code>&lt;wasm-compat&gt;</code> custom element - WebAssembly" />
+    <meta property="og:description" content="WebAssembly (abbreviated Wasm) is a binary instruction format for a stack-based virtual machine. Wasm is designed as a portable compilation target for programming languages, enabling deployment on the web for client and server applications." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://webassembly.org/news/2025-09-17-wasm-compat/" />
+    <meta property="og:image" content="https://v1.screenshot.11ty.dev/https%3A%2F%2Fwebassembly.org%2Fnews%2F2025-09-17-wasm-compat%2F/opengraph/" />
+    <title>A <code>&lt;wasm-compat&gt;</code> custom element - WebAssembly</title>
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+    <noscript id="dark-mode-toggle-stylesheets">
+      <link rel="stylesheet" type="text/css" href="/css/light.css" media="(prefers-color-scheme: light)" />
+      <link rel="stylesheet" type="text/css" href="/css/dark.css" media="(prefers-color-scheme: dark)" />
+      <meta name="color-scheme" content="dark light" />
+    </noscript>
+    <script src="/js/dark-mode-toggle-stylesheets-loader.min.js"></script>
+    <script type="module" src="/js/dark-mode-toggle.min.mjs"></script>
+    <script type="module" src="/js/wasm-compat.js"></script>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="alternate" type="application/atom+xml" title="WebAssembly News" href="/feed.xml">
+  </head>
+  <body>
+    <header class="page-section">
+      <div class="container-narrow">
+        <a class="site-logo" href="/" title="WebAssembly"></a>
+        <nav class="site-nav">
+          <a class="site-nav-item btn" href="/">Overview</a>
+          <a class="site-nav-item btn" href="/getting-started/developers-guide/"
+            >Getting Started</a
+          >
+          <a class="site-nav-item btn" href="/specs">Specs</a>
+          <a class="site-nav-item btn" href="/docs/faq/">Docs</a>
+          <a class="site-nav-item btn" href="/features/">Feature Status</a>
+          <a class="site-nav-item btn" href="/community/resources/"
+            >Community</a
+          >
+          <a class="site-nav-item btn" href="/news/"
+            >News</a
+          >
+        </nav>
+      </div>
+    </header>
+    
+
+<section>
+  <div class="container">
+    <h1 id="a-ltwasm-compatgt-custom-element">A <code>&lt;wasm-compat&gt;</code> custom element</h1>
+
+<p><em>Published on September 17, 2025 by <a href="https://github.com/tomayac">Thomas Steiner</a>.</em></p>
+
+<p>The <a href="/features/">Feature Status</a> table on the WebAssembly website shows the various engines’ support statuses in one handy global overview, including the support status in your own browser. That’s fantastic and what most people will usually resort to when they need compatibility information about Wasm features.</p>
+
+<p>For the occasional case where you want to show a feature’s support status for the various Wasm engines in isolation, for example, in the context of an article, there’s now a custom element <code class="highlighter-rouge">&lt;wasm-compat&gt;</code> that you can use. The following code snippet shows you how to use it to display the support status for the <em>JS BigInt to Wasm i64 Integration</em> feature.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Load the script. Be sure to include the `defer` attribute. --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">defer</span> <span class="na">src=</span><span class="s">"wasm-compat.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;style&gt;</span>
+  <span class="nt">wasm-compat</span> <span class="p">{</span>
+    <span class="nl">font-family</span><span class="p">:</span> <span class="n">system-ui</span><span class="p">,</span> <span class="nb">sans-serif</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="nt">&lt;/style&gt;</span>
+<span class="c">&lt;!-- Place the custom element anywhere. --&gt;</span>
+<span class="nt">&lt;wasm-compat</span> <span class="na">wasm-feature=</span><span class="s">"bigInt"</span><span class="nt">&gt;&lt;/wasm-feature&gt;</span>
+</code></pre></div></div>
+
+<p>The value of the <code class="highlighter-rouge">wasm-feature</code> attribute is any of the <code class="highlighter-rouge">$.features</code> (in <a href="https://www.rfc-editor.org/rfc/rfc9535.html">JSONPath</a> notation) keys of the community-maintained <a href="https://github.com/WebAssembly/website/blob/main/features.json#L3"><code class="highlighter-rouge">features.json</code></a> file. For instance, in the case of the <em>JS BigInt to Wasm i64 Integration</em> feature, the key is <code class="highlighter-rouge">bigInt</code>.</p>
+
+<p>For the fun of it, the following section contains the support statuses for all currently documented features. If you prefer, there’s a simple <a href="/js/wasm-compat-test.html">test page</a> available with just one example.</p>
+
+<div id="wasm-compat-container"></div>
+
+<script type="module">
+  const data = await fetch('https://raw.githubusercontent.com/WebAssembly/website/main/features.json').then(response => response.json());
+  const html = Object.keys(data.features).map(featureId => {
+    return `<wasm-compat wasm-feature="${featureId}"></wasm-compat>`;
+  }).join('');
+  document.querySelector('#wasm-compat-container').innerHTML = html;
+</script>
+
+
+  </div>
+</section>
+  <footer class="container">
+    <dark-mode-toggle dark="Light Mode" light="Dark Mode" permanent></dark-mode-toggle>
+  </footer>
+  </body>
+</html>
