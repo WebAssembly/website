@@ -96,6 +96,11 @@
       "url": "https://github.com/WebAssembly/mutable-global/blob/master/proposals/mutable-global/Overview.md",
       "phase": 5
     },
+    "profiles": {
+      "description": "Language Profiles for Wasm",
+      "url": "https://github.com/WebAssembly/profiles/blob/main/proposals/profiles/Overview.md",
+      "phase": 1
+    },
     "referenceTypes": {
       "description": "Reference Types",
       "url": "https://github.com/WebAssembly/reference-types/blob/master/proposals/reference-types/Overview.md",
