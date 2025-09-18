@@ -1,11 +1,4 @@
----
-title: 'A <code>&lt;wasm-compat&gt;</code> custom element'
-author: 'Thomas Steiner'
----
-
 # A <code>&lt;wasm-compat&gt;</code> custom element
-
-_Published on September 17, 2025 by [Thomas Steiner](https://github.com/tomayac)._
 
 The [Feature Status](https://webassembly.org/features/) table on the WebAssembly website shows the various engines' support statuses in one handy global overview, including the support status in your own browser. That's fantastic and what most people will usually resort to when they need compatibility information about Wasm features.
 
@@ -39,14 +32,10 @@ npm install wasm-compat
 
 The value of the `wasm-feature` attribute is any of the `$.features` (in [JSONPath](https://www.rfc-editor.org/rfc/rfc9535.html) notation) keys of the community-maintained [`features.json`](https://github.com/WebAssembly/website/blob/main/features.json#L3) file. For instance, in the case of the *JS BigInt to Wasm i64 Integration* feature, the key is `bigInt`.
 
-For the fun of it, the following section contains the support statuses for all currently documented features. If you prefer, there's a simple [test page](/js/wasm-compat-test.html) available with just one example.
+## Demo
 
-<div id="wasm-compat-container"></div>
+Experience the custom element in action on this [example page](https://webassembly.org/js/wasm-compat-test.html). To see all currently existing features, see the bootom part of this [announcement article](https://webassembly.org/news/2025-09-17-wasm-compat/).
 
-<script type="module">
-  const data = await fetch('https://raw.githubusercontent.com/WebAssembly/website/main/features.json').then(response => response.json());
-  const html = Object.keys(data.features).map(featureId => {
-    return `<wasm-compat wasm-feature="${featureId}"></wasm-compat>`;
-  }).join('');
-  document.querySelector('#wasm-compat-container').innerHTML = html;
-</script>
+## License
+
+Apache 2.0.

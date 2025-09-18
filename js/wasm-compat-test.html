@@ -1,8 +1,18 @@
-<style>
-  wasm-compat {
-    font-family: system-ui, sans-serif;
-    max-width: 800px;
-  }
-</style>
-<script defer src="wasm-compat.js"></script>
-<wasm-compat wasm-feature="bigInt"></wasm-feature>
+<!-- @license © 2025 Google LLC. Licensed under the Apache License, Version 2.0. -->
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <style>
+      wasm-compat {
+        font-family: system-ui, sans-serif;
+        max-width: 800px;
+      }
+    </style>
+    <script type="module" src="wasm-compat.js"></script>
+  </head>
+  <body>
+    <wasm-compat wasm-feature="bigInt"></wasm-feature>
+  </body>
+</html>
