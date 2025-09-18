@@ -17,7 +17,7 @@ npm install wasm-compat
  The following code snippet shows you how to use it to display the support status for the *JS BigInt to Wasm i64 Integration* feature.
 
 ```html
-<!-- Load the script. Be sure to include `type="module"` attribute. -->
+<!-- Load the script. Be sure to include the `type="module"` attribute. -->
 <script type="module" src="wasm-compat.js"></script>
 <!-- Style the element according to your needs -->
 <style>
