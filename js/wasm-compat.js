@@ -108,7 +108,7 @@ export class WasmCompat extends HTMLElement {
     const isSupported = typeof versionNumber === 'string';
     const versionText = isSupported
       ? `${versionNumber}${remarks ? ' ' + `<details class="support-details"><summary>More</summary><div>${remarks}</div>` : ''}`
-      : 'Not supported';
+      : 'N/A';
     const supportClass = isSupported ? 'supported' : 'unsupported';
     const supportIcon = isSupported
       ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><path d="M20 6 9 17l-5-5"/></svg>`
