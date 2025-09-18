@@ -7,6 +7,7 @@ export class WasmCompat extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this.featureId = this.getAttribute('wasm-feature');
+    this.hideHeader = this.hasAttribute('hide-header');
   }
 
   static async fetchFeatureData() {
@@ -68,7 +69,7 @@ export class WasmCompat extends HTMLElement {
       <div class="container">
         <div class="table-wrapper">
           <table>
-            <caption class="feature-title"><a href="${feature.url}">${feature.description}</a> <small>(Phase ${feature.phase})</small></caption>
+            <caption class="feature-title${this.hideHeader ? ' sr-only' : ''}"><a href="${feature.url}">${feature.description}</a> <small>(Phase ${feature.phase})</small></caption>
             <thead>
               <tr>
                 ${Object.keys(browsers).map((engineName) => {
@@ -134,6 +135,17 @@ export class WasmCompat extends HTMLElement {
       :host {
         display: block;
         margin-bottom: 2rem;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
       }
       .container {
         padding: 1.5rem;
