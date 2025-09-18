@@ -67,25 +67,40 @@
 <p>For those who are not following the evolution of Wasm as closely, here is the summary of the additions in version 2.0 of the language:</p>
 
 <ul>
-  <li>
-    <p><a href="https://github.com/webassembly/simd"><em>Vector instructions</em></a>: With a massive 236 new instructions — more than the total number Wasm had before — it now supports 128-bit wide SIMD (single instruction, multiple data) functionality of contemporary CPUs, like Intel’s SSE or ARM’s SVE. This helps speeding up certain classes of compute-intense applications like audio/video codecs, machine learning, and some cryptography.</p>
-  </li>
-  <li>
-    <p><a href="https://github.com/WebAssembly/bulk-memory-operations"><em>Bulk memory instructions</em></a>: A set of new instructions allows faster copying and initialization of regions of memory or ranges of tables.</p>
-  </li>
-  <li>
-    <p><a href="https://github.com/WebAssembly/multi-value"><em>Multi-value results</em></a>: Instructions, blocks, and functions can now return more than one result value, sometimes supporting faster calling conventions and avoiding indirections. In addition, block instructions now also can have inputs, enabling new program transformations.</p>
-  </li>
-  <li>
-    <p><a href="https://github.com/WebAssembly/reference-types"><em>Reference types</em></a>: References to functions or pointers to external objects (e.g., JavaScript values) become available as opaque first-class values. Tables are repurposed as a general storage for such reference values, and new instructions allow accessing and mutating tables in Wasm code. In addition, modules now may define multiple tables of different types.</p>
-  </li>
-  <li>
-    <p><a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions"><em>Non-trapping conversions</em></a>: Additional instructions allow the conversion from float to integer types without the risk of trapping unexpectedly.</p>
-  </li>
-  <li>
-    <p><a href="https://github.com/WebAssembly/sign-extension-ops"><em>Sign extension instructions</em></a>: A new group of instructions allows directly extending the width of signed integer value. Previously that was only possible when reading from memory.</p>
-  </li>
+  <li><a href="https://github.com/webassembly/simd"><em>Vector instructions</em></a>: With a massive 236 new instructions — more than the total number Wasm had before — it now supports 128-bit wide SIMD (single instruction, multiple data) functionality of contemporary CPUs, like Intel’s SSE or ARM’s SVE. This helps speeding up certain classes of compute-intense applications like audio/video codecs, machine learning, and some cryptography.</li>
 </ul>
+
+<wasm-compat hide-header="" wasm-feature="simd"></wasm-compat>
+
+<ul>
+  <li><a href="https://github.com/WebAssembly/bulk-memory-operations"><em>Bulk memory instructions</em></a>: A set of new instructions allows faster copying and initialization of regions of memory or ranges of tables.</li>
+</ul>
+
+<wasm-compat hide-header="" wasm-feature="bulkMemory"></wasm-compat>
+
+<ul>
+  <li><a href="https://github.com/WebAssembly/multi-value"><em>Multi-value results</em></a>: Instructions, blocks, and functions can now return more than one result value, sometimes supporting faster calling conventions and avoiding indirections. In addition, block instructions now also can have inputs, enabling new program transformations.</li>
+</ul>
+
+<wasm-compat hide-header="" wasm-feature="multiValue"></wasm-compat>
+
+<ul>
+  <li><a href="https://github.com/WebAssembly/reference-types"><em>Reference types</em></a>: References to functions or pointers to external objects (e.g., JavaScript values) become available as opaque first-class values. Tables are repurposed as a general storage for such reference values, and new instructions allow accessing and mutating tables in Wasm code. In addition, modules now may define multiple tables of different types.</li>
+</ul>
+
+<wasm-compat hide-header="" wasm-feature="referenceTypes"></wasm-compat>
+
+<ul>
+  <li><a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions"><em>Non-trapping conversions</em></a>: Additional instructions allow the conversion from float to integer types without the risk of trapping unexpectedly.</li>
+</ul>
+
+<wasm-compat hide-header="" wasm-feature="saturatedFloatToInt"></wasm-compat>
+
+<ul>
+  <li><a href="https://github.com/WebAssembly/sign-extension-ops"><em>Sign extension instructions</em></a>: A new group of instructions allows directly extending the width of signed integer value. Previously that was only possible when reading from memory.</li>
+</ul>
+
+<wasm-compat hide-header="" wasm-feature="signExtensions"></wasm-compat>
 
 <p>It goes without saying that Wasm 2.0 is fully backwards-compatible with 1.0, that is, every valid program remains valid and preserves its behaviour.</p>
 
