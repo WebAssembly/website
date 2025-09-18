@@ -1,6 +1,6 @@
 {
   "name": "wasm-compat",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A custom element for showing engine compatibility information of Wasm features",
   "keywords": [
     "wasm-compat"
@@ -10,7 +10,8 @@
     "url": "https://github.com/WebAssembly/website/issues"
   },
   "files": [
-    "wasm-compat.js"
+    "wasm-compat.js",
+    "README.md"
   ],
   "repository": {
     "type": "git",
