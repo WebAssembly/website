@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <style>
+      :root {
+        font-family: system-ui, sans-serif;
+      }
       wasm-compat {
         font-family: system-ui, sans-serif;
         max-width: 800px;
@@ -13,10 +16,10 @@
     <script type="module" src="wasm-compat.js"></script>
   </head>
   <body>
-    <h1><code>&lt:wasm-feature&gt;</code></h1>
+    <h1><code>&ltwasm-feature&gt;</code></h1>
     <h2>Regular</h2>
-    <wasm-compat wasm-feature="bigInt"></wasm-feature>
+    <wasm-compat wasm-feature="bigInt"></wasm-compat>
     <h2>No header</h2>
-    <wasm-compat wasm-feature="bigInt" hide-header></wasm-feature>
+    <wasm-compat wasm-feature="bigInt" hide-header></wasm-compat>
   </body>
 </html>
