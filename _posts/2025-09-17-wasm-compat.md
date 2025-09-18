@@ -34,7 +34,7 @@ npm install wasm-compat
   }
 </style>
 <!-- Place the custom element anywhere. -->
-<wasm-compat wasm-feature="bigInt"></wasm-feature>
+<wasm-compat wasm-feature="bigInt"></wasm-compat>
 ```
 
 The value of the `wasm-feature` attribute is any of the `$.features` (in [JSONPath](https://www.rfc-editor.org/rfc/rfc9535.html) notation) keys of the community-maintained [`features.json`](https://github.com/WebAssembly/website/blob/main/features.json#L3) file. For instance, in the case of the *JS BigInt to Wasm i64 Integration* feature, the key is `bigInt`.
