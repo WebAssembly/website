@@ -34,7 +34,7 @@
 
 <p>The following code snippet shows you how to use it to display the support status for the <em>JS BigInt to Wasm i64 Integration</em> feature.</p>
 
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Load the script. Be sure to include `type="module"` attribute. --&gt;</span>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Load the script. Be sure to include the `type="module"` attribute. --&gt;</span>
 <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"module"</span> <span class="na">src=</span><span class="s">"wasm-compat.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 <span class="c">&lt;!-- Style the element according to your needs --&gt;</span>
 <span class="nt">&lt;style&gt;</span>
