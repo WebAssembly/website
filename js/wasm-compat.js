@@ -1,3 +1,5 @@
+// @license © 2025 Google LLC. Licensed under the Apache License, Version 2.0.
+
 let featureDataPromise = null;
 
 export class WasmCompat extends HTMLElement {

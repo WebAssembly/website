@@ -19,15 +19,28 @@
 
 <p><em>Published on September 17, 2025 by <a href="https://github.com/tomayac">Thomas Steiner</a>.</em></p>
 
-<p>The <a href="/features/">Feature Status</a> table on the WebAssembly website shows the various engines’ support statuses in one handy global overview, including the support status in your own browser. That’s fantastic and what most people will usually resort to when they need compatibility information about Wasm features.</p>
+<p>The <a href="https://webassembly.org/features/">Feature Status</a> table on the WebAssembly website shows the various engines’ support statuses in one handy global overview, including the support status in your own browser. That’s fantastic and what most people will usually resort to when they need compatibility information about Wasm features.</p>
 
-<p>For the occasional case where you want to show a feature’s support status for the various Wasm engines in isolation, for example, in the context of an article, there’s now a custom element <code class="highlighter-rouge">&lt;wasm-compat&gt;</code> that you can use. The following code snippet shows you how to use it to display the support status for the <em>JS BigInt to Wasm i64 Integration</em> feature.</p>
+<p>For the occasional case where you want to show a feature’s support status for the various Wasm engines in isolation, for example, in the context of an article, this is the custom element <code class="highlighter-rouge">&lt;wasm-compat&gt;</code> that you can use.</p>
 
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Load the script. Be sure to include the `defer` attribute. --&gt;</span>
-<span class="nt">&lt;script </span><span class="na">defer</span> <span class="na">src=</span><span class="s">"wasm-compat.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<h2 id="installation">Installation</h2>
+
+<p>You can install the custom element from npm, use a CDN like <a href="https://unpkg.com/wasm-compat">unpkg.com</a>, or simply host the <a href="https://raw.githubusercontent.com/WebAssembly/website/refs/heads/main/js/wasm-compat.js">code</a> yourself.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>wasm-compat
+</code></pre></div></div>
+
+<h2 id="usage">Usage</h2>
+
+<p>The following code snippet shows you how to use it to display the support status for the <em>JS BigInt to Wasm i64 Integration</em> feature.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Load the script. Be sure to include `type="module"` attribute. --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"module"</span> <span class="na">src=</span><span class="s">"wasm-compat.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="c">&lt;!-- Style the element according to your needs --&gt;</span>
 <span class="nt">&lt;style&gt;</span>
   <span class="nt">wasm-compat</span> <span class="p">{</span>
     <span class="nl">font-family</span><span class="p">:</span> <span class="n">system-ui</span><span class="p">,</span> <span class="nb">sans-serif</span><span class="p">;</span>
+    <span class="nl">max-width</span><span class="p">:</span> <span class="m">600px</span><span class="p">;</span>
   <span class="p">}</span>
 <span class="nt">&lt;/style&gt;</span>
 <span class="c">&lt;!-- Place the custom element anywhere. --&gt;</span>
