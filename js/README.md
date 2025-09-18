@@ -36,7 +36,7 @@ The value of the `wasm-feature` attribute is any of the `$.features` (in [JSONPa
 
 ## Demo
 
-Experience the custom element in action on this [example page](https://webassembly.org/js/wasm-compat-test.html). To see all currently existing features, see the bootom part of this [announcement article](https://webassembly.org/news/2025-09-17-wasm-compat/).
+Experience the custom element in action on this [example page](https://webassembly.org/js/wasm-compat-test.html). To see all currently existing features, see the bottom part of this [announcement article](https://webassembly.org/news/2025-09-17-wasm-compat/).
 
 ## License
 
