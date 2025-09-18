@@ -1,6 +1,6 @@
 let featureDataPromise = null;
 
-class WasmCompat extends HTMLElement {
+export class WasmCompat extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
