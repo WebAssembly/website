@@ -44,7 +44,7 @@
   <span class="p">}</span>
 <span class="nt">&lt;/style&gt;</span>
 <span class="c">&lt;!-- Place the custom element anywhere. --&gt;</span>
-<span class="nt">&lt;wasm-compat</span> <span class="na">wasm-feature=</span><span class="s">"bigInt"</span><span class="nt">&gt;&lt;/wasm-feature&gt;</span>
+<span class="nt">&lt;wasm-compat</span> <span class="na">wasm-feature=</span><span class="s">"bigInt"</span><span class="nt">&gt;&lt;/wasm-compat&gt;</span>
 </code></pre></div></div>
 
 <p>The value of the <code class="highlighter-rouge">wasm-feature</code> attribute is any of the <code class="highlighter-rouge">$.features</code> (in <a href="https://www.rfc-editor.org/rfc/rfc9535.html">JSONPath</a> notation) keys of the community-maintained <a href="https://github.com/WebAssembly/website/blob/main/features.json#L3"><code class="highlighter-rouge">features.json</code></a> file. For instance, in the case of the <em>JS BigInt to Wasm i64 Integration</em> feature, the key is <code class="highlighter-rouge">bigInt</code>.</p>
