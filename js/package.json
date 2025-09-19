@@ -27,6 +27,6 @@
     ".": "./wasm-compat.js"
   },
   "scripts": {
-    "prettier": "npx prettier . --write"
+    "prettier": "npx prettier . --write --embedded-language-formatting=auto"
   }
 }
