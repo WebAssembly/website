@@ -189,6 +189,7 @@
         "multiMemory": "120",
         "multiValue": "85",
         "mutableGlobals": "74",
+        "profiles": null,
         "referenceTypes": "96",
         "relaxedSimd": "114",
         "saturatedFloatToInt": "75",
@@ -228,6 +229,7 @@
         "multiMemory": "125",
         "multiValue": "78",
         "mutableGlobals": "61",
+        "profiles": null,
         "referenceTypes": "79",
         "relaxedSimd": [
           "flag",
@@ -263,6 +265,7 @@
         "gc": "18.2",
         "multiValue": "13.1",
         "mutableGlobals": "13.1",
+        "profiles": null,
         "referenceTypes": "15",
         "relaxedSimd": [
           "flag",
@@ -443,6 +446,7 @@
         "multiMemory": "15",
         "multiValue": "0.17",
         "mutableGlobals": true,
+        "profiles": true,
         "referenceTypes": "0.20",
         "relaxedSimd": "15",
         "saturatedFloatToInt": true,
