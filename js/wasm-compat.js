@@ -2,9 +2,12 @@
 
 let featureDataPromise = null;
 
-const FLAG_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M4 17v5H2V3h19.1a.5.5 0 0 1 .5.7L18 10l3.6 6.3a.5.5 0 0 1-.5.7H4zM4 5v10h14.6l-2.9-5 2.9-5H4z" class="svg-stroke"/></svg>';
-const SUPPORTED_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" class="supported-icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>';
-const NOT_SUPPORTED_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" class="not-supported-icon" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+const FLAG_ICON =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M4 17v5H2V3h19.1a.5.5 0 0 1 .5.7L18 10l3.6 6.3a.5.5 0 0 1-.5.7H4zM4 5v10h14.6l-2.9-5 2.9-5H4z" class="svg-stroke"/></svg>';
+const SUPPORTED_ICON =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" class="supported-icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>';
+const NOT_SUPPORTED_ICON =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" class="not-supported-icon" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>';
 
 export class WasmCompat extends HTMLElement {
   constructor() {
@@ -79,16 +82,18 @@ export class WasmCompat extends HTMLElement {
             </caption>
             <thead>
               <tr>
-                ${Object.keys(browsers).map((engineName) => {
-                  const engine = browsers[engineName];
-                  return `
+                ${Object.keys(browsers)
+                  .map((engineName) => {
+                    const engine = browsers[engineName];
+                    return `
                     <th>
                       <div class="engine-cell">
                         <img src="https://webassembly.org${engine.logo}" alt="" class="logo">
                         ${engineName}
                       </div>
                     </th>`;
-                }).join('')}
+                  })
+                  .join('')}
               </tr>
             </thead>
             <tbody>
@@ -122,7 +127,7 @@ export class WasmCompat extends HTMLElement {
       supported = false;
       icon = NOT_SUPPORTED_ICON;
     }
-    return {statusText, supported, icon};
+    return { statusText, supported, icon };
   }
 
   createCell(status) {
@@ -131,7 +136,7 @@ export class WasmCompat extends HTMLElement {
     let icon;
     let note = '';
     if (Array.isArray(status)) {
-      ({statusText, supported, icon} = this.parseStatus(status[0]));
+      ({ statusText, supported, icon } = this.parseStatus(status[0]));
       note = `
         <details class="support-details">
           <summary>More</summary>
@@ -140,12 +145,12 @@ export class WasmCompat extends HTMLElement {
           </div>
         </details>`;
     } else {
-      ({statusText, supported, icon} = this.parseStatus(status));
+      ({ statusText, supported, icon } = this.parseStatus(status));
     }
 
     return `
       <td>
-        <div class="support-cell ${supported !== 'neutral' ? supported ? 'supported' : 'unsupported' : ''}">
+        <div class="support-cell ${supported !== 'neutral' ? (supported ? 'supported' : 'unsupported') : ''}">
           ${icon}
           ${statusText}
           ${note}

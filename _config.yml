@@ -35,8 +35,8 @@ permalink: pretty
 
 defaults:
   - scope:
-      path: "_posts"
-      type: "posts"
+      path: '_posts'
+      type: 'posts'
     values:
       layout: news
       category: news

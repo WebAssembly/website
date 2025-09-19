@@ -1,2 +1,4 @@
 _includes/
 design/
+/js/dark-mode-toggle-stylesheets-loader.min.js
+/js/dark-mode-toggle.min.mjs

@@ -1,5 +1,5 @@
 ---
-title: "Big News!"
+title: 'Big News!'
 author: 'Thomas Steiner'
 ---
 
@@ -7,6 +7,7 @@ author: 'Thomas Steiner'
 
 _Published on March 19, 2025 by [Thomas Steiner](https://github.com/tomayac)._
 
-We launched something new 🎉! A [News](/news/) section for the WebAssembly homepage!
+We launched something new 🎉! A [News](/news/) section for the WebAssembly
+homepage!
 
 ![Two cups with the WebAssembly logo](/assets/wasm-cups.png)
