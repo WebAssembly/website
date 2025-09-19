@@ -21,6 +21,7 @@ export class WasmCompat extends HTMLElement {
     if (!featureDataPromise) {
       const url =
         'https://raw.githubusercontent.com/WebAssembly/website/main/features.json';
+        // '/features.json'; // For local testing.
       featureDataPromise = fetch(url)
         .then((response) => {
           if (!response.ok) {
