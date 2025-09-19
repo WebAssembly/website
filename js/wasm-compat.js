@@ -2,6 +2,10 @@
 
 let featureDataPromise = null;
 
+const FLAG_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"><path d="M4 17v5H2V3h19.1a.5.5 0 0 1 .5.7L18 10l3.6 6.3a.5.5 0 0 1-.5.7H4zM4 5v10h14.6l-2.9-5 2.9-5H4z" class="svg-stroke"/></svg>';
+const SUPPORTED_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" class="supported-icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>';
+const NOT_SUPPORTED_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" class="not-supported-icon" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+
 export class WasmCompat extends HTMLElement {
   constructor() {
     super();
@@ -62,14 +66,17 @@ export class WasmCompat extends HTMLElement {
   }
 
   render(feature, browsers) {
-    const browserSupport = browsers ? Object.entries(browsers) : [];
+    const browserSupport = browsers ? Object.values(browsers) : [];
 
     this.shadowRoot.innerHTML = `
       <style>${this.getStyles()}</style>
       <div class="container">
         <div class="table-wrapper">
           <table>
-            <caption class="feature-title${this.hideHeader ? ' sr-only' : ''}"><a href="${feature.url}">${feature.description}</a> <small>(Phase ${feature.phase})</small></caption>
+            <caption class="feature-title${this.hideHeader ? ' sr-only' : ''}">
+              <a href="${feature.url}">${feature.description}</a>
+              <small>(Phase ${feature.phase})</small>
+            </caption>
             <thead>
               <tr>
                 ${Object.keys(browsers).map((engineName) => {
@@ -78,7 +85,7 @@ export class WasmCompat extends HTMLElement {
                     <th>
                       <div class="engine-cell">
                         <img src="https://webassembly.org${engine.logo}" alt="" class="logo">
-                        <span>${engineName}</span>
+                        ${engineName}
                       </div>
                     </th>`;
                 }).join('')}
@@ -86,7 +93,7 @@ export class WasmCompat extends HTMLElement {
             </thead>
             <tbody>
               <tr>
-                ${browserSupport.length > 0 ? browserSupport.map(([, supportData]) => this.createCell(supportData.features[this.featureId])).join('') : this.createEmptyRow()}
+                ${browserSupport.length > 0 ? browserSupport.map((supportData) => this.createCell(supportData.features[this.featureId])).join('') : this.createEmptyRow()}
               </tr>
             </tbody>
           </table>
@@ -94,31 +101,54 @@ export class WasmCompat extends HTMLElement {
       </div>`;
   }
 
-  createCell(version) {
-    let remarks = '';
-    let versionNumber = version;
-    if (Array.isArray(version)) {
-      versionNumber =
-        version[0] === 'flag'
-          ? '<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" viewBox="0 0 24 24"><path class="svg-stroke" d="M4 17v5H2V3h19.1a.5.5 0 0 1 .5.7L18 10l3.6 6.3a.5.5 0 0 1-.5.7H4zM4 5v10h14.6l-2.9-5 2.9-5H4z"></path></svg>'
-          : version[0];
-      remarks = version[1];
-      remarks = remarks.replace(/`(.+?)`/, '<code>$1</code>');
+  parseStatus(status) {
+    let supported = 'neutral';
+    let statusText = '';
+    let icon = '';
+
+    // See https://github.com/WebAssembly/website/blob/main/features.schema.json.
+    if (status === null) {
+      statusText = 'N/A';
+    } else if (status === true) {
+      supported = true;
+      icon = SUPPORTED_ICON;
+    } else if (status === 'flag') {
+      statusText = 'Flag';
+      icon = FLAG_ICON;
+    } else if (typeof status === 'string') {
+      supported = true;
+      statusText = status;
+    } else if (!status) {
+      supported = false;
+      icon = NOT_SUPPORTED_ICON;
     }
-    const isSupported = typeof versionNumber === 'string';
-    const versionText = isSupported
-      ? `${versionNumber}${remarks ? ' ' + `<details class="support-details"><summary>More</summary><div>${remarks}</div>` : ''}`
-      : 'N/A';
-    const supportClass = isSupported ? 'supported' : 'unsupported';
-    const supportIcon = isSupported
-      ? `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon"><path d="M20 6 9 17l-5-5"/></svg>`
-      : `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="x-icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>`;
+    return {statusText, supported, icon};
+  }
+
+  createCell(status) {
+    let statusText;
+    let supported;
+    let icon;
+    let note = '';
+    if (Array.isArray(status)) {
+      ({statusText, supported, icon} = this.parseStatus(status[0]));
+      note = `
+        <details class="support-details">
+          <summary>More</summary>
+          <div>
+            ${status[1].replace(/`(.+?)`/g, '<code>$1</code>')}
+          </div>
+        </details>`;
+    } else {
+      ({statusText, supported, icon} = this.parseStatus(status));
+    }
 
     return `
       <td>
-        <div class="support-cell ${supportClass}">
-          ${supportIcon}
-          <span class="version-info">${versionText}</span>
+        <div class="support-cell ${supported !== 'neutral' ? supported ? 'supported' : 'unsupported' : ''}">
+          ${icon}
+          ${statusText}
+          ${note}
         </div>
       </td>`;
   }
@@ -171,11 +201,11 @@ export class WasmCompat extends HTMLElement {
       }
       .table-wrapper {
         overflow-x: auto;
+        scrollbar-width: thin;
       }
       table {
         width: 100%;
         border-collapse: collapse;
-        text-align: left;
       }
       th, td {
         padding: 0.75rem 1rem;
@@ -198,28 +228,23 @@ export class WasmCompat extends HTMLElement {
         height: 24px;
       }
       .support-cell {
-        white-space: pre;
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 0.5rem;
         font-weight: 500;
-      }
-      .version-info {
-        display: flex;
-        gap: 0.25rem;
-        align-items: center;
       }
       .support-details {
         display: inline-block;
         font-size: 0.8rem;
       }
       .support-details summary {
+        white-space: nowrap;
         font-weight: bold;
         cursor: pointer;
       }
       .support-details div {
-        white-space: normal;
-        max-width: 40ch;
+        width: 40ch;
       }
       .support-details code {
         white-space: pre;
@@ -230,14 +255,19 @@ export class WasmCompat extends HTMLElement {
       .unsupported {
         color: #ef4444;
       }
-      .check-icon { color: #10b981; }
-      .x-icon { color: #ef4444; }
+      .supported-icon {
+        color: #10b981;
+      }
+      .not-supported-icon {
+        color: #ef4444;
+      }
       .empty-cell {
         text-align: center;
         color: #6b7280;
         padding: 2rem;
       }
-      .loading-container, .error-container {
+      .loading-container,
+      .error-container {
         display: flex;
         align-items: center;
         justify-content: center;

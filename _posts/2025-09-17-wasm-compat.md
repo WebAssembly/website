@@ -1,5 +1,5 @@
 ---
-title: 'A <code>&lt;wasm-compat&gt;</code> custom element'
+title: 'A &lt;wasm-compat&gt; custom element'
 author: 'Thomas Steiner'
 ---
 
