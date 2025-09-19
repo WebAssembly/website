@@ -2315,8 +2315,8 @@ ol ol ol {
 }
 
 code {
-  font-family: ui-monospace, Consolas, 'Liberation Mono', Menlo, Courier,
-    monospace;
+  font-family:
+    ui-monospace, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   font-size: 1em;
 }
 
@@ -2324,8 +2324,8 @@ pre {
   margin-top: 0;
   margin-bottom: 0;
   font-size: 1em;
-  font-family: ui-monospace, Consolas, 'Liberation Mono', Menlo, Courier,
-    monospace;
+  font-family:
+    ui-monospace, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
 .octicon {
@@ -2453,7 +2453,7 @@ table {
   overflow: auto;
 }
 
-table tr:nth-child(2n+1) {
+table tr:nth-child(2n + 1) {
   background-color: Canvas;
 }
 
@@ -2531,7 +2531,7 @@ pre code::after {
   overflow-x: auto;
 }
 
-#feature-support-scrollbox th[scope=row] {
+#feature-support-scrollbox th[scope='row'] {
   position: sticky;
   left: -1px;
   background-color: inherit;

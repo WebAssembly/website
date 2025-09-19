@@ -16,6 +16,9 @@
     "type": "git",
     "url": "git+https://github.com/WebAssembly/website.git"
   },
+  "devDependencies": {
+    "prettier": "^3.6.2"
+  },
   "license": "Apache-2.0",
   "author": "Thomas Steiner (tomac@google.com)",
   "type": "module",
@@ -24,6 +27,6 @@
     ".": "./wasm-compat.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prettier": "npx prettier . --write"
   }
 }

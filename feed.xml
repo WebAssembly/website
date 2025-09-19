@@ -7,7 +7,7 @@
   <id>https://webassembly.org/</id>
   
   <entry>
-    <title>A <code>&lt;wasm-compat&gt;</code> custom element</title>
+    <title>A &lt;wasm-compat&gt; custom element</title>
     <author>
       <name>Thomas Steiner</name>
     </author>
@@ -17,22 +17,33 @@
     <summary>A &lt;wasm-compat&gt; custom element</summary>
     <content type="html"><![CDATA[<h1 id="a-ltwasm-compatgt-custom-element">A <code>&lt;wasm-compat&gt;</code> custom element</h1>
 
-<p><em>Published on September 17, 2025 by <a href="https://github.com/tomayac">Thomas Steiner</a>.</em></p>
+<p><em>Published on September 17, 2025 by
+<a href="https://github.com/tomayac">Thomas Steiner</a>.</em></p>
 
-<p>The <a href="https://webassembly.org/features/">Feature Status</a> table on the WebAssembly website shows the various engines’ support statuses in one handy global overview, including the support status in your own browser. That’s fantastic and what most people will usually resort to when they need compatibility information about Wasm features.</p>
+<p>The <a href="https://webassembly.org/features/">Feature Status</a> table on the WebAssembly
+website shows the various engines’ support statuses in one handy global
+overview, including the support status in your own browser. That’s fantastic and
+what most people will usually resort to when they need compatibility information
+about Wasm features.</p>
 
-<p>For the occasional case where you want to show a feature’s support status for the various Wasm engines in isolation, for example, in the context of an article, this is the custom element <code class="highlighter-rouge">&lt;wasm-compat&gt;</code> that you can use.</p>
+<p>For the occasional case where you want to show a feature’s support status for
+the various Wasm engines in isolation, for example, in the context of an
+article, this is the custom element <code class="highlighter-rouge">&lt;wasm-compat&gt;</code> that you can use.</p>
 
 <h2 id="installation">Installation</h2>
 
-<p>You can install the custom element from npm, use a CDN like <a href="https://unpkg.com/wasm-compat">unpkg.com</a>, or simply host the <a href="https://raw.githubusercontent.com/WebAssembly/website/refs/heads/main/js/wasm-compat.js">code</a> yourself.</p>
+<p>You can install the custom element from npm, use a CDN like
+<a href="https://unpkg.com/wasm-compat">unpkg.com</a>, or simply host the
+<a href="https://raw.githubusercontent.com/WebAssembly/website/refs/heads/main/js/wasm-compat.js">code</a>
+yourself.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>wasm-compat
 </code></pre></div></div>
 
 <h2 id="usage">Usage</h2>
 
-<p>The following code snippet shows you how to use it to display the support status for the <em>JS BigInt to Wasm i64 Integration</em> feature.</p>
+<p>The following code snippet shows you how to use it to display the support status
+for the <em>JS BigInt to Wasm i64 Integration</em> feature.</p>
 
 <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Load the script. Be sure to include the `type="module"` attribute. --&gt;</span>
 <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"module"</span> <span class="na">src=</span><span class="s">"wasm-compat.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
@@ -47,9 +58,16 @@
 <span class="nt">&lt;wasm-compat</span> <span class="na">wasm-feature=</span><span class="s">"bigInt"</span><span class="nt">&gt;&lt;/wasm-compat&gt;</span>
 </code></pre></div></div>
 
-<p>The value of the <code class="highlighter-rouge">wasm-feature</code> attribute is any of the <code class="highlighter-rouge">$.features</code> (in <a href="https://www.rfc-editor.org/rfc/rfc9535.html">JSONPath</a> notation) keys of the community-maintained <a href="https://github.com/WebAssembly/website/blob/main/features.json#L3"><code class="highlighter-rouge">features.json</code></a> file. For instance, in the case of the <em>JS BigInt to Wasm i64 Integration</em> feature, the key is <code class="highlighter-rouge">bigInt</code>.</p>
+<p>The value of the <code class="highlighter-rouge">wasm-feature</code> attribute is any of the <code class="highlighter-rouge">$.features</code> (in
+<a href="https://www.rfc-editor.org/rfc/rfc9535.html">JSONPath</a> notation) keys of the
+community-maintained
+<a href="https://github.com/WebAssembly/website/blob/main/features.json#L3"><code class="highlighter-rouge">features.json</code></a>
+file. For instance, in the case of the <em>JS BigInt to Wasm i64 Integration</em>
+feature, the key is <code class="highlighter-rouge">bigInt</code>.</p>
 
-<p>For the fun of it, the following section contains the support statuses for all currently documented features. If you prefer, there’s a simple <a href="/js/wasm-compat-test.html">test page</a> available with just one example.</p>
+<p>For the fun of it, the following section contains the support statuses for all
+currently documented features. If you prefer, there’s a simple
+<a href="/js/wasm-compat-test.html">test page</a> available with just one example.</p>
 
 <div id="wasm-compat-container"></div>
 
@@ -75,83 +93,190 @@
     <summary>Wasm 3.0 Completed</summary>
     <content type="html"><![CDATA[<h1 id="wasm-30-completed">Wasm 3.0 Completed</h1>
 
-<p><em>Published on September 17, 2025 by <a href="https://github.com/rossberg">Andreas Rossberg</a>.</em></p>
+<p><em>Published on September 17, 2025 by
+<a href="https://github.com/rossberg">Andreas Rossberg</a>.</em></p>
 
-<p>Three years ago, <a href="https://webassembly.org/news/2025-03-20-wasm-2.0/">version 2.0</a> of the Wasm standard was (essentially) finished, which brought a number of new features, such as vector instructions, bulk memory operations, multiple return values, and simple reference types.</p>
+<p>Three years ago,
+<a href="https://webassembly.org/news/2025-03-20-wasm-2.0/">version 2.0</a> of the Wasm
+standard was (essentially) finished, which brought a number of new features,
+such as vector instructions, bulk memory operations, multiple return values, and
+simple reference types.</p>
 
-<p>In the meantime, the Wasm W3C Community Group and Working Group have not been lazy. Today, we are happy to announce the release of <a href="https://webassembly.github.io/spec/">Wasm 3.0</a> as the new “live” standard.</p>
+<p>In the meantime, the Wasm W3C Community Group and Working Group have not been
+lazy. Today, we are happy to announce the release of
+<a href="https://webassembly.github.io/spec/">Wasm 3.0</a> as the new “live” standard.</p>
 
 <p><img src="/assets/wasm3_0.png" alt="Title page of the WebAssembly Specification, Release 3.0, 2025-09-17" /></p>
 
-<p>This is a substantially larger update: several big features, some of which have been in the making for six or eight years, finally made it over the finishing line.</p>
+<p>This is a substantially larger update: several big features, some of which have
+been in the making for six or eight years, finally made it over the finishing
+line.</p>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/memory64/Overview.md"><em>64-bit address space.</em></a> Memories and tables can now be declared to use <code class="highlighter-rouge">i64</code> as their address type instead of just <code class="highlighter-rouge">i32</code>. That expands the available address space of Wasm applications from 4 gigabytes to (theoretically) 16 exabytes, to the extent that physical hardware allows. While the web will necessarily keep enforcing certain limits — on the web, a 64-bit memory is limited to 16 gigabytes — the new flexibility is especially interesting for non-web ecosystems using Wasm, as they can support much, much larger applications and data sets now.</li>
+  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/memory64/Overview.md"><em>64-bit address space.</em></a>
+Memories and tables can now be declared to use <code class="highlighter-rouge">i64</code> as their address type
+instead of just <code class="highlighter-rouge">i32</code>. That expands the available address space of Wasm
+applications from 4 gigabytes to (theoretically) 16 exabytes, to the extent
+that physical hardware allows. While the web will necessarily keep enforcing
+certain limits — on the web, a 64-bit memory is limited to 16 gigabytes — the
+new flexibility is especially interesting for non-web ecosystems using Wasm,
+as they can support much, much larger applications and data sets now.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="memory64"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/multi-memory/Overview.md"><em>Multiple memories.</em></a> Contrary to popular belief, Wasm applications were always able to use multiple memory objects — and hence multiple address spaces — simultaneously. However, previously that was only possible by declaring and accessing each of them in separate modules. This gap has been closed, a single module can now declare (define or import) multiple memories and directly access them, including directly copying data between them. This finally allows tools like wasm-merge, which perform “static linking” on two or more Wasm modules by merging them into one, to work for <em>all</em> Wasm modules. It also paves the way for new uses of separate address spaces, e.g., for security (separating private data), for buffering, or for instrumentation.</li>
+  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/multi-memory/Overview.md"><em>Multiple memories.</em></a>
+Contrary to popular belief, Wasm applications were always able to use multiple
+memory objects — and hence multiple address spaces — simultaneously. However,
+previously that was only possible by declaring and accessing each of them in
+separate modules. This gap has been closed, a single module can now declare
+(define or import) multiple memories and directly access them, including
+directly copying data between them. This finally allows tools like wasm-merge,
+which perform “static linking” on two or more Wasm modules by merging them
+into one, to work for <em>all</em> Wasm modules. It also paves the way for new uses
+of separate address spaces, e.g., for security (separating private data), for
+buffering, or for instrumentation.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="multiMemory"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/gc/Overview.md"><em>Garbage collection.</em></a> In addition to expanding the capabilities of raw linear memories, Wasm also adds support for a new (and separate) form of storage that is automatically managed by the Wasm runtime via a garbage collector. Staying true to the spirit of Wasm as a low-level language, Wasm GC is low-level as well: a compiler targeting Wasm can declare the memory layout of its runtime data structures in terms of struct and array types, plus unboxed tagged integers, whose allocation and lifetime is then handled by Wasm. But that’s it. Everything else, such as engineering suitable representations for source-language values, including implementation details like method tables, remains the responsibility of compilers targeting Wasm. There are no built-in object systems, nor closures or other higher-level constructs — which would inevitably be heavily biased towards specific languages. Instead, Wasm only provides the basic building blocks for representing such constructs and focuses purely on the memory management aspect.</li>
+  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/gc/Overview.md"><em>Garbage collection.</em></a>
+In addition to expanding the capabilities of raw linear memories, Wasm also
+adds support for a new (and separate) form of storage that is automatically
+managed by the Wasm runtime via a garbage collector. Staying true to the
+spirit of Wasm as a low-level language, Wasm GC is low-level as well: a
+compiler targeting Wasm can declare the memory layout of its runtime data
+structures in terms of struct and array types, plus unboxed tagged integers,
+whose allocation and lifetime is then handled by Wasm. But that’s it.
+Everything else, such as engineering suitable representations for
+source-language values, including implementation details like method tables,
+remains the responsibility of compilers targeting Wasm. There are no built-in
+object systems, nor closures or other higher-level constructs — which would
+inevitably be heavily biased towards specific languages. Instead, Wasm only
+provides the basic building blocks for representing such constructs and
+focuses purely on the memory management aspect.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="gc"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/function-references/Overview.md"><em>Typed references.</em></a> The GC extension is built upon a substantial extension to the Wasm type system, which now supports much richer forms of references. Reference types can now describe the exact shape of the referenced heap value, avoiding additional runtime checks that would otherwise be needed to ensure safety. This more expressive typing mechanism, including subtyping and type recursion, is also available for function references, making it possible to perform safe indirect function calls without any runtime type or bounds check, through the new <code class="highlighter-rouge">call_ref</code> instruction.</li>
+  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/function-references/Overview.md"><em>Typed references.</em></a>
+The GC extension is built upon a substantial extension to the Wasm type
+system, which now supports much richer forms of references. Reference types
+can now describe the exact shape of the referenced heap value, avoiding
+additional runtime checks that would otherwise be needed to ensure safety.
+This more expressive typing mechanism, including subtyping and type recursion,
+is also available for function references, making it possible to perform safe
+indirect function calls without any runtime type or bounds check, through the
+new <code class="highlighter-rouge">call_ref</code> instruction.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="typedFunctionReferences"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/tail-call/Overview.md"><em>Tail calls.</em></a> Tail calls are a variant of function calls that immediately exit the current function, and thereby avoid taking up additional stack space. Tail calls are an important mechanism that is used in various language implementations both in user-visible ways (e.g., in functional languages) and for internal techniques (e.g., to implement stubs). Wasm tail calls are fully general and work for callees both selected statically (by function index) and dynamically (by reference or table).</li>
+  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/tail-call/Overview.md"><em>Tail calls.</em></a>
+Tail calls are a variant of function calls that immediately exit the current
+function, and thereby avoid taking up additional stack space. Tail calls are
+an important mechanism that is used in various language implementations both
+in user-visible ways (e.g., in functional languages) and for internal
+techniques (e.g., to implement stubs). Wasm tail calls are fully general and
+work for callees both selected statically (by function index) and dynamically
+(by reference or table).</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="tailCall"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/exception-handling/Exceptions.md"><em>Exception handling.</em></a> Exceptions provide a way to locally abort execution, and are a common feature in modern programming languages. Previously, there was no efficient way to compile exception handling to Wasm, and existing compilers typically resorted to convoluted ways of implementing them by escaping to the host language, e.g., JavaScript. This was neither portable nor efficient. Wasm 3.0 hence provides native exception handling within Wasm. Exceptions are defined by declaring exception tags with associated payload data. As one would expect, an exception can be thrown, and selectively be caught by a surrounding handler, based on its tag. Exception handlers are a new form of block instruction that includes a dispatch list of tag/label pairs or catch-all labels to define where to jump when an exception occurs.</li>
+  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/exception-handling/Exceptions.md"><em>Exception handling.</em></a>
+Exceptions provide a way to locally abort execution, and are a common feature
+in modern programming languages. Previously, there was no efficient way to
+compile exception handling to Wasm, and existing compilers typically resorted
+to convoluted ways of implementing them by escaping to the host language,
+e.g., JavaScript. This was neither portable nor efficient. Wasm 3.0 hence
+provides native exception handling within Wasm. Exceptions are defined by
+declaring exception tags with associated payload data. As one would expect, an
+exception can be thrown, and selectively be caught by a surrounding handler,
+based on its tag. Exception handlers are a new form of block instruction that
+includes a dispatch list of tag/label pairs or catch-all labels to define
+where to jump when an exception occurs.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="exceptionsFinal"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/relaxed-simd/Overview.md"><em>Relaxed vector instructions.</em></a> Wasm 2.0 added a large set of vector (SIMD) instructions, but due to differences in hardware, some of these instructions have to do extra work on some platforms to achieve the specified semantics. In order to squeeze out maximum performance, Wasm 3.0 introduces “relaxed” variants of these instructions that are allowed to have implementation-dependent behavior in certain edge cases. This behavior must be selected from a pre-specified set of legal choices.</li>
+  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/relaxed-simd/Overview.md"><em>Relaxed vector instructions.</em></a>
+Wasm 2.0 added a large set of vector (SIMD) instructions, but due to
+differences in hardware, some of these instructions have to do extra work on
+some platforms to achieve the specified semantics. In order to squeeze out
+maximum performance, Wasm 3.0 introduces “relaxed” variants of these
+instructions that are allowed to have implementation-dependent behavior in
+certain edge cases. This behavior must be selected from a pre-specified set of
+legal choices.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="relaxedSimd"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/profiles/blob/main/proposals/profiles/Overview.md"><em>Deterministic profile.</em></a> To make up for the added semantic fuzziness of relaxed vector instructions, and in order to support settings that demand or need deterministic execution semantics (such as blockchains, or replayable systems), the Wasm standard now specifies a deterministic default behavior for every instruction with otherwise non-deterministic results — currently, this includes floating-point operators and their generated NaN values and the aforementioned relaxed vector instructions. Between platforms choosing to implement this deterministic execution profile, Wasm thereby is fully deterministic, reproducible, and portable.</li>
+  <li><a href="https://github.com/WebAssembly/profiles/blob/main/proposals/profiles/Overview.md"><em>Deterministic profile.</em></a>
+To make up for the added semantic fuzziness of relaxed vector instructions,
+and in order to support settings that demand or need deterministic execution
+semantics (such as blockchains, or replayable systems), the Wasm standard now
+specifies a deterministic default behavior for every instruction with
+otherwise non-deterministic results — currently, this includes floating-point
+operators and their generated NaN values and the aforementioned relaxed vector
+instructions. Between platforms choosing to implement this deterministic
+execution profile, Wasm thereby is fully deterministic, reproducible, and
+portable.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="profiles"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/annotations/Overview.md"><em>Custom annotation syntax.</em></a> Finally, the Wasm text format has been enriched with generic syntax for placing annotations in Wasm source code. Analogous to custom sections in the binary format, these annotations are not assigned any meaning by the Wasm standard itself, and can be chosen to be ignored by implementations. However, they provide a way to represent the information stored in custom sections in human-readable and writable form, and concrete annotations can be specified by downstream standards.</li>
+  <li><a href="https://github.com/WebAssembly/spec/blob/wasm-3.0/proposals/annotations/Overview.md"><em>Custom annotation syntax.</em></a>
+Finally, the Wasm text format has been enriched with generic syntax for
+placing annotations in Wasm source code. Analogous to custom sections in the
+binary format, these annotations are not assigned any meaning by the Wasm
+standard itself, and can be chosen to be ignored by implementations. However,
+they provide a way to represent the information stored in custom sections in
+human-readable and writable form, and concrete annotations can be specified by
+downstream standards.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="customAnnotationSyntaxInTheTextFormat"></wasm-compat>
 
-<p>In addition to these core features, embeddings of Wasm into JavaScript benefit from a new extension to the JS API:</p>
+<p>In addition to these core features, embeddings of Wasm into JavaScript benefit
+from a new extension to the JS API:</p>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/js-string-builtins/blob/main/proposals/js-string-builtins/Overview.md"><em>JS string builtins.</em></a> JavaScript string values can already be passed to Wasm as externrefs. Functions from this new primitive library can be imported into a Wasm module to directly access and manipulate such external string values inside Wasm.</li>
+  <li><a href="https://github.com/WebAssembly/js-string-builtins/blob/main/proposals/js-string-builtins/Overview.md"><em>JS string builtins.</em></a>
+JavaScript string values can already be passed to Wasm as externrefs.
+Functions from this new primitive library can be imported into a Wasm module
+to directly access and manipulate such external string values inside Wasm.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="jsStringBuiltins"></wasm-compat>
 
-<p>With these new features, Wasm has much better support for compiling high-level programming languages. Enabled by this, we have seen various new languages popping up to target Wasm, such as <a href="https://github.com/google/j2cl/blob/master/docs/getting-started-j2wasm.md">Java</a>, <a href="https://dune.readthedocs.io/en/stable/wasmoo.html">OCaml</a>, <a href="https://www.scala-js.org/doc/project/webassembly.html">Scala</a>, <a href="https://kotlinlang.org/docs/wasm-overview.html">Kotlin</a>, <a href="https://spritely.institute/hoot/">Scheme</a>, or <a href="https://dart.dev/web/wasm">Dart</a>, all of which use the new GC feature.</p>
+<p>With these new features, Wasm has much better support for compiling high-level
+programming languages. Enabled by this, we have seen various new languages
+popping up to target Wasm, such as
+<a href="https://github.com/google/j2cl/blob/master/docs/getting-started-j2wasm.md">Java</a>,
+<a href="https://dune.readthedocs.io/en/stable/wasmoo.html">OCaml</a>,
+<a href="https://www.scala-js.org/doc/project/webassembly.html">Scala</a>,
+<a href="https://kotlinlang.org/docs/wasm-overview.html">Kotlin</a>,
+<a href="https://spritely.institute/hoot/">Scheme</a>, or
+<a href="https://dart.dev/web/wasm">Dart</a>, all of which use the new GC feature.</p>
 
-<p>On top of all these goodies, Wasm 3.0 also is the first version of the standard that has been produced with the new <a href="https://webassembly.org/news/2025-03-27-spectec/">SpecTec</a> tool chain. We believe that this makes for an even more reliable specification.</p>
+<p>On top of all these goodies, Wasm 3.0 also is the first version of the standard
+that has been produced with the new
+<a href="https://webassembly.org/news/2025-03-27-spectec/">SpecTec</a> tool chain. We
+believe that this makes for an even more reliable specification.</p>
 
-<p>Wasm 3.0 is already shipping in most major web browsers, and support in stand-alone engines like Wasmtime is on track to completion as well. The <a href="https://webassembly.org/features/">Wasm feature status</a> page tracks support across engines.</p>
+<p>Wasm 3.0 is already shipping in most major web browsers, and support in
+stand-alone engines like Wasmtime is on track to completion as well. The
+<a href="https://webassembly.org/features/">Wasm feature status</a> page tracks support
+across engines.</p>
 ]]></content>
   </entry>
   
@@ -244,8 +369,8 @@ tedious and error-prone, especially since neither reStructuredText (Sphinx) nor
 LaTeX, — the formats in which the Wasm spec document is written — where designed
 with readability or effective diffs in mind. We had to hack around the
 shortcomings of both with shell scripts and fragile Sphinx plug-ins, in an
-attempt to address some of their more serious problems, like the lack of macros or
-layout-sensitive markup rules.</p>
+attempt to address some of their more serious problems, like the lack of macros
+or layout-sensitive markup rules.</p>
 
 <p>And then there are projects like <a href="https://github.com/WasmCert">WasmCert</a>, which
 maintain Wasm’s mechanized soundness proof and other formal methods
@@ -255,8 +380,8 @@ translation to yet another formulation, which, while closely mirroring the
 formal rules structurally, is very different syntactically. It has been a
 challenge for WasmCert to keep up with the pace of Wasm’s evolution, and both
 its mechanizations still only cover (most of)
-<a href="../2025-03-20-wasm-2.0/">Wasm 2.0</a>, although many new proposals have
-already been merged in the meantime.</p>
+<a href="../2025-03-20-wasm-2.0/">Wasm 2.0</a>, although many new proposals have already
+been merged in the meantime.</p>
 
 <p>We knew that we would eventually get this problem. However, when we first wrote
 the Wasm spec back in 2017, there was no better way: we neither had the
@@ -271,8 +396,8 @@ sat together between several groups of researchers and discussed the prospect of
 automating parts of the spec-writing and verification process. The idea quickly
 grew into designing a domain-specific language (DSL), in which the syntax and
 semantics of Wasm can be specified faithfully, and then generating all the
-mentioned artifacts from that <em>single source of truth</em>. Lacking better
-ideas, we called the DSL
+mentioned artifacts from that <em>single source of truth</em>. Lacking better ideas, we
+called the DSL
 “<a href="https://people.mpi-sws.org/~rossberg/papers/Youn,%20Shin,%20Lee,%20Ryu,%20Breitner,%20Gardner,%20Lindley,%20Pretnar,%20Xiaojia,%20Watt,%20Rossberg%20-%20Bringing%20the%20WebAssembly%20Standard%20up%20to%20Speed%20with%20SpecTec.pdf">SpecTec</a>”.</p>
 
 <p>SpecTec allows
@@ -306,8 +431,8 @@ description of Wasm’s execution semantics expressed in SpecTec and can “run�
 that, e.g., on an actual Wasm module. That way, we can feed the Wasm test suite
 to it, and indeed, all applicable tests pass!</p>
 
-<p>This gives a whole new level of assurance (indicated by the yellow chalk arrows in
-the picture), that the <em>prose specification</em> that you’ll read in the rendered
+<p>This gives a whole new level of assurance (indicated by the yellow chalk arrows
+in the picture), that the <em>prose specification</em> that you’ll read in the rendered
 document actually is correct and defines what we think it defines! That was not
 the case before, and indeed, while developing SpecTec, we discovered numerous
 bugs in the hand-crafted prose, and there are probably many more we didn’t spot.
@@ -318,8 +443,8 @@ decoding and validation; hence this only tells us something about execution. In
 the future, we hope to make it more self-contained.)</p>
 
 <p>In a similar vein, SpecTec can generate definitions representing the Wasm
-semantics in <a href="https://coq.inria.fr">Coq/Rocq</a>, the dominant proof assistant in the
-area of programming languages. We have started porting the proofs from the
+semantics in <a href="https://coq.inria.fr">Coq/Rocq</a>, the dominant proof assistant in
+the area of programming languages. We have started porting the proofs from the
 hand-written WasmCert mechanization, and can already handle soundness for the
 Wasm 1.0 subset. Scaling to the full language is work in progress.</p>
 
@@ -392,59 +517,100 @@ written manually. We plan to convert these over after Wasm 3.0, but in due time.
     <summary>Wasm 2.0 Completed</summary>
     <content type="html"><![CDATA[<h1 id="wasm-20-completed">Wasm 2.0 Completed</h1>
 
-<p><em>Published on March 20, 2025 by <a href="https://github.com/rossberg">Andreas Rossberg</a>.</em></p>
+<p><em>Published on March 20, 2025 by
+<a href="https://github.com/rossberg">Andreas Rossberg</a>.</em></p>
 
 <p>As of last December, release 2.0 of the Wasm specification is “official”!</p>
 
 <p><img src="/assets/wasm2_0.png" alt="Screenshot of W3C site" /></p>
 
-<p>If you have been following the developments of the Wasm standard, then version 2.0 may sound like rather old news to you. And indeed, the Wasm Community and Working Groups had reached consensus and finished the specification in early 2022. All major implementations have been shipping 2.0 for even longer. But for a variety of non-technical reasons, it took a while for it to advance through the W3C process and reach the status of “Candidate Recommendation”.</p>
+<p>If you have been following the developments of the Wasm standard, then version
+2.0 may sound like rather old news to you. And indeed, the Wasm Community and
+Working Groups had reached consensus and finished the specification in
+early 2022. All major implementations have been shipping 2.0 for even longer.
+But for a variety of non-technical reasons, it took a while for it to advance
+through the W3C process and reach the status of “Candidate Recommendation”.</p>
 
-<p>With the advent of 2.0, the Working Group is switching to a so-called “evergreen” model for future releases. That means that the Candidate Recommendation will be updated in place when we create new versions of the language, without ever technically moving it to the final Recommendation state. For all intents and purposes, the latest <a href="https://www.w3.org/TR/wasm-core-2/">Candidate Recommendation Draft</a> is considered to be the current standard, representing the consensus of the Community Group and Working Group. (If this sounds odd, that’s mostly because the W3C’s document terminology does not quite match this more flexible process, which has recently been adopted by several working groups.)</p>
+<p>With the advent of 2.0, the Working Group is switching to a so-called
+“evergreen” model for future releases. That means that the Candidate
+Recommendation will be updated in place when we create new versions of the
+language, without ever technically moving it to the final Recommendation state.
+For all intents and purposes, the latest
+<a href="https://www.w3.org/TR/wasm-core-2/">Candidate Recommendation Draft</a> is
+considered to be the current standard, representing the consensus of the
+Community Group and Working Group. (If this sounds odd, that’s mostly because
+the W3C’s document terminology does not quite match this more flexible process,
+which has recently been adopted by several working groups.)</p>
 
-<p>For the most up-to-date version of the current specification, we recommend looking at the documents hosted on our <a href="https://webassembly.github.io/spec/">GitHub page</a>. This always includes the latest fixes and offers multiple different formats for reading and browsing.</p>
+<p>For the most up-to-date version of the current specification, we recommend
+looking at the documents hosted on our
+<a href="https://webassembly.github.io/spec/">GitHub page</a>. This always includes the
+latest fixes and offers multiple different formats for reading and browsing.</p>
 
-<p>For those who are not following the evolution of Wasm as closely, here is the summary of the additions in version 2.0 of the language:</p>
+<p>For those who are not following the evolution of Wasm as closely, here is the
+summary of the additions in version 2.0 of the language:</p>
 
 <ul>
-  <li><a href="https://github.com/webassembly/simd"><em>Vector instructions</em></a>: With a massive 236 new instructions — more than the total number Wasm had before — it now supports 128-bit wide SIMD (single instruction, multiple data) functionality of contemporary CPUs, like Intel’s SSE or ARM’s SVE. This helps speeding up certain classes of compute-intense applications like audio/video codecs, machine learning, and some cryptography.</li>
+  <li><a href="https://github.com/webassembly/simd"><em>Vector instructions</em></a>: With a massive
+236 new instructions — more than the total number Wasm had before — it now
+supports 128-bit wide SIMD (single instruction, multiple data) functionality
+of contemporary CPUs, like Intel’s SSE or ARM’s SVE. This helps speeding up
+certain classes of compute-intense applications like audio/video codecs,
+machine learning, and some cryptography.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="simd"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/bulk-memory-operations"><em>Bulk memory instructions</em></a>: A set of new instructions allows faster copying and initialization of regions of memory or ranges of tables.</li>
+  <li><a href="https://github.com/WebAssembly/bulk-memory-operations"><em>Bulk memory instructions</em></a>:
+A set of new instructions allows faster copying and initialization of regions
+of memory or ranges of tables.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="bulkMemory"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/multi-value"><em>Multi-value results</em></a>: Instructions, blocks, and functions can now return more than one result value, sometimes supporting faster calling conventions and avoiding indirections. In addition, block instructions now also can have inputs, enabling new program transformations.</li>
+  <li><a href="https://github.com/WebAssembly/multi-value"><em>Multi-value results</em></a>:
+Instructions, blocks, and functions can now return more than one result value,
+sometimes supporting faster calling conventions and avoiding indirections. In
+addition, block instructions now also can have inputs, enabling new program
+transformations.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="multiValue"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/reference-types"><em>Reference types</em></a>: References to functions or pointers to external objects (e.g., JavaScript values) become available as opaque first-class values. Tables are repurposed as a general storage for such reference values, and new instructions allow accessing and mutating tables in Wasm code. In addition, modules now may define multiple tables of different types.</li>
+  <li><a href="https://github.com/WebAssembly/reference-types"><em>Reference types</em></a>:
+References to functions or pointers to external objects (e.g., JavaScript
+values) become available as opaque first-class values. Tables are repurposed
+as a general storage for such reference values, and new instructions allow
+accessing and mutating tables in Wasm code. In addition, modules now may
+define multiple tables of different types.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="referenceTypes"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions"><em>Non-trapping conversions</em></a>: Additional instructions allow the conversion from float to integer types without the risk of trapping unexpectedly.</li>
+  <li><a href="https://github.com/WebAssembly/nontrapping-float-to-int-conversions"><em>Non-trapping conversions</em></a>:
+Additional instructions allow the conversion from float to integer types
+without the risk of trapping unexpectedly.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="saturatedFloatToInt"></wasm-compat>
 
 <ul>
-  <li><a href="https://github.com/WebAssembly/sign-extension-ops"><em>Sign extension instructions</em></a>: A new group of instructions allows directly extending the width of signed integer value. Previously that was only possible when reading from memory.</li>
+  <li><a href="https://github.com/WebAssembly/sign-extension-ops"><em>Sign extension instructions</em></a>:
+A new group of instructions allows directly extending the width of signed
+integer value. Previously that was only possible when reading from memory.</li>
 </ul>
 
 <wasm-compat hide-header="" wasm-feature="signExtensions"></wasm-compat>
 
-<p>It goes without saying that Wasm 2.0 is fully backwards-compatible with 1.0, that is, every valid program remains valid and preserves its behaviour.</p>
+<p>It goes without saying that Wasm 2.0 is fully backwards-compatible with 1.0,
+that is, every valid program remains valid and preserves its behaviour.</p>
 
-<p>In a future post we will take a look at Wasm 3.0, which is already around the corner at this point!</p>
+<p>In a future post we will take a look at Wasm 3.0, which is already around the
+corner at this point!</p>
 ]]></content>
   </entry>
   
@@ -461,7 +627,8 @@ written manually. We plan to convert these over after Wasm 3.0, but in due time.
 
 <p><em>Published on March 19, 2025 by <a href="https://github.com/tomayac">Thomas Steiner</a>.</em></p>
 
-<p>We launched something new 🎉! A <a href="/news/">News</a> section for the WebAssembly homepage!</p>
+<p>We launched something new 🎉! A <a href="/news/">News</a> section for the WebAssembly
+homepage!</p>
 
 <p><img src="/assets/wasm-cups.png" alt="Two cups with the WebAssembly logo" /></p>
 ]]></content>

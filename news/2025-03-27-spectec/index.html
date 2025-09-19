@@ -49,8 +49,7 @@
     
 
 <section>
-  <div class="container">
-    <h1 id="spectec-has-been-adopted">SpecTec has been adopted</h1>
+  <div class="container"><h1 id="spectec-has-been-adopted">SpecTec has been adopted</h1>
 
 <p><em>Published on March 27, 2025 by
 <a href="https://github.com/rossberg">Andreas Rossberg</a>.</em></p>
@@ -130,8 +129,8 @@ tedious and error-prone, especially since neither reStructuredText (Sphinx) nor
 LaTeX, — the formats in which the Wasm spec document is written — where designed
 with readability or effective diffs in mind. We had to hack around the
 shortcomings of both with shell scripts and fragile Sphinx plug-ins, in an
-attempt to address some of their more serious problems, like the lack of macros or
-layout-sensitive markup rules.</p>
+attempt to address some of their more serious problems, like the lack of macros
+or layout-sensitive markup rules.</p>
 
 <p>And then there are projects like <a href="https://github.com/WasmCert">WasmCert</a>, which
 maintain Wasm’s mechanized soundness proof and other formal methods
@@ -141,8 +140,8 @@ translation to yet another formulation, which, while closely mirroring the
 formal rules structurally, is very different syntactically. It has been a
 challenge for WasmCert to keep up with the pace of Wasm’s evolution, and both
 its mechanizations still only cover (most of)
-<a href="../2025-03-20-wasm-2.0/">Wasm 2.0</a>, although many new proposals have
-already been merged in the meantime.</p>
+<a href="../2025-03-20-wasm-2.0/">Wasm 2.0</a>, although many new proposals have already
+been merged in the meantime.</p>
 
 <p>We knew that we would eventually get this problem. However, when we first wrote
 the Wasm spec back in 2017, there was no better way: we neither had the
@@ -157,8 +156,8 @@ sat together between several groups of researchers and discussed the prospect of
 automating parts of the spec-writing and verification process. The idea quickly
 grew into designing a domain-specific language (DSL), in which the syntax and
 semantics of Wasm can be specified faithfully, and then generating all the
-mentioned artifacts from that <em>single source of truth</em>. Lacking better
-ideas, we called the DSL
+mentioned artifacts from that <em>single source of truth</em>. Lacking better ideas, we
+called the DSL
 “<a href="https://people.mpi-sws.org/~rossberg/papers/Youn,%20Shin,%20Lee,%20Ryu,%20Breitner,%20Gardner,%20Lindley,%20Pretnar,%20Xiaojia,%20Watt,%20Rossberg%20-%20Bringing%20the%20WebAssembly%20Standard%20up%20to%20Speed%20with%20SpecTec.pdf">SpecTec</a>”.</p>
 
 <p>SpecTec allows
@@ -192,8 +191,8 @@ description of Wasm’s execution semantics expressed in SpecTec and can “run�
 that, e.g., on an actual Wasm module. That way, we can feed the Wasm test suite
 to it, and indeed, all applicable tests pass!</p>
 
-<p>This gives a whole new level of assurance (indicated by the yellow chalk arrows in
-the picture), that the <em>prose specification</em> that you’ll read in the rendered
+<p>This gives a whole new level of assurance (indicated by the yellow chalk arrows
+in the picture), that the <em>prose specification</em> that you’ll read in the rendered
 document actually is correct and defines what we think it defines! That was not
 the case before, and indeed, while developing SpecTec, we discovered numerous
 bugs in the hand-crafted prose, and there are probably many more we didn’t spot.
@@ -204,8 +203,8 @@ decoding and validation; hence this only tells us something about execution. In
 the future, we hope to make it more self-contained.)</p>
 
 <p>In a similar vein, SpecTec can generate definitions representing the Wasm
-semantics in <a href="https://coq.inria.fr">Coq/Rocq</a>, the dominant proof assistant in the
-area of programming languages. We have started porting the proofs from the
+semantics in <a href="https://coq.inria.fr">Coq/Rocq</a>, the dominant proof assistant in
+the area of programming languages. We have started porting the proofs from the
 hand-written WasmCert mechanization, and can already handle soundness for the
 Wasm 1.0 subset. Scaling to the full language is work in progress.</p>
 
@@ -264,11 +263,11 @@ most part, it looks not too different from the hand-crafted document.</p>
 intentionally designed the tool to allow incremental conversion. Notably, the
 sections on numeric primitives and on the text format are currently still
 written manually. We plan to convert these over after Wasm 3.0, but in due time.</p>
-
-  </div>
+</div>
 </section>
   <footer class="container">
     <dark-mode-toggle dark="Light Mode" light="Dark Mode" permanent></dark-mode-toggle>
   </footer>
   </body>
 </html>
+
