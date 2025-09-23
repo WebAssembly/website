@@ -438,6 +438,7 @@
         "customAnnotationSyntaxInTheTextFormat": true,
         "customPageSizes": ["flag", "Requires flag `--wasm=custom-page-sizes`"],
         "esmIntegration": null,
+        "exceptionsFinal": ["flag", "Requires flag `--wasm=exceptions`"],
         "extendedConst": "25",
         "gc": ["flag", "Requires flag `--wasm=gc`"],
         "jspi": null,
