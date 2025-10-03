@@ -10,6 +10,7 @@
     "start": "bundle exec jekyll serve",
     "prettier": "npx prettier . --write",
     "optimize-svgs": "node scripts/optimize-svgs.js",
+    "sync-youtube": "node --env-file .env ./scripts/sync-youtube.js",
     "copy-js": "shx cp ./node_modules/dark-mode-toggle/dist/* ./js/"
   },
   "keywords": [
@@ -20,11 +21,12 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "prettier": "^3.6.2",
-    "svgo": "^4.0.0",
-    "shx": "^0.4.0"
+    "shx": "^0.4.0",
+    "svgo": "^4.0.0"
   },
   "type": "module",
   "dependencies": {
-    "dark-mode-toggle": "^0.17.0"
+    "dark-mode-toggle": "^0.17.0",
+    "googleapis": "^161.0.0"
   }
 }
