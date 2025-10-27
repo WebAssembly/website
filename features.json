@@ -29,7 +29,7 @@
     "customPageSizes": {
       "description": "Custom Page Sizes",
       "url": "https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md",
-      "phase": 3
+      "phase": 2
     },
     "esmIntegration": {
       "description": "ESM Integration",
@@ -128,7 +128,7 @@
     },
     "stackSwitching": {
       "description": "Stack Switching",
-      "url": "https://github.com/WebAssembly/stack-switching",
+      "url": "https://github.com/WebAssembly/stack-switching/blob/main/proposals/stack-switching/Explainer.md",
       "phase": 2
     },
     "tailCall": {
@@ -154,7 +154,7 @@
     "webContentSecurityPolicy": {
       "description": "Web Content Security Policy",
       "url": "https://github.com/WebAssembly/content-security-policy/blob/main/proposals/CSP.md",
-      "phase": 3
+      "phase": 4
     },
     "wideArithmetic": {
       "description": "Wide Arithmetic",
