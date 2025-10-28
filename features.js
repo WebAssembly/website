@@ -112,7 +112,7 @@
       features: featureGroups[2],
     },
     { name: 'Phase 1 - Feature Proposal', features: featureGroups[1] },
-    { name: 'Deprecated', features: featureGroups['deprecated'] },
+    { name: 'Inactive', features: featureGroups['inactive'] },
   ];
 
   // Collect all notes and assign an index to each unique item

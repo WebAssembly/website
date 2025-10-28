@@ -12,7 +12,7 @@
         "phase": {
           "anyOf": [
             { "type": "integer", "minimum": 1 },
-            { "const": "deprecated" }
+            { "const": "inactive" }
           ]
         }
       },
