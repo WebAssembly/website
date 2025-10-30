@@ -2587,7 +2587,6 @@ pre code::after {
 
 #feature-support th img {
   max-height: 32px;
-  max-width: 32px;
 }
 
 .feature-cell {
