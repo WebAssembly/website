@@ -57,8 +57,8 @@
         ...Object.entries(browsers).map(([name, { url, logo }]) =>
           h('th', { scope: 'col', id: idMap['table-col'](name) }, [
             h('a', { href: url, target: '_blank' }, [
-              // https://www.w3.org/WAI/WCAG22/Techniques/html/H2
-              h('img', { src: logo, height: 32, alt: '' }),
+              // Empty alt trick: https://www.w3.org/WAI/WCAG22/Techniques/html/H2
+              h('img', { src: logo, alt: '' }),
               h('br'),
               name,
             ]),
