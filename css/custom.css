@@ -2585,6 +2585,11 @@ pre code::after {
   background: rgba(0, 0, 0, 0.04);
 }
 
+#feature-support th img {
+  max-height: 32px;
+  max-width: 32px;
+}
+
 .feature-cell {
   position: relative;
   height: 24px; /* height of the icon inside */
