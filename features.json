@@ -96,6 +96,11 @@
       "url": "https://github.com/WebAssembly/instrument-tracing/blob/main/proposals/instrument-tracing/Overview.md",
       "phase": "inactive"
     },
+    "jitInterface": {
+      "description": "JIT Interface",
+      "url": "https://github.com/WebAssembly/jit-interface/blob/main/proposals/jit-interface/Explainer.md",
+      "phase": 1
+    },
     "jsPrimitiveBuiltins": {
       "description": "JS Primitive Builtins",
       "url": "https://github.com/WebAssembly/js-primitive-builtins/blob/main/proposals/js-primitive-builtins/Overview.md",
@@ -117,13 +122,18 @@
       "phase": 5
     },
     "memoryControl": {
-      "description": "Memory control",
+      "description": "Memory Control",
       "url": "https://github.com/WebAssembly/memory-control/blob/main/proposals/memory-control/Overview.md",
       "phase": 1
     },
     "moreArrayConstructors": {
-      "description": "More array constructors",
+      "description": "More Array Constructors",
       "url": "https://github.com/WebAssembly/more-array-constructors/blob/main/proposals/more-array-constructors/Overview.md",
+      "phase": 1
+    },
+    "multibyteArrayAccess": {
+      "description": "Multibyte Array Access",
+      "url": "https://github.com/WebAssembly/multibyte-array-access",
       "phase": 1
     },
     "multiMemory": {
@@ -157,7 +167,7 @@
       "phase": 5
     },
     "relaxedDeadCodeValidation": {
-      "description": "Relaxed dead code validation",
+      "description": "Relaxed Dead Code Validation",
       "url": "https://github.com/WebAssembly/relaxed-dead-code-validation/blob/main/proposals/relaxed-dead-code-validation/Overview.md",
       "phase": 2
     },
