@@ -609,6 +609,39 @@
         "typeReflection": null,
         "webContentSecurityPolicy": null
       }
+    },
+    "wizard": {
+      "url": "https://github.com/titzer/wizard-engine",
+      "logo": "/images/wizard.svg",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": "25",
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "exceptionsFinal": "24",
+        "exceptions": "24",
+        "extendedConst": "25",
+        "esmIntegration": null,
+        "gc": "24",
+        "jspi": null,
+        "jsStringBuiltins": null,
+        "memory64": "25",
+        "multiMemory": "25",
+        "tailCall": "25",
+        "customPageSizes": ["flag", "Requires flag `--ext:custom-page-sizes`"],
+        "multiValue": "21",
+        "multiMemory": "24",
+        "mutableGlobals": "21",
+        "referenceTypes": "21",
+        "relaxedSimd": "25",
+        "saturatedFloatToInt": "21",
+        "signExtensions": "21",
+        "simd": "23",
+        "stackSwitching": ["flag", "Requires flag `--ext:stack-switching`"],
+        "threads": ["flag", "Requires flag `--ext:threads`"],
+        "typedFunctionReferences": "24",
+        "typeReflection": null,
+        "webContentSecurityPolicy": null
+      }
     }
   }
 }
