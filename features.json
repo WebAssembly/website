@@ -636,7 +636,7 @@
         "saturatedFloatToInt": "21",
         "signExtensions": "21",
         "simd": "23",
-	"stackSwitching": ["flag", "Requires flag `--ext:stack-switching`"],
+        "stackSwitching": ["flag", "Requires flag `--ext:stack-switching`"],
         "threads": ["flag", "Requires flag `--ext:threads`"],
         "typedFunctionReferences": "24",
         "typeReflection": null,
