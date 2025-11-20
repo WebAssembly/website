@@ -621,7 +621,7 @@
         "exceptions": "24",
         "extendedConst": "25",
         "esmIntegration": null,
-        "gc": "24"
+        "gc": "24",
         "jspi": null,
         "jsStringBuiltins": null,
         "memory64": "25",
