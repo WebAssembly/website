@@ -644,7 +644,7 @@
       }
     },
     "wazero": {
-      "url": "https://https://wazero.io",
+      "url": "https://wazero.io",
       "logo": "/images/wazero.svg",
       "features": {
         "bigInt": null,
