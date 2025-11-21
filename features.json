@@ -642,6 +642,39 @@
         "typeReflection": null,
         "webContentSecurityPolicy": null
       }
+    },
+    "wazero": {
+      "url": "https://https://wazero.io",
+      "logo": "/images/wazero.svg",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": null,
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "exceptionsFinal": null,
+        "exceptions": null,
+        "extendedConst": null,
+        "esmIntegration": null,
+        "gc": null,
+        "jspi": null,
+        "jsStringBuiltins": null,
+        "memory64": null,
+        "multiMemory": null,
+        "tailCall": null,
+        "customPageSizes": null,
+        "multiValue": null,
+        "multiMemory": null,
+        "mutableGlobals": null,
+        "referenceTypes": null,
+        "relaxedSimd": null,
+        "saturatedFloatToInt": null,
+        "signExtensions": null,
+        "simd": null,
+        "stackSwitching": null,
+        "threads": null,
+        "typedFunctionReferences": null,
+        "typeReflection": null,
+        "webContentSecurityPolicy": null
+      }
     }
   }
 }
