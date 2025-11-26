@@ -675,6 +675,39 @@
         "typeReflection": null,
         "webContentSecurityPolicy": null
       }
+    },
+    "Owi": {
+      "url": "https://github.com/ocamlpro/owi",
+      "logo": "/images/owi.png",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": true,
+        "customAnnotationSyntaxInTheTextFormat": true,
+        "exceptionsFinal": false,
+        "exceptions": false,
+        "extendedConst": true,
+        "esmIntegration": null,
+        "gc": false,
+        "jspi": null,
+        "jsStringBuiltins": null,
+        "memory64": false,
+        "multiMemory": false,
+        "tailCall": true,
+        "customPageSizes": false,
+        "multiValue": true,
+        "multiMemory": false,
+        "mutableGlobals": true,
+        "referenceTypes": true,
+        "relaxedSimd": false,
+        "saturatedFloatToInt": true,
+        "signExtensions": true,
+        "simd": false,
+        "stackSwitching": false,
+        "threads": false,
+        "typedFunctionReferences": true,
+        "typeReflection": false,
+        "webContentSecurityPolicy": null
+      }
     }
   }
 }
