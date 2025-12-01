@@ -204,7 +204,7 @@
     "stackSwitching": {
       "description": "Stack Switching",
       "url": "https://github.com/WebAssembly/stack-switching/blob/main/proposals/stack-switching/Explainer.md",
-      "phase": 2
+      "phase": 3
     },
     "stringref": {
       "description": "Reference-Typed Strings",
