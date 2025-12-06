@@ -1,0 +1,136 @@
+:host {
+  display: block;
+  width: min-content;
+  max-width: 95vw;
+  margin: 0 50%;
+  margin-bottom: 2em;
+  transform: translateX(-50%);
+  overflow-x: auto;
+  font-size: 14.5px;
+}
+
+[x-cloak] {
+  display: none !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+table {
+  width: min-content;
+  display: grid;
+  grid-template-columns: minmax(12em, 1fr) repeat(
+      calc(var(--num-columns) - 1),
+      1fr
+    );
+  justify-content: center;
+  align-items: stretch;
+
+  --border: 1px solid light-dark(rgb(0 0 0 / 15%), rgb(255 255 255 / 40%));
+  border: var(--border);
+  border-radius: 4px;
+}
+
+thead,
+tbody,
+tr {
+  display: contents;
+}
+
+th,
+td {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8px 10px;
+}
+
+table > :first-child tr:not(:first-child) :is(th, td),
+table > :not(:first-child) tr :is(th, td) {
+  border-top: var(--border);
+}
+
+tr > :not(:first-child) {
+  border-left: var(--border);
+}
+
+thead th {
+  justify-content: end;
+}
+
+tbody tr:first-of-type th {
+  grid-column: 1 / -1;
+}
+
+th[scope='colgroup'] {
+  font-weight: 600;
+}
+
+th[scope='row'] {
+  text-wrap: balance;
+}
+
+th img {
+  max-width: 100%;
+  max-height: 32px;
+  height: auto;
+}
+
+td {
+  justify-content: start;
+  gap: 4px;
+}
+
+:host([data-color-scheme^='dark']) td {
+  filter: brightness(2.5);
+}
+
+td svg,
+td *:has(> svg) {
+  width: 20px;
+  height: 20px;
+}
+
+.status-yes {
+  color: light-dark(#0c3d10, #095b10);
+  fill: light-dark(#5c6b5d, #3d4e3e);
+}
+
+.status-no {
+  color: #863e5a;
+  fill: #86556f;
+}
+
+.status-experimental {
+  color: #3f63b7;
+  fill: #3f63b7;
+}
+
+.status-not-applicable,
+.status-unknown {
+  color: #52656f;
+  fill: #78909c;
+}
+
+.status-unknown svg {
+  padding: 1.5px;
+}
+
+.icon-note {
+  width: 0.9lh;
+  height: 0.9lh;
+  padding: 0.085lh 0;
+}
+
+.icon-note svg {
+  width: 100%;
+  height: 100%;
+  fill: #78909c;
+}
