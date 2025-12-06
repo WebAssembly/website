@@ -35,15 +35,19 @@
               <th scope="row">
                 <a x-bind:href="feature.url" x-text="feature.description" target="_blank"></a>
               </th>
-              <td x-bind:class="classForStatus(yourBrowser[feature.id])">
-                <div x-html="yourBrowser[feature.id] ? iconForStatus(yourBrowser[feature.id]) : iconWhenLoading"></div>
-                <div x-show="labelForStatus(yourBrowser[feature.id])" x-text="labelForStatus(yourBrowser[feature.id])"></div>
-              </td>
-              <template x-for="status in Object.values(platforms).map(p => p.features[feature.id])">
-                <td x-bind:class="classForStatus(status)">
-                  <div x-html="iconForStatus(status)"></div>
-                  <div x-show="labelForStatus(status)" x-text="labelForStatus(status)"></div>
-                  <div x-show="status.note" class="icon-note" x-html="iconForNote"></div>
+              <template x-for="[platformName, status] in supportForPlatforms(feature.id)">
+                <td x-id="['cell-details']">
+                  <button type="button" class="cell" x-bind:class="classForStatus(status)" title="Toggle details" x-on:click="toggleFeatureDetails(status)" x-bind:aria-expanded="String(status?.expanded ?? false)" x-bind:aria-controls="$id('cell-details')">
+                    <div x-html="iconForStatus(status)"></div>
+                    <div x-show="labelForStatus(status)" x-text="labelForStatus(status)"></div>
+                    <div x-show="status?.note" class="icon-note" x-html="iconForNote"></div>
+                  </button>
+                  <div class="details" x-bind:id="$id('cell-details')" x-bind:hidden="!status?.expanded">
+                    <div class="details-inner">
+                      <div class="details-label" x-text="detailsLabelForStatus(status, platformName)"></div>
+                      <div class="details-note" x-show="status?.note" x-html="renderNote(status?.note)"></div>
+                    </div>
+                  </div>
                 </td>
               </template>
             </tr>

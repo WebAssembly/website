@@ -24,6 +24,37 @@ Object.groupBy ??= function groupBy(iterable, callbackfn) {
   return obj;
 };
 
+/**
+ * @template {object} T
+ * @template R
+ * @param {T} obj
+ * @param {(value: T[keyof T], key: keyof T) => R} mapper
+ * @returns {{ [K in keyof T]: R }}
+ */
+function mapValues(obj, mapper) {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [key, mapper(value, key)])
+  );
+}
+
+/**
+ * Break a string into three parts using the given delimiter.
+ * @param {string} str
+ * @param {string} delim
+ * @returns {[string, string, string]}
+ */
+function splitParts(str, delim) {
+  const start = str.indexOf(delim);
+  const end = str.indexOf(delim, start + 1);
+  if (start >= 0 && end > start) {
+    const head = str.substring(0, start);
+    const body = str.substring(start + 1, end);
+    const tail = str.substring(end + 1);
+    return [head, body, tail];
+  }
+  return [str, '', ''];
+}
+
 function _loadFeatureDetectModule() {
   // Please cache bust by bumping the `v` parameter whenever `feature.json` is
   // updated to depend on a new version of the library. See #353 for discussion.
@@ -39,7 +70,7 @@ const container = document.getElementById('feature-table');
 if (!container.shadowRoot) {
   // Polyfill declarative shadow DOM
   const template = container.querySelector('template');
-  template.parentNode
+  template.parentElement
     .attachShadow({ mode: 'open' })
     .appendChild(template.content);
   template.remove();
@@ -50,6 +81,7 @@ if (!container.shadowRoot) {
  *  type: 'yes' | 'no' | 'not-applicable' | 'experimental' | 'unknown';
  *  version?: string;
  *  note?: string;
+ *  expanded?: boolean;
  * }} DecodedStatus
  */
 /** @typedef {null | boolean | 'flag' | string} RawState */ /**
@@ -57,7 +89,7 @@ if (!container.shadowRoot) {
  */
 function decodeSupportStatus(status) {
   // Meaning of each entry:
-  // * null                     => not applicable for this browser
+  // * null                     => not applicable to this browser
   // * true/false               => supported/unsupported
   // * "version"                => supported since "version"
   // * "flag"                   => flag required (must be lowercase)
@@ -82,16 +114,19 @@ function decodeSupportStatus(status) {
   } else if (!state) {
     type = state === null ? 'not-applicable' : 'no';
   } else {
-    if (state !== true) throw new TypeError();
+    if (state !== true)
+      throw new TypeError(
+        `unexpected supported status ${JSON.stringify(state)}`
+      );
     type = 'yes';
   }
 
-  return { type, version, note };
+  return { type, version, note, expanded: false };
 }
 
 /** @type {Record<DecodedStatus['type'] | 'asterisk' | 'loading', string>} */
-const statusIcons = Object.fromEntries(
-  Object.entries({
+const statusIcons = mapValues(
+  {
     yes: 'icon-check',
     no: 'icon-close',
     'not-applicable': 'icon-subtract',
@@ -99,16 +134,28 @@ const statusIcons = Object.fromEntries(
     unknown: 'icon-question-mark',
     asterisk: 'icon-asterisk',
     loading: 'icon-loading',
-  }).map(([type, id]) => [type, document.getElementById(id).innerHTML])
+  },
+  (id) => document.getElementById(id).innerHTML
 );
 
+/**
+ * @typedef {{ url: string; logo: string; features: Record<string, DecodedStatus | undefined> }} Platform
+ */
+
 const state = () => ({
+  /** @type {Record<string, object>} */
   features: {},
+
+  /** @type {Record<string, Platform>} */
   platforms: {},
 
-  numColumns: 0,
-  featureGroups: [],
+  /** @type {Record<string, DecodedStatus | undefined>} */
   yourBrowser: {},
+
+  numColumns: 0,
+
+  /** @type {{ name: string; features: object[] }[]} */
+  featureGroups: [],
 
   async init() {
     const { features, browsers: platforms } = await fetch('/features.json', {
@@ -117,7 +164,15 @@ const state = () => ({
     }).then((res) => res.json());
 
     this.features = features;
-    this.platforms = platforms;
+    this.platforms = mapValues(platforms, (platform) => {
+      const featuresForPlatform = mapValues(features, (_, featName) => {
+        const raw = platform.features[featName];
+        return typeof raw === 'undefined'
+          ? { type: 'no' } // Missing values default to 'no'
+          : decodeSupportStatus(raw);
+      });
+      return { ...platform, features: featuresForPlatform };
+    });
 
     this.numColumns = 2 + Object.keys(platforms).length;
     let featureByGroup = Object.groupBy(
@@ -145,16 +200,6 @@ const state = () => ({
       { name: 'Inactive', features: featureByGroup['inactive'] },
     ];
 
-    for (const platform of Object.values(this.platforms)) {
-      for (const id of Object.keys(this.features)) {
-        const raw = platform.features[id];
-        platform.features[id] =
-          typeof raw === 'undefined'
-            ? { type: 'no' } // Missing values default to 'no'
-            : decodeSupportStatus(raw);
-      }
-    }
-
     for (const id of Object.keys(this.features)) {
       _loadFeatureDetectModule()(id)
         .then((supported) => {
@@ -169,6 +214,32 @@ const state = () => ({
     }
   },
 
+  /** @returns {[string | null, DecodedStatus | undefined]} */
+  supportForPlatforms(featureId) {
+    return [
+      [null, this.yourBrowser[featureId]],
+      ...Object.entries(this.platforms).map(([platformName, platform]) => [
+        platformName,
+        platform.features[featureId],
+      ]),
+    ];
+  },
+
+  /** @param {DecodedStatus} selected  */
+  toggleFeatureDetails(selected) {
+    if (selected.expanded) {
+      selected.expanded = false;
+    } else {
+      Object.values(this.yourBrowser).forEach(
+        (feat) => feat?.expanded && (feat.expanded = false)
+      );
+      Object.values(this.platforms)
+        .flatMap((platform) => Object.values(platform.features))
+        .forEach((feat) => feat?.expanded && (feat.expanded = false));
+      selected.expanded = true;
+    }
+  },
+
   /** @param {DecodedStatus | undefined} status */
   classForStatus(status) {
     if (!status?.type) return null;
@@ -177,7 +248,8 @@ const state = () => ({
 
   /** @param {DecodedStatus | undefined} status */
   iconForStatus(status) {
-    if (!status?.type) return null;
+    if (!status) return statusIcons['loading'];
+    if (!status.type) return null;
     return statusIcons[status.type];
   },
 
@@ -185,20 +257,60 @@ const state = () => ({
     return statusIcons['asterisk'];
   },
 
-  get iconWhenLoading() {
-    return statusIcons['loading'];
-  },
-
-  /** @param {DecodedStatus | undefined} status */
   labelForStatus(status) {
-    if (status?.version) return status.version;
-    switch (status?.type) {
+    if (!status) return null;
+    if (status.version) return status.version;
+    switch (status.type) {
       //   case 'no':
       //     return 'No';
       case 'not-applicable':
         return 'N/A';
     }
     return null;
+  },
+
+  /**
+   * @param {DecodedStatus | undefined} status
+   * @param {string | null} platformName
+   */
+  detailsLabelForStatus(status, platformName) {
+    if (!status?.type) return null;
+    switch (status.type) {
+      case 'yes':
+        if (!platformName) return 'Supported in your browser';
+        return status.version
+          ? `Supported in ${platformName} ${status.version}`
+          : `Supported in ${platformName} (first version unknown)`;
+      case 'no':
+        if (!platformName) return 'Not supported in your browser';
+        return `Not supported in ${platformName}`;
+      case 'experimental':
+        return `Experimental support in ${platformName}`;
+      case 'not-applicable':
+        return `This feature is not applicable to ${platformName}`;
+      case 'unknown':
+        return 'Detection unavailable for this feature';
+    }
+    throw new TypeError();
+  },
+
+  /** @param {string} note  */
+  renderNote(note) {
+    if (!note) return note;
+
+    // Transform markdown-like backticks into html <code></code>
+    const fragment = document.createElement('div');
+    while (note) {
+      const [head, body, tail] = splitParts(note, '`');
+      head && fragment.append(head);
+      if (body) {
+        const el = document.createElement('code');
+        el.textContent = body;
+        fragment.appendChild(el);
+      }
+      note = tail;
+    }
+    return fragment.innerHTML;
   },
 });
 
