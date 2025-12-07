@@ -66,7 +66,7 @@ table {
   grid-template-columns: minmax(var(--feature-column-min-width), 2fr) repeat(
       calc(var(--num-columns) - 1),
       1fr
-    );  
+    );
 
   --border-color: light-dark(rgb(0 0 0 / 15%), rgb(255 255 255 / 30%));
   --border: 1px solid var(--border-color);
@@ -107,6 +107,10 @@ th[scope='colgroup'] {
 
 th[scope='row'] {
   text-wrap: balance;
+  position: sticky;
+  left: -1px;
+  background-color: Canvas;
+  z-index: 1;
 }
 
 th img {
