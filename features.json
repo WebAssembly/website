@@ -256,6 +256,7 @@
     "Chrome": {
       "url": "https://www.google.com/chrome/",
       "logo": "/images/chrome.svg",
+      "category": "Browsers",
       "features": {
         "bigInt": "85",
         "branchHinting": "137",
@@ -298,6 +299,7 @@
     "Firefox": {
       "url": "https://www.mozilla.org/firefox/",
       "logo": "/images/firefox.svg",
+      "category": "Browsers",
       "features": {
         "bigInt": "78",
         "branchHinting": [
@@ -341,6 +343,7 @@
     "Safari": {
       "url": "https://www.apple.com/safari/",
       "logo": "/images/safari.svg",
+      "category": "Browsers",
       "features": {
         "bigInt": [
           "15",
@@ -383,6 +386,7 @@
     "Node.js": {
       "url": "https://nodejs.org/",
       "logo": "/images/nodejs.svg",
+      "category": "Server Runtimes",
       "features": {
         "bigInt": "15.0",
         "branchHinting": [
@@ -433,6 +437,7 @@
     "Deno": {
       "url": "https://deno.com/",
       "logo": "/images/deno.svg",
+      "category": "Server Runtimes",
       "features": {
         "bigInt": "1.1.2",
         "branchHinting": "2.3.2",
@@ -475,6 +480,7 @@
     "GraalWasm": {
       "url": "https://www.graalvm.org/webassembly/",
       "logo": "/images/graalvm.svg",
+      "category": "Server Runtimes",
       "features": {
         "bigInt": "21.3",
         "bulkMemory": "23.0",
@@ -499,6 +505,7 @@
     "Chicory": {
       "url": "https://chicory.dev/",
       "logo": "/images/chicory.svg",
+      "category": "Server Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "1.0.0",
@@ -523,6 +530,7 @@
     "Wasmtime": {
       "url": "https://wasmtime.dev/",
       "logo": "/images/bca.svg",
+      "category": "Server Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "0.20",
@@ -561,6 +569,7 @@
     "Wasmer": {
       "url": "https://wasmer.io/",
       "logo": "/images/wasmer.svg",
+      "category": "Server Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "1.0",
@@ -583,6 +592,7 @@
     "wasm2c": {
       "url": "https://github.com/WebAssembly/wabt",
       "logo": "/images/wasm2c.svg",
+      "category": "Tools",
       "features": {
         "bigInt": null,
         "bulkMemory": "1.0.30",
@@ -613,6 +623,7 @@
     "wizard": {
       "url": "https://github.com/titzer/wizard-engine",
       "logo": "/images/wizard.svg",
+      "category": "Server Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "25",
@@ -646,6 +657,7 @@
     "wazero": {
       "url": "https://wazero.io",
       "logo": "/images/wazero.svg",
+      "category": "Server Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": true,
@@ -679,6 +691,7 @@
     "Owi": {
       "url": "https://github.com/ocamlpro/owi",
       "logo": "/images/owi.png",
+      "category": "Tools",
       "features": {
         "bigInt": null,
         "bulkMemory": true,

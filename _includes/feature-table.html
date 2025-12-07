@@ -8,59 +8,79 @@
     <style>:host { all: initial; font-family: inherit; }</style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@3/modern-normalize.min.css">
     <link rel="stylesheet" href="/css/feature-table.css">
-    <table x-data="data" x-cloak x-show="featureGroups.length" x-bind:style="{ '--num-columns': numColumns }">
-      <thead>
-        <tr>
-          <th></th>
-          <th scope="col">Your browser</th>
-          <template x-for="(platform, platformName) in platforms">
-            <th scope="col">
-              <a x-bind:href="platform.url" target="_blank">
-                <!-- Empty alt trick: https://www.w3.org/WAI/WCAG22/Techniques/html/H2 -->
-                <img x-bind:src="platform.logo" alt="">
-                <br>
-                <span x-text="platformName"></span>
-              </a>
-            </th>
-          </template>
-        </tr>
-      </thead>
-      <template x-for="featureGroup in featureGroups">
-        <tbody>
-          <tr>
-            <th scope="colgroup" x-bind:colspan="numColumns" x-text="featureGroup.name"></th>
-          </tr>
-          <template x-for="feature in featureGroup.features">
+    <div class="alpine-root" x-data="data" x-cloak>
+      <fieldset id="platform-filters">
+        <legend>Currently showing:</legend>
+        <template x-for="category in categories">
+          <div x-id="['platform-filter']">
+            <input type="checkbox" x-bind:id="$id('platform-filter')" x-bind:value="category" x-model="selectedCategories" />
+            <label x-bind:for="$id('platform-filter')" x-text="category"></label>
+          </div>
+        </template>
+      </fieldset>
+
+      <div id="scroll-container">
+        <table x-bind:style="{ '--num-columns': numColumns }">
+          <thead>
             <tr>
-              <th scope="row">
-                <a x-bind:href="feature.url" x-text="feature.description" target="_blank"></a>
-              </th>
-              <template x-for="[platformName, status] in supportForPlatforms(feature.id)">
-                <td x-id="['cell-details']">
-                  <button type="button" class="cell" x-bind:class="classForStatus(status)" title="Toggle details" x-on:click="toggleFeatureDetails(status)" x-bind:aria-expanded="String(status?.expanded ?? false)" x-bind:aria-controls="$id('cell-details')">
-                    <div x-html="iconForStatus(status)"></div>
-                    <div x-show="labelForStatus(status)" x-text="labelForStatus(status)"></div>
-                    <div x-show="status?.note" class="icon-note" x-html="iconHasNote"></div>
-                  </button>
-                  <div class="details" x-bind:id="$id('cell-details')" x-bind:hidden="!status?.expanded">
-                    <div class="details-inner">
-                      <div class="details-status" x-bind:class="classForStatus(status)">
-                        <div x-html="iconForNote(status)" aria-hidden="true"></div>
-                        <div x-html="detailsLabelForStatus(status, platformName)"></div>
-                      </div>
-                      <div class="details-note" x-show="status?.note">
-                        <div x-html="iconHasNote" aria-hidden="true"></div>
-                        <div class="details-note-line text-secondary" x-html="renderNote(status?.note)"></div>
-                      </div>
-                    </div>
-                  </div>
-                </td>
+              <th></th>
+              <th scope="col">Your browser</th>
+              <template x-for="[platformName, platform] in selectedPlatforms">
+                <th scope="col">
+                  <a x-bind:href="platform.url" target="_blank">
+                    <!-- Empty alt trick: https://www.w3.org/WAI/WCAG22/Techniques/html/H2 -->
+                    <img x-bind:src="platform.logo" alt="">
+                    <br>
+                    <span x-text="platformName"></span>
+                  </a>
+                </th>
               </template>
             </tr>
+          </thead>
+          <template x-for="featureGroup in featureGroups">
+            <tbody>
+              <tr><th scope="colgroup" x-bind:colspan="numColumns" x-text="featureGroup.name"></th></tr>
+              <template x-for="feature in featureGroup.features">
+                <tr>
+                  <th scope="row">
+                    <a x-bind:href="feature.url" x-text="feature.description" target="_blank"></a>
+                  </th>
+                  <template x-for="[platformName, status] in supportForPlatforms(selectedPlatforms, feature.id)">
+                    <td x-id="['cell-details']">
+                      <button
+                        type="button"
+                        class="cell"
+                        x-bind:class="classForStatus(status)"
+                        title="Toggle details"
+                        x-on:click="toggleFeatureDetails(status)"
+                        x-bind:aria-expanded="String(status?.expanded ?? false)"
+                        x-bind:aria-controls="$id('cell-details')"
+                      >
+                        <div x-html="iconForStatus(status)"></div>
+                        <div x-show="labelForStatus(status)" x-text="labelForStatus(status)"></div>
+                        <div x-show="status?.note" class="icon-note" x-html="iconHasNote"></div>
+                      </button>
+                      <div class="details" x-bind:id="$id('cell-details')" x-bind:hidden="!status?.expanded">
+                        <div class="details-inner">
+                          <div class="details-status" x-bind:class="classForStatus(status)">
+                            <div x-html="iconForNote(status)" aria-hidden="true"></div>
+                            <div x-html="detailsLabelForStatus(status, platformName)"></div>
+                          </div>
+                          <div class="details-note" x-show="status?.note">
+                            <div x-html="iconHasNote" aria-hidden="true"></div>
+                            <div class="details-note-line text-secondary" x-html="renderNote(status?.note)"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </template>
+                </tr>
+              </template>
+            </tbody>
           </template>
-        </tbody>
-      </template>
-    </table>
+        </table>
+      </div>
+    </div>
   </template>
 </div>
 

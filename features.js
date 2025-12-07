@@ -149,7 +149,7 @@ const noteIcons = mapValues(
 );
 
 /**
- * @typedef {{ url: string; logo: string; features: Record<string, DecodedStatus | undefined> }} Platform
+ * @typedef {{ url: string; logo: string; category: string; features: Record<string, DecodedStatus | undefined> }} Platform
  */
 
 const state = () => ({
@@ -162,7 +162,8 @@ const state = () => ({
   /** @type {Record<string, DecodedStatus | undefined>} */
   yourBrowser: {},
 
-  numColumns: 0,
+  categories: [],
+  selectedCategories: ['Browsers', 'Server Runtimes'],
 
   /** @type {{ name: string; features: object[] }[]} */
   featureGroups: [],
@@ -174,6 +175,10 @@ const state = () => ({
     }).then((res) => res.json());
 
     this.features = features;
+    this.categories = [
+      ...new Set(Object.values(platforms).map(({ category }) => category)),
+    ];
+
     this.platforms = mapValues(platforms, (platform) => {
       const featuresForPlatform = mapValues(features, (_, featName) => {
         const raw = platform.features[featName];
@@ -184,7 +189,6 @@ const state = () => ({
       return { ...platform, features: featuresForPlatform };
     });
 
-    this.numColumns = 2 + Object.keys(platforms).length;
     let featureByGroup = Object.groupBy(
       Object.entries(features).map(([id, feature]) =>
         Object.assign(feature, { id })
@@ -224,12 +228,25 @@ const state = () => ({
     }
   },
 
-  /** @returns {[string | null, DecodedStatus | undefined]} */
-  supportForPlatforms(featureId) {
+  get selectedPlatforms() {
+    return Object.entries(this.platforms).filter(([, { category }]) =>
+      this.selectedCategories.includes(category)
+    );
+  },
+
+  get numColumns() {
+    return this.selectedPlatforms.length + 2; // Header + 'Your browser' + Platforms...
+  },
+
+  /**
+   * @param {[string, Platform][]} platforms
+   * @returns {[string | null, DecodedStatus | undefined]}
+   * */
+  supportForPlatforms(platforms, featureId) {
     return [
       [null, this.yourBrowser[featureId]],
-      ...Object.entries(this.platforms).map(([platformName, platform]) => [
-        platformName,
+      ...platforms.map(([name, platform]) => [
+        name,
         platform.features[featureId],
       ]),
     ];

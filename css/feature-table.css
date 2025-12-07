@@ -1,11 +1,6 @@
 :host {
   display: block;
-  width: min-content;
-  max-width: 95vw;
-  margin: 0 50%;
   margin-bottom: 2em;
-  transform: translateX(-50%);
-  overflow-x: auto;
   font-size: 14.5px;
 }
 
@@ -48,17 +43,30 @@ svg {
   height: 100%;
 }
 
+#scroll-container {
+  width: max-content;
+  min-width: 100%;
+  max-width: 95vw;
+  margin: 0 50%;
+  margin-top: 2em;
+  transform: translateX(-50%);
+  overflow-x: auto;
+}
+
 table {
   width: min-content;
-  --feature-column-min-width: 12em;
+  min-width: 100%;
+
   display: grid;
-  grid-template-columns: minmax(var(--feature-column-min-width), 1fr) repeat(
-      calc(var(--num-columns) - 1),
-      1fr
-    );
   grid-auto-flow: dense;
   justify-content: center;
   align-items: stretch;
+
+  --feature-column-min-width: 12em;
+  grid-template-columns: minmax(var(--feature-column-min-width), 2fr) repeat(
+      calc(var(--num-columns) - 1),
+      1fr
+    );  
 
   --border-color: light-dark(rgb(0 0 0 / 15%), rgb(255 255 255 / 30%));
   --border: 1px solid var(--border-color);
@@ -182,7 +190,7 @@ tr > :not(:first-child) .cell {
   fill: #78909c;
 }
 
-:is(.status-unknown, .status-not-applicable) svg {
+:is(.status-unknown, .status-not-applicable, .status-experimental) svg {
   padding: 1.5px;
 }
 
