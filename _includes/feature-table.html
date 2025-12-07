@@ -61,16 +61,18 @@
                         <div x-show="status?.note" class="icon-note" x-replace.clone="iconHasNote"></div>
                       </button>
                       <div class="details" x-bind:id="$id('cell-details')" x-bind:hidden="!status?.expanded">
-                        <div class="details-inner">
-                          <div class="details-status" x-bind:class="classForStatus(status)">
-                            <div x-replace.clone="iconForNote(status)" aria-hidden="true"></div>
-                            <div x-replace="detailsLabelForStatus(status, platformName)"></div>
+                        <template x-if="status?.expanded">
+                          <div class="details-inner">
+                            <div class="details-status" x-bind:class="classForStatus(status)">
+                              <div x-replace.clone="iconForNote(status)" aria-hidden="true"></div>
+                              <div x-replace="detailsLabelForStatus(status, platformName)"></div>
+                            </div>
+                            <div class="details-note" x-show="status?.note">
+                              <div x-replace.clone="iconHasNote" aria-hidden="true"></div>
+                              <div class="details-note-line text-secondary" x-replace="renderNote(status?.note)"></div>
+                            </div>
                           </div>
-                          <div class="details-note" x-show="status?.note">
-                            <div x-replace.clone="iconHasNote" aria-hidden="true"></div>
-                            <div class="details-note-line text-secondary" x-replace="renderNote(status?.note)"></div>
-                          </div>
-                        </div>
+                        </template>
                       </div>
                     </td>
                   </template>
