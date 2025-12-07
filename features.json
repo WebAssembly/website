@@ -695,7 +695,7 @@
         "tailCall": true,
         "customPageSizes": false,
         "multiValue": true,
-        "multiMemory": false,
+        "multiMemory": true,
         "mutableGlobals": true,
         "referenceTypes": true,
         "relaxedSimd": false,
