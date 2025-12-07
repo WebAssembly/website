@@ -134,7 +134,7 @@ const statusIcons = mapValues(
     asterisk: 'icon-asterisk',
     loading: 'icon-loading',
   },
-  (id) => document.getElementById(id).innerHTML
+  (id) => /** @type {DocumentFragment} */ (document.getElementById(id).content)
 );
 
 const noteIcons = mapValues(
@@ -145,7 +145,7 @@ const noteIcons = mapValues(
     experimental: 'icon-flask',
     unknown: 'icon-checkbox-blank-circle',
   },
-  (id) => document.getElementById(id).innerHTML
+  (id) => /** @type {DocumentFragment} */ (document.getElementById(id).content)
 );
 
 /**
@@ -275,8 +275,7 @@ const state = () => ({
 
   /** @param {DecodedStatus | undefined} status */
   iconForStatus(status) {
-    if (!status) return statusIcons['loading'];
-    if (!status.type) return null;
+    if (!status?.type) return statusIcons['loading'];
     return statusIcons[status.type];
   },
 
@@ -286,8 +285,7 @@ const state = () => ({
 
   /** @param {DecodedStatus | undefined} status */
   iconForNote(status) {
-    if (!status) return noteIcons['unknown'];
-    if (!status.type) return null;
+    if (!status?.type) return noteIcons['unknown'];
     return noteIcons[status.type] ?? noteIcons['unknown'];
   },
 
@@ -314,9 +312,16 @@ const state = () => ({
     switch (status.type) {
       case 'yes':
         if (!platformName) return 'Supported in your browser';
-        return status.version
-          ? `Supported in ${platformName} ${status.version}`
-          : `Supported in ${platformName} <span class="text-secondary">(introduced version unknown)</span>`;
+        if (status.version) {
+          return `Supported in ${platformName} ${status.version}`;
+        } else {
+          const fragment = document.createDocumentFragment(),
+            note = document.createElement('span');
+          note.className = 'text-secondary';
+          note.textContent = '(version unknown)';
+          fragment.append(`Supported in ${platformName} `, note);
+          return fragment;
+        }
       case 'no':
         if (!platformName) return 'Not supported in your browser';
         return `Not supported in ${platformName}`;
@@ -335,7 +340,7 @@ const state = () => ({
     if (!note) return note;
 
     // Transform markdown-like backticks into html <code></code>
-    const fragment = document.createElement('div');
+    const fragment = document.createDocumentFragment();
     while (note) {
       const [head, body, tail] = splitParts(note, '`');
       head && fragment.append(head);
@@ -346,7 +351,7 @@ const state = () => ({
       }
       note = tail;
     }
-    return fragment.innerHTML;
+    return fragment;
   },
 });
 
@@ -355,6 +360,28 @@ function updateColorScheme(colorScheme) {
 }
 
 document.addEventListener('alpine:init', () => {
+  Alpine.directive(
+    'replace',
+    (
+      /** @type {Element} */ el,
+      { expression, modifiers },
+      { evaluateLater, effect }
+    ) => {
+      let getChild = evaluateLater(expression);
+      effect(() =>
+        getChild((child) => {
+          if (Array.isArray(child))
+            throw new TypeError(
+              'x-replace cannot operate on arrays, use DocumentFragment instead'
+            );
+          if (modifiers.includes('clone') && child instanceof Node)
+            child = document.importNode(child, true);
+          el.replaceChildren(child);
+        })
+      );
+    }
+  );
+
   const meta = document.querySelector('meta[name=color-scheme]');
   updateColorScheme(meta?.content || 'light dark');
   Alpine.data('data', state);
