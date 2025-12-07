@@ -124,16 +124,26 @@ function decodeSupportStatus(status) {
   return { type, version, note, expanded: false };
 }
 
-/** @type {Record<DecodedStatus['type'] | 'asterisk' | 'loading', string>} */
 const statusIcons = mapValues(
   {
     yes: 'icon-check',
     no: 'icon-close',
-    'not-applicable': 'icon-subtract',
+    'not-applicable': 'icon-forbid-2',
     experimental: 'icon-flask',
     unknown: 'icon-question-mark',
     asterisk: 'icon-asterisk',
     loading: 'icon-loading',
+  },
+  (id) => document.getElementById(id).innerHTML
+);
+
+const noteIcons = mapValues(
+  {
+    yes: 'icon-checkbox-circle',
+    no: 'icon-close-circle',
+    'not-applicable': 'icon-forbid-2',
+    experimental: 'icon-flask',
+    unknown: 'icon-checkbox-blank-circle',
   },
   (id) => document.getElementById(id).innerHTML
 );
@@ -253,18 +263,27 @@ const state = () => ({
     return statusIcons[status.type];
   },
 
-  get iconForNote() {
+  get iconHasNote() {
     return statusIcons['asterisk'];
+  },
+
+  /** @param {DecodedStatus | undefined} status */
+  iconForNote(status) {
+    if (!status) return noteIcons['unknown'];
+    if (!status.type) return null;
+    return noteIcons[status.type] ?? noteIcons['unknown'];
   },
 
   labelForStatus(status) {
     if (!status) return null;
     if (status.version) return status.version;
-    switch (status.type) {
+    switch (
+      status.type
       //   case 'no':
       //     return 'No';
-      case 'not-applicable':
-        return 'N/A';
+      // case 'not-applicable':
+      //   return 'N/A';
+    ) {
     }
     return null;
   },
@@ -280,7 +299,7 @@ const state = () => ({
         if (!platformName) return 'Supported in your browser';
         return status.version
           ? `Supported in ${platformName} ${status.version}`
-          : `Supported in ${platformName} (first version unknown)`;
+          : `Supported in ${platformName} <span class="text-secondary">(introduced version unknown)</span>`;
       case 'no':
         if (!platformName) return 'Not supported in your browser';
         return `Not supported in ${platformName}`;

@@ -16,6 +16,11 @@
 
 a {
   text-decoration: none;
+  color: light-dark(#1751a7, #8fadee);
+}
+
+a:visited {
+  color: light-dark(#5817a7, #ab8fee);
 }
 
 a:hover {
@@ -36,6 +41,11 @@ code::before,
 code::after {
   letter-spacing: -0.2em;
   content: '\00a0';
+}
+
+svg {
+  width: 100%;
+  height: 100%;
 }
 
 table {
@@ -97,7 +107,7 @@ th img {
   height: auto;
 }
 
-:host([data-color-scheme^='dark']) .cell {
+:host([data-color-scheme^='dark']) :is(.cell, .details-status > *) {
   filter: brightness(2.5);
 }
 
@@ -108,6 +118,11 @@ th img {
   border: none;
   justify-content: start;
   gap: 4px;
+}
+
+.cell :has(> svg) {
+  width: 20px;
+  height: 20px;
 }
 
 button.cell {
@@ -140,10 +155,40 @@ tr > :not(:first-child) .cell {
   border-left: var(--border);
 }
 
-td svg,
-td *:has(> svg) {
-  width: 20px;
-  height: 20px;
+.text-secondary {
+  font-weight: normal;
+  color: light-dark(rgb(0 0 0 / 75%), rgb(255 255 255 / 75%));
+}
+
+.status-yes {
+  color: light-dark(#0c3d10, #095b10);
+  fill: light-dark(#5c6b5d, #3d4e3e);
+}
+
+.status-no {
+  color: #83264a;
+  fill: #86556f;
+}
+
+.status-experimental {
+  color: light-dark(#143a93, #3e5997);
+  fill: #3f63b7;
+}
+
+.status-not-applicable,
+.status-unknown,
+.details-note svg {
+  color: #52656f;
+  fill: #78909c;
+}
+
+:is(.status-unknown, .status-not-applicable) svg {
+  padding: 1.5px;
+}
+
+.icon-note svg {
+  padding: 1.5px;
+  fill: #78909c;
 }
 
 .details {
@@ -160,42 +205,34 @@ td *:has(> svg) {
 
 .details-inner {
   grid-column: 2 / -1;
-  padding: calc(var(--cell-padding-block) * 2) var(--cell-padding-inline);
+  padding: calc(var(--cell-padding-block) * 2.5) var(--cell-padding-inline);
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  row-gap: var(--cell-padding-inline);
+  column-gap: calc(var(--cell-padding-inline) * 0.85);
 }
 
-.status-yes {
-  color: light-dark(#0c3d10, #095b10);
-  fill: light-dark(#5c6b5d, #3d4e3e);
+.details-inner > * {
+  display: contents;
 }
 
-.status-no {
-  color: #863e5a;
-  fill: #86556f;
+.details-inner :has(> svg) {
+  height: 1.2lh;
 }
 
-.status-experimental {
-  color: #3f63b7;
-  fill: #3f63b7;
+.details-inner svg {
+  padding: 3px 0 1px;
 }
 
-.status-not-applicable,
-.status-unknown {
-  color: #52656f;
-  fill: #78909c;
+.details-status {
+  font-weight: 600;
 }
 
-.status-unknown svg {
-  padding: 1.5px;
+.details-note svg {
+  opacity: 0.6;
 }
 
-.icon-note {
-  width: 0.9lh;
-  height: 0.9lh;
-  padding: 0.085lh 0;
-}
-
-.icon-note svg {
-  width: 100%;
-  height: 100%;
-  fill: #78909c;
+.details-note-line {
+  grid-column: 2 / 2;
 }

@@ -40,12 +40,18 @@
                   <button type="button" class="cell" x-bind:class="classForStatus(status)" title="Toggle details" x-on:click="toggleFeatureDetails(status)" x-bind:aria-expanded="String(status?.expanded ?? false)" x-bind:aria-controls="$id('cell-details')">
                     <div x-html="iconForStatus(status)"></div>
                     <div x-show="labelForStatus(status)" x-text="labelForStatus(status)"></div>
-                    <div x-show="status?.note" class="icon-note" x-html="iconForNote"></div>
+                    <div x-show="status?.note" class="icon-note" x-html="iconHasNote"></div>
                   </button>
                   <div class="details" x-bind:id="$id('cell-details')" x-bind:hidden="!status?.expanded">
                     <div class="details-inner">
-                      <div class="details-label" x-text="detailsLabelForStatus(status, platformName)"></div>
-                      <div class="details-note" x-show="status?.note" x-html="renderNote(status?.note)"></div>
+                      <div class="details-status" x-bind:class="classForStatus(status)">
+                        <div x-html="iconForNote(status)" aria-hidden="true"></div>
+                        <div x-html="detailsLabelForStatus(status, platformName)"></div>
+                      </div>
+                      <div class="details-note" x-show="status?.note">
+                        <div x-html="iconHasNote" aria-hidden="true"></div>
+                        <div class="details-note-line text-secondary" x-html="renderNote(status?.note)"></div>
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -62,14 +68,26 @@
 <template id="icon-check">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="svg-stroke" d="M10 15.2 19.2 6l1.4 1.4L10 18l-6.4-6.4L5 10.2Z"/></svg>
 </template>
+<template id="icon-checkbox-circle">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12ZM12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM17.4571 9.45711L16.0429 8.04289L11 13.0858L8.20711 10.2929L6.79289 11.7071L11 15.9142L17.4571 9.45711Z"></path></svg>
+</template>
 <template id="icon-close">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="svg-stroke" d="m12 10.6 5-5 1.4 1.5-5 4.9 5 5-1.4 1.4-5-5-5 5L5.7 17l5-5-5-5 1.5-1.4z"/></svg>
+</template>
+<template id="icon-close-circle">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 10.5858L14.8284 7.75736L16.2426 9.17157L13.4142 12L16.2426 14.8284L14.8284 16.2426L12 13.4142L9.17157 16.2426L7.75736 14.8284L10.5858 12L7.75736 9.17157L9.17157 7.75736L12 10.5858Z"></path></svg>
 </template>
 <template id="icon-subtract">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 11H5V13H19V11Z"></path></svg>
 </template>
+<template id="icon-checkbox-blank-circle">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20Z"></path></svg>
+</template>
 <template id="icon-flask">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.9994 2v2h-1v3.243c0 1.1575.2512 2.3013.7363 3.3524l4.2813 9.276c.3471.7522.0188 1.6434-.7334 1.9905A1.5 1.5 0 0 1 18.655 22H5.3438c-.8285 0-1.5-.6716-1.5-1.5a1.5 1.5 0 0 1 .138-.6286l4.2813-9.276a8 8 0 0 0 .7363-3.3525V4h-1V2zm-2.6121 8.0012h-2.7758a10 10 0 0 1-.3744 1.0712l-.1581.3611L6.1244 20h11.749l-3.9536-8.5665a10 10 0 0 1-.5325-1.4323m-2.3879-2.7583a10 10 0 0 1-.0288.758h2.0576a10 10 0 0 1-.021-.3639l-.0078-.394V4h-2z"/></svg>
+</template>
+<template id="icon-forbid-2">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22ZM12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM16.8911 8.52313L8.52313 16.8911C8.25459 16.6997 7.99828 16.4836 7.75736 16.2426C7.51644 16.0017 7.30029 15.7454 7.10891 15.4769L15.4769 7.10891C15.7454 7.30029 16.0017 7.51644 16.2426 7.75736C16.4836 7.99828 16.6997 8.25459 16.8911 8.52313Z"></path></svg>
 </template>
 <template id="icon-asterisk">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 3v7.267l6.294-3.633 1 1.732-6.293 3.633 6.293 3.635-1 1.732L13 13.732V21h-2v-7.268l-6.294 3.634-1-1.732L9.999 12 3.706 8.366l1-1.732L11 10.267V3z"/></svg>
