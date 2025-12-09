@@ -708,8 +708,7 @@
         "typeReflection": false,
         "webContentSecurityPolicy": null
       }
-    }
-  },
+    },
     "Binaryen": {
       "url": "https://github.com/WebAssembly/binaryen",
       "logo": "/images/binaryen.svg",
