@@ -16,8 +16,7 @@ For the complete list of current proposals and their respective stages, check
 out the
 [`WebAssembly/proposals` repo](https://github.com/WebAssembly/proposals).
 
-The table below aims to track implemented features in popular engines.
-You can report any issues [here](https://github.com/WebAssembly/website).
+The table below aims to track implemented features in popular engines:
 
 {% include feature-table.html %}
 

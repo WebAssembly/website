@@ -1,6 +1,6 @@
 :host {
   display: block;
-  margin-bottom: 2em;
+  margin-bottom: 1.25em;
   font-size: 14.5px;
 }
 
@@ -43,12 +43,67 @@ svg {
   height: 100%;
 }
 
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+#table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.5em;
+  row-gap: .75em;
+}
+
+#table-actions a[href^='http']::after {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 0.85em;
+  height: 0.85lh;
+  margin-inline-start: 0.1em;
+  background: url(/css/external.svg) no-repeat;
+}
+
+#platform-filters {
+  display: flex; /* Flexbox does not work with <fieldset> due to a bug */
+  flex-wrap: wrap;
+  gap: .8em;
+  row-gap: .2em;
+}
+
+#platform-filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  row-gap: .2em;
+}
+
+.platform-filter {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  user-select: none;
+}
+
+.platform-filter > * {
+  cursor: pointer;
+}
+
+.platform-filter > input {
+  margin-top: 2px; /* Align checkbox with label */
+}
+
 #scroll-container {
   width: max-content;
   min-width: 100%;
   max-width: 95vw;
   margin: 0 50%;
-  margin-top: 2em;
+  margin-top: 1em;
   transform: translateX(-50%);
   overflow-x: auto;
 }
@@ -247,4 +302,5 @@ tr > :not(:first-child) .cell {
 
 .details-note-line {
   grid-column: 2 / 2;
+  max-width: 90%;
 }

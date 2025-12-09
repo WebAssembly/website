@@ -8,18 +8,38 @@
     <style>:host { all: initial; font-family: inherit; }</style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-normalize@3/modern-normalize.min.css">
     <link rel="stylesheet" href="/css/feature-table.css">
-    <div class="alpine-root" x-data="data" x-cloak>
-      <fieldset id="platform-filters">
-        <legend>Currently showing:</legend>
-        <template x-for="category in categories">
-          <div x-id="['platform-filter']">
-            <input type="checkbox" x-bind:id="$id('platform-filter')" x-bind:value="category" x-model="selectedCategories" />
-            <label x-bind:for="$id('platform-filter')" x-text="category"></label>
+    <div 
+      class="alpine-root"
+      x-data="data"
+      x-init="$watch('selectedCategories', (value, oldValue) => onSelectedCategoryChange(value, oldValue))"
+      x-cloak
+    >
+      <div id="table-actions">
+        <fieldset
+          x-id="['filter-legend']"
+          x-bind:aria-labelledby="$id('filter-legend')"
+          x-show="categories.length"
+        >
+          <div id="platform-filters">
+            <div x-bind:id="$id('filter-legend')">Currently showing:</div>
+            <div id="platform-filter-options">
+              <template x-for="category in categories">
+                <div x-id="['platform-filter']" class="platform-filter">
+                  <input type="checkbox" x-bind:id="$id('platform-filter')" x-bind:value="category" x-model="selectedCategories" />
+                  <label x-bind:for="$id('platform-filter')" x-text="category"></label>
+                </div>
+              </template>
+            </div>
           </div>
-        </template>
-      </fieldset>
+        </fieldset>
+        <div>
+          <a href="https://github.com/WebAssembly/website/issues" target="_blank">Report issues</a>
+          &bull;
+          <a href="https://github.com/WebAssembly/website/blob/main/features.json" target="_blank">Contribute data</a>
+        </div>
+      </div>
 
-      <div id="scroll-container">
+      <div id="scroll-container" x-show="categories.length">
         <table x-bind:style="{ '--num-columns': numColumns }">
           <thead>
             <tr>
@@ -87,6 +107,7 @@
 </div>
 
 <!-- Apache License 2.0, https://github.com/Remix-Design/remixicon -->
+<!-- TODO: clean up unused icons -->
 <template id="icon-check">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path class="svg-stroke" d="M10 15.2 19.2 6l1.4 1.4L10 18l-6.4-6.4L5 10.2Z"/></svg>
 </template>

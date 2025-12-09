@@ -24,7 +24,7 @@
       "properties": {
         "url": { "type": "string", "format": "uri" },
         "logo": { "type": "string", "format": "uri-reference" },
-        "category": { "enum": ["Browsers", "Server Runtimes", "Tools"] },
+        "category": { "enum": ["Web Browsers", "Server Runtimes", "Tools"] },
         "features": {
           "type": "object",
           "additionalProperties": { "$ref": "#/definitions/status" }

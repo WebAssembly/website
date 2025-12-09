@@ -256,7 +256,7 @@
     "Chrome": {
       "url": "https://www.google.com/chrome/",
       "logo": "/images/chrome.svg",
-      "category": "Browsers",
+      "category": "Web Browsers",
       "features": {
         "bigInt": "85",
         "branchHinting": "137",
@@ -299,7 +299,7 @@
     "Firefox": {
       "url": "https://www.mozilla.org/firefox/",
       "logo": "/images/firefox.svg",
-      "category": "Browsers",
+      "category": "Web Browsers",
       "features": {
         "bigInt": "78",
         "branchHinting": [
@@ -343,7 +343,7 @@
     "Safari": {
       "url": "https://www.apple.com/safari/",
       "logo": "/images/safari.svg",
-      "category": "Browsers",
+      "category": "Web Browsers",
       "features": {
         "bigInt": [
           "15",

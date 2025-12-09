@@ -163,7 +163,7 @@ const state = () => ({
   yourBrowser: {},
 
   categories: [],
-  selectedCategories: ['Browsers', 'Server Runtimes'],
+  selectedCategories: ['Web Browsers', 'Server Runtimes'],
 
   /** @type {{ name: string; features: object[] }[]} */
   featureGroups: [],
@@ -225,6 +225,17 @@ const state = () => ({
         .catch(() => {
           this.yourBrowser[id] = { type: 'unknown' };
         });
+    }
+  },
+
+  onSelectedCategoryChange(value, oldValue) {
+    if (!value.length && this.categories.length) {
+      // Prevent user from deselecting all categories.
+      // Automatically re-select the first category, excluding the one that was just deselected.
+      const otherCategories = this.categories.filter(
+        (category) => !oldValue.includes(category)
+      );
+      this.selectedCategories = [otherCategories[0] || this.categories[0]];
     }
   },
 
