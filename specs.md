@@ -20,7 +20,7 @@ layout: default
     extensions to the JavaScript API made available specifically in web
     browsers, in particular, an interface for streaming compilation and
     instantiation from origin-bound `Response` types.
-  - [WASI API](https://github.com/WebAssembly/WASI/blob/main/Proposals.md):
+  - [WASI API](https://github.com/WebAssembly/WASI/blob/main/docs/Proposals.md):
     defines a modular system interface to run WebAssembly outside the web,
     providing access to things like files, network connections, clocks, and
     random numbers.
