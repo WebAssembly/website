@@ -708,6 +708,39 @@
         "typeReflection": false,
         "webContentSecurityPolicy": null
       }
+    },
+    "Binaryen": {
+      "url": "https://github.com/WebAssembly/binaryen",
+      "logo": "/images/binaryen.svg",
+      "features": {
+        "bigInt": true,
+        "bulkMemory": true,
+        "customAnnotationSyntaxInTheTextFormat": true,
+        "exceptionsFinal": true,
+        "exceptions": true,
+        "extendedConst": true,
+        "esmIntegration": null,
+        "gc": true,
+        "jspi": true,
+        "jsStringBuiltins": true,
+        "memory64": true,
+        "multiMemory": true,
+        "tailCall": true,
+        "customPageSizes": false,
+        "multiValue": true,
+        "multiMemory": true,
+        "mutableGlobals": true,
+        "referenceTypes": true,
+        "relaxedSimd": true,
+        "saturatedFloatToInt": true,
+        "signExtensions": true,
+        "simd": true,
+        "stackSwitching": true,
+        "threads": true,
+        "typedFunctionReferences": true,
+        "typeReflection": null,
+        "webContentSecurityPolicy": null
+      }
     }
   }
 }
