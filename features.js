@@ -25,6 +25,8 @@ Object.groupBy ??= function groupBy(iterable, callbackfn) {
 };
 
 /**
+ * `Array.map` but for object values.
+ *
  * @template {object} T
  * @template R
  * @param {T} obj
@@ -124,6 +126,7 @@ function decodeSupportStatus(status) {
   return { type, version, note, expanded: false };
 }
 
+// TODO: think of a cleaner way to store icons
 const statusIcons = mapValues(
   {
     yes: 'icon-check',
@@ -149,7 +152,12 @@ const noteIcons = mapValues(
 );
 
 /**
- * @typedef {{ url: string; logo: string; category: string; features: Record<string, DecodedStatus | undefined> }} Platform
+ * @typedef {{
+ *  url: string;
+ *  logo: string;
+ *  category: string;
+ *  features: Record<string, DecodedStatus | undefined>
+ * }} Platform
  */
 
 const state = () => ({
@@ -162,11 +170,11 @@ const state = () => ({
   /** @type {Record<string, DecodedStatus | undefined>} */
   yourBrowser: {},
 
-  categories: [],
-  selectedCategories: ['Web Browsers', 'Server Runtimes'],
-
   /** @type {{ name: string; features: object[] }[]} */
   featureGroups: [],
+
+  categories: [],
+  selectedCategories: ['Web Browsers', 'Server Runtimes'],
 
   async init() {
     const { features, browsers: platforms } = await fetch('/features.json', {
@@ -179,6 +187,7 @@ const state = () => ({
       ...new Set(Object.values(platforms).map(({ category }) => category)),
     ];
 
+    // Decode the compact status format for easier future processing.
     this.platforms = mapValues(platforms, (platform) => {
       const featuresForPlatform = mapValues(features, (_, featName) => {
         const raw = platform.features[featName];
@@ -246,7 +255,7 @@ const state = () => ({
   },
 
   get numColumns() {
-    return this.selectedPlatforms.length + 2; // Header + 'Your browser' + Platforms...
+    return 2 + this.selectedPlatforms.length; // Header + 'Your browser' + ...Platforms
   },
 
   /**
@@ -255,7 +264,9 @@ const state = () => ({
    * */
   supportForPlatforms(platforms, featureId) {
     return [
+      // "Your browser"
       [null, this.yourBrowser[featureId]],
+      // Rest of the columns
       ...platforms.map(([name, platform]) => [
         name,
         platform.features[featureId],
@@ -268,6 +279,7 @@ const state = () => ({
     if (selected.expanded) {
       selected.expanded = false;
     } else {
+      // Only one should be open at a time, close everything else first.
       Object.values(this.yourBrowser).forEach(
         (feat) => feat?.expanded && (feat.expanded = false)
       );
@@ -300,6 +312,7 @@ const state = () => ({
     return noteIcons[status.type] ?? noteIcons['unknown'];
   },
 
+/** @param {DecodedStatus | undefined} status */
   labelForStatus(status) {
     if (!status) return null;
     if (status.version) return status.version;
