@@ -714,8 +714,10 @@
       "logo": "/images/binaryen.svg",
       "features": {
         "bigInt": true,
+        "branchHinting": true,
         "bulkMemory": true,
         "customAnnotationSyntaxInTheTextFormat": true,
+        "customDescriptors": true,
         "exceptionsFinal": true,
         "exceptions": true,
         "extendedConst": true,
