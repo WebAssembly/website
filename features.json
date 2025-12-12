@@ -344,7 +344,7 @@
       "features": {
         "bigInt": [
           "15",
-          "wasm-bigint is supported in desktop Safari since 14.1 and iOS Safari since 14.5; however BigInt64Array, which is needed by Emscripten, was released in 15"
+          "`wasm-bigint` is supported in desktop Safari since 14.1 and iOS Safari since 14.5; however `BigInt64Array`, which is needed by Emscripten, was released in 15"
         ],
         "branchHinting": "16",
         "bulkMemory": "15",
@@ -625,7 +625,6 @@
         "jspi": null,
         "jsStringBuiltins": null,
         "memory64": "25",
-        "multiMemory": "25",
         "tailCall": "25",
         "customPageSizes": ["flag", "Requires flag `--ext:custom-page-sizes`"],
         "multiValue": "21",
@@ -658,8 +657,7 @@
         "jspi": null,
         "jsStringBuiltins": null,
         "memory64": false,
-        "multiMemory": false,
-        "tailCall": ["flag", "experimental feature"],
+        "tailCall": ["flag", "Experimental feature"],
         "customPageSizes": null,
         "multiValue": true,
         "multiMemory": false,
@@ -670,7 +668,7 @@
         "signExtensions": true,
         "simd": true,
         "stackSwitching": false,
-        "threads": ["flag", "experimental feature"],
+        "threads": ["flag", "Experimental feature"],
         "typedFunctionReferences": false,
         "typeReflection": null,
         "webContentSecurityPolicy": null
@@ -691,7 +689,6 @@
         "jspi": null,
         "jsStringBuiltins": null,
         "memory64": false,
-        "multiMemory": false,
         "tailCall": true,
         "customPageSizes": false,
         "multiValue": true,
@@ -712,6 +709,7 @@
     "Binaryen": {
       "url": "https://github.com/WebAssembly/binaryen",
       "logo": "/images/binaryen.svg",
+      "category": "Tools",
       "features": {
         "bigInt": true,
         "branchHinting": true,
@@ -726,7 +724,6 @@
         "jspi": true,
         "jsStringBuiltins": true,
         "memory64": true,
-        "multiMemory": true,
         "tailCall": true,
         "customPageSizes": false,
         "multiValue": true,
