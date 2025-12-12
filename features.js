@@ -382,9 +382,8 @@
   function _loadTooltipModule() {
     // Be sure to change the preloads in markdown when updating url.
     // The ESM bundle of this package doesn't work with unpkg.com.
-    const module = import(
-      'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm'
-    );
+    const module =
+      import('https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm');
 
     const subscribers = new Set();
     const updateAll = () => {
@@ -477,9 +476,8 @@
     // Please cache bust by bumping the `v` parameter whenever `feature.json` is
     // updated to depend on a new version of the library. See #353 for discussion.
     // Make sure to also match the preload link in `features.md`.
-    const module = import(
-      'https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1'
-    );
+    const module =
+      import('https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1');
     return (featureName) =>
       module.then((wasmFeatureDetect) => wasmFeatureDetect[featureName]());
   }

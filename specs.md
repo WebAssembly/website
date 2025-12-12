@@ -4,12 +4,14 @@ layout: default
 
 # Specifications
 
-- [WebAssembly Specification](https://webassembly.github.io/spec/core/) (Wasm&nbsp;3.0): defines the
-  semantics of WebAssembly modules independent from a concrete embedding. The
-  WebAssembly core is specified in a single document.\
+- [WebAssembly Specification](https://webassembly.github.io/spec/core/)
+  (Wasm&nbsp;3.0): defines the semantics of WebAssembly modules independent from
+  a concrete embedding. The WebAssembly core is specified in a single document.\
   Older versions:
-    - [WebAssembly Core Specification — W3C Candidate Recommendation Draft, 16 June 2025](https://www.w3.org/TR/2025/CRD-wasm-core-2-20250616/) (Wasm&nbsp;2.0)
-    - [WebAssembly Core Specification — W3C Recommendation, 5 December 2019](https://www.w3.org/TR/2019/REC-wasm-core-1-20191205/) (Wasm&nbsp;1.0)
+  - [WebAssembly Core Specification — W3C Candidate Recommendation Draft, 16 June 2025](https://www.w3.org/TR/2025/CRD-wasm-core-2-20250616/)
+    (Wasm&nbsp;2.0)
+  - [WebAssembly Core Specification — W3C Recommendation, 5 December 2019](https://www.w3.org/TR/2019/REC-wasm-core-1-20191205/)
+    (Wasm&nbsp;1.0)
 - Embedding interfaces:
   - [JavaScript API](https://webassembly.github.io/spec/js-api/index.html):
     defines JavaScript classes and objects for accessing WebAssembly from within
