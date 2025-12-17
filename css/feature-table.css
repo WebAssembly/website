@@ -1,0 +1,309 @@
+[x-cloak],
+[hidden] {
+  display: none !important;
+}
+
+#feature-table {
+  margin-bottom: 0.75rem;
+}
+
+#feature-table a {
+  text-decoration: none;
+  color: var(--color-link);
+}
+
+#feature-table a:visited {
+  color: var(--color-link-visited);
+}
+
+#feature-table a:hover {
+  text-decoration: underline;
+}
+
+#feature-table table a::after {
+  /* Hide external link symbols in the table, since they are all external. */
+  display: none;
+}
+
+#feature-table svg {
+  width: 100%;
+  height: 100%;
+}
+
+#feature-table fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+#table-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  row-gap: 0.75rem;
+}
+
+#platform-filters {
+  display: flex; /* Flexbox does not work with <fieldset> due to a bug */
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  row-gap: 0.2rem;
+}
+
+#platform-filters .legend {
+  font-weight: 600;
+}
+
+#platform-filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  row-gap: 0.2rem;
+}
+
+/* Threshold should be revised when categories change. */
+@media (max-width: 24em) {
+  #platform-filter-options {
+    flex-direction: column;
+  }
+}
+
+.platform-filter {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+}
+
+.platform-filter > * {
+  cursor: pointer;
+}
+
+.platform-filter > input {
+  margin-top: 2px; /* Align checkbox with label */
+}
+
+#feature-scroll {
+  width: max-content;
+  min-width: 100%;
+  max-width: 95vw;
+  margin: 0 50%;
+  margin-top: 0.75rem;
+  transform: translateX(-50%);
+  overflow-x: auto;
+}
+
+table {
+  width: min-content;
+  min-width: 100%;
+  margin: 0;
+  overflow: initial; /* Required for sticky headers */
+
+  display: grid;
+  grid-auto-flow: dense;
+  justify-content: center;
+  align-items: stretch;
+
+  --feature-column-min-width: 12rem;
+  grid-template-columns: minmax(var(--feature-column-min-width), 2fr) repeat(
+      calc(var(--num-columns) - 1),
+      1fr
+    );
+
+  --border: 1px solid var(--color-border);
+  border: var(--border);
+  border-radius: 4px;
+  --cell-padding-block: 8px;
+  --cell-padding-inline: 10px;
+  --color-status-dim: #78909c;
+
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+thead,
+tbody,
+tr {
+  display: contents;
+}
+
+table th {
+  font-weight: 600;
+  padding: 8px 12px;
+}
+
+th,
+.cell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: var(--cell-padding-block) var(--cell-padding-inline);
+}
+
+thead th {
+  justify-content: end;
+}
+
+tbody tr:first-of-type th {
+  grid-column: 1 / -1;
+}
+
+th[scope='row'] {
+  text-wrap: balance;
+  line-height: 1.4;
+  position: sticky;
+  left: -1px;
+  z-index: 1;
+  background-color: var(--color-bg);
+}
+
+th img {
+  max-width: 100%;
+  max-height: 1.65rem;
+  height: auto;
+  margin: 2px 0 4px;
+}
+
+.cell {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
+  border: none;
+  justify-content: start;
+  gap: 5px;
+}
+
+.cell :has(> svg) {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+button.cell {
+  cursor: pointer;
+  border-bottom: var(--border);
+  border-bottom-width: 2px;
+  border-bottom-color: transparent; /* Prevent border from shifting cell height */
+}
+
+button.cell:hover {
+  background: var(--color-highlight-bg);
+}
+
+button.cell[aria-expanded='true'] {
+  border-bottom-color: var(--color-border);
+}
+
+td {
+  display: contents;
+}
+
+table > :first-child tr:not(:first-child) :is(th, .cell),
+table > :not(:first-child) tr :is(th, .cell),
+.details {
+  border-top: var(--border);
+}
+
+tr > th:not(:first-child),
+tr > :not(:first-child) .cell {
+  border-left: var(--border);
+}
+
+.text-secondary {
+  font-weight: normal;
+  color: rgb(0 0 0 / 75%);
+}
+
+.status-yes {
+  color: #0c3d10;
+  fill: #5c6b5d;
+}
+
+.status-no {
+  color: #83264a;
+  fill: #86556f;
+}
+
+.status-experimental {
+  color: #143a93;
+  fill: #3f63b7;
+}
+
+.status-not-applicable,
+.status-unknown,
+.details-note svg {
+  color: #52656f;
+  fill: var(--color-status-dim);
+}
+
+:is(.status-unknown, .status-not-applicable, .status-experimental) svg {
+  padding: 1.5px;
+}
+
+.icon-note svg {
+  padding: 1.5px;
+  fill: var(--color-status-dim);
+}
+
+.details {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+@supports not (grid-template-columns: subgrid) {
+  .details {
+    grid-template-columns: var(--feature-column-min-width, 12em) 1fr;
+  }
+}
+
+.details-inner {
+  grid-column: 2 / -1;
+  padding: calc(var(--cell-padding-block) * 2.5) var(--cell-padding-inline);
+  max-width: 95vw;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  row-gap: var(--cell-padding-inline);
+  column-gap: calc(var(--cell-padding-inline) * 0.85);
+}
+
+@media (width < 1000px) {
+  .details-inner {
+    /* Flush left on smaller screen */
+    grid-column: 1 / -1;
+    position: sticky;
+    left: -1px;
+    z-index: 1;
+  }
+}
+
+.details-inner > * {
+  display: contents;
+}
+
+.details-inner :has(> svg) {
+  height: 1.15rem;
+  height: 1.3lh;
+}
+
+.details-inner svg {
+  padding: 2px 0;
+}
+
+.details-status {
+  font-weight: 600;
+}
+
+.details-note svg {
+  opacity: 0.6;
+}
+
+.details-note-line {
+  grid-column: 2 / 2;
+  max-width: 90%;
+}

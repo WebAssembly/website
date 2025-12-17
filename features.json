@@ -256,6 +256,7 @@
     "Chrome": {
       "url": "https://www.google.com/chrome/",
       "logo": "/images/chrome.svg",
+      "category": "Web Browsers",
       "features": {
         "bigInt": "85",
         "branchHinting": "137",
@@ -298,6 +299,7 @@
     "Firefox": {
       "url": "https://www.mozilla.org/firefox/",
       "logo": "/images/firefox.svg",
+      "category": "Web Browsers",
       "features": {
         "bigInt": "78",
         "branchHinting": [
@@ -341,6 +343,7 @@
     "Safari": {
       "url": "https://www.apple.com/safari/",
       "logo": "/images/safari.svg",
+      "category": "Web Browsers",
       "features": {
         "bigInt": [
           "15",
@@ -383,6 +386,7 @@
     "Node.js": {
       "url": "https://nodejs.org/",
       "logo": "/images/nodejs.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": "15.0",
         "branchHinting": [
@@ -433,6 +437,7 @@
     "Deno": {
       "url": "https://deno.com/",
       "logo": "/images/deno.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": "1.1.2",
         "branchHinting": "2.3.2",
@@ -475,6 +480,7 @@
     "GraalWasm": {
       "url": "https://www.graalvm.org/webassembly/",
       "logo": "/images/graalvm.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": "21.3",
         "bulkMemory": "23.0",
@@ -499,6 +505,7 @@
     "Chicory": {
       "url": "https://chicory.dev/",
       "logo": "/images/chicory.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "1.0.0",
@@ -523,6 +530,7 @@
     "Wasmtime": {
       "url": "https://wasmtime.dev/",
       "logo": "/images/bca.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "0.20",
@@ -561,6 +569,7 @@
     "Wasmer": {
       "url": "https://wasmer.io/",
       "logo": "/images/wasmer.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "1.0",
@@ -580,39 +589,10 @@
         "webContentSecurityPolicy": null
       }
     },
-    "wasm2c": {
-      "url": "https://github.com/WebAssembly/wabt",
-      "logo": "/images/wasm2c.svg",
-      "features": {
-        "bigInt": null,
-        "bulkMemory": "1.0.30",
-        "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": ["flag", "Requires flag `--enable-exceptions`"],
-        "exceptions": ["flag", "Requires flag `--enable-exceptions`"],
-        "extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
-        "esmIntegration": null,
-        "jspi": null,
-        "jsStringBuiltins": null,
-        "memory64": ["flag", "Requires flag `--enable-memory64`"],
-        "multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
-        "tailCall": ["flag", "Requires flag `--enable-tail-call`"],
-        "customPageSizes": [
-          "flag",
-          "Requires flag `--enable-custom-page-sizes`"
-        ],
-        "multiValue": "1.0.24",
-        "mutableGlobals": "1.0.1",
-        "referenceTypes": "1.0.31",
-        "saturatedFloatToInt": "1.0.24",
-        "signExtensions": "1.0.24",
-        "simd": "1.0.33",
-        "typeReflection": null,
-        "webContentSecurityPolicy": null
-      }
-    },
     "wizard": {
       "url": "https://github.com/titzer/wizard-engine",
       "logo": "/images/wizard.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "25",
@@ -645,6 +625,7 @@
     "wazero": {
       "url": "https://wazero.io",
       "logo": "/images/wazero.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": true,
@@ -674,9 +655,41 @@
         "webContentSecurityPolicy": null
       }
     },
+    "wasm2c": {
+      "url": "https://github.com/WebAssembly/wabt",
+      "logo": "/images/wasm2c.svg",
+      "category": "Tools",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": "1.0.30",
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "exceptionsFinal": ["flag", "Requires flag `--enable-exceptions`"],
+        "exceptions": ["flag", "Requires flag `--enable-exceptions`"],
+        "extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
+        "esmIntegration": null,
+        "jspi": null,
+        "jsStringBuiltins": null,
+        "memory64": ["flag", "Requires flag `--enable-memory64`"],
+        "multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
+        "tailCall": ["flag", "Requires flag `--enable-tail-call`"],
+        "customPageSizes": [
+          "flag",
+          "Requires flag `--enable-custom-page-sizes`"
+        ],
+        "multiValue": "1.0.24",
+        "mutableGlobals": "1.0.1",
+        "referenceTypes": "1.0.31",
+        "saturatedFloatToInt": "1.0.24",
+        "signExtensions": "1.0.24",
+        "simd": "1.0.33",
+        "typeReflection": null,
+        "webContentSecurityPolicy": null
+      }
+    },
     "Owi": {
       "url": "https://github.com/ocamlpro/owi",
       "logo": "/images/owi.png",
+      "category": "Tools",
       "features": {
         "bigInt": null,
         "bulkMemory": true,

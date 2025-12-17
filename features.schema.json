@@ -24,13 +24,14 @@
       "properties": {
         "url": { "type": "string", "format": "uri" },
         "logo": { "type": "string", "format": "uri-reference" },
+        "category": { "enum": ["Web Browsers", "Standalone Runtimes", "Embedded Runtimes", "Tools"] },
         "features": {
           "type": "object",
           "additionalProperties": { "$ref": "#/definitions/status" }
         }
       },
       "additionalProperties": false,
-      "required": ["url", "logo", "features"]
+      "required": ["url", "logo", "category", "features"]
     },
     "status": {
       "title": "Status of this feature",

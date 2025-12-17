@@ -1,13 +1,23 @@
 :root {
   color-scheme: dark;
+
+  --color-fg: #e5e5e5;
+  --color-bg: #1e1e1e;
+  --color-highlight-bg: rgb(255 255 255 / 4%);
+  --color-link: #7cb1e2;
+  --color-link-visited: #ab8fee;
+  --color-border: #404549;
+
+  color: var(--color-fg);
+  background-color: var(--color-bg);
 }
 
 :not(.flash) > a[href^='http']::after {
-  filter: invert(1);
+  filter: invert(.8);
 }
 
 .flash.flash-warn {
-  color: CanvasText;
+  color: var(--color-fg);
   background-color: #555;
 }
 
@@ -20,30 +30,45 @@
 }
 
 .lead {
-  color: #999;
+  color: #c7c7c7;
 }
 
 blockquote {
-  color: #999;
+  color: #c7c7c7;
 }
 
 h6 {
-  color: #999;
+  color: #c7c7c7;
 }
 
-table th,
-table td {
-  border: 1px solid #222;
+.text-secondary {
+  color: rgb(255 255 255 / 75%);
 }
 
-table tr {
-  border-top: 1px solid #333;
+#feature-table table {
+  --color-bg: #202020;
+  --color-status-dim: #444c50;
+  background-color: var(--color-bg);
 }
 
-table tr:nth-child(2n) {
-  background-color: #303030;
-}
-
-.feature-cell {
+#feature-table :is(.cell, .details-status)  > * {
   filter: brightness(2);
+}
+
+#feature-table :is(th, .cell) {
+  border-left: none;
+}
+
+.status-yes {
+  color: #305934;
+  fill: #3d4e3e;
+}
+
+.status-no {
+  color: #785562;
+}
+
+.status-experimental {
+  color:#3e5997;
+  fill: #3f63b7;
 }
