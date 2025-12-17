@@ -3,10 +3,12 @@
 
   --color-fg: #151515;
   --color-bg: #fefefe;
-  --color-highlight-bg: rgb(0 0 0 / 5%);
+  --color-bg-highlight: rgb(0 0 0 / 5%);
+  --color-bg-secondary: rgb(0 0 0 / 1.25%);
   --color-link: #1751a7;
   --color-link-visited: #5817a7;
   --color-border: rgb(0 0 0 / 15%);
+  --color-border-primary: #7facec;
 
   color: var(--color-fg);
   background-color: var(--color-bg);

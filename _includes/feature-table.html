@@ -10,21 +10,15 @@
   x-cloak
 >
   <div id="table-actions">
-    <fieldset
-      x-id="['filter-legend']"
-      x-bind:aria-labelledby="$id('filter-legend')"
-      x-show="categories.length"
-    >
+    <fieldset x-show="categories.length">
+      <legend>Currently showing:</legend>
       <div id="platform-filters">
-        <span class="legend" x-bind:id="$id('filter-legend')">Currently showing:</span>
-        <div id="platform-filter-options">
-          <template x-for="category in categories" x-bind:key="category">
-            <div x-id="['platform-filter']" class="platform-filter">
-              <input type="checkbox" x-bind:id="$id('platform-filter')" x-bind:value="category" x-model="selectedCategories" />
-              <label x-bind:for="$id('platform-filter')" x-text="category"></label>
-            </div>
-          </template>
-        </div>
+        <template x-for="category in categories" x-bind:key="category">
+          <label class="platform-filter" x-id="['platform-filter']">
+            <input type="checkbox" x-bind:id="$id('platform-filter')" x-bind:value="category" x-model="selectedCategories" />
+            <div class="checkbox-button" x-bind:for="$id('platform-filter')" x-text="category"></div>
+          </label>
+        </template>
       </div>
     </fieldset>
     <div>
