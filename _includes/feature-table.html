@@ -38,15 +38,25 @@
     <table x-bind:style="{ '--num-columns': numColumns }">
       <thead>
         <tr>
-          <th></th>
+          <th class="top-corner"></th>
+          <template x-for="category in categories" x-bind:key="category">
+            <template x-if="selectedCategories.includes(category)">
+              <th scope="colgroup" class="category" x-bind:colspan="numColumnsByCategory[category]" x-bind:style="{ '--num-columns-in-category': numColumnsByCategory[category] }">
+                <div x-text="category"></div>
+              </th>
+            </template>
+          </template>
+        </tr>
+        <tr>
+          <th class="top-corner"></th>
           <th scope="col" x-show="hasBrowsers">Your browser</th>
-          <template x-for="[platformName, platform] in selectedPlatforms" x-bind:key="String(platformName)">
+          <template x-for="platform in selectedPlatforms" x-bind:key="platform.name">
             <th scope="col">
               <a x-bind:href="platform.url" target="_blank">
                 <!-- Empty alt trick: https://www.w3.org/WAI/WCAG22/Techniques/html/H2 -->
                 <img x-bind:src="platform.logo" alt="">
                 <br>
-                <span x-text="platformName"></span>
+                <span x-text="platform.name"></span>
               </a>
             </th>
           </template>

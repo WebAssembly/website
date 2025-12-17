@@ -146,6 +146,7 @@ const noteIcons = mapValues(
 
 /**
  * @typedef {{
+ *  name: string;
  *  url: string;
  *  logo: string;
  *  category: string;
@@ -154,11 +155,8 @@ const noteIcons = mapValues(
  */
 
 const state = () => ({
-  /** @type {Record<string, object>} */
-  features: {},
-
-  /** @type {Record<string, Platform>} */
-  platforms: {},
+  /** @type {Platform[]} */
+  platforms: [],
 
   /** @type {Record<string, DecodedStatus | undefined>} */
   yourBrowser: {},
@@ -175,21 +173,27 @@ const state = () => ({
       mode: 'no-cors',
     }).then((res) => res.json());
 
-    this.features = features;
     this.categories = [
       ...new Set(Object.values(platforms).map(({ category }) => category)),
     ];
 
-    // Decode the compact status format for easier future processing.
-    this.platforms = mapValues(platforms, (platform) => {
-      const featuresForPlatform = mapValues(features, (_, featName) => {
-        const raw = platform.features[featName];
-        return typeof raw === 'undefined'
-          ? { type: 'no' } // Missing values default to 'no'
-          : decodeSupportStatus(raw);
-      });
-      return { ...platform, features: featuresForPlatform };
-    });
+    this.platforms = Object.entries(platforms)
+      .map(([name, platform]) => {
+        // Decode the compact status format for easier future processing.
+        const featuresForPlatform = mapValues(features, (_, featName) => {
+          const raw = platform.features[featName];
+          return typeof raw === 'undefined'
+            ? { type: 'no' } // Missing values default to 'no'
+            : decodeSupportStatus(raw);
+        });
+        return { name, ...platform, features: featuresForPlatform };
+      })
+      .sort(
+        (a, b) =>
+          // Sort platforms in order of categories
+          this.categories.indexOf(a.category) -
+          this.categories.indexOf(b.category)
+      );
 
     let featureByGroup = Object.groupBy(
       Object.entries(features).map(([id, feature]) =>
@@ -216,7 +220,7 @@ const state = () => ({
       { name: 'Inactive', features: featureByGroup['inactive'] },
     ];
 
-    for (const id of Object.keys(this.features)) {
+    for (const id of Object.keys(features)) {
       _loadFeatureDetectModule()(id)
         .then((supported) => {
           this.yourBrowser[id] = {
@@ -235,12 +239,12 @@ const state = () => ({
       // Prevent user from deselecting all categories.
       this.selectedCategories = this.categories.filter(
         (category) => !oldValue.includes(category)
-      )
+      );
     }
   },
 
   get selectedPlatforms() {
-    return Object.entries(this.platforms).filter(([, { category }]) =>
+    return this.platforms.filter(({ category }) =>
       this.selectedCategories.includes(category)
     );
   },
@@ -256,8 +260,21 @@ const state = () => ({
     return n;
   },
 
+  get numColumnsByCategory() {
+    /** @type {Record<string, number>} */
+    const columns = this.platforms
+      .map(({ category }) => category)
+      .reduce((columns, category) => {
+        columns[category] ??= 0;
+        columns[category]++;
+        return columns;
+      }, {});
+    columns['Web Browsers']++; // "Your browser"
+    return columns;
+  },
+
   /**
-   * @param {[string, Platform][]} platforms
+   * @param {Platform[]} platforms
    * @returns {[string | null, DecodedStatus | undefined]}
    * */
   supportForPlatforms(platforms, featureId) {
@@ -265,10 +282,7 @@ const state = () => ({
       // "Your browser"
       [null, this.yourBrowser[featureId]],
       // Rest of the columns
-      ...platforms.map(([name, platform]) => [
-        name,
-        platform.features[featureId],
-      ]),
+      ...platforms.map(({ name, features }) => [name, features[featureId]]),
     ];
     if (!this.hasBrowsers) columns.shift();
     return columns;
@@ -283,7 +297,7 @@ const state = () => ({
       Object.values(this.yourBrowser).forEach(
         (feat) => feat?.expanded && (feat.expanded = false)
       );
-      Object.values(this.platforms)
+      this.platforms
         .flatMap((platform) => Object.values(platform.features))
         .forEach((feat) => feat?.expanded && (feat.expanded = false));
       selected.expanded = true;

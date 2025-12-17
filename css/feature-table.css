@@ -149,6 +149,12 @@ thead th {
   justify-content: end;
 }
 
+thead .category {
+  grid-column: span var(--num-columns-in-category);
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
 tbody tr:first-of-type th {
   grid-column: 1 / -1;
 }
