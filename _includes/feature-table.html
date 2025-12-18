@@ -39,7 +39,7 @@
             </th>
           </template>
         </tr>
-        <tr>
+        <tr class="platform-header-row">
           <th class="top-corner"></th>
           <template x-for="platform in cellsForRow(null)" x-bind:key="platform.name">
             <th scope="col">
@@ -49,12 +49,13 @@
                     <!-- Empty alt trick: https://www.w3.org/WAI/WCAG22/Techniques/html/H2 -->
                     <img x-bind:src="platform.logo" alt="" x-bind:class="platform.logoClassName">
                   </template>
-                  <br>
-                  <span x-text="platform.name"></span>
+                  <span class="platform-name" x-text="platform.name"></span>
                 </a>
               </template>
               <template x-if="!platform.url">
-                <span x-text="platform.name"></span>
+                <span>
+                  <span class="platform-name" x-text="platform.name"></span>
+                </span>
               </template>
             </th>
           </template>

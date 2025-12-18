@@ -7,6 +7,11 @@
   margin-bottom: 0.75rem;
 }
 
+#feature-table template {
+  /* Prevent templates from affecting layout. */
+  display: none !important;
+}
+
 #feature-table a {
   text-decoration: none;
   color: var(--color-link);
@@ -173,6 +178,7 @@ table {
       calc(var(--num-columns) - 1),
       1fr
     );
+  grid-template-rows: [category] auto [logo] auto [platform-name-first-line] 1lh [platform-name-rest-lines] auto;
 
   --border: 1px solid var(--color-border);
   border: var(--border);
@@ -183,6 +189,12 @@ table {
 
   font-size: 0.9rem;
   line-height: 1;
+}
+
+@supports not (height: 1lha) {
+  table {
+    grid-template-rows: [category] auto [logo] auto [platform-name-first-line] 1.1em [platform-name-rest-lines] auto;
+  }
 }
 
 thead,
@@ -206,8 +218,37 @@ th,
   padding: var(--cell-padding-block) var(--cell-padding-inline);
 }
 
-thead th {
-  justify-content: end;
+.platform-header-row th {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+  justify-content: stretch;
+}
+
+.platform-header-row th > * {
+  display: inline-grid;
+  justify-items: center;
+  row-gap: 2px;
+  align-self: end;
+
+  /* Applies to cells without logo (e.g. Your browser) */
+  grid-row: span 2; /* span [logo] and [platform-name-first-line] */
+}
+
+@supports not (grid-template-columns: subgrid) {
+  .platform-header-row th > * {
+    align-self: start;
+  }
+}
+
+.platform-header-row th > :has(img) {
+  /* Align logo and name using parent grid lines. */
+  grid-template-rows: inherit;
+  grid-row: inherit;
+}
+
+.platform-header-row .platform-name {
+  grid-row: span 2; /* span [platform-name-first-line] and [platform-name-rest-lines] */
 }
 
 thead .category {
@@ -243,6 +284,7 @@ th img {
   border: none;
   justify-content: start;
   gap: 5px;
+  touch-action: manipulation;
 }
 
 .cell :has(> svg) {
