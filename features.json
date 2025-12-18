@@ -625,6 +625,7 @@
     "wazero": {
       "url": "https://wazero.io",
       "logo": "/images/wazero.svg",
+      "logoClassName": "invert-in-dark-theme",
       "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,

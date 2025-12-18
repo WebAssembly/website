@@ -14,8 +14,9 @@
   background-color: var(--color-bg);
 }
 
+.invert-in-dark-theme,
 :not(.flash) > a[href^='http']::after {
-  filter: invert(.8);
+  filter: invert(0.8);
 }
 
 .flash.flash-warn {
@@ -53,7 +54,7 @@ h6 {
   background-color: var(--color-bg);
 }
 
-#feature-table :is(.cell, .details-status)  > * {
+#feature-table :is(.cell, .details-status) > * {
   filter: brightness(2);
 }
 
@@ -71,6 +72,6 @@ h6 {
 }
 
 .status-experimental {
-  color:#3e5997;
+  color: #3e5997;
   fill: #3f63b7;
 }

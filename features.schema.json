@@ -24,6 +24,7 @@
       "properties": {
         "url": { "type": "string", "format": "uri" },
         "logo": { "type": "string", "format": "uri-reference" },
+        "logoClassName": { "type": "string" },
         "category": { "enum": ["Web Browsers", "Standalone Runtimes", "Embedded Runtimes", "Tools"] },
         "features": {
           "type": "object",
