@@ -33,25 +33,29 @@
       <thead>
         <tr>
           <th class="top-corner"></th>
-          <template x-for="category in categories" x-bind:key="category">
-            <template x-if="selectedCategories.includes(category)">
-              <th scope="colgroup" class="category" x-bind:colspan="numColumnsByCategory[category]" x-bind:style="{ '--num-columns-in-category': numColumnsByCategory[category] }">
-                <div x-text="category"></div>
-              </th>
-            </template>
+          <template x-for="(numColumns, category) in cellGroupsForRow" x-bind:key="category">
+            <th scope="colgroup" class="category" x-bind:colspan="numColumns" x-bind:style="{ '--num-columns-in-category': numColumns }">
+              <div x-text="category"></div>
+            </th>
           </template>
         </tr>
         <tr>
           <th class="top-corner"></th>
-          <th scope="col" x-show="hasBrowsers">Your browser</th>
-          <template x-for="platform in selectedPlatforms" x-bind:key="platform.name">
+          <template x-for="platform in cellsForRow(null)" x-bind:key="platform.name">
             <th scope="col">
-              <a x-bind:href="platform.url" target="_blank">
-                <!-- Empty alt trick: https://www.w3.org/WAI/WCAG22/Techniques/html/H2 -->
-                <img x-bind:src="platform.logo" alt="" x-bind:class="platform.logoClassName">
-                <br>
+              <template x-if="platform.url">
+                <a x-bind:href="platform.url" target="_blank">
+                  <template x-if="platform.logo">
+                    <!-- Empty alt trick: https://www.w3.org/WAI/WCAG22/Techniques/html/H2 -->
+                    <img x-bind:src="platform.logo" alt="" x-bind:class="platform.logoClassName">
+                  </template>
+                  <br>
+                  <span x-text="platform.name"></span>
+                </a>
+              </template>
+              <template x-if="!platform.url">
                 <span x-text="platform.name"></span>
-              </a>
+              </template>
             </th>
           </template>
         </tr>
@@ -60,11 +64,11 @@
         <tbody>
           <tr><th scope="colgroup" x-bind:colspan="numColumns" x-text="featureGroup.name"></th></tr>
           <template x-for="feature in featureGroup.features" x-bind:key="feature.id">
-            <tr>
+            <tr x-bind:data-feature-id="feature.id">
               <th scope="row">
                 <a x-bind:href="feature.url" x-text="feature.description" target="_blank"></a>
               </th>
-              <template x-for="[platformName, status] in supportForPlatforms(selectedPlatforms, feature.id)" x-bind:key="String(platformName)">
+              <template x-for="{ name, status } in cellsForRow(feature.id)" x-bind:key="name">
                 <td x-id="['cell-details']">
                   <button
                     type="button"
@@ -84,7 +88,7 @@
                       <div class="details-inner">
                         <div class="details-status" x-bind:class="classForStatus(status)">
                           <div x-replace.clone="iconForNote(status)" aria-hidden="true"></div>
-                          <div x-replace="detailsLabelForStatus(status, platformName)"></div>
+                          <div x-replace="detailsLabelForStatus(status, name)"></div>
                         </div>
                         <div class="details-note" x-show="status?.note">
                           <div x-replace.clone="iconNote" aria-hidden="true"></div>

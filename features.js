@@ -1,7 +1,6 @@
 'use strict';
 
 /*! groupby-polyfill. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
-
 /**
  * Groups elements from an iterable into an object based on a callback function.
  *
@@ -57,7 +56,7 @@ function splitParts(str, delim) {
   return [str, '', ''];
 }
 
-function _loadFeatureDetectModule() {
+function loadFeatureDetection() {
   // Please cache bust by bumping the `v` parameter whenever `feature.json` is
   // updated to depend on a new version of the library. See #353 for discussion.
   // Make sure to also match the preload link in `feature-table.html`.
@@ -149,7 +148,9 @@ const noteIcons = mapValues(
  *  name: string;
  *  url: string;
  *  logo: string;
+ *  logoClassName?: string;
  *  category: string;
+ *  categories: string[];
  *  features: Record<string, DecodedStatus | undefined>
  * }} Platform
  */
@@ -174,26 +175,39 @@ const state = () => ({
     }).then((res) => res.json());
 
     this.categories = [
-      ...new Set(Object.values(platforms).map(({ category }) => category)),
+      ...new Set(
+        Object.values(platforms)
+          .map(({ category }) => category)
+          .flat()
+      ),
     ];
 
-    this.platforms = Object.entries(platforms)
-      .map(([name, platform]) => {
+    this.platforms = Object.entries(platforms).map(
+      ([name, { category, ...platform }]) => {
+        // Determine the primary category.
+        let categories = [];
+        if (Array.isArray(category)) {
+          categories = category;
+          category = category[0];
+        }
+
         // Decode the compact status format for easier future processing.
-        const featuresForPlatform = mapValues(features, (_, featName) => {
+        const platformFeatures = mapValues(features, (_, featName) => {
           const raw = platform.features[featName];
           return typeof raw === 'undefined'
             ? { type: 'no' } // Missing values default to 'no'
             : decodeSupportStatus(raw);
         });
-        return { name, ...platform, features: featuresForPlatform };
-      })
-      .sort(
-        (a, b) =>
-          // Sort platforms in order of categories
-          this.categories.indexOf(a.category) -
-          this.categories.indexOf(b.category)
-      );
+
+        return {
+          name,
+          ...platform,
+          category,
+          categories,
+          features: platformFeatures,
+        };
+      }
+    );
 
     let featureByGroup = Object.groupBy(
       Object.entries(features).map(([id, feature]) =>
@@ -220,8 +234,9 @@ const state = () => ({
       { name: 'Inactive', features: featureByGroup['inactive'] },
     ];
 
+    const featureDetect = loadFeatureDetection();
     for (const id of Object.keys(features)) {
-      _loadFeatureDetectModule()(id)
+      featureDetect(id)
         .then((supported) => {
           this.yourBrowser[id] = {
             type: supported ? 'yes' : 'no',
@@ -243,49 +258,59 @@ const state = () => ({
     }
   },
 
-  get selectedPlatforms() {
-    return this.platforms.filter(({ category }) =>
-      this.selectedCategories.includes(category)
+  /**
+   * Returns the cells to be rendered in a specific feature row
+   * (or null for the header row), excluding the row header.
+   *
+   * @param {string | null} featureId
+   * @returns {(Omit<Partial<Platform>, 'features'> & { name: string; category: string; status?: DecodedStatus | undefined; })[]}
+   */
+  cellsForRow(featureId) {
+    const selected = new Set(this.selectedCategories);
+    const cells = [
+      {
+        name: 'Your browser',
+        category: 'Web Browsers',
+        features: this.yourBrowser,
+      },
+      ...this.platforms,
+    ].flatMap(({ category, features, ...platform }) => {
+      if (!selected.has(category)) {
+        // Look for the next available option if the primary category is not selected.
+        category = platform.categories?.find((category) =>
+          selected.has(category)
+        );
+
+        // Skip the platform if none of its categories are selected,.
+        if (!category) return [];
+      }
+
+      return [
+        {
+          ...platform,
+          category,
+          status: featureId ? features[featureId] : undefined,
+        },
+      ];
+    });
+
+    return cells.sort(
+      (a, b) =>
+        this.categories.indexOf(a.category) -
+        this.categories.indexOf(b.category)
     );
   },
 
-  get hasBrowsers() {
-    return this.selectedCategories.includes('Web Browsers');
+  /** The categories currently displayed and their number of columns. */
+  get cellGroupsForRow() {
+    return mapValues(
+      Object.groupBy(this.cellsForRow(null), ({ category }) => category),
+      (platforms) => platforms.length
+    );
   },
 
   get numColumns() {
-    let n = 1;
-    if (this.hasBrowsers) n++; // "Your Browser"
-    n += this.selectedPlatforms.length;
-    return n;
-  },
-
-  get numColumnsByCategory() {
-    /** @type {Record<string, number>} */
-    const columns = this.platforms
-      .map(({ category }) => category)
-      .reduce((columns, category) => {
-        columns[category] ??= 0;
-        columns[category]++;
-        return columns;
-      }, {});
-    columns['Web Browsers']++; // "Your browser"
-    return columns;
-  },
-
-  /**
-   * @param {Platform[]} platforms
-   * @returns {[string | null, DecodedStatus | undefined]}
-   * */
-  supportForPlatforms(platforms, featureId) {
-    const columns = [
-      // "Your browser"
-      [null, this.yourBrowser[featureId]],
-      // Rest of the columns
-      ...platforms.map(({ name, features }) => [name, features[featureId]]),
-    ];
-    if (!this.hasBrowsers) columns.shift();
-    return columns;
+    return 1 + this.cellsForRow(null).length;
   },
 
   /** @param {DecodedStatus} selected  */

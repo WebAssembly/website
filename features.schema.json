@@ -25,14 +25,33 @@
         "url": { "type": "string", "format": "uri" },
         "logo": { "type": "string", "format": "uri-reference" },
         "logoClassName": { "type": "string" },
-        "category": { "enum": ["Web Browsers", "Standalone Runtimes", "Embedded Runtimes", "Tools"] },
+        "category": {
+          "title": "Category this platform belongs to. If multiple, the first one will be considered primary",
+          "anyOf": [
+            { "$ref": "#/definitions/category" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/category" },
+              "minItems": 2,
+              "uniqueItems": true
+            }
+          ]
+        },
         "features": {
           "type": "object",
           "additionalProperties": { "$ref": "#/definitions/status" }
         }
       },
       "additionalProperties": false,
-      "required": ["url", "logo", "category", "features"]
+      "required": ["url", "category", "features"]
+    },
+    "category": {
+      "enum": [
+        "Web Browsers",
+        "Standalone Runtimes",
+        "Embedded Runtimes",
+        "Tools"
+      ]
     },
     "status": {
       "title": "Status of this feature",
