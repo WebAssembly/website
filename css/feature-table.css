@@ -251,6 +251,10 @@ th,
   grid-row: span 2; /* span [platform-name-first-line] and [platform-name-rest-lines] */
 }
 
+.platform-header-row .rounded {
+  border-radius: 3px;
+}
+
 thead .category {
   grid-column: span var(--num-columns-in-category);
   font-size: 0.8rem;

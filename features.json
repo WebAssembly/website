@@ -658,7 +658,8 @@
     },
     "Owi": {
       "url": "https://github.com/ocamlpro/owi",
-      "logo": "/images/owi.png",
+      "logo": "/images/owi.webp",
+      "logoClassName": "rounded",
       "category": ["Tools", "Standalone Runtimes"],
       "features": {
         "bigInt": null,
