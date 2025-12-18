@@ -744,7 +744,7 @@
         "webContentSecurityPolicy": null
       }
     },
-    "WASM Language Tools": {
+    "wasm-language-tools": {
       "url": "https://github.com/g-plane/wasm-language-tools",
       "logo": "/images/wasm-language-tools.svg",
       "features": {
