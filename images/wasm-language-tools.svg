@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="wasm-language-tools.svg"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <title
+     id="title1">Logo of WebAssembly Language Tools</title>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="1.3272063"
+     inkscape:cx="248.26585"
+     inkscape:cy="242.23815"
+     inkscape:window-width="2194"
+     inkscape:window-height="1172"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="main layer"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#654ff0;fill-opacity:1;stroke-width:0;stroke-linecap:round;stroke-linejoin:round"
+       id="rect1"
+       width="480"
+       height="480"
+       x="16"
+       y="16"
+       ry="160"
+       rx="160" />
+    <path
+       style="-inkscape-font-specification:'Fantasque Sans Mono';fill:#ffffff;stroke-width:0;stroke-linecap:round;stroke-linejoin:round"
+       d="m 368.30398,293.80036 -13.56423,29.92113 q -2.99212,-1.39632 -23.73744,-11.37002 -20.74532,-9.97372 -34.70852,-16.35689 -13.76372,-6.58266 -37.70063,-17.55374 -23.9369,-10.97108 -41.69011,-18.55111 -17.75321,-7.77948 -37.50116,-15.35951 -19.74794,-7.7795 -33.3122,-11.96845 v -36.50378 q 42.68749,-23.33848 104.5245,-51.66382 61.83701,-28.5248 84.3776,-35.30693 11.37002,-3.79001 18.75057,-4.38843 l 1.5958,32.71376 q -24.13638,6.18371 -82.98128,32.71378 -58.84489,26.33059 -89.36444,43.08643 30.32008,9.77423 95.1492,38.49852 65.02859,28.52481 90.16234,42.08906 z M 151.87444,281.83192 q 33.71114,13.56424 54.65595,22.34111 20.74532,8.77686 58.04699,25.13374 37.50115,16.15741 61.43806,29.12324 23.9369,12.96583 32.5143,21.54321 l -20.54584,27.32797 q -10.57214,-9.77425 -25.93165,-18.5511 -41.69011,-23.53796 -87.17023,-43.28592 -45.67959,-19.9474 -81.186,-32.51429 z"
+       id="text1"
+       aria-label="&lt;=" />
+  </g>
+  <metadata
+     id="metadata1">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-nd/4.0/" />
+        <dc:title>Logo of WebAssembly Language Tools</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Pig Fang</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:description>The main figure of the logo is the &quot;&lt;=&quot; under Fantasque Sans Mono with ligatures enabled.</dc:description>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-nd/4.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

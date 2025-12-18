@@ -743,6 +743,36 @@
         "typeReflection": null,
         "webContentSecurityPolicy": null
       }
+    },
+    "WASM Language Tools": {
+      "url": "https://github.com/g-plane/wasm-language-tools",
+      "logo": "/images/wasm-language-tools.svg",
+      "features": {
+        "bigInt": null,
+        "branchHinting": null,
+        "bulkMemory": true,
+        "customAnnotationSyntaxInTheTextFormat": "0.7.0",
+        "esmIntegration": null,
+        "exceptionsFinal": "0.7.0",
+        "extendedConst": "0.7.0",
+        "gc": "0.4.0",
+        "jsPrimitiveBuiltins": null,
+        "jsStringBuiltins": null,
+        "jspi": null,
+        "memory64": "0.7.0",
+        "multiMemory": "0.4.0",
+        "multiValue": "0.1.0",
+        "mutableGlobals": "0.1.0",
+        "referenceTypes": "0.1.0",
+        "relaxedSimd": "0.7.0",
+        "saturatedFloatToInt": "0.3.0",
+        "signExtensions": "0.3.0",
+        "simd": true,
+        "tailCall": true,
+        "typeReflection": null,
+        "typedFunctionReferences": "0.4.0",
+        "webContentSecurityPolicy": null
+      }
     }
   }
 }
