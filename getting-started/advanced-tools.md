@@ -33,7 +33,7 @@ algorithms, tracing, inserting debugging hooks, etc.
 ### wat2wasm tool
 
 This is a command line tool that performs the inverse of **wasm2wast**, i.e. it
-converts files from the WebAssembly test format into WebAssembly binaries.
+converts files from the WebAssembly text format into WebAssembly binaries.
 
 Using **wasm2wat** and **wat2wasm** together allows lossless round tripping of
 WebAssembly binaries, and provides developers with a convenient way to
