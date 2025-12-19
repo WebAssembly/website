@@ -656,6 +656,37 @@
         "webContentSecurityPolicy": null
       }
     },
+    "wasm2c": {
+      "url": "https://github.com/WebAssembly/wabt",
+      "logo": "/images/wasm2c.svg",
+      "category": "Standalone Runtimes",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": "1.0.30",
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "exceptionsFinal": ["flag", "Requires flag `--enable-exceptions`"],
+        "exceptions": ["flag", "Requires flag `--enable-exceptions`"],
+        "extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
+        "esmIntegration": null,
+        "jspi": null,
+        "jsStringBuiltins": null,
+        "memory64": ["flag", "Requires flag `--enable-memory64`"],
+        "multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
+        "tailCall": ["flag", "Requires flag `--enable-tail-call`"],
+        "customPageSizes": [
+          "flag",
+          "Requires flag `--enable-custom-page-sizes`"
+        ],
+        "multiValue": "1.0.24",
+        "mutableGlobals": "1.0.1",
+        "referenceTypes": "1.0.31",
+        "saturatedFloatToInt": "1.0.24",
+        "signExtensions": "1.0.24",
+        "simd": "1.0.33",
+        "typeReflection": null,
+        "webContentSecurityPolicy": null
+      }
+    },
     "Owi": {
       "url": "https://github.com/ocamlpro/owi",
       "logo": "/images/owi.webp",
@@ -687,37 +718,6 @@
         "threads": false,
         "typedFunctionReferences": true,
         "typeReflection": false,
-        "webContentSecurityPolicy": null
-      }
-    },
-    "wasm2c": {
-      "url": "https://github.com/WebAssembly/wabt",
-      "logo": "/images/wasm2c.svg",
-      "category": "Tools",
-      "features": {
-        "bigInt": null,
-        "bulkMemory": "1.0.30",
-        "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": ["flag", "Requires flag `--enable-exceptions`"],
-        "exceptions": ["flag", "Requires flag `--enable-exceptions`"],
-        "extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
-        "esmIntegration": null,
-        "jspi": null,
-        "jsStringBuiltins": null,
-        "memory64": ["flag", "Requires flag `--enable-memory64`"],
-        "multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
-        "tailCall": ["flag", "Requires flag `--enable-tail-call`"],
-        "customPageSizes": [
-          "flag",
-          "Requires flag `--enable-custom-page-sizes`"
-        ],
-        "multiValue": "1.0.24",
-        "mutableGlobals": "1.0.1",
-        "referenceTypes": "1.0.31",
-        "saturatedFloatToInt": "1.0.24",
-        "signExtensions": "1.0.24",
-        "simd": "1.0.33",
-        "typeReflection": null,
         "webContentSecurityPolicy": null
       }
     },
