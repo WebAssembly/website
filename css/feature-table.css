@@ -291,7 +291,7 @@ th img {
   touch-action: manipulation;
 }
 
-.cell :has(> svg) {
+.cell .icon {
   width: 1.25rem;
   height: 1.25rem;
 }
@@ -383,6 +383,7 @@ tr > :not(:first-child) .cell {
   align-items: center;
   row-gap: var(--cell-padding-inline);
   column-gap: calc(var(--cell-padding-inline) * 0.85);
+  line-height: 1.35;
 }
 
 @media (width < 1000px) {
@@ -399,9 +400,9 @@ tr > :not(:first-child) .cell {
   display: contents;
 }
 
-.details-inner :has(> svg) {
-  height: 1.15rem;
-  height: 1.3lh;
+.details-inner .icon {
+  height: 1.2rem;
+  height: 1lh;
 }
 
 .details-inner svg {

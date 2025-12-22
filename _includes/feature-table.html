@@ -80,19 +80,19 @@
                     x-bind:aria-expanded="String(status?.expanded ?? false)"
                     x-bind:aria-controls="$id('cell-details')"
                   >
-                    <div x-replace.clone="iconForStatus(status)"></div>
+                    <div class="icon" x-replace.clone="iconForStatus(status)"></div>
                     <div x-show="labelForStatus(status)" x-text="labelForStatus(status)"></div>
-                    <div x-show="status?.note" class="icon-note" x-replace.clone="iconMoreDetails"></div>
+                    <div x-show="status?.note" class="icon icon-note" x-replace.clone="iconMoreDetails"></div>
                   </button>
                   <div class="details" x-bind:id="$id('cell-details')" x-bind:hidden="!status?.expanded">
                     <template x-if="status?.expanded">
                       <div class="details-inner">
                         <div class="details-status" x-bind:class="classForStatus(status)">
-                          <div x-replace.clone="iconForNote(status)" aria-hidden="true"></div>
+                          <div class="icon" x-replace.clone="iconForNote(status)" aria-hidden="true"></div>
                           <div x-replace="detailsLabelForStatus(status, name)"></div>
                         </div>
                         <div class="details-note" x-show="status?.note">
-                          <div x-replace.clone="iconNote" aria-hidden="true"></div>
+                          <div class="icon" x-replace.clone="iconNote" aria-hidden="true"></div>
                           <div class="details-note-line text-secondary" x-replace="renderNote(status?.note)"></div>
                         </div>
                       </div>
