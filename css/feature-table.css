@@ -1,6 +1,21 @@
-[x-cloak],
-[hidden] {
+[x-cloak] {
   display: none !important;
+}
+
+@keyframes appear-suddenly {
+  0% {
+    opacity: 0;
+  }
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#feature-table-loading {
+  animation: 1s linear forwards appear-suddenly;
 }
 
 #feature-table {
@@ -25,7 +40,8 @@
   text-decoration: underline;
 }
 
-#feature-table table a::after {
+#feature-table table a::after,
+#feature-table-loading a::after {
   /* Hide external link symbols in the table, since they are all external. */
   display: none;
 }

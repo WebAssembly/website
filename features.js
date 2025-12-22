@@ -309,6 +309,8 @@ const state = () => ({
           this.yourBrowser[id] = { type: 'unknown' };
         });
     }
+
+    document.getElementById('feature-table-loading')?.remove();
   },
 
   onSelectedCategoryChange(value, oldValue) {

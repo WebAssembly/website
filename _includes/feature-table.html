@@ -3,14 +3,22 @@
 <script type="module" src="/features.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15/dist/cdn.js" defer></script><!-- TODO: use minimized version -->
 
+<noscript><p>Please enable JavaScript for the table to load.</p></noscript>
+
+<p id="feature-table-loading">
+  Loading table, please wait&hellip;
+  <span class="text-secondary">(<a href="https://github.com/WebAssembly/website/issues" target="_blank">report issues</a>)</span>
+</p>
+
 <div
   id="feature-table"
   x-data="data"
   x-init="$watch('selectedCategories', (value, oldValue) => onSelectedCategoryChange(value, oldValue))"
+  x-show="categories.length"
   x-cloak
 >
   <div id="table-actions">
-    <fieldset x-show="categories.length">
+    <fieldset>
       <legend>Currently showing:</legend>
       <div id="platform-filters">
         <template x-for="category in categoryNames" x-bind:key="category">
@@ -28,7 +36,7 @@
     </div>
   </div>
 
-  <div id="feature-scroll" x-show="categories.length">
+  <div id="feature-scroll">
     <table x-bind:style="{ '--num-columns': numColumns }">
       <thead>
         <tr>
