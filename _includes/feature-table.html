@@ -13,7 +13,7 @@
     <fieldset x-show="categories.length">
       <legend>Currently showing:</legend>
       <div id="platform-filters">
-        <template x-for="category in categories" x-bind:key="category">
+        <template x-for="category in categoryNames" x-bind:key="category">
           <label class="platform-filter" x-id="['platform-filter']">
             <input type="checkbox" x-bind:id="$id('platform-filter')" x-bind:value="category" x-model="selectedCategories" />
             <div class="checkbox-button" x-bind:for="$id('platform-filter')" x-text="category"></div>

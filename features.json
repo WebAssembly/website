@@ -252,6 +252,12 @@
       "phase": 3
     }
   },
+  "categories": [
+    { "name": "Web Browsers", "queryKey": "browsers", "default": true },
+    { "name": "Standalone Runtimes", "queryKey": "standalones", "default": true },
+    { "name": "Embedded Runtimes", "queryKey": "embeddeds" },
+    { "name": "Tools", "queryKey": "tools" }
+  ],
   "browsers": {
     "Chrome": {
       "url": "https://www.google.com/chrome/",
@@ -639,7 +645,7 @@
         "jspi": null,
         "jsStringBuiltins": null,
         "memory64": false,
-        "tailCall": ["flag", "Experimental feature"],
+        "tailCall": "flag",
         "customPageSizes": null,
         "multiValue": true,
         "multiMemory": false,
@@ -650,7 +656,7 @@
         "signExtensions": true,
         "simd": true,
         "stackSwitching": false,
-        "threads": ["flag", "Experimental feature"],
+        "threads": "flag",
         "typedFunctionReferences": false,
         "typeReflection": null,
         "webContentSecurityPolicy": null

@@ -101,6 +101,18 @@
       "type": "object",
       "additionalProperties": { "$ref": "#/definitions/feature-info" }
     },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "$ref": "#/definitions/category" },
+          "queryKey": { "type": "string", "pattern": "^[\\w\\-\\.~]+$" },
+          "default": { "const": true }
+        },
+        "required": ["name", "queryKey"]
+      }
+    },
     "browsers": {
       "type": "object",
       "additionalProperties": { "$ref": "#/definitions/browser-features" }

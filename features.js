@@ -60,9 +60,8 @@ function loadFeatureDetection() {
   // Please cache bust by bumping the `v` parameter whenever `feature.json` is
   // updated to depend on a new version of the library. See #353 for discussion.
   // Make sure to also match the preload link in `feature-table.html`.
-  const module = import(
-    'https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1'
-  );
+  const module =
+    import('https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1');
   return (featureName) =>
     module.then((wasmFeatureDetect) => wasmFeatureDetect[featureName]());
 }
@@ -117,6 +116,56 @@ function decodeSupportStatus(status) {
   return { type, version, note, expanded: false };
 }
 
+/** @typedef {{ name: string, queryKey: string, default?: boolean }} Category */
+
+/** @param {Category[]} allCategories */
+function loadSelectedCategories(allCategories) {
+  const names = new URLSearchParams(location.search)
+    .getAll('categories')
+    .flatMap((values) => values.split(','))
+    .flatMap((param) => {
+      const category = allCategories.find(({ queryKey }) => queryKey === param);
+      return category ? [category.name] : [];
+    });
+
+  return names.length
+    ? names
+    : allCategories
+        .filter((category) => category.default)
+        .map((category) => category.name);
+}
+
+/**
+ * @param {Category[]} allCategories
+ * @param {string[]} selected
+ */
+function saveSelectedCategories(allCategories, selected) {
+  const defaultSelection = allCategories
+    .filter((category) => category.default)
+    .map((category) => category.name);
+
+  if (
+    selected.length === defaultSelection.length &&
+    selected.every((name) => defaultSelection.includes(name))
+  ) {
+    selected = [];
+  }
+
+  // Keep the same order as in `allCategories`
+  const queryKeys = allCategories
+    .filter(({ name }) => selected.includes(name))
+    .map(({ queryKey }) => queryKey);
+
+  const url = new URL(location.href);
+  if (queryKeys.length) {
+    url.searchParams.set('categories', queryKeys.join(','));
+  } else {
+    url.searchParams.delete('categories');
+  }
+
+  history.replaceState(null, '', url);
+}
+
 // TODO: think of a cleaner way to store icons
 const statusIcons = mapValues(
   {
@@ -165,22 +214,35 @@ const state = () => ({
   /** @type {{ name: string; features: object[] }[]} */
   featureGroups: [],
 
+  /** @type {Category[]} */
   categories: [],
-  selectedCategories: ['Web Browsers', 'Standalone Runtimes'],
+
+  get categoryNames() {
+    return this.categories.map(({ name }) => name);
+  },
+
+  /** @type {string[]} */
+  selectedCategories: [],
 
   async init() {
-    const { features, browsers: platforms } = await fetch('/features.json', {
+    const {
+      features,
+      categories,
+      browsers: platforms,
+    } = await fetch('/features.json', {
       credentials: 'include', // https://stackoverflow.com/a/63814972
       mode: 'no-cors',
     }).then((res) => res.json());
 
-    this.categories = [
-      ...new Set(
-        Object.values(platforms)
-          .map(({ category }) => category)
-          .flat()
-      ),
-    ];
+    const categoriesInUse = new Set(
+      Object.values(platforms).flatMap(({ category }) => category)
+    );
+
+    // Hide empty categories.
+    this.categories = categories.filter(({ name }) =>
+      categoriesInUse.has(name)
+    );
+    this.selectedCategories = loadSelectedCategories(categories);
 
     this.platforms = Object.entries(platforms).map(
       ([name, { category, ...platform }]) => {
@@ -252,10 +314,12 @@ const state = () => ({
   onSelectedCategoryChange(value, oldValue) {
     if (!value.length && this.categories.length) {
       // Prevent user from deselecting all categories.
-      this.selectedCategories = this.categories.filter(
-        (category) => !oldValue.includes(category)
+      this.selectedCategories = this.categoryNames.filter(
+        (name) => !oldValue.includes(name)
       );
     }
+
+    saveSelectedCategories(this.categories, this.selectedCategories);
   },
 
   /**
@@ -294,10 +358,10 @@ const state = () => ({
       ];
     });
 
+    const { categoryNames } = this;
     return cells.sort(
       (a, b) =>
-        this.categories.indexOf(a.category) -
-        this.categories.indexOf(b.category)
+        categoryNames.indexOf(a.category) - categoryNames.indexOf(b.category)
     );
   },
 
