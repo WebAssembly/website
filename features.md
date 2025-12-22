@@ -16,9 +16,6 @@ For the complete list of current proposals and their respective stages, check
 out the
 [`WebAssembly/proposals` repo](https://github.com/WebAssembly/proposals).
 
-The table below aims to track implemented features in popular engines and tools.
-You can click on a cell for more information.
-
 {% include feature-table.html %}
 
 To detect supported features at runtime from JavaScript, check out the

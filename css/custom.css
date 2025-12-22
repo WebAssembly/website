@@ -2520,21 +2520,16 @@ pre code::after {
   content: normal;
 }
 
-[data-placement='top'] > .feature-tooltip-arrow {
-  bottom: 0;
-  transform: translateY(50%) rotate(-135deg);
-}
-[data-placement='bottom'] > .feature-tooltip-arrow {
-  top: 0;
-  transform: translateY(-50%) rotate(45deg);
-}
-[data-placement='left'] > .feature-tooltip-arrow {
-  right: 0;
-  transform: translateX(50%) rotate(135deg);
-}
-[data-placement='right'] > .feature-tooltip-arrow {
-  left: 0;
-  transform: translateX(-50%) rotate(-45deg);
+.visually-hidden {
+  /* Visually hidden */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: none;
+  white-space: nowrap;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
 }
 
 dark-mode-toggle {

@@ -64,6 +64,7 @@
   align-items: end;
   gap: 1.5rem;
   row-gap: 0.75rem;
+  font-size: .9rem;
 }
 
 #table-actions legend {
@@ -95,17 +96,12 @@
 
 /* Style as button groups on desktop. Threshold should be revised when categories change. */
 @media (min-width: 50rem) {
-  #table-actions {
-    align-items: center;
-  }
-
   #table-actions legend {
     /* Visually hidden */
     position: absolute;
     width: 1px;
     height: 1px;
     padding: 0;
-    margin: -1px;
     border: none;
     white-space: nowrap;
     overflow: hidden;
@@ -392,8 +388,9 @@ tr > :not(:first-child) .cell {
 
 .details-inner {
   grid-column: 2 / -1;
-  padding: calc(var(--cell-padding-block) * 2.5) var(--cell-padding-inline);
   max-width: 95vw;
+  margin: 0;
+  padding: calc(var(--cell-padding-block) * 2.5) var(--cell-padding-inline);
   display: grid;
   grid-template-columns: max-content 1fr;
   align-items: center;

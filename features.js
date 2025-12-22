@@ -385,12 +385,13 @@ const state = () => ({
       selected.expanded = false;
     } else {
       // Only one should be open at a time, close everything else first.
-      Object.values(this.yourBrowser).forEach(
-        (feat) => feat?.expanded && (feat.expanded = false)
-      );
-      this.platforms
-        .flatMap((platform) => Object.values(platform.features))
-        .forEach((feat) => feat?.expanded && (feat.expanded = false));
+      for (const platform of this.platforms)
+        for (const feat of Object.values(platform.features))
+          feat?.expanded && (feat.expanded = false);
+
+      for (const feat of Object.values(this.yourBrowser))
+        feat?.expanded && (feat.expanded = false);
+
       selected.expanded = true;
     }
   },
@@ -444,7 +445,7 @@ const state = () => ({
     if (!status?.type) return null;
     switch (status.type) {
       case 'yes':
-        if (!platformName) return 'Supported in your browser';
+        if (platformName === 'Your browser') return 'Supported in your browser';
         if (status.version) {
           return `Supported in ${platformName} ${status.version}`;
         } else {
@@ -456,7 +457,8 @@ const state = () => ({
           return fragment;
         }
       case 'no':
-        if (!platformName) return 'Not supported in your browser';
+        if (platformName === 'Your browser')
+          return 'Not supported in your browser';
         return `Not supported in ${platformName}`;
       case 'experimental':
         return `Experimental support in ${platformName}`;
@@ -486,6 +488,11 @@ const state = () => ({
     }
     return fragment;
   },
+
+  /** @param {string} s  */
+  str2id(s) {
+    return s.replaceAll(/\W+/g, '-').toLowerCase();
+  },
 });
 
 document.addEventListener('alpine:init', () => {
@@ -498,6 +505,7 @@ document.addEventListener('alpine:init', () => {
       { expression, modifiers },
       { evaluateLater, effect }
     ) => {
+      const clone = modifiers.includes('clone');
       const getChild = evaluateLater(expression);
       effect(() =>
         getChild((child) => {
@@ -505,7 +513,7 @@ document.addEventListener('alpine:init', () => {
             throw new TypeError(
               'x-replace cannot operate on arrays, use DocumentFragment instead'
             );
-          if (modifiers.includes('clone') && child instanceof Node)
+          if (clone && child instanceof Node)
             child = document.importNode(child, true);
           el.replaceChildren(child);
         })
