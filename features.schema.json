@@ -24,13 +24,34 @@
       "properties": {
         "url": { "type": "string", "format": "uri" },
         "logo": { "type": "string", "format": "uri-reference" },
+        "logoClassName": { "type": "string" },
+        "category": {
+          "title": "Category this platform belongs to. If multiple, the first one will be considered primary",
+          "anyOf": [
+            { "$ref": "#/definitions/category" },
+            {
+              "type": "array",
+              "items": { "$ref": "#/definitions/category" },
+              "minItems": 2,
+              "uniqueItems": true
+            }
+          ]
+        },
         "features": {
           "type": "object",
           "additionalProperties": { "$ref": "#/definitions/status" }
         }
       },
       "additionalProperties": false,
-      "required": ["url", "logo", "features"]
+      "required": ["url", "category", "features"]
+    },
+    "category": {
+      "enum": [
+        "Web Browsers",
+        "Standalone Runtimes",
+        "Embedded Runtimes",
+        "Tools"
+      ]
     },
     "status": {
       "title": "Status of this feature",
@@ -79,6 +100,18 @@
     "features": {
       "type": "object",
       "additionalProperties": { "$ref": "#/definitions/feature-info" }
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "$ref": "#/definitions/category" },
+          "queryKey": { "type": "string", "pattern": "^[\\w\\-\\.~]+$" },
+          "default": { "const": true }
+        },
+        "required": ["name", "queryKey"]
+      }
     },
     "browsers": {
       "type": "object",

@@ -1,5 +1,17 @@
 :root {
   color-scheme: light;
+
+  --color-fg: #151515;
+  --color-bg: #fefefe;
+  --color-bg-highlight: rgb(0 0 0 / 5%);
+  --color-bg-secondary: rgb(0 0 0 / 1.25%);
+  --color-link: #1751a7;
+  --color-link-visited: #5817a7;
+  --color-border: rgb(0 0 0 / 15%);
+  --color-border-primary: #7facec;
+
+  color: var(--color-fg);
+  background-color: var(--color-bg);
 }
 
 .flash.flash-warn {
@@ -12,7 +24,7 @@
 }
 
 .lead {
-  color: #555;
+  color: #3a3a3a;
 }
 
 blockquote {
@@ -23,15 +35,6 @@ h6 {
   color: #777;
 }
 
-table th,
-table td {
-  border: 1px solid #ddd;
-}
-
-table tr {
-  border-top: 1px solid #ccc;
-}
-
-table tr:nth-child(2n) {
-  background-color: #f8f8f8;
+#feature-table .top-corner {
+  border-top: none !important;
 }
