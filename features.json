@@ -753,6 +753,7 @@
         "branchHinting": null,
         "bulkMemory": true,
         "customAnnotationSyntaxInTheTextFormat": "0.7.0",
+        "customPageSizes": "0.8.0",
         "esmIntegration": null,
         "exceptionsFinal": "0.7.0",
         "extendedConst": "0.7.0",
@@ -770,9 +771,11 @@
         "signExtensions": "0.3.0",
         "simd": true,
         "tailCall": true,
+        "threads": "0.8.0",
         "typeReflection": null,
         "typedFunctionReferences": "0.4.0",
         "webContentSecurityPolicy": null
+        "wideArithmetic": "0.8.0"
       }
     }
   }
