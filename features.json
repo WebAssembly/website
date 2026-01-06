@@ -774,7 +774,7 @@
         "threads": "0.8.0",
         "typeReflection": null,
         "typedFunctionReferences": "0.4.0",
-        "webContentSecurityPolicy": null
+        "webContentSecurityPolicy": null,
         "wideArithmetic": "0.8.0"
       }
     }
