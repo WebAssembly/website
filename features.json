@@ -535,7 +535,7 @@
         "gc": ["flag", "Requires flag `--wasm=gc`"],
         "jspi": null,
         "jsStringBuiltins": null,
-        "memory64": ["flag", "Requires flag `--wasm=memory64`"],
+        "memory64": "30",
         "multiMemory": "15",
         "multiValue": "0.17",
         "mutableGlobals": true,
