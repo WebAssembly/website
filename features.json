@@ -396,10 +396,7 @@
           "Requires flag `--experimental-wasm-compilation-hints`"
         ],
         "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": [
-          "flag",
-          "Requires flag `--experimental-wasm-exnref`"
-        ],
+        "exceptionsFinal": "25.0",
         "exceptions": "17.0",
         "extendedConst": "21.0",
         "gc": "22.0",
