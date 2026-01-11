@@ -218,7 +218,7 @@
     },
     "threads": {
       "description": "Threads",
-      "url": "https://github.com/WebAssembly/threads/blob/master/proposals/threads/Overview.md",
+      "url": "https://github.com/WebAssembly/threads/blob/main-legacy/proposals/threads/Overview.md",
       "phase": 4
     },
     "typeImports": {
@@ -362,6 +362,7 @@
         "exceptions": "15.2",
         "extendedConst": "17.4",
         "gc": "18.2",
+        "jsStringBuiltins": "26.2",
         "multiValue": "13.1",
         "mutableGlobals": "13.1",
         "profiles": null,
@@ -405,10 +406,7 @@
           "Requires flag `--experimental-wasm-compilation-hints`"
         ],
         "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": [
-          "flag",
-          "Requires flag `--experimental-wasm-exnref`"
-        ],
+        "exceptionsFinal": "25.0",
         "exceptions": "17.0",
         "extendedConst": "21.0",
         "gc": "22.0",
@@ -548,7 +546,7 @@
         "gc": ["flag", "Requires flag `--wasm=gc`"],
         "jspi": null,
         "jsStringBuiltins": null,
-        "memory64": ["flag", "Requires flag `--wasm=memory64`"],
+        "memory64": "30",
         "multiMemory": "15",
         "multiValue": "0.17",
         "mutableGlobals": true,
@@ -771,6 +769,7 @@
         "branchHinting": null,
         "bulkMemory": true,
         "customAnnotationSyntaxInTheTextFormat": "0.7.0",
+        "customPageSizes": "0.8.0",
         "esmIntegration": null,
         "exceptionsFinal": "0.7.0",
         "extendedConst": "0.7.0",
@@ -788,9 +787,45 @@
         "signExtensions": "0.3.0",
         "simd": true,
         "tailCall": true,
+        "threads": "0.8.0",
         "typeReflection": null,
         "typedFunctionReferences": "0.4.0",
-        "webContentSecurityPolicy": null
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": "0.8.0"
+      }
+    },
+    "wasmedge": {
+      "url": "https://github.com/WasmEdge/WasmEdge",
+      "logo": "/images/wasmedge.svg",
+      "category": "Standalone Runtimes",
+      "features": {
+        "bigInt": null,
+        "branchHinting": null,
+        "bulkMemory": "0.7.1",
+        "customAnnotationSyntaxInTheTextFormat": false,
+        "customPageSizes": false,
+        "esmIntegration": false,
+        "exceptionsFinal": "0.14.0",
+        "extendedConst": "0.10.0",
+        "gc": "0.14.0",
+        "jsPrimitiveBuiltins": null,
+        "jsStringBuiltins": null,
+        "jspi": null,
+        "memory64": false,
+        "multiMemory": "0.9.1",
+        "multiValue": "0.6.2",
+        "mutableGlobals": "0.2.0",
+        "referenceTypes": "0.7.1",
+        "relaxedSimd": "0.14.1",
+        "saturatedFloatToInt": "0.6.2",
+        "signExtensions": "0.6.2",
+        "simd": "0.7.2",
+        "tailCall": "0.10.0",
+        "threads": "0.10.1",
+        "typeReflection": false,
+        "typedFunctionReferences": "0.14.0",
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": false
       }
     }
   }
