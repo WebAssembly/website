@@ -25,7 +25,7 @@ audio:not([controls]) {
   height: 0;
 }
 [hidden] {
-  display: none;
+  display: none !important;
 }
 html {
   font-size: 100%;
@@ -2447,8 +2447,6 @@ dl dd {
 }
 
 table {
-  /* https://bugzilla.mozilla.org/show_bug.cgi?id=1005271 */
-  /* display: block; */
   width: 100%;
   overflow: auto;
 }
@@ -2522,200 +2520,16 @@ pre code::after {
   content: normal;
 }
 
-#feature-support-scrollbox {
-  width: min-content;
-  max-width: 95vw;
-  margin: 0 50%;
-  margin-bottom: 2em;
-  transform: translateX(-50%);
-  overflow-x: auto;
-}
-
-#feature-support-scrollbox th[scope='row'] {
-  position: sticky;
-  left: -1px;
-  background-color: inherit;
-  z-index: 1;
-}
-
-#feature-support-scrollbox a::after {
-  /* Hide external link symbols on the table, since they are all external. */
-  display: none;
-}
-
-@media (min-width: 1400px) {
-  #feature-support {
-    white-space: nowrap;
-  }
-}
-
-#feature-support {
-  cursor: default;
-}
-
-#feature-support > caption {
-  text-align: left;
-}
-
-#feature-support sup {
-  padding-left: 1pt;
-}
-
-#feature-support tr > * {
-  text-align: center;
-}
-
-#feature-support tr:first-child > th {
-  vertical-align: bottom;
-  white-space: normal;
-}
-
-#feature-support .img-container {
-  width: 32px;
-  height: 32px;
-}
-
-#feature-support td {
-  position: relative; /* for tooltip */
-}
-
-#feature-support td:hover,
-#feature-support td:focus,
-#feature-support td:focus-within {
-  background: rgba(0, 0, 0, 0.04);
-}
-
-#feature-support th img {
-  max-height: 32px;
-}
-
-.feature-cell {
-  position: relative;
-  height: 24px; /* height of the icon inside */
-  line-height: 24px;
-}
-
-.feature-cell > sup {
-  font-size: 0.7em;
+.visually-hidden {
+  /* Visually hidden */
   position: absolute;
-  top: 0.2em;
-}
-
-.feature-cell > svg {
-  width: 24px;
-  height: 24px;
-}
-
-.feature-cell.icon-yes {
-  color: #1b5e20;
-}
-
-.feature-cell.icon-yes > svg .svg-stroke {
-  fill: #1b5e20;
-}
-
-.feature-cell.icon-no {
-  color: #a96e8e;
-}
-
-.feature-cell.icon-no > svg .svg-stroke {
-  fill: #a96e8e;
-}
-
-.feature-cell.icon-flag {
-  color: #575581;
-}
-
-.feature-cell.icon-flag > svg .svg-stroke {
-  fill: #575581;
-}
-
-.feature-cell.icon-na {
-  color: #78909c;
-}
-
-.feature-cell.icon-unknown > svg .svg-stroke {
-  fill: #78909c;
-}
-
-#feature-support-scrollbox + ol {
-  list-style: lower-alpha;
-  font-size: 0.7em;
-  margin: 0 0 1em 0;
-  columns: 32em auto;
-  column-gap: 2em;
-}
-
-#feature-support-scrollbox + ol > li {
-  transition: background-color 0.08s ease-in-out;
-}
-
-#feature-support-scrollbox + ol .ref-highlight {
-  background: #eceff1;
-}
-
-.feature-tooltip {
-  text-align: left;
-  text-align: start;
-  white-space: normal;
-  color: #000;
-  background: #fefefe;
-  font-size: 0.8em;
-  border-radius: 2px;
-  outline: none;
-
-  top: 0;
-  left: 0;
-  z-index: 1;
-  max-width: 16em;
-  width: max-content;
-  height: max-content;
-  padding: 12px;
-}
-
-/* Only apply transition after the initial position was set */
-.feature-tooltip[data-placement] {
-  transition: transform 0.2s ease-in-out;
-}
-
-.feature-tooltip,
-.feature-tooltip-arrow {
-  position: absolute;
-  contain: layout style;
-  --shadow-size: 3px;
-  box-shadow: 0 0 var(--shadow-size) rgba(0, 0, 0, 0.3);
-}
-
-.feature-tooltip-arrow {
-  --arrow-size: 8px;
-  background: inherit;
-  width: var(--arrow-size);
-  height: var(--arrow-size);
-
-  --c0: calc(var(--shadow-size) * -1);
-  --c1: calc(100% + var(--shadow-size));
-  clip-path: polygon(
-    var(--c0) var(--c1),
-    var(--c0) var(--c0),
-    var(--c1) var(--c0)
-  );
-}
-
-[data-placement='top'] > .feature-tooltip-arrow {
-  bottom: 0;
-  transform: translateY(50%) rotate(-135deg);
-}
-[data-placement='bottom'] > .feature-tooltip-arrow {
-  top: 0;
-  transform: translateY(-50%) rotate(45deg);
-}
-[data-placement='left'] > .feature-tooltip-arrow {
-  right: 0;
-  transform: translateX(50%) rotate(135deg);
-}
-[data-placement='right'] > .feature-tooltip-arrow {
-  left: 0;
-  transform: translateX(-50%) rotate(-45deg);
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: none;
+  white-space: nowrap;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
 }
 
 dark-mode-toggle {
