@@ -1,484 +1,545 @@
-(async () => {
-  'use strict';
+'use strict';
 
-  function h(name, props = {}, children = []) {
-    const node = Object.assign(document.createElement(name), props);
-    node.append(...children);
-    return node;
+/*! groupby-polyfill. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
+/**
+ * Groups elements from an iterable into an object based on a callback function.
+ *
+ * @template T
+ * @template {PropertyKey} K
+ * @param {Iterable<T>} iterable - The iterable to group.
+ * @param {function(T, number): K} callbackfn - The callback function to
+ * determine the grouping key.
+ * @returns {Partial<Record<K, T[]>>} An object where keys are the grouping keys
+ * and values are arrays of grouped elements.
+ *
+ * This was introduced because of https://github.com/GoogleChromeLabs/wasm-feature-detect/issues/82.
+ */
+Object.groupBy ??= function groupBy(iterable, callbackfn) {
+  const obj = Object.create(null);
+  let i = 0;
+  for (const value of iterable) {
+    const key = callbackfn(value, i++);
+    key in obj ? obj[key].push(value) : (obj[key] = [value]);
   }
+  return obj;
+};
 
-  // Convert number to lowercase hexavigesimal like "a, b, c, .., x, y, z, aa, ab, ..", starting from zero.
-  // This is the same format as CSS `list-style: lower-alpha`, which is used for our footnote lists.
-  function toAlphabet(num) {
-    const digit = num % 26,
-      char = String.fromCharCode(97 + digit),
-      rem = num - digit;
-    return rem ? toAlphabet(Math.floor(rem / 26) - 1) + char : char;
-  }
-
-  // Map names to HTML ids. For example, idMap['table-col']('Chrome') will return 'table-col-chrome'.
-  // This is to satisfy the need for unique ids in `headers` attributes.
-  // Hardcoded array makes it easier to find typos, since it would throw an error if the namespace is mistyped.
-  const idMap = ['table-group', 'table-col', 'table-row'].reduce(
-    (map, namespace) => {
-      map[namespace] = (str) =>
-        namespace + '-' + str.toLowerCase().replace(/[^\w\d-_]+/g, '-');
-      return map;
-    },
-    {}
+/**
+ * `Array.map` but for object values.
+ *
+ * @template {Record<any, any>} T
+ * @template R
+ * @param {T} obj
+ * @param {(value: T[keyof T] & {}, key: keyof T) => R} mapper
+ * @returns {{ [K in keyof T]: R }}
+ */
+function mapValues(obj, mapper) {
+  return /** @type {any} */ (
+    Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => [
+        key,
+        mapper(value, /** @type {keyof T} */ (key)),
+      ])
+    )
   );
+}
 
-  // Get a copy of the requested SVG icon. Those are defined in the markdown as templates.
-  function icon(key) {
-    return document
-      .getElementById(`support-symbol-${key}`)
-      .content.firstElementChild.cloneNode(true);
+function loadFeatureDetection() {
+  // Please cache bust by bumping the `v` parameter whenever `feature.json` is
+  // updated to depend on a new version of the library. See #353 for discussion.
+  // Make sure to also match the preload link in `feature-table.html`.
+  const module =
+    // @ts-ignore
+    import('https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1');
+  return (featureName) =>
+    module.then((wasmFeatureDetect) => wasmFeatureDetect[featureName]());
+}
+
+const container = document.getElementById('feature-table');
+
+/**
+ * @typedef {{
+ *  type: 'yes' | 'no' | 'not-applicable' | 'experimental' | 'unknown';
+ *  version?: string;
+ *  note?: string;
+ *  expanded?: boolean;
+ * }} DecodedStatus
+ */
+/** @typedef {null | boolean | 'flag' | string} RawState */ /**
+ * @param {RawState | [RawState, string]} status
+ */
+function decodeSupportStatus(status) {
+  // Meaning of each entry:
+  // * null                     => not applicable to this browser
+  // * true/false               => supported/unsupported
+  // * "version"                => supported since "version"
+  // * "flag"                   => flag required (must be lowercase)
+  // * [true, "footnotes"]      => supported, with "footnotes"
+  // * ["version", "footnotes"] => supported since "version", with "footnotes"
+  // …and any combination thereof
+
+  /** @type {RawState} */
+  let state, note;
+  if (Array.isArray(status)) {
+    if (status.length !== 2) throw new TypeError();
+    [state, note] = status;
+  } else {
+    state = status;
   }
 
-  const scrollbox = document.getElementById('feature-support-scrollbox');
-  const table = document.getElementById('feature-support');
+  /** @type {DecodedStatus['type']} */
+  let type, version;
+  if (typeof state === 'string') {
+    type = state === 'flag' ? 'experimental' : 'yes';
+    version = state !== 'flag' ? state : undefined;
+  } else if (!state) {
+    type = state === null ? 'not-applicable' : 'no';
+  } else {
+    if (state !== true)
+      throw new TypeError(
+        `unexpected supported status ${JSON.stringify(state)}`
+      );
+    type = 'yes';
+  }
 
-  const detectWasmFeature = _loadFeatureDetectModule();
-  const addTooltip = _loadTooltipModule();
+  return { type, version, note, expanded: false };
+}
 
-  const { features, browsers } = await fetch('/features.json', {
-    credentials: 'include', // https://stackoverflow.com/a/63814972
-    mode: 'no-cors',
-  }).then((res) => res.json());
+/** @typedef {{ name: string, queryKey: string, default?: boolean }} Category */
 
-  const tBody = document.createElement('tbody');
-  table.append(
-    h('thead', {}, [
-      h('tr', {}, [
-        h('th', { id: 'table-blank' }),
-        h('th', { scope: 'col', id: idMap['table-col']('Your browser') }, [
-          'Your browser',
-        ]),
-        ...Object.entries(browsers).map(([name, { url, logo }]) =>
-          h('th', { scope: 'col', id: idMap['table-col'](name) }, [
-            h('a', { href: url, target: '_blank' }, [
-              // Empty alt trick: https://www.w3.org/WAI/WCAG22/Techniques/html/H2
-              h('img', { src: logo, alt: '' }),
-              h('br'),
-              name,
-            ]),
-          ])
-        ),
-      ]),
-    ]),
-    tBody
-  );
+/** @param {Category[]} allCategories */
+function loadSelectedCategories(allCategories) {
+  // Support both styles: `?categories=c1,c2` and `?categories=c1&categories=c2`
+  const names = new URLSearchParams(location.search)
+    .getAll('categories')
+    .flatMap((values) => values.split(','))
+    .flatMap((param) => {
+      const category = allCategories.find(({ queryKey }) => queryKey === param);
+      return category ? [category.name] : [];
+    });
 
-  /*! groupby-polyfill. MIT License. Jimmy Wärting <https://jimmy.warting.se/opensource> */
+  return names.length
+    ? names
+    : allCategories
+        .filter((category) => category.default)
+        .map((category) => category.name);
+}
+
+/**
+ * @param {Category[]} allCategories
+ * @param {string[]} selected
+ */
+function saveSelectedCategories(allCategories, selected) {
+  const defaultSelection = allCategories
+    .filter((category) => category.default)
+    .map((category) => category.name);
+
+  if (
+    selected.length === defaultSelection.length &&
+    selected.every((name) => defaultSelection.includes(name))
+  ) {
+    selected = [];
+  }
+
+  // Keep the same order as in `allCategories`
+  const queryKeys = allCategories
+    .filter(({ name }) => selected.includes(name))
+    .map(({ queryKey }) => queryKey);
+
+  const url = new URL(location.href);
+  if (queryKeys.length) {
+    url.searchParams.set('categories', queryKeys.join(','));
+  } else {
+    url.searchParams.delete('categories');
+  }
+
+  history.replaceState(null, '', url);
+}
+
+// Preload icon templates from DOM into a frozen lookup object
+const icons = ((names) =>
+  Object.freeze(
+    names.reduce((icons, name) => {
+      // @ts-expect-error
+      icons[name] = document.getElementById(`icon-${name}`).content;
+      return icons;
+    }, /** @type {{ [K in (typeof names)[number]]: DocumentFragment }}  */ ({}))
+  ))(
+  /** @type {const} */ ([
+    'check',
+    'checkbox-circle',
+    'close',
+    'close-circle',
+    'checkbox-blank-circle',
+    'flask',
+    'forbid-2',
+    'asterisk',
+    'question-mark',
+    'more',
+    'loading',
+  ])
+);
+
+/**
+ * @param {DecodedStatus | undefined} status
+ * @param {Partial<Record<DecodedStatus['type'], keyof typeof icons>> & { 'unknown': keyof typeof icons }} map
+ */
+const getIconByStatus = (status, map) =>
+  icons[status?.type ? (map[status.type] ?? map['unknown']) : 'loading'];
+
+/**
+ * @typedef {{
+ *  name: string;
+ *  url: string;
+ *  logo: string;
+ *  logoClassName?: string;
+ *  category: string;
+ *  categories: string[];
+ *  features: Record<string, DecodedStatus | undefined>
+ * }} Platform
+ */
+
+const state = () => ({
+  ICONS: icons,
+
+  /** @type {Platform[]} */
+  platforms: [],
+
+  /** @type {Record<string, DecodedStatus | undefined>} */
+  yourBrowser: {},
+
+  /** @type {{ name: string; features: object[] }[]} */
+  featureGroups: [],
+
+  /** @type {Category[]} */
+  categories: [],
+
+  get categoryNames() {
+    return this.categories.map(({ name }) => name);
+  },
+
+  /** @type {string[]} */
+  selectedCategories: [],
+
+  async init() {
+    const {
+      features,
+      categories,
+      browsers: platforms,
+    } = await fetch('/features.json', {
+      // Both are required for preload to work: https://stackoverflow.com/a/63814972
+      credentials: 'include',
+      mode: 'no-cors',
+    }).then((res) => res.json());
+
+    const categoriesInUse = new Set(
+      Object.values(platforms).flatMap(({ category }) => category)
+    );
+
+    // Hide empty categories.
+    this.categories = categories.filter(({ name }) =>
+      categoriesInUse.has(name)
+    );
+    this.selectedCategories = loadSelectedCategories(categories);
+
+    this.platforms = Object.entries(platforms).map(
+      ([name, { category, ...platform }]) => {
+        // Determine the primary category, reusing the variable `category`.
+        let categories = [];
+        if (Array.isArray(category)) {
+          categories = category;
+          category = category[0];
+        }
+
+        // Decode the compact status format for easier future processing.
+        const platformFeatures = mapValues(features, (_, featName) => {
+          const raw = platform.features[featName];
+          return typeof raw === 'undefined'
+            ? { type: 'no' } // Missing values default to 'no'
+            : decodeSupportStatus(raw);
+        });
+
+        return {
+          name,
+          ...platform,
+          category,
+          categories,
+          features: platformFeatures,
+        };
+      }
+    );
+
+    /** @type {any} */
+    let featureByGroup = Object.groupBy(
+      Object.entries(features).map(([id, feature]) =>
+        Object.assign(feature, { id })
+      ),
+      (f) => f.phase
+    );
+
+    this.featureGroups = [
+      {
+        name: 'Phase 5 – The Feature is Standardized',
+        features: featureByGroup[5],
+      },
+      {
+        name: 'Phase 4 – Standardize the Feature',
+        features: featureByGroup[4],
+      },
+      { name: 'Phase 3 – Implementation Phase', features: featureByGroup[3] },
+      {
+        name: 'Phase 2 – Proposed Spec Text Available',
+        features: featureByGroup[2],
+      },
+      { name: 'Phase 1 – Feature Proposal', features: featureByGroup[1] },
+      { name: 'Inactive', features: featureByGroup['inactive'] },
+    ];
+
+    const featureDetect = loadFeatureDetection();
+    for (const id of Object.keys(features)) {
+      featureDetect(id)
+        .then((supported) => {
+          this.yourBrowser[id] = {
+            type: supported ? 'yes' : 'no',
+            version: supported ? 'Yes' : undefined,
+          };
+        })
+        .catch(() => {
+          this.yourBrowser[id] = { type: 'unknown' };
+        });
+    }
+
+    // The loading indicator includes a "report issue" link. In case of errors, we just leave that visible.
+    document.getElementById('feature-table-loading')?.remove();
+  },
 
   /**
-   * Groups elements from an iterable into an object based on a callback function.
-   *
-   * @template T, K
-   * @param {Iterable<T>} iterable - The iterable to group.
-   * @param {function(T, number): K} callbackfn - The callback function to
-   * determine the grouping key.
-   * @returns {Object.<string, T[]>} An object where keys are the grouping keys
-   * and values are arrays of grouped elements.
-   *
-   * This was introduced because of https://github.com/GoogleChromeLabs/wasm-feature-detect/issues/82.
+   * @param {string[]} value
+   * @param {string[]} oldValue
    */
-  Object.groupBy ??= function groupBy(iterable, callbackfn) {
-    const obj = Object.create(null);
-    let i = 0;
-    for (const value of iterable) {
-      const key = callbackfn(value, i++);
-      key in obj ? obj[key].push(value) : (obj[key] = [value]);
-    }
-    return obj;
-  };
-
-  let featureGroups = Object.groupBy(
-    Object.entries(features).map(([name, feature]) =>
-      Object.assign(feature, { name })
-    ),
-    (f) => f.phase
-  );
-
-  featureGroups = [
-    {
-      name: 'Phase 5 - The Feature is Standardized',
-      features: featureGroups[5],
-    },
-    { name: 'Phase 4 - Standardize the Feature', features: featureGroups[4] },
-    { name: 'Phase 3 - Implementation Phase', features: featureGroups[3] },
-    {
-      name: 'Phase 2 - Proposed Spec Text Available',
-      features: featureGroups[2],
-    },
-    { name: 'Phase 1 - Feature Proposal', features: featureGroups[1] },
-    { name: 'Inactive', features: featureGroups['inactive'] },
-  ];
-
-  // Collect all notes and assign an index to each unique item
-  // { "First unique note": 0, "Second unique note": 1, ...}
-  const notes = Object.values(browsers).flatMap((b) =>
-    Object.values(b.features)
-      .filter((s) => Array.isArray(s))
-      .map((s) => s[1])
-  );
-  const note2index = new Map();
-  let noteIndex = 0;
-  for (const note of notes) {
-    if (!note2index.has(note)) {
-      note2index.set(note, noteIndex++);
-    }
-  }
-
-  // Generate the footnote list. They are later referenced in the actual table.
-  const noteList = document.createElement('ol');
-  // Place footnote list outside of the scolling area
-  scrollbox.parentNode.insertBefore(noteList, scrollbox.nextSibling);
-  for (const [note, index] of note2index) {
-    const item = h('li', { id: `feature-note-${index}` });
-    noteList.appendChild(item).appendChild(renderNote(note));
-  }
-
-  // Create an <a> element that links to the specified footnote.
-  // Also returns the HTML id of the footnote it refers to.
-  function createNoteRef(index) {
-    const id = `feature-note-${index}`;
-    return [id, h('a', { href: `#${id}` }, [`[${toAlphabet(index)}]`])];
-  }
-
-  const columnCount = 2 + Object.keys(browsers).length;
-
-  for (const { name: groupName, features } of featureGroups) {
-    if (!features) {
-      continue;
+  onSelectedCategoryChange(value, oldValue) {
+    if (!value.length && this.categories.length) {
+      // Prevent user from deselecting all categories.
+      this.selectedCategories = this.categoryNames.filter(
+        (name) => !oldValue.includes(name)
+      );
     }
 
-    tBody.append(
-      h('tr', {}, [
-        h(
-          'th',
-          {
-            scope: 'colgroup',
-            colSpan: columnCount,
-            id: idMap['table-group'](groupName),
-            headers: 'table-blank',
-            // Chrome doesn't handle `headers` attribute correctly.
-            // Just hide the group headers for now…
-            // https://bugs.chromium.org/p/chromium/issues/detail?id=1081201
-            //
-            // Actually Firefox doesn't support `ariaHidden` attribute.
-            // This is a happy coincidence, since `headers` works fine on Firefox anyway.
-            ariaHidden: true,
-          },
-          [groupName]
-        ),
-      ])
-    );
-    for (const { name: featName, description, url } of features) {
-      const detectResult = h(
-        'td',
+    saveSelectedCategories(this.categories, this.selectedCategories);
+  },
+
+  /**
+   * Returns the cells to be rendered in a specific feature row
+   * (or null for the header row), excluding the row header.
+   *
+   * @param {string | null} featureId
+   * @returns {(Omit<Partial<Platform>, 'features'> & {
+   *  name: string;
+   *  category: string;
+   *  status?: DecodedStatus | undefined;
+   *  rendered: object;
+   * })[]}
+   */
+  cellsForRow(featureId) {
+    const columns = [
+      {
+        name: 'Your browser',
+        category: 'Web Browsers',
+        features: this.yourBrowser,
+        categories: undefined,
+      },
+      ...this.platforms,
+    ];
+
+    const selected = new Set(this.selectedCategories);
+    const cells = columns.flatMap(({ category, features, ...platform }) => {
+      if (!selected.has(category)) {
+        // Look for the next available option if the primary category is not selected.
+        category =
+          platform.categories?.find((/** @type {string} */ category) =>
+            selected.has(category)
+          ) ?? '';
+
+        // Skip the platform if none of its categories are selected,.
+        if (!category) return [];
+      }
+
+      const status = featureId ? features[featureId] : undefined;
+      return [
         {
-          headers: [
-            idMap['table-col']('Your browser'),
-            idMap['table-row'](featName),
-          ].join(' '),
+          ...platform,
+          category,
+          status,
+          rendered: this.renderStatus(status, platform.name),
         },
-        [buildCellInner('loading')]
-      );
+      ];
+    });
 
-      detectWasmFeature(featName).then(
-        (supported) => {
-          detectResult.textContent = '';
-          detectResult.appendChild(buildCellInner(supported ? 'yes' : 'no'));
-          addTooltip(
-            detectResult,
-            supported ? '✓ Supported' : '✗ Not supported',
-            [tBody, scrollbox]
-          );
-        },
-        (_err) => {
-          detectResult.textContent = '';
-          detectResult.appendChild(buildCellInner('unknown'));
-          addTooltip(detectResult, 'Detection unavailable for this feature', [
-            tBody,
-            scrollbox,
-          ]);
-        }
-      );
+    const { categoryNames } = this;
+    return cells.sort(
+      (a, b) =>
+        categoryNames.indexOf(a.category) - categoryNames.indexOf(b.category)
+    );
+  },
 
-      tBody.append(
-        h('tr', {}, [
-          h(
-            'th',
-            {
-              scope: 'row',
-              id: idMap['table-row'](featName),
-              headers: idMap['table-group'](groupName),
-            },
-            [h('a', { href: url, target: '_blank' }, [description])]
-          ),
-          detectResult,
-          ...Object.entries(browsers).map(([browserName, { features }]) => {
-            // Meaning of each entry:
-            // * null                     => not applicable for this browser
-            // * true/false               => supported/unsupported
-            // * "version"                => supported since "version"
-            // * "flag"                   => flag required (must be lowercase)
-            // * [true, "footnotes"]      => supported, with "footnotes"
-            // * ["version", "footnotes"] => supported since "version", with "footnotes"
-            // …and any combination thereof
+  /** The categories currently displayed and their number of columns. */
+  get cellGroupsForRow() {
+    return mapValues(
+      Object.groupBy(this.cellsForRow(null), ({ category }) => category),
+      (platforms) => platforms.length
+    );
+  },
 
-            /** @type {null|boolean|string|[boolean|string,string]} */
-            let support = features[featName];
-            let box, note;
+  get numColumns() {
+    return 1 + this.cellsForRow(null).length;
+  },
 
-            // First extract the footnote part if it's an array
-            if (Array.isArray(support)) {
-              if (support.length !== 2) throw new TypeError();
-              note = support[1];
-              support = support[0];
-            }
+  /** @param {DecodedStatus} selected  */
+  toggleFeatureDetails(selected) {
+    if (selected.expanded) {
+      selected.expanded = false;
+    } else {
+      // Only one should be open at a time, close everything else first.
+      const collapseAll = (
+        /** @type {Record<any, DecodedStatus | undefined>} */ features
+      ) => {
+        for (const feat of Object.values(features))
+          feat?.expanded && (feat.expanded = false);
+      };
 
-            if (typeof support === 'string') {
-              if (support === 'flag') {
-                // 'flag' is treated specially as the "requires flag" icon
-                box = buildCellInner('flag');
-              } else {
-                // Otherwise it's a version number, like "95"
-                box = buildCellInner('yes', support);
-                note ||= `✓ Supported since version ${support}`;
-              }
-            } else if (!support) {
-              if (support === null) {
-                box = buildCellInner('na', 'N/A');
-                note ||= '✗ Not applicable for this browser/engine';
-              } else {
-                box = buildCellInner('no');
-                note ||= '✗ Not supported';
-              }
-            } else {
-              if (support !== true) throw new TypeError();
-              box = buildCellInner('yes');
-              // Magic value, keep in sync with `renderNote`
-              note ||= '✓ Supported, introduced in unknown version';
-            }
-
-            const cell = h(
-              'td',
-              {
-                headers: [
-                  idMap['table-col'](browserName),
-                  idMap['table-row'](featName),
-                ].join(' '),
-              },
-              [box]
-            );
-
-            // Give the cell itself an `aria-lebel` to avoid screen readers calling it "empty cell".
-            const icon = box.firstElementChild;
-            if (icon?.hasAttribute('aria-label')) {
-              cell.setAttribute('aria-label', icon.getAttribute('aria-label'));
-              icon.removeAttribute('aria-label');
-            }
-
-            if (note && note2index.has(note)) {
-              cell.tabIndex = 0; // focusable
-              const index = note2index.get(note);
-              const [noteId, refLink] = createNoteRef(index);
-              box.appendChild(h('sup', {}, [refLink]));
-
-              // Accommodate the width of <sup> elements, which are absolutely positioned
-              box.style.paddingInline = `${toAlphabet(index).length}ch`;
-
-              const noteItem = document.getElementById(noteId);
-              if (noteItem) {
-                cell.addEventListener('mouseenter', () =>
-                  noteItem.classList.add('ref-highlight')
-                );
-                cell.addEventListener('mouseleave', () =>
-                  noteItem.classList.remove('ref-highlight')
-                );
-              }
-            }
-
-            // Clip to both <tbody> and the scrollbox.
-            // the former is to avoid blocking out the headers;
-            // the latter is to keep the tooltip inside the scrollable area
-            addTooltip(cell, note, [tBody, scrollbox]);
-            return cell;
-          }),
-        ])
-      );
-      tBody.lastElementChild.setAttribute(
-        'aria-describedby',
-        idMap['table-row'](featName)
-      );
+      collapseAll(this.yourBrowser);
+      for (const platform of this.platforms) collapseAll(platform.features);
+      selected.expanded = true;
     }
-  }
+  },
 
-  function buildCellInner(type, text) {
-    const content = text || icon(type);
-    return h('div', { className: `feature-cell icon-${type}` }, [content]);
-  }
+  /**
+   * @param {DecodedStatus | undefined} status
+   * @param {string | null} platformName
+   */
+  renderStatus(status, platformName) {
+    const className = status?.type ? `status-${status.type}` : null;
 
-  function renderNote(note) {
+    const cellIcon = getIconByStatus(status, {
+      yes: 'check',
+      no: 'close',
+      'not-applicable': 'forbid-2',
+      experimental: 'flask',
+      unknown: 'question-mark',
+    });
+
+    const noteIcon = getIconByStatus(status, {
+      yes: 'checkbox-circle',
+      no: 'close-circle',
+      'not-applicable': 'forbid-2',
+      experimental: 'flask',
+      unknown: 'checkbox-blank-circle',
+    });
+
+    const statusLabel = status?.version || null;
+    const detailsLabel = this.detailsLabelForStatus(status, platformName);
+    const note = this.renderNote(status?.note);
+
+    return {
+      className,
+      cellIcon,
+      statusLabel,
+      detailsLabel,
+      noteIcon,
+      note,
+    };
+  },
+
+  /**
+   * @param {DecodedStatus | undefined} status
+   * @param {string | null} platformName
+   */
+  detailsLabelForStatus(status, platformName) {
+    if (!status?.type) return null;
+    switch (status.type) {
+      case 'yes':
+        if (platformName === 'Your browser') return 'Supported in your browser';
+        if (status.version) {
+          return `Supported in ${platformName} ${status.version}`;
+        } else {
+          const fragment = document.createDocumentFragment(),
+            note = document.createElement('span');
+          note.className = 'text-secondary';
+          note.textContent = '(version unknown)';
+          fragment.append(`Supported in ${platformName} `, note);
+          return fragment;
+        }
+      case 'no':
+        if (platformName === 'Your browser')
+          return 'Not supported in your browser';
+        return `Not supported in ${platformName}`;
+      case 'experimental':
+        return `Experimental support in ${platformName}`;
+      case 'not-applicable':
+        return `This feature is not applicable to ${platformName}`;
+      case 'unknown':
+        return 'Detection unavailable for this feature';
+    }
+    throw new TypeError();
+  },
+
+  /** @param {string | undefined} note  */
+  renderNote(note) {
+    if (!note) return;
     const fragment = document.createDocumentFragment();
-    const isMissingData = note.includes('introduced in unknown version');
 
     // Transform markdown-like backticks into html <code></code>
-    while (note) {
-      const [head, body, tail] = splitParts(note, '`');
-      head && fragment.append(head);
-      body && fragment.appendChild(h('code', {}, [body]));
-      note = tail;
-    }
+    const re = /`([^`]+)`/g;
+    /** @type {RegExpExecArray | null} */
+    let match = null,
+      lastIndex = 0;
+    while ((({ lastIndex } = re), (match = re.exec(note)))) {
+      const head = note.substring(lastIndex, match.index),
+        body = match[1];
 
-    const firstNode = fragment.firstChild;
-    if (firstNode.nodeType === Node.TEXT_NODE) {
-      // No point for screen readers to pronounce those symbols out loud.
-      for (const symbol of ['✓', '✗']) {
-        if (firstNode.nodeValue?.startsWith(symbol)) {
-          // Before: <#text>✓ Supported</#text>
-          // After:  <span>✓</span><#text> Supported</#text>
-          firstNode.splitText(1);
-          const symbolNode = h('span', {}, firstNode.nodeValue);
-          symbolNode.setAttribute('aria-hidden', '');
-          fragment.replaceChild(symbolNode, firstNode);
-          break;
-        }
+      head && fragment.append(head);
+      if (body) {
+        const el = document.createElement('code');
+        el.textContent = body;
+        fragment.appendChild(el);
       }
     }
 
-    if (isMissingData) {
-      fragment.appendChild(
-        h(
-          'a',
-          {
-            href: 'https://github.com/WebAssembly/website/blob/master/features.json',
-            target: '_blank',
-          },
-          [' (contribute data)']
-        )
+    const tail = note.substring(lastIndex);
+    tail && fragment.append(tail);
+    return fragment;
+  },
+
+  /** @param {string} s  */
+  str2id(s) {
+    return s.replaceAll(/\W+/g, '-').toLowerCase();
+  },
+});
+
+document.addEventListener('alpine:init', () => {
+  // @ts-ignore
+  const Alpine = window.Alpine;
+
+  // A custom direction `x-replace` to directly insert DOM nodes into the document.
+  // This avoids HTML parsing and is much more performant than `x-html`.
+  Alpine.directive(
+    'replace',
+    (/** @type {Element} */ el, { expression }, { evaluateLater, effect }) => {
+      const getChild = evaluateLater(expression);
+      effect(() =>
+        getChild((/** @type {string | Node} */ child) => {
+          if (Array.isArray(child))
+            throw new TypeError(
+              'x-replace cannot operate on arrays, use DocumentFragment instead'
+            );
+
+          el.replaceChildren(
+            child instanceof Node ? document.importNode(child, true) : child
+          );
+        })
       );
     }
+  );
 
-    return fragment;
-  }
-
-  // Break a string into three parts using the given delimiter.
-  function splitParts(str, delim) {
-    const start = str.indexOf(delim);
-    const end = str.indexOf(delim, start + 1);
-    if (start >= 0 && end > start) {
-      const head = str.substring(0, start);
-      const body = str.substring(start + 1, end);
-      const tail = str.substring(end + 1);
-      return [head, body, tail];
-    }
-    return [str, '', ''];
-  }
-
-  // Lazy-loading
-  function _loadTooltipModule() {
-    // Be sure to change the preloads in markdown when updating url.
-    // The ESM bundle of this package doesn't work with unpkg.com.
-    const module =
-      import('https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/+esm');
-
-    const subscribers = new Set();
-    const updateAll = () => {
-      for (const fn of subscribers) fn();
-    };
-
-    document.addEventListener('scroll', updateAll, { passive: true });
-    scrollbox.addEventListener('scroll', updateAll, { passive: true });
-    window.addEventListener('resize', updateAll, { passive: true });
-
-    let counter = 0;
-    return (reference, note, boundary) =>
-      module.then(({ computePosition, offset, flip, shift, arrow }) => {
-        const tooltipId = `tooltip-${counter++}`;
-        const tooltip = h('div', {
-          id: tooltipId,
-          className: 'feature-tooltip',
-          role: 'tooltip',
-        });
-        tooltip.appendChild(renderNote(note));
-
-        const arrowElement = h('div', { className: 'feature-tooltip-arrow' });
-        tooltip.appendChild(arrowElement);
-
-        const update = () =>
-          computePosition(reference, tooltip, {
-            placement: 'top',
-            middleware: [
-              offset(6),
-              flip({ boundary }),
-              shift({ padding: 6, boundary }),
-              arrow({ element: arrowElement, padding: 3, boundary }),
-            ],
-          }).then(({ x, y, placement, middlewareData }) => {
-            const { x: arrowX, y: arrowY } = middlewareData.arrow;
-            Object.assign(arrowElement.style, {
-              left: arrowX !== null ? `${arrowX}px` : '',
-              top: arrowY !== null ? `${arrowY}px` : '',
-            });
-
-            tooltip.style.transform = `translate(${x}px, ${y}px)`;
-            // Force the browser to apply CSS changes first
-            if (tooltip.dataset.placement !== placement) tooltip.offsetHeight;
-            // This will then enable the transition effect
-            tooltip.dataset.placement = placement;
-          });
-
-        const setVisible = (visible) => {
-          if (visible) {
-            tooltip.style.removeProperty('display');
-            update();
-            subscribers.add(update);
-          } else {
-            subscribers.delete(update);
-            tooltip.style.display = 'none';
-            delete tooltip.dataset.placement; // disable the transition effect
-          }
-        };
-
-        setVisible(false);
-
-        const monitor = (name, state, listener = () => setVisible(state)) =>
-          reference.addEventListener(name, listener);
-        monitor('focusin', true);
-        monitor('focusout', false);
-
-        // Add a bit of delay to mouse events
-        let timeout = null;
-        monitor('mouseenter', true, () => {
-          clearTimeout(timeout);
-          if (subscribers.size) {
-            timeout = setTimeout(() => setVisible(true), 80);
-          } else {
-            // Immediately show if there aren't other tooltips visible
-            setVisible(true);
-          }
-        });
-        monitor('mouseleave', false, () => {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => setVisible(false), 80);
-        });
-
-        reference.appendChild(tooltip);
-        reference.setAttribute('aria-describedby', tooltipId);
-        return tooltip;
-      });
-  }
-
-  function _loadFeatureDetectModule() {
-    // Please cache bust by bumping the `v` parameter whenever `feature.json` is
-    // updated to depend on a new version of the library. See #353 for discussion.
-    // Make sure to also match the preload link in `features.md`.
-    const module =
-      import('https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1');
-    return (featureName) =>
-      module.then((wasmFeatureDetect) => wasmFeatureDetect[featureName]());
-  }
-})();
+  Alpine.data('data', state);
+});

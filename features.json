@@ -252,10 +252,17 @@
       "phase": 3
     }
   },
+  "categories": [
+    { "name": "Web Browsers", "queryKey": "browsers", "default": true },
+    { "name": "Standalone Runtimes", "queryKey": "standalones", "default": true },
+    { "name": "Embedded Runtimes", "queryKey": "embeddeds" },
+    { "name": "Tools", "queryKey": "tools" }
+  ],
   "browsers": {
     "Chrome": {
       "url": "https://www.google.com/chrome/",
       "logo": "/images/chrome.svg",
+      "category": "Web Browsers",
       "features": {
         "bigInt": "85",
         "branchHinting": "137",
@@ -298,6 +305,7 @@
     "Firefox": {
       "url": "https://www.mozilla.org/firefox/",
       "logo": "/images/firefox.svg",
+      "category": "Web Browsers",
       "features": {
         "bigInt": "78",
         "branchHinting": [
@@ -341,10 +349,11 @@
     "Safari": {
       "url": "https://www.apple.com/safari/",
       "logo": "/images/safari.svg",
+      "category": "Web Browsers",
       "features": {
         "bigInt": [
           "15",
-          "wasm-bigint is supported in desktop Safari since 14.1 and iOS Safari since 14.5; however BigInt64Array, which is needed by Emscripten, was released in 15"
+          "`wasm-bigint` is supported in desktop Safari since 14.1 and iOS Safari since 14.5; however `BigInt64Array`, which is needed by Emscripten, was released in 15"
         ],
         "branchHinting": "16",
         "bulkMemory": "15",
@@ -384,6 +393,7 @@
     "Node.js": {
       "url": "https://nodejs.org/",
       "logo": "/images/nodejs.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": "15.0",
         "branchHinting": [
@@ -431,6 +441,7 @@
     "Deno": {
       "url": "https://deno.com/",
       "logo": "/images/deno.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": "1.1.2",
         "branchHinting": "2.3.2",
@@ -473,6 +484,7 @@
     "GraalWasm": {
       "url": "https://www.graalvm.org/webassembly/",
       "logo": "/images/graalvm.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": "21.3",
         "bulkMemory": "23.0",
@@ -497,6 +509,7 @@
     "Chicory": {
       "url": "https://chicory.dev/",
       "logo": "/images/chicory.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "1.0.0",
@@ -521,6 +534,7 @@
     "Wasmtime": {
       "url": "https://wasmtime.dev/",
       "logo": "/images/bca.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "0.20",
@@ -559,6 +573,7 @@
     "Wasmer": {
       "url": "https://wasmer.io/",
       "logo": "/images/wasmer.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "1.0",
@@ -578,9 +593,77 @@
         "webContentSecurityPolicy": null
       }
     },
+    "wizard": {
+      "url": "https://github.com/titzer/wizard-engine",
+      "logo": "/images/wizard.svg",
+      "category": "Standalone Runtimes",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": "25",
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "exceptionsFinal": "24",
+        "exceptions": "24",
+        "extendedConst": "25",
+        "esmIntegration": null,
+        "gc": "24",
+        "jspi": null,
+        "jsStringBuiltins": null,
+        "memory64": "25",
+        "tailCall": "25",
+        "customPageSizes": ["flag", "Requires flag `--ext:custom-page-sizes`"],
+        "multiValue": "21",
+        "multiMemory": "24",
+        "mutableGlobals": "21",
+        "referenceTypes": "21",
+        "relaxedSimd": "25",
+        "saturatedFloatToInt": "21",
+        "signExtensions": "21",
+        "simd": "23",
+        "stackSwitching": ["flag", "Requires flag `--ext:stack-switching`"],
+        "threads": ["flag", "Requires flag `--ext:threads`"],
+        "typedFunctionReferences": "24",
+        "typeReflection": null,
+        "webContentSecurityPolicy": null
+      }
+    },
+    "wazero": {
+      "url": "https://wazero.io",
+      "logo": "/images/wazero.svg",
+      "logoClassName": "invert-in-dark-theme",
+      "category": "Standalone Runtimes",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": true,
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "exceptionsFinal": false,
+        "exceptions": false,
+        "extendedConst": false,
+        "esmIntegration": null,
+        "gc": false,
+        "jspi": null,
+        "jsStringBuiltins": null,
+        "memory64": false,
+        "tailCall": "flag",
+        "customPageSizes": null,
+        "multiValue": true,
+        "multiMemory": false,
+        "mutableGlobals": true,
+        "referenceTypes": true,
+        "relaxedSimd": false,
+        "saturatedFloatToInt": true,
+        "signExtensions": true,
+        "simd": true,
+        "stackSwitching": false,
+        "threads": "flag",
+        "typedFunctionReferences": false,
+        "typeReflection": null,
+        "webContentSecurityPolicy": null
+      }
+    },
     "wasm2c": {
       "url": "https://github.com/WebAssembly/wabt",
       "logo": "/images/wasm2c.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
         "bulkMemory": "1.0.30",
@@ -608,75 +691,11 @@
         "webContentSecurityPolicy": null
       }
     },
-    "wizard": {
-      "url": "https://github.com/titzer/wizard-engine",
-      "logo": "/images/wizard.svg",
-      "features": {
-        "bigInt": null,
-        "bulkMemory": "25",
-        "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": "24",
-        "exceptions": "24",
-        "extendedConst": "25",
-        "esmIntegration": null,
-        "gc": "24",
-        "jspi": null,
-        "jsStringBuiltins": null,
-        "memory64": "25",
-        "multiMemory": "25",
-        "tailCall": "25",
-        "customPageSizes": ["flag", "Requires flag `--ext:custom-page-sizes`"],
-        "multiValue": "21",
-        "multiMemory": "24",
-        "mutableGlobals": "21",
-        "referenceTypes": "21",
-        "relaxedSimd": "25",
-        "saturatedFloatToInt": "21",
-        "signExtensions": "21",
-        "simd": "23",
-        "stackSwitching": ["flag", "Requires flag `--ext:stack-switching`"],
-        "threads": ["flag", "Requires flag `--ext:threads`"],
-        "typedFunctionReferences": "24",
-        "typeReflection": null,
-        "webContentSecurityPolicy": null
-      }
-    },
-    "wazero": {
-      "url": "https://wazero.io",
-      "logo": "/images/wazero.svg",
-      "features": {
-        "bigInt": null,
-        "bulkMemory": true,
-        "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": false,
-        "exceptions": false,
-        "extendedConst": false,
-        "esmIntegration": null,
-        "gc": false,
-        "jspi": null,
-        "jsStringBuiltins": null,
-        "memory64": false,
-        "multiMemory": false,
-        "tailCall": ["flag", "experimental feature"],
-        "customPageSizes": null,
-        "multiValue": true,
-        "multiMemory": false,
-        "mutableGlobals": true,
-        "referenceTypes": true,
-        "relaxedSimd": false,
-        "saturatedFloatToInt": true,
-        "signExtensions": true,
-        "simd": true,
-        "stackSwitching": false,
-        "threads": ["flag", "experimental feature"],
-        "typedFunctionReferences": false,
-        "typeReflection": null,
-        "webContentSecurityPolicy": null
-      }
-    },
     "Owi": {
       "url": "https://github.com/ocamlpro/owi",
-      "logo": "/images/owi.png",
+      "logo": "/images/owi.webp",
+      "logoClassName": "rounded",
+      "category": ["Tools", "Standalone Runtimes"],
       "features": {
         "bigInt": null,
         "bulkMemory": true,
@@ -689,7 +708,6 @@
         "jspi": null,
         "jsStringBuiltins": null,
         "memory64": false,
-        "multiMemory": false,
         "tailCall": true,
         "customPageSizes": false,
         "multiValue": true,
@@ -710,6 +728,7 @@
     "Binaryen": {
       "url": "https://github.com/WebAssembly/binaryen",
       "logo": "/images/binaryen.svg",
+      "category": "Tools",
       "features": {
         "bigInt": true,
         "branchHinting": true,
@@ -724,7 +743,6 @@
         "jspi": true,
         "jsStringBuiltins": true,
         "memory64": true,
-        "multiMemory": true,
         "tailCall": true,
         "customPageSizes": false,
         "multiValue": true,
@@ -745,6 +763,7 @@
     "wasm-language-tools": {
       "url": "https://github.com/g-plane/wasm-language-tools",
       "logo": "/images/wasm-language-tools.svg",
+      "category": "Tools",
       "features": {
         "bigInt": null,
         "branchHinting": null,
@@ -778,6 +797,7 @@
     "wasmedge": {
       "url": "https://github.com/WasmEdge/WasmEdge",
       "logo": "/images/wasmedge.svg",
+      "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
         "branchHinting": null,

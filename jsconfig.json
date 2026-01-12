@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "allowJs": true,
+    "checkJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUncheckedIndexedAccess": true,
+  },
+  "files": ["features.js"]
+}
