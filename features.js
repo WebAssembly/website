@@ -4,11 +4,12 @@
 /**
  * Groups elements from an iterable into an object based on a callback function.
  *
- * @template T, K
+ * @template T
+ * @template {PropertyKey} K
  * @param {Iterable<T>} iterable - The iterable to group.
  * @param {function(T, number): K} callbackfn - The callback function to
  * determine the grouping key.
- * @returns {Object.<string, T[]>} An object where keys are the grouping keys
+ * @returns {Partial<Record<K, T[]>>} An object where keys are the grouping keys
  * and values are arrays of grouped elements.
  *
  * This was introduced because of https://github.com/GoogleChromeLabs/wasm-feature-detect/issues/82.
@@ -26,15 +27,20 @@ Object.groupBy ??= function groupBy(iterable, callbackfn) {
 /**
  * `Array.map` but for object values.
  *
- * @template {object} T
+ * @template {Record<any, any>} T
  * @template R
  * @param {T} obj
- * @param {(value: T[keyof T], key: keyof T) => R} mapper
+ * @param {(value: T[keyof T] & {}, key: keyof T) => R} mapper
  * @returns {{ [K in keyof T]: R }}
  */
 function mapValues(obj, mapper) {
-  return Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [key, mapper(value, key)])
+  return /** @type {any} */ (
+    Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => [
+        key,
+        mapper(value, /** @type {keyof T} */ (key)),
+      ])
+    )
   );
 }
 
@@ -61,6 +67,7 @@ function loadFeatureDetection() {
   // updated to depend on a new version of the library. See #353 for discussion.
   // Make sure to also match the preload link in `feature-table.html`.
   const module =
+    // @ts-ignore
     import('https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1');
   return (featureName) =>
     module.then((wasmFeatureDetect) => wasmFeatureDetect[featureName]());
@@ -120,6 +127,7 @@ function decodeSupportStatus(status) {
 
 /** @param {Category[]} allCategories */
 function loadSelectedCategories(allCategories) {
+  // Support both styles: `?categories=c1,c2` and `?categories=c1&categories=c2`
   const names = new URLSearchParams(location.search)
     .getAll('categories')
     .flatMap((values) => values.split(','))
@@ -166,31 +174,36 @@ function saveSelectedCategories(allCategories, selected) {
   history.replaceState(null, '', url);
 }
 
-// TODO: think of a cleaner way to store icons
-const statusIcons = mapValues(
-  {
-    yes: 'icon-check',
-    no: 'icon-close',
-    'not-applicable': 'icon-forbid-2',
-    experimental: 'icon-flask',
-    unknown: 'icon-question-mark',
-    asterisk: 'icon-asterisk',
-    more: 'icon-more',
-    loading: 'icon-loading',
-  },
-  (id) => /** @type {DocumentFragment} */ (document.getElementById(id).content)
+// Preload icon templates from DOM into a frozen lookup object
+const icons = ((names) =>
+  Object.freeze(
+    names.reduce((icons, name) => {
+      // @ts-expect-error
+      icons[name] = document.getElementById(`icon-${name}`).content;
+      return icons;
+    }, /** @type {{ [K in (typeof names)[number]]: DocumentFragment }}  */ ({}))
+  ))(
+  /** @type {const} */ ([
+    'check',
+    'checkbox-circle',
+    'close',
+    'close-circle',
+    'checkbox-blank-circle',
+    'flask',
+    'forbid-2',
+    'asterisk',
+    'question-mark',
+    'more',
+    'loading',
+  ])
 );
 
-const noteIcons = mapValues(
-  {
-    yes: 'icon-checkbox-circle',
-    no: 'icon-close-circle',
-    'not-applicable': 'icon-forbid-2',
-    experimental: 'icon-flask',
-    unknown: 'icon-checkbox-blank-circle',
-  },
-  (id) => /** @type {DocumentFragment} */ (document.getElementById(id).content)
-);
+/**
+ * @param {DecodedStatus | undefined} status
+ * @param {Partial<Record<DecodedStatus['type'], keyof typeof icons>> & { 'unknown': keyof typeof icons }} map
+ */
+const getIconByStatus = (status, map) =>
+  icons[status?.type ? (map[status.type] ?? map['unknown']) : 'loading'];
 
 /**
  * @typedef {{
@@ -205,6 +218,8 @@ const noteIcons = mapValues(
  */
 
 const state = () => ({
+  ICONS: icons,
+
   /** @type {Platform[]} */
   platforms: [],
 
@@ -230,7 +245,8 @@ const state = () => ({
       categories,
       browsers: platforms,
     } = await fetch('/features.json', {
-      credentials: 'include', // https://stackoverflow.com/a/63814972
+      // Both are required for preload to work: https://stackoverflow.com/a/63814972
+      credentials: 'include',
       mode: 'no-cors',
     }).then((res) => res.json());
 
@@ -246,7 +262,7 @@ const state = () => ({
 
     this.platforms = Object.entries(platforms).map(
       ([name, { category, ...platform }]) => {
-        // Determine the primary category.
+        // Determine the primary category, reusing the variable `category`.
         let categories = [];
         if (Array.isArray(category)) {
           categories = category;
@@ -271,6 +287,7 @@ const state = () => ({
       }
     );
 
+    /** @type {any} */
     let featureByGroup = Object.groupBy(
       Object.entries(features).map(([id, feature]) =>
         Object.assign(feature, { id })
@@ -310,9 +327,14 @@ const state = () => ({
         });
     }
 
+    // The loading indicator includes a "report issue" link. In case of errors, we just leave that visible.
     document.getElementById('feature-table-loading')?.remove();
   },
 
+  /**
+   * @param {string[]} value
+   * @param {string[]} oldValue
+   */
   onSelectedCategoryChange(value, oldValue) {
     if (!value.length && this.categories.length) {
       // Prevent user from deselecting all categories.
@@ -329,33 +351,44 @@ const state = () => ({
    * (or null for the header row), excluding the row header.
    *
    * @param {string | null} featureId
-   * @returns {(Omit<Partial<Platform>, 'features'> & { name: string; category: string; status?: DecodedStatus | undefined; })[]}
+   * @returns {(Omit<Partial<Platform>, 'features'> & {
+   *  name: string;
+   *  category: string;
+   *  status?: DecodedStatus | undefined;
+   *  rendered: object;
+   * })[]}
    */
   cellsForRow(featureId) {
-    const selected = new Set(this.selectedCategories);
-    const cells = [
+    const columns = [
       {
         name: 'Your browser',
         category: 'Web Browsers',
         features: this.yourBrowser,
+        categories: undefined,
       },
       ...this.platforms,
-    ].flatMap(({ category, features, ...platform }) => {
+    ];
+
+    const selected = new Set(this.selectedCategories);
+    const cells = columns.flatMap(({ category, features, ...platform }) => {
       if (!selected.has(category)) {
         // Look for the next available option if the primary category is not selected.
-        category = platform.categories?.find((category) =>
-          selected.has(category)
-        );
+        category =
+          platform.categories?.find((/** @type {string} */ category) =>
+            selected.has(category)
+          ) ?? '';
 
         // Skip the platform if none of its categories are selected,.
         if (!category) return [];
       }
 
+      const status = featureId ? features[featureId] : undefined;
       return [
         {
           ...platform,
           category,
-          status: featureId ? features[featureId] : undefined,
+          status,
+          rendered: this.renderStatus(status, platform.name),
         },
       ];
     });
@@ -385,56 +418,54 @@ const state = () => ({
       selected.expanded = false;
     } else {
       // Only one should be open at a time, close everything else first.
-      for (const platform of this.platforms)
-        for (const feat of Object.values(platform.features))
+      const collapseAll = (
+        /** @type {Record<any, DecodedStatus | undefined>} */ features
+      ) => {
+        for (const feat of Object.values(features))
           feat?.expanded && (feat.expanded = false);
+      };
 
-      for (const feat of Object.values(this.yourBrowser))
-        feat?.expanded && (feat.expanded = false);
-
+      collapseAll(this.yourBrowser);
+      for (const platform of this.platforms) collapseAll(platform.features);
       selected.expanded = true;
     }
   },
 
-  /** @param {DecodedStatus | undefined} status */
-  classForStatus(status) {
-    if (!status?.type) return null;
-    return `status-${status.type}`;
-  },
+  /**
+   * @param {DecodedStatus | undefined} status
+   * @param {string | null} platformName
+   */
+  renderStatus(status, platformName) {
+    const className = status?.type ? `status-${status.type}` : null;
 
-  /** @param {DecodedStatus | undefined} status */
-  iconForStatus(status) {
-    if (!status?.type) return statusIcons['loading'];
-    return statusIcons[status.type];
-  },
+    const cellIcon = getIconByStatus(status, {
+      yes: 'check',
+      no: 'close',
+      'not-applicable': 'forbid-2',
+      experimental: 'flask',
+      unknown: 'question-mark',
+    });
 
-  get iconMoreDetails() {
-    return statusIcons['more'];
-  },
+    const noteIcon = getIconByStatus(status, {
+      yes: 'checkbox-circle',
+      no: 'close-circle',
+      'not-applicable': 'forbid-2',
+      experimental: 'flask',
+      unknown: 'checkbox-blank-circle',
+    });
 
-  get iconNote() {
-    return statusIcons['asterisk'];
-  },
+    const statusLabel = status?.version || null;
+    const detailsLabel = this.detailsLabelForStatus(status, platformName);
+    const note = this.renderNote(status?.note);
 
-  /** @param {DecodedStatus | undefined} status */
-  iconForNote(status) {
-    if (!status?.type) return noteIcons['unknown'];
-    return noteIcons[status.type] ?? noteIcons['unknown'];
-  },
-
-  /** @param {DecodedStatus | undefined} status */
-  labelForStatus(status) {
-    if (!status) return null;
-    if (status.version) return status.version;
-    switch (
-      status.type
-      //   case 'no':
-      //     return 'No';
-      // case 'not-applicable':
-      //   return 'N/A';
-    ) {
-    }
-    return null;
+    return {
+      className,
+      cellIcon,
+      statusLabel,
+      detailsLabel,
+      noteIcon,
+      note,
+    };
   },
 
   /**
@@ -470,11 +501,12 @@ const state = () => ({
     throw new TypeError();
   },
 
-  /** @param {string} note  */
+  /** @param {string | undefined} note  */
   renderNote(note) {
-    if (!note) return note;
+    if (!note) return;
 
     // Transform markdown-like backticks into html <code></code>
+    // TODO: use regex
     const fragment = document.createDocumentFragment();
     while (note) {
       const [head, body, tail] = splitParts(note, '`');
@@ -496,26 +528,25 @@ const state = () => ({
 });
 
 document.addEventListener('alpine:init', () => {
+  // @ts-ignore
+  const Alpine = window.Alpine;
+
   // A custom direction `x-replace` to directly insert DOM nodes into the document.
   // This avoids HTML parsing and is much more performant than `x-html`.
   Alpine.directive(
     'replace',
-    (
-      /** @type {Element} */ el,
-      { expression, modifiers },
-      { evaluateLater, effect }
-    ) => {
-      const clone = modifiers.includes('clone');
+    (/** @type {Element} */ el, { expression }, { evaluateLater, effect }) => {
       const getChild = evaluateLater(expression);
       effect(() =>
-        getChild((child) => {
+        getChild((/** @type {string | Node} */ child) => {
           if (Array.isArray(child))
             throw new TypeError(
               'x-replace cannot operate on arrays, use DocumentFragment instead'
             );
-          if (clone && child instanceof Node)
-            child = document.importNode(child, true);
-          el.replaceChildren(child);
+
+          el.replaceChildren(
+            child instanceof Node ? document.importNode(child, true) : child
+          );
         })
       );
     }

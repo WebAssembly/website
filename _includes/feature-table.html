@@ -1,7 +1,7 @@
 <link rel="preload" href="/features.json" as="fetch">
 <link rel="modulepreload" href="https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1">
 <script type="module" src="/features.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15/dist/cdn.js" defer></script><!-- TODO: use minimized version -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.15/dist/cdn.min.js" defer></script>
 
 The table below aims to track implemented features in popular engines and tools.
 You can click on a cell for more information.
@@ -82,6 +82,7 @@ You can click on a cell for more information.
           </template>
         </tr>
       </thead>
+
       <template x-for="(featureGroup, i) in featureGroups" x-bind:key="i">
         <tbody x-id="['feat-group']">
           <tr>
@@ -92,36 +93,41 @@ You can click on a cell for more information.
               <th scope="row" x-bind:id="$id('feat-row-header')" x-bind:headers="$id('feat-group')">
                 <a x-bind:href="feature.url" x-text="feature.description" target="_blank"></a>
               </th>
-              <template x-for="{ name, status } in cellsForRow(feature.id)" x-bind:key="name">
+              <template x-for="{ name, status, rendered } in cellsForRow(feature.id)" x-bind:key="name">
                 <td x-id="['cell-details']" x-bind:headers="`${$id('feat-row-header')} col-header-${str2id(name)}`">
+
+                  <!-- Cell (click to expand) -->
                   <button
                     type="button"
                     class="cell"
-                    x-bind:class="classForStatus(status)"
+                    x-bind:class="rendered.className"
                     x-on:click="toggleFeatureDetails(status)"
                     x-bind:aria-expanded="String(status?.expanded ?? false)"
                     x-bind:aria-controls="$id('cell-details')"
                   >
-                    <div class="icon" x-replace.clone="iconForStatus(status)"></div>
-                    <div x-show="labelForStatus(status)" x-text="labelForStatus(status)"></div>
-                    <template x-if="status?.note">
-                      <div x-show="status?.note" class="icon icon-note" x-replace.clone="iconMoreDetails"></div>
+                    <div class="icon" x-replace="rendered.cellIcon"></div>
+                    <div x-show="rendered.statusLabel" x-text="rendered.statusLabel"></div>
+                    <template x-if="rendered.note">
+                      <div x-show="rendered.note" class="icon icon-note" x-replace="ICONS['more']"></div>
                     </template>
                   </button>
+
+                  <!-- Expanded details -->
                   <div class="details" x-bind:id="$id('cell-details')" x-bind:hidden="!status?.expanded" tabindex="0">
                     <template x-if="status?.expanded">
                       <ul class="details-inner">
-                        <li class="details-status" x-bind:class="classForStatus(status)">
-                          <div class="icon" x-replace.clone="iconForNote(status)" aria-hidden="true"></div>
-                          <div x-replace="detailsLabelForStatus(status, name)"></div>
+                        <li class="details-status" x-bind:class="rendered.className">
+                          <div class="icon" x-replace="rendered.noteIcon" aria-hidden="true"></div>
+                          <div x-replace="rendered.detailsLabel"></div>
                         </li>
-                        <li class="details-note" x-show="status?.note">
-                          <div class="icon" x-replace.clone="iconNote" aria-hidden="true"></div>
-                          <div class="details-note-line text-secondary" x-replace="renderNote(status?.note)"></div>
+                        <li class="details-note" x-show="rendered.note">
+                          <div class="icon" x-replace="ICONS['asterisk']" aria-hidden="true"></div>
+                          <div class="details-note-line text-secondary" x-replace="rendered.note"></div>
                         </li>
                       </ul>
                     </template>
                   </div>
+
                 </td>
               </template>
             </tr>
@@ -133,7 +139,6 @@ You can click on a cell for more information.
 </div>
 
 <!-- Apache License 2.0, https://github.com/Remix-Design/remixicon -->
-<!-- TODO: clean up unused icons -->
 <template id="icon-check">
   <span class="visually-hidden">Full Support</span>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
