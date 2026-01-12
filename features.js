@@ -44,24 +44,6 @@ function mapValues(obj, mapper) {
   );
 }
 
-/**
- * Break a string into three parts using the given delimiter.
- * @param {string} str
- * @param {string} delim
- * @returns {[string, string, string]}
- */
-function splitParts(str, delim) {
-  const start = str.indexOf(delim);
-  const end = str.indexOf(delim, start + 1);
-  if (start >= 0 && end > start) {
-    const head = str.substring(0, start);
-    const body = str.substring(start + 1, end);
-    const tail = str.substring(end + 1);
-    return [head, body, tail];
-  }
-  return [str, '', ''];
-}
-
 function loadFeatureDetection() {
   // Please cache bust by bumping the `v` parameter whenever `feature.json` is
   // updated to depend on a new version of the library. See #353 for discussion.
@@ -504,20 +486,27 @@ const state = () => ({
   /** @param {string | undefined} note  */
   renderNote(note) {
     if (!note) return;
+    const fragment = document.createDocumentFragment();
 
     // Transform markdown-like backticks into html <code></code>
-    // TODO: use regex
-    const fragment = document.createDocumentFragment();
-    while (note) {
-      const [head, body, tail] = splitParts(note, '`');
+    const re = /`([^`]+)`/g;
+    /** @type {RegExpExecArray | null} */
+    let match = null,
+      lastIndex = 0;
+    while ((({ lastIndex } = re), (match = re.exec(note)))) {
+      const head = note.substring(lastIndex, match.index),
+        body = match[1];
+
       head && fragment.append(head);
       if (body) {
         const el = document.createElement('code');
         el.textContent = body;
         fragment.appendChild(el);
       }
-      note = tail;
     }
+
+    const tail = note.substring(lastIndex);
+    tail && fragment.append(tail);
     return fragment;
   },
 
