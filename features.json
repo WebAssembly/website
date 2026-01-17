@@ -329,10 +329,7 @@
         "mutableGlobals": "61",
         "profiles": null,
         "referenceTypes": "79",
-        "relaxedSimd": [
-          "flag",
-          "Enabled in Nightly, requires flag `javascript.options.wasm_relaxed_simd` in Beta/Release"
-        ],
+        "relaxedSimd": "145",
         "saturatedFloatToInt": "64",
         "signExtensions": "62",
         "simd": "89",
