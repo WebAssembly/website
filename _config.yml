@@ -27,6 +27,7 @@ exclude:
     design/CAndC++.md,
     docs,
     vendor,
+    node_modules,
   ]
 
 destination: docs

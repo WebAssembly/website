@@ -1,4 +1,6 @@
 *~
 *#
 .#*
+.jekyll-metadata
 /docs
+node_modules
