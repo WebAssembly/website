@@ -3,6 +3,11 @@ title: 'The States of WebAssembly'
 author: 'Thomas Steiner'
 ---
 
+# The States of WebAssembly
+
+_Published on January 21, 2026 by
+[Thomas Steiner](https://github.com/tomayac)._
+
 This week didn't see just one _State of WebAssembly_ posts, but two, so I decided it's time to feature them.
 
 Uno Platform's [Gerard Gallant](https://cggallant.blogspot.com/) wrote [The State of WebAssembly – 2025 and 2026](https://platform.uno/blog/the-state-of-webassembly-2025-2026/) in which he recaps the events of 2025 and previews what 2026 could bring to this rapidly evolving technology. He starts with some Wasm additions and improvements in the Safari browser, to then cover the latest and greatest developments in features like Relaxed SIMD, JavaScript Promise Integration (JSPI), WebAssembly CSP, Wide Arithmetic, Stack Switching, and Source Phase Imports. Next, he looks at Wasm support in Kotlin and .NET, covers the WebAssembly System Interface (WASI), Wasm debugging, and looks at some stats around Wasm's adoption.
