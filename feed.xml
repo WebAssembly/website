@@ -3,8 +3,34 @@
   <title>WebAssembly News</title>
   <link href="https://webassembly.org/"/>
   <link href="https://webassembly.org/feed.xml" rel="self"/>
-  <updated>2025-09-17T00:00:00+00:00</updated>
+  <updated>2026-01-21T00:00:00+00:00</updated>
   <id>https://webassembly.org/</id>
+  
+  <entry>
+    <title>The States of WebAssembly</title>
+    <author>
+      <name>Thomas Steiner</name>
+    </author>
+    <link href="https://webassembly.org/news/2026-01-21-states-of-webassembly/"/>
+    <id>https://webassembly.org/news/2026-01-21-states-of-webassembly/</id>
+    <updated>2026-01-21T00:00:00+00:00</updated>
+    <summary>The States of WebAssembly</summary>
+    <content type="html"><![CDATA[<h1 id="the-states-of-webassembly">The States of WebAssembly</h1>
+
+<p><em>Published on January 21, 2026 by
+<a href="https://github.com/tomayac">Thomas Steiner</a>.</em></p>
+
+<p>This week didn’t see just one <em>State of WebAssembly</em> posts, but two, so I decided it’s time to feature them.</p>
+
+<p>Uno Platform’s <a href="https://cggallant.blogspot.com/">Gerard Gallant</a> wrote <a href="https://platform.uno/blog/the-state-of-webassembly-2025-2026/">The State of WebAssembly – 2025 and 2026</a> in which he recaps the events of 2025 and previews what 2026 could bring to this rapidly evolving technology. He starts with some Wasm additions and improvements in the Safari browser, and then covers the latest and greatest developments in features like Relaxed SIMD, JavaScript Promise Integration (JSPI), WebAssembly CSP, Wide Arithmetic, Stack Switching, and Source Phase Imports. Next, he looks at Wasm support in Kotlin and .NET, covers the WebAssembly System Interface (WASI), Wasm debugging, and looks at some stats around Wasm’s adoption.</p>
+
+<p>The yearly <a href="https://almanac.httparchive.org/">Web Almanac</a> from the <a href="https://httparchive.org/">HTTP Archive</a> community, again after <a href="https://almanac.httparchive.org/en/2022/webassembly">2022</a> and <a href="https://almanac.httparchive.org/en/2021/webassembly">2021</a>, features a <a href="https://almanac.httparchive.org/en/2025/webassembly">chapter on WebAssembly</a> in which author and analyst <a href="https://ops-ml-architect.blogspot.com/">Nimesh Vadgama</a> covers Wasm in 2025. The report finds that 0.35% of desktop sites and 0.28% of mobile sites are using WebAssembly. A curious stat is that of the largest Wasm file, which weighs 228 MB, but the report also presents more down to earth statistics like features used, the source languages people compiled from, and others. The <a href="https://docs.google.com/spreadsheets/d/16z2MNwq8FFbuNYcJJZceML6rB5VAmBXNNHZy5FZuf8g/edit">raw data</a> and the used <a href="https://github.com/HTTPArchive/almanac.httparchive.org/tree/main/sql/2025/webassembly/">queries</a> (the HTTP Archive is queryable on BigQuery) are available if you want to dive deeper.</p>
+
+<p><img src="https://almanac.httparchive.org/static/images/2021/webassembly/hero_lg.avif" alt="Cartoon Web Almanac characters performing scientific experiments on various code symbols resulting in ones and zeros coming out of the other end." /></p>
+
+<p>In other interesting Wasm news, Microsoft’s <a href="https://github.com/joaomoreno">João Moreno</a> blogged about <a href="https://code.visualstudio.com/blogs/2026/01/15/docfind">docfind</a>, a fast client-side search driven by Rust and WebAssembly that is in use on the <a href="https://code.visualstudio.com/">VS Code website</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title>A &lt;wasm-compat&gt; custom element</title>
