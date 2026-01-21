@@ -37,6 +37,7 @@ layout: getting-started
 - Python
   - [Pyodide](https://pyodide.org/en/stable/)
   - [Nuitka (py2wasm)](https://github.com/wasmerio/py2wasm)
+  - [Pygbag (This is based on python-wasm, but I mention it because it gives pygame support)](https://pygame-web.github.io/)
 - [R](https://docs.r-wasm.org/webr/latest/)
 - [RemObjects Elements](https://docs.elementscompiler.com/Platforms/WebAssembly/)
 - [Ruby](http://github.com/ruby/ruby.wasm)
