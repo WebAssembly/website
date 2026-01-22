@@ -824,6 +824,39 @@
         "webContentSecurityPolicy": null,
         "wideArithmetic": false
       }
+    },
+    "watr": {
+      "url": "https://github.com/dy/watr",
+      "logo": "/images/watr.svg",
+      "category": "Tools",
+      "features": {
+        "bigInt": true,
+        "branchHinting": true,
+        "bulkMemory": true,
+        "customAnnotationSyntaxInTheTextFormat": true,
+        "esmIntegration": null,
+        "exceptionsFinal": true,
+        "extendedConst": true,
+        "gc": true,
+        "jsPrimitiveBuiltins": null,
+        "jsStringBuiltins": true,
+        "jspi": null,
+        "memory64": true,
+        "multiMemory": true,
+        "multiValue": true,
+        "mutableGlobals": true,
+        "referenceTypes": true,
+        "relaxedSimd": true,
+        "saturatedFloatToInt": true,
+        "signExtensions": true,
+        "simd": true,
+        "tailCall": true,
+        "threads": true,
+        "typedFunctionReferences": true,
+        "typeReflection": null,
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": true
+      }
     }
   }
 }
