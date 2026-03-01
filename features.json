@@ -837,6 +837,7 @@
         "referenceTypes": true,
         "saturatedFloatToInt": true,
         "signExtensions": true,
+        "simd": ["flag", "Compile with `SOUP_WASM_SIMD` set to `true`"],
         "memory64": true,
         "multiMemory": ["flag", "Compile with `SOUP_WASM_MULTI_MEMORY` set to `true`"],
         "extendedConst": ["flag", "Compile with `SOUP_WASM_EXTENDED_CONST` set to `true`"],
