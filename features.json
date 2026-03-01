@@ -849,6 +849,7 @@
         "webContentSecurityPolicy": null,
         "esmIntegration": null,
         "typeReflection": null,
+        "customPageSizes": ["flag", "Compile with `SOUP_WASM_CUSTOM_PAGE_SIZES` set to `true`"],
         "compilationHints": null,
         "numericValuesInWat": null,
         "relaxedDeadCodeValidation": null
