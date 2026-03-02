@@ -826,6 +826,35 @@
         "wideArithmetic": false
       }
     },
+    "Soup": {
+      "url": "https://github.com/calamity-inc/Soup/tree/senpai/CLI#soup-cli",
+      "logo": "/images/soup.png",
+      "category": "Standalone Runtimes",
+      "features": {
+        "bulkMemory": true,
+        "multiValue": true,
+        "mutableGlobals": true,
+        "referenceTypes": true,
+        "saturatedFloatToInt": true,
+        "signExtensions": true,
+        "simd": ["flag", "Compile with `SOUP_WASM_SIMD` set to `true`"],
+        "memory64": true,
+        "multiMemory": ["flag", "Compile with `SOUP_WASM_MULTI_MEMORY` set to `true`"],
+        "extendedConst": ["flag", "Compile with `SOUP_WASM_EXTENDED_CONST` set to `true`"],
+        "tailCall": ["flag", "Compile with `SOUP_WASM_TAIL_CALL` set to `true`"],
+        "exceptionsFinal": ["flag", "Compile with `SOUP_WASM_EXCEPTIONS` set to `true`"],
+        "bigInt": null,
+        "branchHinting": null,
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "webContentSecurityPolicy": null,
+        "esmIntegration": null,
+        "typeReflection": null,
+        "customPageSizes": ["flag", "Compile with `SOUP_WASM_CUSTOM_PAGE_SIZES` set to `true`"],
+        "compilationHints": null,
+        "numericValuesInWat": null,
+        "relaxedDeadCodeValidation": null
+      }
+    },
     "watr": {
       "url": "https://github.com/dy/watr",
       "logo": "/images/watr.svg",
