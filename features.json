@@ -19,7 +19,7 @@
     "compactImportSection": {
       "description": "Compact Import Section",
       "url": "https://github.com/WebAssembly/compact-import-section/blob/main/proposals/compact-import-section/Overview.md",
-      "phase": 1
+      "phase": 3
     },
     "compilationHints": {
       "description": "Compilation Hints",
@@ -39,12 +39,12 @@
     "customDescriptors": {
       "description": "Custom Descriptors and JS Interop",
       "url": "https://github.com/WebAssembly/custom-descriptors/blob/main/proposals/custom-descriptors/Overview.md",
-      "phase": 2
+      "phase": 3
     },
     "customPageSizes": {
       "description": "Custom Page Sizes",
       "url": "https://github.com/WebAssembly/custom-page-sizes/blob/main/proposals/custom-page-sizes/Overview.md",
-      "phase": 2
+      "phase": 3
     },
     "esmIntegration": {
       "description": "ESM Integration",
