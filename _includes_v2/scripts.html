@@ -1,0 +1,135 @@
+<script>
+  // Responsive nav: measure content width, toggle compact/burger mode
+  (function () {
+    const nav = document.querySelector('.site-nav');
+    const links = document.querySelector('.nav-links');
+    const right = document.querySelector('.nav-right');
+    const burger = document.querySelector('.burger');
+    if (!nav || !links || !right || !burger) return;
+
+    function checkNav() {
+      // Reset to full nav to measure
+      nav.classList.remove('nav-compact');
+      links.classList.remove('open');
+      right.classList.remove('open');
+      nav.classList.remove('menu-open');
+      burger.setAttribute('aria-expanded', 'false');
+
+      // Measure natural width of each nav section with nowrap
+      const allLinks = links.querySelectorAll('a');
+      allLinks.forEach(a => a.style.whiteSpace = 'nowrap');
+      right.style.whiteSpace = 'nowrap';
+
+      const logo = nav.querySelector('.nav-logo');
+      const logoW = logo ? logo.offsetWidth : 0;
+      let linksW = 0;
+      allLinks.forEach(a => { linksW += a.offsetWidth; });
+      const rightW = right.scrollWidth;
+      const navStyle = getComputedStyle(nav);
+      const navPad = parseFloat(navStyle.paddingLeft) + parseFloat(navStyle.paddingRight);
+
+      allLinks.forEach(a => a.style.whiteSpace = '');
+      right.style.whiteSpace = '';
+
+      const gap = 24; // breathing room between logo | links | right
+      if (logoW + linksW + rightW + navPad + gap > nav.offsetWidth) {
+        nav.classList.add('nav-compact');
+      }
+    }
+
+    checkNav();
+    window.addEventListener('resize', checkNav);
+
+    // Burger menu toggle
+    burger.addEventListener('click', function () {
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+      nav.classList.toggle('menu-open');
+      links.classList.toggle('open');
+      right.classList.toggle('open');
+    });
+  })();
+
+  // Theme toggle
+  document.querySelector('.theme-toggle')?.addEventListener('click', () => {
+    const current = document.documentElement.dataset.theme;
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('theme', next);
+  });
+
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("visible");
+          obs.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -30px 0px" },
+  );
+
+  document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+
+  // Transform FAQ doc page h2s into collapsible accordion
+  (function () {
+    const prose = document.querySelector('.prose');
+    if (!prose) return;
+    const h1 = prose.querySelector('h1');
+    if (!h1 || h1.textContent.trim() !== 'FAQ') return;
+
+    const h2s = prose.querySelectorAll('h2');
+    if (!h2s.length) return;
+
+    const list = document.createElement('div');
+    list.className = 'faq-list';
+
+    h2s.forEach((h2) => {
+      const item = document.createElement('div');
+      item.className = 'faq-item';
+
+      const btn = document.createElement('button');
+      btn.className = 'faq-q';
+      btn.textContent = h2.textContent;
+
+      const answer = document.createElement('div');
+      answer.className = 'faq-a';
+      const inner = document.createElement('div');
+      inner.className = 'faq-a-inner';
+
+      // Collect all siblings between this h2 and the next h2
+      let sibling = h2.nextElementSibling;
+      while (sibling && sibling.tagName !== 'H2') {
+        const next = sibling.nextElementSibling;
+        inner.appendChild(sibling);
+        sibling = next;
+      }
+
+      answer.appendChild(inner);
+      item.appendChild(btn);
+      item.appendChild(answer);
+      list.appendChild(item);
+      h2.remove();
+    });
+
+    // Insert the faq-list after the h1
+    h1.after(list);
+  })();
+
+  document.querySelectorAll(".faq-q").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = btn.parentElement;
+      const a = item.querySelector(".faq-a");
+      const open = item.classList.contains("open");
+      document.querySelectorAll(".faq-item.open").forEach((i) => {
+        i.classList.remove("open");
+        i.querySelector(".faq-a").style.maxHeight = "0";
+      });
+      if (!open) {
+        item.classList.add("open");
+        a.style.maxHeight = a.scrollHeight + "px";
+      }
+    });
+  });
+</script>
