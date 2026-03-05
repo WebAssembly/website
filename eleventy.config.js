@@ -92,6 +92,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addLayoutAlias("news", "page.html");
 
   // Passthrough copy
+  eleventyConfig.addPassthroughCopy("fonts");
   eleventyConfig.addPassthroughCopy("css");
   eleventyConfig.addPassthroughCopy("images");
   eleventyConfig.addPassthroughCopy("favicon.ico");
