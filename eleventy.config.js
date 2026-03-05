@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import markdownIt from "markdown-it";
 import { full as markdownItEmoji } from "markdown-it-emoji";
 
@@ -226,6 +227,9 @@ export default function (eleventyConfig) {
       .filter((item) => item.data.type === "doc")
       .sort((a, b) => (a.data.weight || 999) - (b.data.weight || 999));
   });
+
+  // Liquid filter to inline a file's contents
+  eleventyConfig.addFilter("inlineFile", (path) => readFileSync(path, "utf-8"));
 
   // Liquid filter for sorting pages by weight
   eleventyConfig.addFilter("sortByWeight", (pages) => {

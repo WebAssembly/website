@@ -6,5 +6,5 @@
 <script>
 (function(){var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme:light)').matches?'light':'dark';document.documentElement.dataset.theme=t})();
 </script>
-<link rel="stylesheet" href="/css/style.css" />
-{% if page.url == "/features/" %}<link rel="stylesheet" href="/css/feature-table.css" />{% endif %}
+<style>{{ "css/style.css" | inlineFile }}</style>
+{% if page.url == "/features/" %}<style>{{ "css/feature-table.css" | inlineFile }}</style>{% endif %}
