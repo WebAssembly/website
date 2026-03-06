@@ -12,10 +12,6 @@ lead: WebAssembly (abbreviated <i>Wasm</i>) is a binary instruction format for a
   <span class="highlight">web, server, and beyond</span>. </p>
 ---
 
-<div class="flash flash-warn">
-  Developer reference documentation for Wasm can be found on <a href="https://developer.mozilla.org/en-US/docs/WebAssembly">MDN's WebAssembly pages</a>.
-  The open standards for WebAssembly are developed in a <a href="https://www.w3.org/community/webassembly/">W3C Community Group</a> (that includes representatives from all major browsers) as well as a <a href="https://www.w3.org/wasm/">W3C Working Group</a>.
-</div>
 <div class="row">
   <div class="bubble col-xs-12 col-md-6">
     <h3>Efficient and fast</h3>

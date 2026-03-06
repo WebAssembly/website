@@ -1,4 +1,16 @@
 <script>
+  // Nav: fade in background on scroll past fold
+  (function () {
+    const nav = document.querySelector('.site-nav');
+    if (!nav) return;
+    const threshold = window.innerHeight * 0.5;
+    function onScroll() {
+      nav.classList.toggle('scrolled', window.scrollY > threshold);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
   // Responsive nav: measure content width, toggle compact/burger mode
   (function () {
     const nav = document.querySelector('.site-nav');

@@ -73,7 +73,7 @@ layout: base
         </g>
       </svg>
     </div>
-    <h1 class="reveal">Runs code in any language fast, secure, anywhere.</h1>
+    <h1 class="reveal">Run code in any language fast, secure and portable.</h1>
     <div class="hero-lead">{{ lead }}</div>
     <div class="hero-actions reveal rd2">
       <a href="#start" class="btn-solid">Get Started &rarr;</a>
@@ -87,10 +87,17 @@ layout: base
 <!-- ━━ Features ━━ -->
 <section class="section-pad" id="features">
   <div class="features-intro reveal">
-    <h2>Efficient, fast, safe, and open source.</h2>
+    <h2>An open web standard.</h2>
     <p>
-      Four pillars that make WebAssembly the universal compilation target for
-      performance-critical applications.
+      Developer reference documentation for Wasm can be found on
+      <a href="https://developer.mozilla.org/en-US/docs/WebAssembly"
+        >MDN's WebAssembly pages</a
+      >. The open standards for WebAssembly are developed in a
+      <a href="https://www.w3.org/community/webassembly/"
+        >W3C Community Group</a
+      >
+      (that includes representatives from all major browsers) as well as a
+      <a href="https://www.w3.org/wasm/">W3C Working Group</a>.
     </p>
   </div>
   <div class="pillars-content reveal rd1">{{ content }}</div>
@@ -100,14 +107,31 @@ layout: base
 
 <!-- ━━ Languages ━━ -->
 <section class="section-pad" id="languages">
-  <div class="languages-intro reveal">
-    <h2>Code in your language.</h2>
-    <p>
-      From systems programming to scripting &mdash; compile from the language
-      you already know.
-    </p>
+  <div class="languages-section">
+    <div class="languages-intro reveal">
+      <h2>Code in your language.</h2>
+      <p>
+        Choose your language, pick a toolchain, and ship production-grade Wasm
+        in minutes.
+      </p>
+      <div class="stats-inline">
+        <div class="stat-inline">
+          <span class="stat-number">30+</span> languages
+        </div>
+      </div>
+      <div class="languages-actions">
+        <a href="/getting-started/developers-guide/" class="btn-solid"
+          >Developer Guide &rarr;</a
+        >
+        <a
+          href="https://developer.mozilla.org/en-US/docs/WebAssembly"
+          class="btn-outline"
+          >MDN Docs</a
+        >
+      </div>
+    </div>
+    <div class="reveal rd1">{% include lang-grid.html %}</div>
   </div>
-  <div class="reveal rd1">{% include lang-grid.html %}</div>
 </section>
 
 <hr class="divider" />
@@ -116,11 +140,12 @@ layout: base
 <section class="section-pad">
   <div class="code-section">
     <div class="code-text reveal">
-      <h2>Compile to virtual CPU instructions.</h2>
+      <h2>Compile to WebAssembly.</h2>
       <p>
-        WebAssembly's text format (WAT) is designed for viewing in dev tools,
-        hand-writing modules, debugging, and learning. It maps directly to the
-        binary format.
+        WebAssembly is a low-level, portable, size- and load-time-efficient
+        binary format suitable for compilation to the web. It runs your code at
+        near-native speed in a sandboxed environment and isolates code, data,
+        and host resources.
       </p>
     </div>
     <div class="reveal rd2">
@@ -137,136 +162,25 @@ i32.add)
 
 <hr class="divider" />
 
-<!-- ━━ Stats ━━ -->
-<section class="section-pad">
-  <div class="stats-grid reveal">
-    <div class="stat-item">
-      <div class="stat-number">20&times;</div>
-      <div class="stat-label">Faster decode than JS parse</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">30+</div>
-      <div class="stat-label">Source languages supported</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">4</div>
-      <div class="stat-label">Major browser engines</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-number">95%+</div>
-      <div class="stat-label">Global browser coverage</div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- ━━ FAQ ━━ -->
-<section class="section-pad" id="faq">
-  <div class="faq-intro reveal">
-    <h2>FAQ.</h2>
-  </div>
-  <div class="faq-list">
-    <div class="faq-item reveal">
-      <button class="faq-q">
-        Is WebAssembly trying to replace JavaScript?
-      </button>
-      <div class="faq-a">
-        <div class="faq-a-inner">
-          No. WebAssembly is designed as a complement to JavaScript, not a
-          replacement. JavaScript has incredible momentum and will remain the
-          primary dynamic language of the web. Common patterns include compiled
-          C++ apps using JS for glue code, HTML/CSS/JS apps with Wasm-powered
-          canvas rendering, and mostly-web apps using Wasm modules for
-          performance-critical paths.
+<!-- ━━ Runtimes ━━ -->
+<section class="section-pad" id="runtimes">
+  <div class="languages-section">
+    <div class="languages-intro reveal">
+      <h2>Run anywhere.</h2>
+      <p>
+        Execute Wasm modules in browsers, on the server, at the edge, or
+        embedded in any application.
+      </p>
+      <div class="stats-inline">
+        <div class="stat-inline">
+          <span class="stat-number">20+</span> runtimes
+        </div>
+        <div class="stat-inline">
+          <span class="stat-number">3</span> browser engines
         </div>
       </div>
     </div>
-    <div class="faq-item reveal rd1">
-      <button class="faq-q">Is WebAssembly only for C/C++ programmers?</button>
-      <div class="faq-a">
-        <div class="faq-a-inner">
-          Not at all. While initial efforts focused on C/C++, today over 30
-          languages can compile to WebAssembly &mdash; including Rust, Go,
-          Python, C#, Kotlin, and many more. The ecosystem grows steadily as
-          more compilers add Wasm backends.
-        </div>
-      </div>
-    </div>
-    <div class="faq-item reveal rd2">
-      <button class="faq-q">Can I view WebAssembly source code?</button>
-      <div class="faq-a">
-        <div class="faq-a-inner">
-          Yes. WebAssembly defines a human-readable text format (WAT)
-          specifically designed for debugging, testing, experimenting,
-          optimizing, learning, and teaching. Developer tools in all major
-          browsers can display Wasm in this textual format, and source maps
-          provide a direct link back to original source code.
-        </div>
-      </div>
-    </div>
-    <div class="faq-item reveal rd3">
-      <button class="faq-q">
-        Why not just use LLVM bitcode as a binary format?
-      </button>
-      <div class="faq-a">
-        <div class="faq-a-inner">
-          WebAssembly prioritizes portability, stability, small encoding, fast
-          decoding, and minimal nondeterminism. LLVM IR targets compiler
-          optimization across diverse architectures and contains undefined
-          behavior, making it non-portable and unstable. WebAssembly's
-          purpose-built design achieves superior results for these goals, while
-          still leveraging LLVM's clang frontend and optimizers to generate Wasm
-          output.
-        </div>
-      </div>
-    </div>
-    <div class="faq-item reveal">
-      <button class="faq-q">Can WebAssembly be polyfilled?</button>
-      <div class="faq-a">
-        <div class="faq-a-inner">
-          Technically yes &mdash; early prototypes demonstrated efficient
-          WebAssembly-to-asm.js conversion. In practice, polyfilling has become
-          unnecessary thanks to near-universal browser support (95%+ global
-          coverage). Tools like Emscripten also allow dual builds targeting both
-          Wasm and asm.js with a simple flag.
-        </div>
-      </div>
-    </div>
-    <div class="faq-item reveal rd1">
-      <button class="faq-q">
-        Can I access platform APIs from WebAssembly?
-      </button>
-      <div class="faq-a">
-        <div class="faq-a-inner">
-          In a browser, you have full access to Web APIs through JavaScript
-          interop. Outside the browser, access depends on the embedder &mdash;
-          standalone runtimes like Wasmtime and Wasmer provide WASI (WebAssembly
-          System Interface) for filesystem, networking, and more.
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="divider" />
-
-<!-- ━━ CTA ━━ -->
-<section class="section-pad cta" id="start">
-  <h2 class="reveal">Start Building.</h2>
-  <p class="reveal rd1">
-    Choose your language, pick a toolchain, and ship production-grade Wasm in
-    minutes.
-  </p>
-  <div class="cta-actions reveal rd2">
-    <a href="/getting-started/developers-guide/" class="btn-solid"
-      >Developer Guide &rarr;</a
-    >
-    <a
-      href="https://developer.mozilla.org/en-US/docs/WebAssembly"
-      class="btn-outline"
-      >MDN Docs</a
-    >
+    <div class="reveal rd1">{% include runtime-grid.html %}</div>
   </div>
 </section>
 
