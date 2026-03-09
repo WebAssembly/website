@@ -9,7 +9,8 @@ lead: WebAssembly (abbreviated <i>Wasm</i>) is a binary instruction format for a
   binary instruction format for a stack-based virtual machine. A <span
   class="highlight">portable</span> compilation target for programming languages
   that enables <span class="highlight">near-native performance</span> on the
-  <span class="highlight">web, server, and beyond</span>. </p>
+  <span class="highlight">web, server</span>, and <span
+  class="highlight">embedded systems</span>. </p>
 ---
 
 <div class="row">
