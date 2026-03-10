@@ -7,6 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve --port 4000",
     "start": "bundle exec jekyll serve",
     "prettier": "npx prettier . --write",
     "optimize-svgs": "node scripts/optimize-svgs.js",
@@ -25,6 +27,8 @@
   },
   "type": "module",
   "dependencies": {
-    "dark-mode-toggle": "^0.18.0"
+    "@11ty/eleventy": "^3.1.2",
+    "dark-mode-toggle": "^0.18.0",
+    "markdown-it-emoji": "^3.0.0"
   }
 }
