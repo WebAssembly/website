@@ -786,6 +786,7 @@
         "saturatedFloatToInt": "0.3.0",
         "signExtensions": "0.3.0",
         "simd": true,
+        "stackSwitching": "0.10.0",
         "tailCall": true,
         "threads": "0.8.0",
         "typeReflection": null,
