@@ -890,6 +890,39 @@
         "webContentSecurityPolicy": null,
         "wideArithmetic": true
       }
+    },
+    "Wasmi": {
+      "url": "https://github.com/wasmi-labs/wasmi/",
+      "logo": "/images/wasmi.png",
+      "category": "Standalone Runtimes",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": "0.24",
+        "customAnnotationSyntaxInTheTextFormat": true,
+        "customPageSizes": "0.41",
+        "esmIntegration": null,
+        "exceptionsFinal": null,
+        "extendedConst": "0.29",
+        "gc": null,
+        "jspi": null,
+        "jsStringBuiltins": null,
+        "memory64": "0.41",
+        "multiMemory": "0.37",
+        "multiValue": "0.14",
+        "mutableGlobals": "0.14",
+        "profiles": null,
+        "referenceTypes": "0.24",
+        "relaxedSimd": "0.44",
+        "saturatedFloatToInt": "0.14",
+        "signExtensions": "0.14",
+        "simd": "0.43",
+        "tailCall": "0.28",
+        "threads": null,
+        "typedFunctionReferences": null,
+        "typeReflection": null,
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": "0.42"
+      }
     }
   }
 }
