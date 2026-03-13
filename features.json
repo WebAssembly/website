@@ -359,6 +359,10 @@
         "exceptions": "15.2",
         "extendedConst": "17.4",
         "gc": "18.2",
+        "jspi": [
+          "flag",
+          "Supported in Safari Technical Preview 238"
+        ],
         "jsStringBuiltins": "26.2",
         "multiValue": "13.1",
         "mutableGlobals": "13.1",
