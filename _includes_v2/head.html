@@ -10,4 +10,5 @@
 (function(){var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme:light)').matches?'light':'dark';document.documentElement.dataset.theme=t})();
 </script>
 <style>{{ "css/style.css" | inlineFile }}</style>
+<noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
 {% if page.url == "/features/" %}<style>{{ "css/feature-table.css" | inlineFile }}</style>{% endif %}
