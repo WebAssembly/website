@@ -253,10 +253,24 @@
     }
   },
   "categories": [
-    { "name": "Web Browsers", "queryKey": "browsers", "default": true },
-    { "name": "Standalone Runtimes", "queryKey": "standalones", "default": true },
-    { "name": "Embedded Runtimes", "queryKey": "embeddeds" },
-    { "name": "Tools", "queryKey": "tools" }
+    {
+      "name": "Web Browsers",
+      "queryKey": "browsers",
+      "default": true
+    },
+    {
+      "name": "Standalone Runtimes",
+      "queryKey": "standalones",
+      "default": true
+    },
+    {
+      "name": "Embedded Runtimes",
+      "queryKey": "embeddeds"
+    },
+    {
+      "name": "Tools",
+      "queryKey": "tools"
+    }
   ],
   "browsers": {
     "Chrome": {
@@ -415,7 +429,10 @@
           "flag",
           "Requires flag `--experimental-wasm-instruction-tracing`"
         ],
-        "jspi": ["flag", "Requires flag `--experimental-wasm-jspi`"],
+        "jspi": [
+          "flag",
+          "Requires flag `--experimental-wasm-jspi`"
+        ],
         "jsStringBuiltins": [
           "flag",
           "Requires flag `--experimental-wasm-imported-strings`"
@@ -494,16 +511,28 @@
           "flag",
           "Requires flag `--wasm.ExtendedConstExpressions=true`"
         ],
-        "memory64": ["flag", "Requires flag `--wasm.Memory64=true`"],
-        "multiMemory": ["flag", "Requires flag `--wasm.MultiMemory=true`"],
+        "memory64": [
+          "flag",
+          "Requires flag `--wasm.Memory64=true`"
+        ],
+        "multiMemory": [
+          "flag",
+          "Requires flag `--wasm.MultiMemory=true`"
+        ],
         "multiValue": "22.3",
         "mutableGlobals": "21.3",
         "referenceTypes": "23.0",
-        "relaxedSimd": ["flag", "Requires flag `--wasm.RelaxedSIMD=true`"],
+        "relaxedSimd": [
+          "flag",
+          "Requires flag `--wasm.RelaxedSIMD=true`"
+        ],
         "saturatedFloatToInt": "22.3",
         "signExtensions": "22.3",
         "simd": "24.1",
-        "threads": ["flag", "Requires flag `--wasm.Threads=true`"],
+        "threads": [
+          "flag",
+          "Requires flag `--wasm.Threads=true`"
+        ],
         "webContentSecurityPolicy": null
       }
     },
@@ -528,7 +557,10 @@
         "signExtensions": "1.0.0",
         "simd": "1.1.0",
         "threads": "1.5.0",
-        "tailCall": ["1.0.0", "Optimized only in the interpreter"],
+        "tailCall": [
+          "1.0.0",
+          "Optimized only in the interpreter"
+        ],
         "typedFunctionReferences": "1.4.0",
         "webContentSecurityPolicy": null
       }
@@ -541,11 +573,20 @@
         "bigInt": null,
         "bulkMemory": "0.20",
         "customAnnotationSyntaxInTheTextFormat": true,
-        "customPageSizes": ["flag", "Requires flag `--wasm=custom-page-sizes`"],
+        "customPageSizes": [
+          "flag",
+          "Requires flag `--wasm=custom-page-sizes`"
+        ],
         "esmIntegration": null,
-        "exceptionsFinal": ["flag", "Requires flag `--wasm=exceptions`"],
+        "exceptionsFinal": [
+          "flag",
+          "Requires flag `--wasm=exceptions`"
+        ],
         "extendedConst": "25",
-        "gc": ["flag", "Requires flag `--wasm=gc`"],
+        "gc": [
+          "flag",
+          "Requires flag `--wasm=gc`"
+        ],
         "jspi": null,
         "jsStringBuiltins": null,
         "memory64": "30",
@@ -569,7 +610,10 @@
         ],
         "typeReflection": null,
         "webContentSecurityPolicy": null,
-        "wideArithmetic": ["flag", "Requires flag `--wasm=wide-arithmetic`"]
+        "wideArithmetic": [
+          "flag",
+          "Requires flag `--wasm=wide-arithmetic`"
+        ]
       }
     },
     "Wasmer": {
@@ -612,7 +656,10 @@
         "jsStringBuiltins": null,
         "memory64": "25",
         "tailCall": "25",
-        "customPageSizes": ["flag", "Requires flag `--ext:custom-page-sizes`"],
+        "customPageSizes": [
+          "flag",
+          "Requires flag `--ext:custom-page-sizes`"
+        ],
         "multiValue": "21",
         "multiMemory": "24",
         "mutableGlobals": "21",
@@ -621,8 +668,14 @@
         "saturatedFloatToInt": "21",
         "signExtensions": "21",
         "simd": "23",
-        "stackSwitching": ["flag", "Requires flag `--ext:stack-switching`"],
-        "threads": ["flag", "Requires flag `--ext:threads`"],
+        "stackSwitching": [
+          "flag",
+          "Requires flag `--ext:stack-switching`"
+        ],
+        "threads": [
+          "flag",
+          "Requires flag `--ext:threads`"
+        ],
         "typedFunctionReferences": "24",
         "typeReflection": null,
         "webContentSecurityPolicy": null
@@ -670,15 +723,33 @@
         "bigInt": null,
         "bulkMemory": "1.0.30",
         "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": ["flag", "Requires flag `--enable-exceptions`"],
-        "exceptions": ["flag", "Requires flag `--enable-exceptions`"],
-        "extendedConst": ["flag", "Requires flag `--enable-extended-const`"],
+        "exceptionsFinal": [
+          "flag",
+          "Requires flag `--enable-exceptions`"
+        ],
+        "exceptions": [
+          "flag",
+          "Requires flag `--enable-exceptions`"
+        ],
+        "extendedConst": [
+          "flag",
+          "Requires flag `--enable-extended-const`"
+        ],
         "esmIntegration": null,
         "jspi": null,
         "jsStringBuiltins": null,
-        "memory64": ["flag", "Requires flag `--enable-memory64`"],
-        "multiMemory": ["flag", "Requires flag `--enable-multi-memory`"],
-        "tailCall": ["flag", "Requires flag `--enable-tail-call`"],
+        "memory64": [
+          "flag",
+          "Requires flag `--enable-memory64`"
+        ],
+        "multiMemory": [
+          "flag",
+          "Requires flag `--enable-multi-memory`"
+        ],
+        "tailCall": [
+          "flag",
+          "Requires flag `--enable-tail-call`"
+        ],
         "customPageSizes": [
           "flag",
           "Requires flag `--enable-custom-page-sizes`"
@@ -697,7 +768,10 @@
       "url": "https://github.com/ocamlpro/owi",
       "logo": "/images/owi.webp",
       "logoClassName": "rounded",
-      "category": ["Tools", "Standalone Runtimes"],
+      "category": [
+        "Tools",
+        "Standalone Runtimes"
+      ],
       "features": {
         "bigInt": null,
         "bulkMemory": true,
@@ -847,19 +921,37 @@
         "referenceTypes": true,
         "saturatedFloatToInt": true,
         "signExtensions": true,
-        "simd": ["flag", "Compile with `SOUP_WASM_SIMD` set to `true`"],
+        "simd": [
+          "flag",
+          "Compile with `SOUP_WASM_SIMD` set to `true`"
+        ],
         "memory64": true,
-        "multiMemory": ["flag", "Compile with `SOUP_WASM_MULTI_MEMORY` set to `true`"],
-        "extendedConst": ["flag", "Compile with `SOUP_WASM_EXTENDED_CONST` set to `true`"],
-        "tailCall": ["flag", "Compile with `SOUP_WASM_TAIL_CALL` set to `true`"],
-        "exceptionsFinal": ["flag", "Compile with `SOUP_WASM_EXCEPTIONS` set to `true`"],
+        "multiMemory": [
+          "flag",
+          "Compile with `SOUP_WASM_MULTI_MEMORY` set to `true`"
+        ],
+        "extendedConst": [
+          "flag",
+          "Compile with `SOUP_WASM_EXTENDED_CONST` set to `true`"
+        ],
+        "tailCall": [
+          "flag",
+          "Compile with `SOUP_WASM_TAIL_CALL` set to `true`"
+        ],
+        "exceptionsFinal": [
+          "flag",
+          "Compile with `SOUP_WASM_EXCEPTIONS` set to `true`"
+        ],
         "bigInt": null,
         "branchHinting": null,
         "customAnnotationSyntaxInTheTextFormat": null,
         "webContentSecurityPolicy": null,
         "esmIntegration": null,
         "typeReflection": null,
-        "customPageSizes": ["flag", "Compile with `SOUP_WASM_CUSTOM_PAGE_SIZES` set to `true`"],
+        "customPageSizes": [
+          "flag",
+          "Compile with `SOUP_WASM_CUSTOM_PAGE_SIZES` set to `true`"
+        ],
         "compilationHints": null,
         "numericValuesInWat": null,
         "relaxedDeadCodeValidation": null
@@ -873,10 +965,16 @@
         "bigInt": true,
         "branchHinting": true,
         "bulkMemory": true,
+        "compactImportSection": true,
+        "compilationHints": null,
         "customAnnotationSyntaxInTheTextFormat": true,
+        "customDescriptors": true,
+        "customPageSizes": true,
         "esmIntegration": null,
+        "exceptions": false,
         "exceptionsFinal": true,
         "extendedConst": true,
+        "extendedNameSection": null,
         "gc": true,
         "jsPrimitiveBuiltins": null,
         "jsStringBuiltins": true,
@@ -885,15 +983,17 @@
         "multiMemory": true,
         "multiValue": true,
         "mutableGlobals": true,
+        "numericValuesInWat": true,
         "referenceTypes": true,
         "relaxedSimd": true,
         "saturatedFloatToInt": true,
         "signExtensions": true,
         "simd": true,
+        "stackSwitching": true,
         "tailCall": true,
         "threads": true,
-        "typedFunctionReferences": true,
         "typeReflection": null,
+        "typedFunctionReferences": true,
         "webContentSecurityPolicy": null,
         "wideArithmetic": true
       }
