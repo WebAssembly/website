@@ -79,3 +79,16 @@ asm.js and LLVM .s files into WebAssembly and so on.
 
 Tool developers are highly encouraged to explore the full set of functionality
 implemented by binaryen.
+
+## wasm-language-tools
+
+[wasm-language-tools](https://github.com/g-plane/wasm-language-tools) contains a
+language server that can provide and improve the editing experience of
+WebAssembly Text Format. It delivers deep and smart static analysis, precise
+type checking, and full-featured editor integration — plus a configurable
+formatter.
+
+It supports a variety of Language Server Protocol features, from code completion
+and go to definition to inlay hint and call hierarchy. For diagnostics, not only
+type checking and other basic validations, but it can also catch unused items,
+unreachable code, mutation detection and other potential issues.
