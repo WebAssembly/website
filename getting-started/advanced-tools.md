@@ -86,7 +86,8 @@ implemented by binaryen.
 language server that can provide and improve the editing experience of
 WebAssembly Text Format. It delivers deep and smart static analysis, precise
 type checking, and full-featured editor integration — plus a configurable
-formatter.
+formatter. Common editors like VS Code, Zed, Neovim, Emacs, and Helix are
+supported.
 
 It supports a variety of Language Server Protocol features, from code completion
 and go to definition to inlay hint and call hierarchy. For diagnostics, not only
