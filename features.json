@@ -584,15 +584,19 @@
         "jspi": null,
         "jsStringBuiltins": null,
         "referenceTypes": "2.0",
-        "threads": "4.0.0",
-        "exceptionsFinal": "6.0.0",
+        "threads": "4.0",
+        "exceptionsFinal": "6.0",
+        "extendedConst": "7.1",
         "multiValue": "1.0",
         "mutableGlobals": "0.7",
+        "relaxedSimd": "7.1",
         "saturatedFloatToInt": true,
         "signExtensions": true,
         "simd": "2.0",
+        "tailCall": "7.1",
         "typeReflection": "2.0",
-        "webContentSecurityPolicy": null
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": "7.1"
       }
     },
     "wizard": {
