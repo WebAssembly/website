@@ -910,6 +910,37 @@
         "wideArithmetic": true
       }
     },
+    "Chasm": {
+      "url": "https://github.com/CharlieTap/chasm",
+      "logo": "/images/chasm.svg",
+      "category": "Standalone Runtimes",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": true,
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "esmIntegration": null,
+        "exceptionsFinal": true,
+        "extendedConst": true,
+        "extendedNameSection": true,
+        "gc": true,
+        "jspi": null,
+        "jsStringBuiltins": null,
+        "memory64": false,
+        "multiMemory": true,
+        "multiValue": true,
+        "mutableGlobals": true,
+        "referenceTypes": true,
+        "relaxedSimd": false,
+        "saturatedFloatToInt": true,
+        "signExtensions": true,
+        "simd": false,
+        "tailCall": true,
+        "typedFunctionReferences": true,
+        "typeReflection": null,
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": true
+      }
+    },
     "Wasmi": {
       "url": "https://github.com/wasmi-labs/wasmi/",
       "logo": "/images/wasmi.png",
