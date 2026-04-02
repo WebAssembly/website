@@ -292,6 +292,10 @@
         "saturatedFloatToInt": "75",
         "signExtensions": "74",
         "simd": "91",
+        "stackSwitching": [
+          "flag",
+          "Requires flag `chrome://flags/#enable-experimental-webassembly-stack-switching`"
+        ],
         "tailCall": "112",
         "threads": "74",
         "typedFunctionReferences": "119",
