@@ -16,6 +16,8 @@ Here are just some of the popular ways to get started:
 - [Stackoverflow: `#webassembly` tag](https://stackoverflow.com/questions/tagged/webassembly)
 - [WasmAssembly podcast](https://wasmassembly.libsyn.com/) or
   [WasmAssembly videocast](https://www.youtube.com/playlist?list=PLNYkxOF6rcIA46I-YCX3ASF4SRb548z8s)
+- [WebAssembly Unleashed podcast](https://webassemblyunleashed.transistor.fm/) or
+  [WebAssembly Unleashed videocast](https://www.youtube.com/playlist?list=PLyqga7AXMtPNV1zr2aTWEegep0FQU6Qvj)
 
 ## Playgrounds
 
