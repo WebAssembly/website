@@ -4,3 +4,5 @@
 .jekyll-metadata
 /docs
 node_modules
+.file-registry.json
+.env

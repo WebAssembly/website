@@ -1,16 +1,18 @@
 ---
 layout: default
-lead:
-  WebAssembly (abbreviated <i>Wasm</i>) is a binary instruction format for a
+lead: WebAssembly (abbreviated <i>Wasm</i>) is a binary instruction format for a
   stack-based virtual machine. Wasm is designed as a portable compilation target
   for programming languages, enabling deployment on the web for client and
   server applications.
+
+  <p class="hero-sub reveal rd1"> WebAssembly (abbreviated <i>Wasm</i>) is a
+  binary instruction format for a stack-based virtual machine. A <span
+  class="highlight">portable</span> compilation target for programming languages
+  that enables <span class="highlight">near-native performance</span> on the
+  <span class="highlight">web, server</span>, and <span
+  class="highlight">embedded systems</span>. </p>
 ---
 
-<div class="flash flash-warn">
-  Developer reference documentation for Wasm can be found on <a href="https://developer.mozilla.org/en-US/docs/WebAssembly">MDN's WebAssembly pages</a>.
-  The open standards for WebAssembly are developed in a <a href="https://www.w3.org/community/webassembly/">W3C Community Group</a> (that includes representatives from all major browsers) as well as a <a href="https://www.w3.org/wasm/">W3C Working Group</a>.
-</div>
 <div class="row">
   <div class="bubble col-xs-12 col-md-6">
     <h3>Efficient and fast</h3>
@@ -20,8 +22,6 @@ lead:
     <h3>Safe</h3>
     <p>WebAssembly describes a memory-safe, sandboxed <a href="https://webassembly.github.io/spec/core/exec/index.html#linear-memory">execution environment</a> that may even be implemented inside existing JavaScript virtual machines. When <a href="/docs/web/">embedded in the web</a>, WebAssembly will enforce the same-origin and permissions security policies of the browser.</p>
   </div>
-</div>
-<div class="row">
   <div class="bubble col-xs-12 col-md-6">
     <h3>Open and debuggable</h3>
     <p>WebAssembly is designed to be pretty-printed in a <a href="https://webassembly.github.io/spec/core/text/index.html">textual format</a> for debugging, testing, experimenting, optimizing, learning, teaching, and writing programs by hand. The textual format will be used when <a href="/docs/faq/#will-webassembly-support-view-source-on-the-web">viewing the source</a> of Wasm modules on the web.</p>

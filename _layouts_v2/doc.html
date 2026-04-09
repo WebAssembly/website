@@ -1,0 +1,16 @@
+---
+layout: base
+---
+<div class="content-layout">
+  <div class="prose">
+    {{ content }}
+  </div>
+  <aside>
+    <h6 class="sidebar-title">Documentation</h6>
+    <nav class="sidebar-nav">
+      {% for p in collections.docs %}
+      <a href="{{ p.url }}">{{ p.data.title }}</a>
+      {% endfor %}
+    </nav>
+  </aside>
+</div>
