@@ -597,6 +597,7 @@
         "saturatedFloatToInt": true,
         "signExtensions": true,
         "simd": "2.0",
+        "stackSwitching": "7.0",
         "tailCall": "7.1",
         "typeReflection": "2.0",
         "webContentSecurityPolicy": null,
