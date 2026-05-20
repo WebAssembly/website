@@ -980,6 +980,36 @@
         "webContentSecurityPolicy": null,
         "wideArithmetic": "0.42"
       }
+    },
+    "Hexana": {
+      "url": "https://plugins.jetbrains.com/plugin/29090-hexana",
+      "logo": "/images/hexana.png",
+      "category": "Tools",
+      "features": {
+        "branchHinting": false,
+        "bulkMemory": true,
+        "compactImportSection": false,
+        "componentModel": [true, "Preamble and 10/13 top-level sections decoded; canon, value, and component-level start are stubs; embedded component-type custom section not yet extracted."],
+        "customPageSizes": false,
+        "exceptions": true,
+        "exceptionsFinal": true,
+        "extendedConst": true,
+        "extendedNameSection": true,
+        "gc": true,
+        "memory64": [true, "64-bit limit flags and memidx-carrying memory ops decoded; not separately validated against the rest of the proposal scope."],
+        "multiValue": [true, "Type-index multi-value blocks decoded; empty block-type 0x40 is misdecoded as a reference type (known bug)."],
+        "mutableGlobals": true,
+        "referenceTypes": true,
+        "relaxedSimd": true,
+        "saturatedFloatToInt": true,
+        "signExtensions": true,
+        "simd": true,
+        "stackSwitching": false,
+        "tailCall": true,
+        "threads": [true, "Full 0xFE atomic opcode family; shared-memory limit flag 0x03 parsed; open-shared flag 0x02 not yet parsed."],
+        "typedFunctionReferences": true,
+        "wideArithmetic": false
+      }
     }
   }
 }
