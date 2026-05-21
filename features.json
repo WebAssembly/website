@@ -983,7 +983,7 @@
     },
     "Hexana": {
       "url": "https://plugins.jetbrains.com/plugin/29090-hexana",
-      "logo": "/images/hexana.png",
+      "logo": "/images/hexana.avif",
       "category": "Tools",
       "features": {
         "branchHinting": false,
