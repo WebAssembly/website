@@ -50,7 +50,7 @@ function loadFeatureDetection() {
   // Make sure to also match the preload link in `feature-table.html`.
   const module =
     // @ts-ignore
-    import('https://unpkg.com/wasm-feature-detect@1/dist/esm/index.js?v=1');
+    import('https://unpkg.com/wasm-feature-detect@1.8.0/dist/esm/index.js?v=1');
   return (featureName) =>
     module.then((wasmFeatureDetect) => wasmFeatureDetect[featureName]());
 }
