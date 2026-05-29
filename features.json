@@ -646,9 +646,9 @@
         "bigInt": null,
         "bulkMemory": true,
         "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": false,
+        "exceptionsFinal": "flag",
         "exceptions": false,
-        "extendedConst": false,
+        "extendedConst": "flag",
         "esmIntegration": null,
         "gc": false,
         "jspi": null,
@@ -666,7 +666,7 @@
         "simd": true,
         "stackSwitching": false,
         "threads": "flag",
-        "typedFunctionReferences": false,
+        "typedFunctionReferences": "flag",
         "typeReflection": null,
         "webContentSecurityPolicy": null
       }
