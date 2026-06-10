@@ -782,6 +782,7 @@
         "bigInt": null,
         "branchHinting": null,
         "bulkMemory": true,
+        "compactImportSection": "0.11.0",
         "compilationHints": "0.9.0",
         "customAnnotationSyntaxInTheTextFormat": "0.7.0",
         "customPageSizes": "0.8.0",
