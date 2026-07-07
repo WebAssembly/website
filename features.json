@@ -494,20 +494,24 @@
         "bigInt": "21.3",
         "bulkMemory": "23.0",
         "customAnnotationSyntaxInTheTextFormat": null,
-        "extendedConst": [
+        "exceptions": [
           "flag",
-          "Requires flag `--wasm.ExtendedConstExpressions=true`"
+          "Requires flag `--wasm.LegacyExceptions=true`"
         ],
+        "exceptionsFinal": "25.1",
+        "extendedConst": "25.1",
+        "gc": "25.1",
         "memory64": ["flag", "Requires flag `--wasm.Memory64=true`"],
-        "multiMemory": ["flag", "Requires flag `--wasm.MultiMemory=true`"],
+        "multiMemory": "25.1",
         "multiValue": "22.3",
         "mutableGlobals": "21.3",
         "referenceTypes": "23.0",
-        "relaxedSimd": ["flag", "Requires flag `--wasm.RelaxedSIMD=true`"],
+        "relaxedSimd": "25.1",
         "saturatedFloatToInt": "22.3",
         "signExtensions": "22.3",
         "simd": "24.1",
         "threads": ["flag", "Requires flag `--wasm.Threads=true`"],
+        "typedFunctionReferences": "25.1",
         "webContentSecurityPolicy": null
       }
     },
