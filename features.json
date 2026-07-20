@@ -547,6 +547,7 @@
       "category": "Standalone Runtimes",
       "features": {
         "bigInt": null,
+        "branchHinting": ["flag", "Requires flag `--wasm=branch-hinting`"],
         "bulkMemory": "0.20",
         "customAnnotationSyntaxInTheTextFormat": true,
         "customPageSizes": ["flag", "Requires flag `--wasm=custom-page-sizes`"],
