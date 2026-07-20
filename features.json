@@ -551,9 +551,9 @@
         "customAnnotationSyntaxInTheTextFormat": true,
         "customPageSizes": ["flag", "Requires flag `--wasm=custom-page-sizes`"],
         "esmIntegration": null,
-        "exceptionsFinal": ["flag", "Requires flag `--wasm=exceptions`"],
+        "exceptionsFinal": "47",
         "extendedConst": "25",
-        "gc": ["flag", "Requires flag `--wasm=gc`"],
+        "gc": "47",
         "jspi": null,
         "jsStringBuiltins": null,
         "memory64": "30",
@@ -571,10 +571,7 @@
           "Enabled by default when using the Cranelift backend, the s390x architecture supports it since 24"
         ],
         "threads": "15",
-        "typedFunctionReferences": [
-          "flag",
-          "Requires flag `--wasm=function-references`"
-        ],
+        "typedFunctionReferences": "47",
         "typeReflection": null,
         "webContentSecurityPolicy": null,
         "wideArithmetic": ["flag", "Requires flag `--wasm=wide-arithmetic`"]
