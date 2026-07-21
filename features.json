@@ -730,7 +730,7 @@
         "relaxedSimd": false,
         "saturatedFloatToInt": true,
         "signExtensions": true,
-        "simd": false,
+        "simd": true,
         "stackSwitching": false,
         "threads": false,
         "typedFunctionReferences": true,
