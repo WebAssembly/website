@@ -411,7 +411,7 @@
           "Requires flag `--experimental-wasm-compilation-hints`"
         ],
         "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptionsFinal": "25.0",
+        "exceptionsFinal": "24.15",
         "exceptions": "17.0",
         "extendedConst": "21.0",
         "gc": "22.0",
@@ -419,7 +419,7 @@
           "flag",
           "Requires flag `--experimental-wasm-instruction-tracing`"
         ],
-        "jspi": ["flag", "Requires flag `--experimental-wasm-jspi`"],
+        "jspi":"26.0",
         "jsStringBuiltins": [
           "flag",
           "Requires flag `--experimental-wasm-imported-strings`"
