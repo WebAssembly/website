@@ -12,6 +12,7 @@ Here are just some of the popular ways to get started:
 
 - [Discord chat](https://discord.gg/jwCC7jS)
 - [Collection of awesome things in the Wasm ecosystem](https://github.com/mbasso/awesome-wasm)
+- [Awesome Wasm Components](https://github.com/yoshuawuyts/awesome-wasm-components)
 - [Reddit: r/WebAssembly](https://www.reddit.com/r/WebAssembly/)
 - [Stackoverflow: `#webassembly` tag](https://stackoverflow.com/questions/tagged/webassembly)
 - [WasmAssembly podcast](https://wasmassembly.libsyn.com/) or
