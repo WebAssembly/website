@@ -29,6 +29,7 @@ layout: getting-started
 - Java
   - [TeaVM](https://teavm.org)
   - [j2wasm](https://github.com/google/j2cl/blob/master/docs/getting-started-j2wasm.md)
+  - [GraalVM Web Image](https://www.graalvm.org/latest/reference-manual/web-image/)
 - [Kotlin](https://kotl.in/wasm)
 - [Lua](https://github.com/ysugimoto/webassembly-lua)
 - [Moonbit](https://www.moonbitlang.com/)
