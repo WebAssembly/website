@@ -637,7 +637,7 @@
         "typedFunctionReferences": "24",
         "typeReflection": null,
         "webContentSecurityPolicy": null,
-        "wideArithmetic": ["flag", "Requires flag `--exit:wide-arithmetic`"]
+        "wideArithmetic": ["flag", "Requires flag `--ext:wide-arithmetic`"]
       }
     },
     "wazero": {
