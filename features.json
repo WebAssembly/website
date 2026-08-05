@@ -636,7 +636,8 @@
         "threads": ["flag", "Requires flag `--ext:threads`"],
         "typedFunctionReferences": "24",
         "typeReflection": null,
-        "webContentSecurityPolicy": null
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": ["flag", "Requires flag `--exit:wide-arithmetic`"]
       }
     },
     "wazero": {
