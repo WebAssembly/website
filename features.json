@@ -1,6 +1,11 @@
 {
   "$schema": "./features.schema.json",
   "features": {
+    "acquireReleaseAtomics": {
+      "description": "Acquire-Release Atomics",
+      "url": "https://github.com/WebAssembly/acquire-release-atomics",
+      "phase": 2
+    },
     "bigInt": {
       "description": "JS BigInt to Wasm i64 Integration",
       "url": "https://github.com/WebAssembly/JS-BigInt-integration",
@@ -264,6 +269,10 @@
       "logo": "/images/chrome.svg",
       "category": "Web Browsers",
       "features": {
+        "acquireReleaseAtomics": [
+          "flag",
+          "Requires CLI flag `--js-flags=--experimental-wasm-acquire-release`"
+        ],
         "bigInt": "85",
         "branchHinting": "137",
         "bulkMemory": "75",
@@ -744,6 +753,7 @@
       "logo": "/images/binaryen.svg",
       "category": "Tools",
       "features": {
+        "acquireReleaseAtomics": true,
         "bigInt": true,
         "branchHinting": true,
         "bulkMemory": true,
