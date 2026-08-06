@@ -20,7 +20,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "prettier": "^3.7.4",
-    "svgo": "^4.0.0",
+    "svgo": "^4.0.1",
     "shx": "^0.4.0"
   },
   "type": "module",
