@@ -254,7 +254,7 @@
     "wideArithmetic": {
       "description": "Wide Arithmetic",
       "url": "https://github.com/WebAssembly/wide-arithmetic/blob/main/proposals/wide-arithmetic/Overview.md",
-      "phase": 3
+      "phase": 4
     }
   },
   "categories": [
@@ -312,7 +312,11 @@
           "flag",
           "Requires flag `chrome://flags/#enable-experimental-webassembly-features`"
         ],
-        "webContentSecurityPolicy": "97"
+        "webContentSecurityPolicy": "97",
+        "wideArithmetic": [
+          "flag",
+          "Requires CLI flag `--js-flags=--wasm-wide-arithmetic`"
+        ]
       }
     },
     "Firefox": {
@@ -353,7 +357,11 @@
           "flag",
           "Enabled in Nightly, requires flag `--enable-wasm-type-reflections` in Beta/Release"
         ],
-        "webContentSecurityPolicy": "102"
+        "webContentSecurityPolicy": "102",
+        "wideArithmetic": [
+          "flag",
+          "Enabled in Nightly, requires flag `javascript.options.wasm_wide_arithmetic` in Beta/Release"
+        ]
       }
     },
     "Safari": {
@@ -401,7 +409,11 @@
           "flag",
           "Supported in Safari 18.2, only supports `WebAssembly.Module.imports` and `WebAssembly.Module.exports`"
         ],
-        "webContentSecurityPolicy": "16"
+        "webContentSecurityPolicy": "16",
+        "wideArithmetic": [
+          "flag",
+          "Requires JavaScriptCore flag `useWasmWideArithmetic`"
+        ]
       }
     },
     "Node.js": {
@@ -449,7 +461,11 @@
           "flag",
           "Requires flag `--experimental-wasm-type-reflection`"
         ],
-        "webContentSecurityPolicy": null
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": [
+          "flag",
+          "Requires flag `--wasm-wide-arithmetic`"
+        ]
       }
     },
     "Deno": {
@@ -492,7 +508,11 @@
           "flag",
           "Requires flag `--v8-flags=--experimental-wasm-type-reflection`"
         ],
-        "webContentSecurityPolicy": null
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": [
+          "flag",
+          "Requires flag `--v8-flags=--wasm-wide-arithmetic`"
+        ]
       }
     },
     "GraalWasm": {
