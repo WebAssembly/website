@@ -927,6 +927,7 @@
         "extendedConst": true,
         "extendedNameSection": null,
         "gc": true,
+        "halfPrecision": "5.8.0",
         "jsPrimitiveBuiltins": null,
         "jsStringBuiltins": true,
         "jspi": null,
