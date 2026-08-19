@@ -945,6 +945,7 @@
       "logo": "/images/watr.svg",
       "category": "Tools",
       "features": {
+        "acquireReleaseAtomics": "5.9.0",
         "bigInt": true,
         "branchHinting": true,
         "bulkMemory": true,
