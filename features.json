@@ -635,6 +635,38 @@
         "wideArithmetic": "7.1"
       }
     },
+    "Wasm3": {
+      "url": "https://github.com/wasm3/wasm3",
+      "logo": "/images/wasm3.png",
+      "category": "Standalone Runtimes",
+      "features": {
+        "bigInt": null,
+        "branchHinting": null,
+        "bulkMemory": "0.5.1",
+        "compactImportSection": "0.9.0",
+        "compilationHints": null,
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "customDescriptors": null,
+        "customPageSizes": "0.9.0",
+        "esmIntegration": null,
+        "extendedConst": "0.9.0",
+        "jsPrimitiveBuiltins": null,
+        "jsStringBuiltins": null,
+        "jspi": null,
+        "multiMemory": ["flag", "Compile with `d_m3HasMultiMemory` set to 1"],
+        "multiValue": "0.5.1",
+        "mutableGlobals": "0.5.0",
+        "numericValuesInWat": null,
+        "profiles": null,
+        "referenceTypes": "0.9.0",
+        "saturatedFloatToInt": "0.5.0",
+        "signExtensions": "0.5.0",
+        "tailCall": "0.9.0",
+        "typedFunctionReferences": ["flag", "Compile with `d_m3HasTypedRefs` set to 1"],
+        "typeReflection": null,
+        "webContentSecurityPolicy": null
+      }
+    },
     "wizard": {
       "url": "https://github.com/titzer/wizard-engine",
       "logo": "/images/wizard.svg",
