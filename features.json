@@ -1078,6 +1078,41 @@
         "typedFunctionReferences": true,
         "wideArithmetic": false
       }
+    },
+    "zwasm": {
+      "url": "https://github.com/zwasm/zwasm",
+      "logo": "/images/zwasm.svg",
+      "category": "Standalone Runtimes",
+      "features": {
+        "bigInt": null,
+        "bulkMemory": true,
+        "componentModel": [true, "WASI 0.2 command components (wasi:cli/run) execute end-to-end on both engines"],
+        "customAnnotationSyntaxInTheTextFormat": null,
+        "customPageSizes": true,
+        "esmIntegration": null,
+        "exceptions": false,
+        "exceptionsFinal": true,
+        "extendedConst": true,
+        "gc": true,
+        "jspi": null,
+        "jsStringBuiltins": null,
+        "memory64": true,
+        "multiMemory": [true, "Interpreter engine only; the JIT rejects multi-memory modules and the default auto mode falls back to the interpreter"],
+        "multiValue": true,
+        "mutableGlobals": true,
+        "referenceTypes": true,
+        "relaxedSimd": [true, "JIT engine only; the interpreter accepts SIMD modules but traps when a vector instruction executes (the default auto mode runs them on the JIT)"],
+        "saturatedFloatToInt": true,
+        "signExtensions": true,
+        "simd": [true, "JIT engine only; the interpreter accepts SIMD modules but traps when a vector instruction executes (the default auto mode runs them on the JIT)"],
+        "stackSwitching": false,
+        "tailCall": true,
+        "threads": [true, "Single-threaded host: atomics, shared memories, and wait/notify are implemented and validated; wait times out and notify returns 0"],
+        "typedFunctionReferences": true,
+        "typeReflection": null,
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": true
+      }
     }
   }
 }
