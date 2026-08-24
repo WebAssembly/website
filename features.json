@@ -591,6 +591,7 @@
         "threads": "4.0",
         "exceptionsFinal": "6.0",
         "extendedConst": "7.1",
+        "multiMemory": "7.3",
         "multiValue": "1.0",
         "mutableGlobals": "0.7",
         "relaxedSimd": "7.1",
