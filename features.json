@@ -234,7 +234,7 @@
     "typeReflection": {
       "description": "Type Reflection for JS API",
       "url": "https://github.com/WebAssembly/js-types/blob/main/proposals/js-types/Overview.md",
-      "phase": 3
+      "phase": 1
     },
     "typedFunctionReferences": {
       "description": "Typed Function References",
