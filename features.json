@@ -24,7 +24,7 @@
     "compactImportSection": {
       "description": "Compact Import Section",
       "url": "https://github.com/WebAssembly/compact-import-section/blob/main/proposals/compact-import-section/Overview.md",
-      "phase": 3
+      "phase": 4
     },
     "compilationHints": {
       "description": "Compilation Hints",
@@ -276,6 +276,10 @@
         "bigInt": "85",
         "branchHinting": "137",
         "bulkMemory": "75",
+        "compactImportSection": [
+          "flag",
+          "Requires CLI flag `--js-flags=--wasm-compact-imports`"
+        ],
         "compilationHints": [
           "flag",
           "Requires CLI flag `--js-flags=--experimental-wasm-compilation-hints`"
