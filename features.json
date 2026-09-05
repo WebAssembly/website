@@ -119,7 +119,7 @@
     "jspi": {
       "description": "JS Promise Integration",
       "url": "https://github.com/WebAssembly/js-promise-integration",
-      "phase": 4
+      "phase": 5
     },
     "memory64": {
       "description": "Memory64",
@@ -139,7 +139,7 @@
     "multibyteArrayAccess": {
       "description": "Multibyte Array Access",
       "url": "https://github.com/WebAssembly/multibyte-array-access",
-      "phase": 1
+      "phase": 2
     },
     "multiMemory": {
       "description": "Multiple Memories",
@@ -249,7 +249,7 @@
     "webContentSecurityPolicy": {
       "description": "Web Content Security Policy",
       "url": "https://github.com/WebAssembly/content-security-policy/blob/main/proposals/CSP.md",
-      "phase": 4
+      "phase": 5
     },
     "wideArithmetic": {
       "description": "Wide Arithmetic",
