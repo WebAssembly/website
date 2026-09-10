@@ -389,6 +389,10 @@
           "Supported in Safari Technical Preview 238"
         ],
         "jsStringBuiltins": "26.2",
+        "memory64": [
+          "flag",
+          "Supported in Safari Technical Preview 251"
+        ],
         "multiValue": "13.1",
         "mutableGlobals": "13.1",
         "profiles": null,
