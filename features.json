@@ -259,7 +259,11 @@
   },
   "categories": [
     { "name": "Web Browsers", "queryKey": "browsers", "default": true },
-    { "name": "Standalone Runtimes", "queryKey": "standalones", "default": true },
+    {
+      "name": "Standalone Runtimes",
+      "queryKey": "standalones",
+      "default": true
+    },
     { "name": "Embedded Runtimes", "queryKey": "embeddeds" },
     { "name": "Tools", "queryKey": "tools" }
   ],
@@ -386,10 +390,7 @@
         "gc": "18.2",
         "jspi": "27",
         "jsStringBuiltins": "26.2",
-        "memory64": [
-          "flag",
-          "Supported in Safari Technical Preview 251"
-        ],
+        "memory64": ["flag", "Supported in Safari Technical Preview 251"],
         "multiValue": "13.1",
         "mutableGlobals": "13.1",
         "profiles": null,
@@ -445,7 +446,7 @@
           "flag",
           "Requires flag `--experimental-wasm-instruction-tracing`"
         ],
-        "jspi":"26.0",
+        "jspi": "26.0",
         "jsStringBuiltins": [
           "flag",
           "Requires flag `--experimental-wasm-imported-strings`"
@@ -467,10 +468,7 @@
           "Requires flag `--experimental-wasm-type-reflection`"
         ],
         "webContentSecurityPolicy": null,
-        "wideArithmetic": [
-          "flag",
-          "Requires flag `--wasm-wide-arithmetic`"
-        ]
+        "wideArithmetic": ["flag", "Requires flag `--wasm-wide-arithmetic`"]
       }
     },
     "Deno": {
@@ -528,10 +526,7 @@
         "bigInt": "21.3",
         "bulkMemory": "23.0",
         "customAnnotationSyntaxInTheTextFormat": null,
-        "exceptions": [
-          "flag",
-          "Requires flag `--wasm.LegacyExceptions=true`"
-        ],
+        "exceptions": ["flag", "Requires flag `--wasm.LegacyExceptions=true`"],
         "exceptionsFinal": "25.1",
         "extendedConst": "25.1",
         "gc": "25.1",
@@ -674,7 +669,10 @@
         "stackSwitching": false,
         "threads": false,
         "tailCall": "0.9.0",
-        "typedFunctionReferences": ["flag", "Compile with `d_m3HasTypedRefs` set to 1"],
+        "typedFunctionReferences": [
+          "flag",
+          "Compile with `d_m3HasTypedRefs` set to 1"
+        ],
         "typeReflection": null,
         "webContentSecurityPolicy": null,
         "wideArithmetic": false
@@ -788,7 +786,10 @@
       "features": {
         "bigInt": null,
         "bulkMemory": true,
-        "componentModel": [true, "WASI 0.2 command components (wasi:cli/run) execute end-to-end on both engines"],
+        "componentModel": [
+          true,
+          "WASI 0.2 command components (wasi:cli/run) execute end-to-end on both engines"
+        ],
         "customAnnotationSyntaxInTheTextFormat": null,
         "customPageSizes": true,
         "esmIntegration": null,
@@ -799,17 +800,29 @@
         "jspi": null,
         "jsStringBuiltins": null,
         "memory64": true,
-        "multiMemory": [true, "Interpreter engine only; the JIT rejects multi-memory modules and the default auto mode falls back to the interpreter"],
+        "multiMemory": [
+          true,
+          "Interpreter engine only; the JIT rejects multi-memory modules and the default auto mode falls back to the interpreter"
+        ],
         "multiValue": true,
         "mutableGlobals": true,
         "referenceTypes": true,
-        "relaxedSimd": [true, "JIT engine only; the interpreter accepts SIMD modules but traps when a vector instruction executes (the default auto mode runs them on the JIT)"],
+        "relaxedSimd": [
+          true,
+          "JIT engine only; the interpreter accepts SIMD modules but traps when a vector instruction executes (the default auto mode runs them on the JIT)"
+        ],
         "saturatedFloatToInt": true,
         "signExtensions": true,
-        "simd": [true, "JIT engine only; the interpreter accepts SIMD modules but traps when a vector instruction executes (the default auto mode runs them on the JIT)"],
+        "simd": [
+          true,
+          "JIT engine only; the interpreter accepts SIMD modules but traps when a vector instruction executes (the default auto mode runs them on the JIT)"
+        ],
         "stackSwitching": false,
         "tailCall": true,
-        "threads": [true, "Single-threaded host: atomics, shared memories, and wait/notify are implemented and validated; wait times out and notify returns 0"],
+        "threads": [
+          true,
+          "Single-threaded host: atomics, shared memories, and wait/notify are implemented and validated; wait times out and notify returns 0"
+        ],
         "typedFunctionReferences": true,
         "typeReflection": null,
         "webContentSecurityPolicy": null,
@@ -1005,17 +1018,32 @@
         "signExtensions": true,
         "simd": ["flag", "Compile with `SOUP_WASM_SIMD` set to `true`"],
         "memory64": true,
-        "multiMemory": ["flag", "Compile with `SOUP_WASM_MULTI_MEMORY` set to `true`"],
-        "extendedConst": ["flag", "Compile with `SOUP_WASM_EXTENDED_CONST` set to `true`"],
-        "tailCall": ["flag", "Compile with `SOUP_WASM_TAIL_CALL` set to `true`"],
-        "exceptionsFinal": ["flag", "Compile with `SOUP_WASM_EXCEPTIONS` set to `true`"],
+        "multiMemory": [
+          "flag",
+          "Compile with `SOUP_WASM_MULTI_MEMORY` set to `true`"
+        ],
+        "extendedConst": [
+          "flag",
+          "Compile with `SOUP_WASM_EXTENDED_CONST` set to `true`"
+        ],
+        "tailCall": [
+          "flag",
+          "Compile with `SOUP_WASM_TAIL_CALL` set to `true`"
+        ],
+        "exceptionsFinal": [
+          "flag",
+          "Compile with `SOUP_WASM_EXCEPTIONS` set to `true`"
+        ],
         "bigInt": null,
         "branchHinting": null,
         "customAnnotationSyntaxInTheTextFormat": null,
         "webContentSecurityPolicy": null,
         "esmIntegration": null,
         "typeReflection": null,
-        "customPageSizes": ["flag", "Compile with `SOUP_WASM_CUSTOM_PAGE_SIZES` set to `true`"],
+        "customPageSizes": [
+          "flag",
+          "Compile with `SOUP_WASM_CUSTOM_PAGE_SIZES` set to `true`"
+        ],
         "compilationHints": null,
         "numericValuesInWat": null,
         "relaxedDeadCodeValidation": null
@@ -1105,15 +1133,24 @@
         "branchHinting": false,
         "bulkMemory": true,
         "compactImportSection": false,
-        "componentModel": [true, "Preamble and 10/13 top-level sections decoded; canon, value, and component-level start are stubs; embedded component-type custom section not yet extracted."],
+        "componentModel": [
+          true,
+          "Preamble and 10/13 top-level sections decoded; canon, value, and component-level start are stubs; embedded component-type custom section not yet extracted."
+        ],
         "customPageSizes": false,
         "exceptions": true,
         "exceptionsFinal": true,
         "extendedConst": true,
         "extendedNameSection": true,
         "gc": true,
-        "memory64": [true, "64-bit limit flags and memidx-carrying memory ops decoded; not separately validated against the rest of the proposal scope."],
-        "multiValue": [true, "Type-index multi-value blocks decoded; empty block-type 0x40 is misdecoded as a reference type (known bug)."],
+        "memory64": [
+          true,
+          "64-bit limit flags and memidx-carrying memory ops decoded; not separately validated against the rest of the proposal scope."
+        ],
+        "multiValue": [
+          true,
+          "Type-index multi-value blocks decoded; empty block-type 0x40 is misdecoded as a reference type (known bug)."
+        ],
         "mutableGlobals": true,
         "referenceTypes": true,
         "relaxedSimd": true,
@@ -1122,7 +1159,10 @@
         "simd": true,
         "stackSwitching": false,
         "tailCall": true,
-        "threads": [true, "Full 0xFE atomic opcode family; shared-memory limit flag 0x03 parsed; open-shared flag 0x02 not yet parsed."],
+        "threads": [
+          true,
+          "Full 0xFE atomic opcode family; shared-memory limit flag 0x03 parsed; open-shared flag 0x02 not yet parsed."
+        ],
         "typedFunctionReferences": true,
         "wideArithmetic": false
       }
