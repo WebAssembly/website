@@ -8,8 +8,10 @@
   },
   "scripts": {
     "start": "bundle exec jekyll serve",
-    "prettier": "npx prettier . --write",
+    "prettier": "prettier . --write",
     "optimize-svgs": "node scripts/optimize-svgs.js",
+    "update-features": "node scripts/update-features.js",
+    "validate-features": "ajv -c ajv-formats -s features.schema.json -d features.json --strict=true --errors=text",
     "copy-js": "shx cp ./node_modules/dark-mode-toggle/dist/* ./js/"
   },
   "keywords": [
@@ -19,9 +21,13 @@
   "author": "The WebAssembly community",
   "license": "Apache-2.0",
   "devDependencies": {
+    "ajv-cli": "^5.0.0",
+    "ajv-formats": "^2.1.1",
+    "cheerio": "^1.2.0",
+    "markdown-it": "^15.0.1",
     "prettier": "^3.7.4",
-    "svgo": "^4.0.1",
-    "shx": "^0.4.0"
+    "shx": "^0.4.0",
+    "svgo": "^4.0.1"
   },
   "type": "module",
   "dependencies": {

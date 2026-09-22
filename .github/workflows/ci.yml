@@ -23,13 +23,11 @@ jobs:
         with:
           node-version: 24
 
-      - name: Install JSON validator
-        run: npm install -g ajv-cli@5 ajv-formats@2
+      - name: Install dependencies
+        run: npm ci
 
       - name: Validate features table
-        run:
-          ajv -c ajv-formats -s features.schema.json -d features.json
-          --strict=true --errors=text
+        run: npm run validate-features
 
   build:
     name: Build & Deploy

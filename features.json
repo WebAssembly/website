@@ -94,7 +94,7 @@
     "halfPrecision": {
       "description": "Half Precision",
       "url": "https://github.com/WebAssembly/half-precision/blob/main/proposals/half-precision/Overview.md",
-      "phase": 1
+      "phase": 2
     },
     "instrumentAndTracingTechnology": {
       "description": "Instrument and Tracing Technology",
@@ -116,6 +116,11 @@
       "url": "https://github.com/WebAssembly/js-string-builtins/blob/main/proposals/js-string-builtins/Overview.md",
       "phase": 5
     },
+    "jsTextEncodingBuiltins": {
+      "description": "JS Text Encoding Builtins",
+      "url": "https://github.com/WebAssembly/js-text-encoding-builtins",
+      "phase": 1
+    },
     "jspi": {
       "description": "JS Promise Integration",
       "url": "https://github.com/WebAssembly/js-promise-integration",
@@ -136,11 +141,6 @@
       "url": "https://github.com/WebAssembly/more-array-constructors/blob/main/proposals/more-array-constructors/Overview.md",
       "phase": 1
     },
-    "multibyteArrayAccess": {
-      "description": "Multibyte Array Access",
-      "url": "https://github.com/WebAssembly/multibyte-array-access",
-      "phase": 2
-    },
     "multiMemory": {
       "description": "Multiple Memories",
       "url": "https://github.com/WebAssembly/multi-memory/blob/master/proposals/multi-memory/Overview.md",
@@ -150,6 +150,11 @@
       "description": "Multi-value",
       "url": "https://github.com/WebAssembly/spec/blob/master/proposals/multi-value/Overview.md",
       "phase": 5
+    },
+    "multibyteArrayAccess": {
+      "description": "Multibyte Array Access",
+      "url": "https://github.com/WebAssembly/multibyte-array-access",
+      "phase": 2
     },
     "mutableGlobals": {
       "description": "Import/Export of Mutable Globals",

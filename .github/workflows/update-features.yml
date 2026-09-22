@@ -1,0 +1,78 @@
+name: Update features.json
+
+on:
+  schedule:
+    - cron: '8 6 * * *' # Runs daily as 06:08 UTC (randomly chosen to avoid GitHub Actions' peaky demand)
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/update-features.yml
+      - package.json
+      - package-lock.json
+      - scripts/update-features.js
+
+# PRs push nothing, so give each its own group; schedule/dispatch share one since they push.
+concurrency:
+  group: update-features-${{ github.event_name == 'pull_request' && github.run_id || 'scheduled' }}
+  cancel-in-progress: false
+
+jobs:
+  update-features:
+    runs-on: ubuntu-slim
+    permissions:
+      contents: write
+      pull-requests: write
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}/website
+
+    steps:
+      - name: Checkout website
+        uses: actions/checkout@v7
+        with:
+          path: ${{ github.workspace }}/website
+          submodules: false
+
+      - name: Checkout WebAssembly/proposals
+        uses: actions/checkout@v7
+        with:
+          repository: WebAssembly/proposals
+          path: ${{ github.workspace }}/proposals
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update features table
+        run: npm run update-features
+        env:
+          PROPOSALS_DIR: ${{ github.workspace }}/proposals
+
+      - name: Validate features table
+        run: npm run validate-features
+
+      - name: Check features.json is up to date
+        if: github.event_name == 'pull_request'
+        run: |
+          git diff -- features.json
+          git diff --quiet -- features.json || (echo "::error::features.json is out of date - run 'npm run update-features' and commit the result" && exit 1)
+
+      - name: Create Pull Request
+        if: >
+          github.repository == 'WebAssembly/website' &&
+          (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        uses: peter-evans/create-pull-request@v6
+        with:
+          path: ${{ github.workspace }}/website
+          commit-message: 'Update features.json from WebAssembly/proposals'
+          title: 'Update features.json from WebAssembly/proposals'
+          body: >
+            Automated update of proposal phases/entries based on the current
+            state of WebAssembly/proposals.
+          branch: automated/update-features
+          delete-branch: true
+          add-paths: features.json
