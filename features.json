@@ -21,6 +21,11 @@
       "url": "https://github.com/WebAssembly/bulk-memory-operations/blob/master/proposals/bulk-memory-operations/Overview.md",
       "phase": 5
     },
+    "callTags": {
+      "description": "Call Tags",
+      "url": "https://github.com/WebAssembly/call-tags",
+      "phase": "inactive"
+    },
     "compactImportSection": {
       "description": "Compact Import Section",
       "url": "https://github.com/WebAssembly/compact-import-section/blob/main/proposals/compact-import-section/Overview.md",
@@ -35,6 +40,16 @@
       "description": "Component Model",
       "url": "https://github.com/WebAssembly/component-model",
       "phase": 1
+    },
+    "conditionalSections": {
+      "description": "Conditional sections",
+      "url": "https://github.com/WebAssembly/conditional-sections",
+      "phase": "inactive"
+    },
+    "constantTime": {
+      "description": "Constant Time",
+      "url": "https://github.com/WebAssembly/constant-time",
+      "phase": "inactive"
     },
     "customAnnotationSyntaxInTheTextFormat": {
       "description": "Custom Text Format Annotations",
@@ -76,6 +91,11 @@
       "url": "https://github.com/WebAssembly/extended-name-section/blob/main/proposals/extended-name-section/Overview.md",
       "phase": 2
     },
+    "featureDetection": {
+      "description": "Feature Detection",
+      "url": "https://github.com/WebAssembly/feature-detection",
+      "phase": "inactive"
+    },
     "flexibleVectors": {
       "description": "Flexible Vectors",
       "url": "https://github.com/WebAssembly/flexible-vectors/blob/main/proposals/flexible-vectors/Overview.md",
@@ -85,6 +105,11 @@
       "description": "Frozen Values",
       "url": "https://github.com/WebAssembly/frozen-values/blob/main/proposals/frozen-values/Overview.md",
       "phase": 1
+    },
+    "funcletsFlexibleIntraproceduralControlFlow": {
+      "description": "Funclets: Flexible Intraprocedural Control Flow",
+      "url": "https://github.com/WebAssembly/funclets",
+      "phase": "inactive"
     },
     "gc": {
       "description": "Garbage Collection",
@@ -101,10 +126,20 @@
       "url": "https://github.com/WebAssembly/instrument-tracing/blob/main/proposals/instrument-tracing/Overview.md",
       "phase": "inactive"
     },
+    "interfaceTypes": {
+      "description": "Interface Types",
+      "url": "https://github.com/WebAssembly/interface-types",
+      "phase": "inactive"
+    },
     "jitInterface": {
       "description": "JIT Interface",
       "url": "https://github.com/WebAssembly/jit-interface/blob/main/proposals/jit-interface/Explainer.md",
       "phase": 1
+    },
+    "jsCustomizationForGcObjects": {
+      "description": "JS Customization for GC Objects",
+      "url": "https://github.com/WebAssembly/gc-js-customization",
+      "phase": "inactive"
     },
     "jsPrimitiveBuiltins": {
       "description": "JS Primitive Builtins",
@@ -135,6 +170,11 @@
       "description": "Memory Control",
       "url": "https://github.com/WebAssembly/memory-control/blob/main/proposals/memory-control/Overview.md",
       "phase": 1
+    },
+    "moduleLinking": {
+      "description": "Module Linking",
+      "url": "https://github.com/WebAssembly/module-linking",
+      "phase": "inactive"
     },
     "moreArrayConstructors": {
       "description": "More Array Constructors",
@@ -245,6 +285,11 @@
       "description": "Typed Function References",
       "url": "https://github.com/WebAssembly/function-references/blob/main/proposals/function-references/Overview.md",
       "phase": 5
+    },
+    "unmanagedClosures": {
+      "description": "Unmanaged closures",
+      "url": "https://github.com/WebAssembly/proposals/issues/6",
+      "phase": "inactive"
     },
     "wasmCApi": {
       "description": "WebAssembly C and C++ API",

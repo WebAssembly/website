@@ -240,13 +240,6 @@ function reconcileProposal(proposal, { features, existingByKey, seen }) {
     return;
   }
 
-  if (proposal.phase === 'inactive') {
-    console.warn(
-      `Skipping "${proposal.name}" (${proposal.href}): new inactive proposal, add manually if it should be tracked`
-    );
-    return;
-  }
-
   if (EXCLUDED_NAMES.has(proposal.name)) {
     console.warn(
       `Skipping "${proposal.name}" (${proposal.href}): excluded from tracking`
