@@ -384,10 +384,7 @@
         "exceptions": "15.2",
         "extendedConst": "17.4",
         "gc": "18.2",
-        "jspi": [
-          "flag",
-          "Supported in Safari Technical Preview 238"
-        ],
+        "jspi": "27",
         "jsStringBuiltins": "26.2",
         "memory64": [
           "flag",
