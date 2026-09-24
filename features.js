@@ -105,6 +105,12 @@ function decodeSupportStatus(status) {
   return { type, version, note, expanded: false };
 }
 
+/** @param {RawState | [RawState, string] | undefined} status */
+function hasImplementation(status) {
+  const state = Array.isArray(status) ? status[0] : status;
+  return state === true || typeof state === 'string';
+}
+
 /** @typedef {{ name: string, queryKey: string, default?: boolean }} Category */
 
 /** @param {Category[]} allCategories */
@@ -223,7 +229,7 @@ const state = () => ({
 
   async init() {
     const {
-      features,
+      features: allFeatures,
       categories,
       browsers: platforms,
     } = await fetch('/features.json', {
@@ -231,6 +237,18 @@ const state = () => ({
       credentials: 'include',
       mode: 'no-cors',
     }).then((res) => res.json());
+
+    // Hide inactive proposals that nothing implements, not even behind a flag:
+    // they are in `features.json` only to make it a complete list of proposals.
+    const features = Object.fromEntries(
+      Object.entries(allFeatures).filter(
+        ([id, { phase }]) =>
+          phase !== 'inactive' ||
+          Object.values(platforms).some((platform) =>
+            hasImplementation(platform.features[id])
+          )
+      )
+    );
 
     const categoriesInUse = new Set(
       Object.values(platforms).flatMap(({ category }) => category)

@@ -63,8 +63,17 @@ currently documented features. If you prefer, there's a simple
 
 <script type="module">
   const data = await fetch('https://raw.githubusercontent.com/WebAssembly/website/main/features.json').then(response => response.json());
-  const html = Object.keys(data.features).map(featureId => {
-    return `<wasm-compat wasm-feature="${featureId}"></wasm-compat>`;
-  }).join('');
+  // Hide unimplemented inactive proposals, as `features.js` does.
+  const implemented = new Set();
+  for (const platform of Object.values(data.browsers)) {
+    for (const [id, status] of Object.entries(platform.features)) {
+      const state = Array.isArray(status) ? status[0] : status;
+      if (state === true || typeof state === 'string') implemented.add(id);
+    }
+  }
+  const html = Object.entries(data.features)
+    .filter(([id, { phase }]) => phase !== 'inactive' || implemented.has(id))
+    .map(([id]) => `<wasm-compat wasm-feature="${id}"></wasm-compat>`)
+    .join('');
   document.querySelector('#wasm-compat-container').innerHTML = html;
 </script>
