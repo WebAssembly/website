@@ -663,18 +663,18 @@
         "multiValue": "0.5.1",
         "mutableGlobals": "0.5.0",
         "numericValuesInWat": null,
-        "profiles": null,
+        "profiles": "0.9.2",
         "referenceTypes": "0.9.0",
         "saturatedFloatToInt": "0.5.0",
         "signExtensions": "0.5.0",
         "simd": false,
-        "stackSwitching": false,
-        "threads": false,
+        "stackSwitching": "0.9.2",
+        "threads": ["flag", "`Atomics` are implemented. Full `Threads` support is WIP"],
         "tailCall": "0.9.0",
-        "typedFunctionReferences": ["flag", "Compile with `d_m3HasTypedRefs` set to 1"],
+        "typedFunctionReferences": "0.9.2",
         "typeReflection": null,
         "webContentSecurityPolicy": null,
-        "wideArithmetic": false
+        "wideArithmetic": "0.9.2"
       }
     },
     "Wasmi": {
