@@ -847,6 +847,7 @@
     },
     "w2c2": {
       "url": "https://github.com/turbolent/w2c2",
+      "logo": "/images/w2c2.svg",
       "category": "Standalone Runtimes",
       "features": {
         "acquireReleaseAtomics": false,
