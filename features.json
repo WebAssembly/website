@@ -414,7 +414,7 @@
         "webContentSecurityPolicy": "16",
         "wideArithmetic": [
           "flag",
-          "Requires JavaScriptCore flag `useWasmWideArithmetic`"
+          "Supported in Safari Technical Preview 254"
         ]
       }
     },
