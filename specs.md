@@ -6,7 +6,7 @@ layout: default
 
 - [WebAssembly Specification](https://webassembly.github.io/spec/core/)
   (Wasm&nbsp;3.0): defines the semantics of WebAssembly modules independent from
-  a concrete embedding. The WebAssembly core is specified in a single document.\
+  a concrete embedding. The WebAssembly core is specified in a single document.<br>
   Older versions:
   - [WebAssembly Core Specification — W3C Candidate Recommendation Draft, 16 June 2025](https://www.w3.org/TR/2025/CRD-wasm-core-2-20250616/)
     (Wasm&nbsp;2.0)
