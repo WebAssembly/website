@@ -1188,6 +1188,52 @@
         "typedFunctionReferences": true,
         "wideArithmetic": false
       }
+    },
+    "Wax": {
+      "url": "https://github.com/ocsigen/wax",
+      "logo": "/images/wax.svg",
+      "category": "Tools",
+      "features": {
+        "bigInt": null,
+        "branchHinting": true,
+        "bulkMemory": true,
+        "compactImportSection": true,
+        "compilationHints": true,
+        "componentModel": false,
+        "customAnnotationSyntaxInTheTextFormat": true,
+        "customDescriptors": true,
+        "customPageSizes": true,
+        "esmIntegration": null,
+        "exceptions": true,
+        "exceptionsFinal": true,
+        "extendedConst": true,
+        "extendedNameSection": true,
+        "gc": true,
+        "instrumentAndTracingTechnology": null,
+        "jitInterface": null,
+        "jsPrimitiveBuiltins": null,
+        "jsStringBuiltins": null,
+        "jspi": null,
+        "memory64": true,
+        "multiMemory": true,
+        "multiValue": true,
+        "mutableGlobals": true,
+        "numericValuesInWat": true,
+        "profiles": null,
+        "referenceTypes": true,
+        "relaxedSimd": true,
+        "saturatedFloatToInt": true,
+        "signExtensions": true,
+        "simd": true,
+        "stackSwitching": true,
+        "tailCall": true,
+        "threads": true,
+        "typedFunctionReferences": true,
+        "typeReflection": null,
+        "wasmCApi": null,
+        "webContentSecurityPolicy": null,
+        "wideArithmetic": true
+      }
     }
   }
 }
